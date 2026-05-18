@@ -1,4 +1,12 @@
-// Generate PWA icons (192 / 512) — maskable-safe with 80% inner safe zone.
+// Generate PWA + favicon icons — maskable-safe with 80% inner safe zone.
+//
+// Sizes:
+//   16  — browser tab favicon (small)
+//   32  — browser tab favicon (standard / high-dpi)
+//   180 — iOS apple-touch-icon (Apple's home-screen target)
+//   192 — PWA manifest minimum + Android home-screen
+//   512 — PWA manifest large + splash
+//
 // Pure SVG → PNG via sharp.
 //
 // Brand mark: growth ring. A nearly-closed circular stroke (gap at upper-right
@@ -55,13 +63,22 @@ function makeSvg(size) {
 }
 
 async function generate() {
-  for (const size of [192, 512]) {
+  // Each entry: [size, filename]. SVG is rendered at the target size
+  // (sharp will produce a pixel-perfect raster from the vector source).
+  const targets = [
+    [16,  'favicon-16.png'],
+    [32,  'favicon-32.png'],
+    [180, 'apple-touch-icon.png'],
+    [192, 'icon-192.png'],
+    [512, 'icon-512.png'],
+  ];
+  for (const [size, filename] of targets) {
     const svg = makeSvg(size);
-    const destPath = resolve(repoRoot, `public/icons/icon-${size}.png`);
+    const destPath = resolve(repoRoot, `public/icons/${filename}`);
     await sharp(Buffer.from(svg)).resize(size, size).png().toFile(destPath);
-    console.log(`  ✓ public/icons/icon-${size}.png`);
+    console.log(`  ✓ public/icons/${filename}`);
   }
 }
 
-console.log('Generating PWA icons…');
+console.log('Generating PWA + favicon icons…');
 await generate();
