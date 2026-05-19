@@ -1,0 +1,39 @@
+name: Validate Videos
+on:
+  schedule:
+    - cron: '0 3 * * 0'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.11' }
+      - run: pip install 'yt-dlp>=2026.03.17,<2027'
+      - uses: pnpm/action-setup@v3
+      - uses: actions/setup-node@v4
+        with: { node-version: 20, cache: 'pnpm' }
+      - run: pnpm install --frozen-lockfile
+      - name: Validate (batch 50, rotated by lastValidatedAt asc)
+        run: pnpm curate:videos --validate-only --batch 50
+      - name: Rebuild index
+        run: pnpm build:video-index
+      - name: Diff scope sanity check
+        run: |
+          git diff --stat
+          git diff --exit-code -- ':!src/data/video-catalog' ':!public/data/video-index.json'
+      - uses: peter-evans/create-pull-request@v6
+        with:
+          title: "chore(videos): mark unavailable videos"
+          body: |
+            Auto-detected unavailable videos this run.
+            Inspect changed files in `src/data/video-catalog/*.yaml` and `public/data/video-index.json`.
+          branch: bot/video-validate
+          commit-message: "chore(videos): validate sweep"
