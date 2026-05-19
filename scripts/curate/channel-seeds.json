@@ -1,16 +1,6 @@
 {
-  "official-tw": [
-    { "tag": "@MOHWtaiwan", "channelId": null },
-    { "tag": "@HPATaiwan",  "channelId": null },
-    { "tag": "@NTUHchildren", "channelId": null },
-    { "tag": "@TWPedSoc",   "channelId": null }
-  ],
-  "international": [
-    { "tag": "@AmericanAcademyofPediatrics", "channelId": null },
-    { "tag": "@CDC", "channelId": null },
-    { "tag": "@nhs", "channelId": null },
-    { "tag": "@WHO", "channelId": null },
-    { "tag": "@ClevelandClinic", "channelId": null }
-  ],
+  "_comment": "Phase 4 dry-run 模式：tier 全空，所有影片 fallback 為 pro-kol。實際 production 由 Phase 4 operator 補真實官方頻道 handle 或 raw channelId。",
+  "official-tw": [],
+  "international": [],
   "pro-kol": []
 }

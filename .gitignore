@@ -28,3 +28,6 @@ scripts/curate/cache/
 scripts/curate/reports/
 scripts/curate/channel-whitelist.json
 scripts/curate/.last-build.json
+
+# Lighthouse CI local output
+.lighthouseci/
