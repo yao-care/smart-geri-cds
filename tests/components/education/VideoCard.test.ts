@@ -14,12 +14,17 @@ const video: RuntimeVideo = {
 };
 
 describe('VideoCard', () => {
-  it('renders thumbnail variant by default', () => {
+  it('renders thumbnail wrapped in YouTube link', () => {
     render(VideoCard, { video });
     const img = screen.getByRole('img');
     expect(img.getAttribute('src')).toContain('i.ytimg.com');
     expect(img.getAttribute('src')).toContain('abc123XYZ45');
     expect(img.getAttribute('referrerpolicy')).toBe('no-referrer');
+
+    const link = screen.getByRole('link');
+    expect(link.getAttribute('href')).toBe('https://www.youtube.com/watch?v=abc123XYZ45');
+    expect(link.getAttribute('target')).toBe('_blank');
+    expect(link.getAttribute('rel')).toBe('noopener noreferrer');
   });
 
   it('shows duration in minutes', () => {
@@ -32,21 +37,14 @@ describe('VideoCard', () => {
     expect(screen.getByText(/官方/)).toBeTruthy();
   });
 
-  it('inserts iframe with nocookie URL on click', async () => {
-    render(VideoCard, { video });
-    await fireEvent.click(screen.getByRole('button'));
-    const iframe = document.querySelector('iframe');
-    expect(iframe?.src).toContain('youtube-nocookie.com');
-    expect(iframe?.src).toContain('abc123XYZ45');
-    expect(iframe?.src).toContain('cc_load_policy=1');
-    expect(iframe?.getAttribute('title')).toBe('範例衛教');
-  });
-
-  it('switches to no-thumbnail variant on img error', async () => {
+  it('falls back to no-thumbnail when img errors', async () => {
     render(VideoCard, { video });
     const img = screen.getByRole('img');
     await fireEvent.error(img);
     expect(screen.queryByRole('img')).toBeNull();
-    expect(screen.getByRole('button')).toBeTruthy();
+    // link still exists, opens YouTube directly
+    expect(screen.getByRole('link').getAttribute('href')).toBe(
+      'https://www.youtube.com/watch?v=abc123XYZ45',
+    );
   });
 });

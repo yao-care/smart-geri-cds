@@ -2,7 +2,9 @@
 
 - **日期**: 2026-05-19
 - **作者**: Light + Claude Code
-- **狀態**: Draft v12（v11 reviewer approved；v12 補上「搜尋準則 / 複審 checklist / 多支顯示策略」三段，依用戶反饋）
+- **狀態**: v13（**設計策略變更：link-out 取代 in-site embed**，依 2026-05-20 用戶反饋）
+
+**v13 設計變更摘要**：原本 §5.3 採「縮圖點擊 → 在站內嵌入 youtube-nocookie iframe」。實作後考量：(1) 兒童面孔展示 PII 風險（spec §4.11 #8）；(2) YouTube ToS embed 灰色地帶；(3) 字幕字串落地 i18n / a11y 複雜度。**改為 link-out**：縮圖點擊 → 開新分頁跳轉 YouTube 原站（`<a target="_blank" rel="noopener noreferrer">`）。我們只負責推薦該影片並顯示縮圖，所有播放、字幕、合規由 YouTube 自行處理。`youtube-nocookie embed` 相關段落（§5.3 iframe、§5.4 cc_load_policy、§6 iframe 測試）作廢；§8 風險表中「ToS embed 灰色」「字幕版權」「PII embed」全條移除。
 - **範圍**: 為 CDSA 兒童發展評估 + CDSS 生理警示兩條結果線，建立 trigger → YouTube 衛教影片的映射，包含自動 curate 腳本與前端整合
 
 ---
