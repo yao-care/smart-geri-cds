@@ -7,6 +7,8 @@
   import RadarChart from './RadarChart.svelte';
   import EducationMatch from './EducationMatch.svelte';
   import AssessmentPdfReport from './AssessmentPdfReport.svelte';
+  import { deriveCdsaTriggers } from '$lib/education/trigger-derivation';
+  import TriggerVideoList from '../education/TriggerVideoList.svelte';
 
   let fhirSubmitting = $state(false);
   let fhirSubmitted = $state(false);
@@ -99,6 +101,12 @@
     triageResult?.details.filter(d => d.isAnomaly).map(d => d.domain) ?? []
   );
 
+  const videoTriggers = $derived(
+    triageResult && assessmentStore.ageGroup
+      ? deriveCdsaTriggers(triageResult, assessmentStore.ageGroup)
+      : [],
+  );
+
   async function saveResult(result: TriageResult) {
     if (!assessmentStore.assessment) return;
     await setTriageResult(assessmentStore.assessment.id, {
@@ -164,6 +172,13 @@
         category={triageResult.category}
         domains={anomalyDomains.length > 0 ? [...new Set(anomalyDomains)] : ['behavior']}
       />
+    </section>
+  {/if}
+
+  {#if videoTriggers.length > 0}
+    <section class="recommended-videos" aria-label="建議參考影片">
+      <h2>建議參考影片</h2>
+      <TriggerVideoList triggers={videoTriggers} />
     </section>
   {/if}
 
@@ -250,6 +265,16 @@
   .education-section h3 {
     font-size: var(--text-lg);
     margin-bottom: var(--space-4);
+  }
+
+  /* Recommended videos */
+  .recommended-videos {
+    margin-top: var(--space-xl, 32px);
+  }
+
+  .recommended-videos h2 {
+    font-size: var(--text-lg, 22px);
+    margin-bottom: var(--space-md, 16px);
   }
 
   /* Action buttons */

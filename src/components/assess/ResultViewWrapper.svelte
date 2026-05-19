@@ -3,6 +3,9 @@
   import RadarChart from './RadarChart.svelte';
   import EducationMatch from './EducationMatch.svelte';
   import AssessmentPdfReport from './AssessmentPdfReport.svelte';
+  import { deriveCdsaTriggers } from '$lib/education/trigger-derivation';
+  import { ageGroupCDSA } from '$lib/utils/age-groups';
+  import TriggerVideoList from '../education/TriggerVideoList.svelte';
   import type { Child } from '../../lib/db/schema';
 
   // Stand-alone result page entry. Reads ?id= from the URL, loads the
@@ -77,6 +80,22 @@
   const anomalyDomains = $derived(
     triageResult?.details?.filter((d) => d.isAnomaly).map((d) => d.domain) ?? [],
   );
+
+  const videoTriggers = $derived.by(() => {
+    if (!triageResult || !child?.birthDate) return [];
+    const ageGroup = ageGroupCDSA(child.birthDate);
+    // Synthesise a TriageResult-compatible shape from stored triageResult
+    return deriveCdsaTriggers(
+      {
+        category: triageResult.category,
+        confidence: triageResult.confidence,
+        summary: triageResult.summary,
+        anomalyCount: triageResult.anomalyCount ?? 0,
+        details: triageResult.details ?? [],
+      },
+      ageGroup,
+    );
+  });
 </script>
 
 {#if loading}
@@ -122,6 +141,13 @@
           category={triageResult.category}
           domains={anomalyDomains.length > 0 ? [...new Set(anomalyDomains)] : ['behavior']}
         />
+      </section>
+    {/if}
+
+    {#if videoTriggers.length > 0}
+      <section class="recommended-videos" aria-label="建議參考影片">
+        <h2>建議參考影片</h2>
+        <TriggerVideoList triggers={videoTriggers} />
       </section>
     {/if}
 
@@ -199,6 +225,15 @@
   .education-section h3 {
     font-size: var(--text-lg);
     margin-bottom: var(--space-4);
+  }
+
+  .recommended-videos {
+    margin-top: var(--space-xl, 32px);
+  }
+
+  .recommended-videos h2 {
+    font-size: var(--text-lg, 22px);
+    margin-bottom: var(--space-md, 16px);
   }
 
   .result-actions {
