@@ -1301,6 +1301,16 @@ tests/
 4. `pnpm check` / `pnpm test` / `pnpm build` 全綠
 5. **Lighthouse Performance ≥ 85** on `/result/` / `/workspace/result/`，跑在 `astro preview` + `@lhci/cli` mobile preset
 6. CI 加 Lighthouse-CI budget assertion + bundle-size budget（首屏 island bundle ≤ 既有 baseline + 20 KB gzip，video-index.json 不計）
+
+   **Baseline（量於 2026-05-19，pre-implementation）**：
+   - `/result/` 主 island (`ResultViewWrapper.js`)：**2.0 KB gzip**
+   - `/workspace/result/` 主 island (`ResultDetail.js`)：**3.9 KB gzip**
+   - 相關共用 island (`AssessmentShell.js`)：18.8 KB gzip
+   - Lighthouse Performance baseline：留待 Task 32（CI 設定階段）量測
+
+   **Budget（baseline + 20 KB gzip）**：
+   - `/result/` ≤ 22 KB gzip
+   - `/workspace/result/` ≤ 24 KB gzip
 7. PR 端 `index-consistency` job 必綠（generated JSON 與 yaml 同步）
 
 ---
