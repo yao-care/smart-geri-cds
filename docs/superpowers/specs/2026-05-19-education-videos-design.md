@@ -2,7 +2,7 @@
 
 - **日期**: 2026-05-19
 - **作者**: Light + Claude Code
-- **狀態**: Draft v11（第 10 輪揪出 zod v3↔v4 API 誤認；第 11 輪修正後待確認）
+- **狀態**: Draft v12（v11 reviewer approved；v12 補上「搜尋準則 / 複審 checklist / 多支顯示策略」三段，依用戶反饋）
 - **範圍**: 為 CDSA 兒童發展評估 + CDSS 生理警示兩條結果線，建立 trigger → YouTube 衛教影片的映射，包含自動 curate 腳本與前端整合
 
 ---
@@ -957,6 +957,30 @@ score =
 }
 ```
 
+**Keywords 設計準則**：
+
+1. **視角分層**：每組 keywords 必須涵蓋兩種讀者
+   - 家長視角：「寶寶嘴唇發紫怎麼辦」「嬰兒呼吸急促」
+   - 醫療衛教視角：「兒童 SpO2 監測」「新生兒缺氧處置」
+   - 避免純醫師教學影片（衛教應對象為家長）
+
+2. **中英並用**：`primary` 至少含 2 組繁中關鍵字，`secondary` 含 1 組英文（補強冷門 trigger），但繁中優先排序
+
+3. **語意涵蓋**：對症狀型 trigger（如 critical SpO2）必含「症狀詞 + 處置詞」，不能只放診斷詞
+   - ✅ `嬰兒 嘴唇發紫 急救`、`新生兒 缺氧 送醫`
+   - ❌ `嬰兒 hypoxemia`（術語太硬，家長不會搜）
+
+4. **年齡限定詞**：嬰幼兒專屬 trigger 必含年齡關鍵字（嬰兒 / 新生兒 / 幼兒 / 學齡前），避免命中成人衛教
+
+5. **禁用關鍵字**（永遠不能出現在任何 keywords entry）：「偏方」「神奇」「秘方」「保健品」「代購」「中醫」「DIY 治療」— 即使是為了排除也不要寫進來，否則 yt-dlp 仍會搜到並進入篩選池
+
+6. **`timeSensitive: true` 條件**：以下 trigger 內容年限敏感（疫苗排程、生長曲線、感染症指引等），keywords 必加 `timeSensitive: true`，§4.7 評分中 > 8 年的影片直接 hard reject
+   - 所有疫苗相關 advisory/warning
+   - 所有 respiratory_rate / temperature 配 advisory 以上（指引常更新）
+   - 飲食指南類（衛福部建議常修訂）
+
+7. **重複搜尋避免**：跨 trigger 的 keywords primary 不要完全重複（否則同支影片在多 trigger 上 curate 結果幾乎一樣），可以重疊但每組至少有 1 個獨特關鍵字
+
 ### 4.9 Cache / Retention
 
 | 路徑 | 內容 | git | TTL |
@@ -1029,7 +1053,43 @@ jobs:
 
 **Batch 限制**：每週只巡檢 50 支（rotated by `lastValidatedAt` 欄位，最舊的先），降低 YouTube 對 GitHub-hosted runner IP 的 rate-limit 風險。完整 catalog 在 5 週內輪一遍。
 
-### 4.11 PR 端 Index 一致性 Gate
+### 4.11 Claude Code 人工複審 Checklist
+
+`auto-verified` 三態之外，Claude Code 讀完字幕的最終決定步驟。Report 中每支候選 影片下方必須附上以下 10 項勾選結果，全 pass 才寫入 catalog 為 `verified`；任一項 fail 一律 `rejected`，並把失敗條目寫進 `notes` 欄位。
+
+| # | 檢核項 | 通過條件 |
+|---|--------|---------|
+| 1 | **臨床正確性** | 字幕陳述符合台灣兒科醫學會 / WHO / CDC 主流共識；無單一研究結論誇大、無已撤回指引 |
+| 2 | **年齡適配** | 影片內 demonstrated 年齡與 trigger 的 ageGroup 一致或鄰近一格；不適配（如示範學齡兒卻歸 infant trigger）→ fail |
+| 3 | **症狀 vs 診斷區隔** | 不把症狀直接稱為診斷（例如「咳嗽 = 肺炎」）；該轉介就醫的場景明確提示「請就醫」而非自行處置 |
+| 4 | **無商業推銷** | 不推銷特定品牌奶粉/益生菌/維他命/智慧穿戴；不出現「使用優惠碼」「下方連結購買」 |
+| 5 | **無偽科學** | 不提偏方、不提中醫無 RCT 證據療法、不提食補替代醫療、不提抗疫苗論述 |
+| 6 | **家長語氣** | 對家長說話的口吻友善、無 victim-blaming（「你怎麼沒注意到」），重點明確（家長 30 秒內知道要做什麼） |
+| 7 | **資訊密度** | 主訊息能在 60–600 秒講完（與 keywords minDuration/maxDuration 一致）；不過度冗長、不過度跳重點 |
+| 8 | **無 PII 暴露** | 不展示真實病人面孔、姓名、病歷號（即使家屬同意也標 reject — 兒童特別敏感） |
+| 9 | **頻道身分驗證** | 頻道描述含可驗證的醫療專業身分（醫師執照字號、醫院/協會官方標記）或為 §4.5 白名單 |
+| 10 | **時效性**（僅 timeSensitive: true） | 影片發布日距今 < 5 年；若提及具體年份的指引版本，該版本仍為現行 |
+
+**複審輸出格式**（report 內 per-candidate 區塊）：
+
+```markdown
+### Candidate: <videoId> — <title>
+- channel: <channel> (<sourceTier>)
+- duration: <s> | subtitleType: <human|auto|none> | score: <0–1>
+- subtitle excerpt (字幕首尾各 200 字):
+    ...
+- Checklist:
+  - [x] 1. 臨床正確性
+  - [x] 2. 年齡適配
+  - [ ] 3. 症狀 vs 診斷區隔 — fail: 把「發燒」直接稱為「腦炎徵兆」
+  ...
+- Verdict: rejected
+- Notes: 「症狀 vs 診斷」失敗；建議改找衛福部相同主題影片
+```
+
+**多人複審情境**：未來若改為人工複審，同一支影片由不同 reviewer 看到的 verdict 應一致；不一致時優先採 reject（safety-first）。
+
+### 4.12 PR 端 Index 一致性 Gate
 
 新建 `.github/workflows/ci.yml`（既有 repo 只有 `deploy.yml`，本 spec 補一個 PR-time CI 入口）：
 
@@ -1097,6 +1157,23 @@ src/components/education/
 切換時機：縮圖 `<img onerror>` 觸發後，元件 state 切到 no-thumbnail 變體；同時把 `videoId` 寫進 `sessionStorage` 的 `failed-thumbnails` set，同 session 後續同 id 直接走 no-thumbnail（避免重複試載）。不寫 IndexedDB，避免長期記住可能只是暫時的網路問題。
 
 > 存取一律用 `typeof window !== 'undefined' && 'sessionStorage' in window` 守護，避免 SSR / jsdom 測試環境 throw。
+
+**多支影片顯示策略**（單一 trigger 拿到 N 支 verified 影片時）：
+
+| 情境 | 顯示策略 |
+|------|---------|
+| trigger 拿到 1 支 | 直接顯示，VideoCard with-thumbnail |
+| trigger 拿到 2–3 支 | 全顯示為 VideoGrid（橫向排列）；按 score 降冪。每支顯示 sourceTier badge（official-tw / international / pro-kol）幫家長分辨來源 |
+| trigger 拿到 > 3 支 | 預設只顯示 top 3（`maxResults: 3`，§3.8 已預設），「展開更多」按鈕顯示其餘 |
+| 多 trigger 在同頁 | 各 trigger 自己一個 VideoGrid，**跨 trigger 不去重**（家長可能對同支影片在不同情境下重複看到 — 這是 feature 不是 bug） |
+
+**sourceTier 並列規則**：score 排序中若分數接近（差 ≤ 0.05），優先把 sourceTier=`official-tw` 提前。理由：台灣家長對國健署 / 台大兒醫等官方頻道信任度高於同等級的國際頻道。
+
+**隨機輪播避免**：不採「每次重新整理顯示不同影片」策略（會讓家長困惑「上次看到的影片去哪了」）。同一 trigger 在同一 patient session 顯示 stable 順序。
+
+**長度限制**：VideoCard 標題以 CSS `line-clamp: 2` 限制 2 行；超過用 `...` 截斷，hover 顯示完整標題（aria-label 同步完整字串供螢幕閱讀器）。
+
+**多影片 vs 一支衛教文**：當 trigger 同時有 `educationSlug`（指向 markdown 衛教文）與 `videoIds` 時，UI **同時顯示**：衛教文擺在影片上方（文字 > 影片，文字較易掃讀）；影片補強示範性內容（餵奶姿勢、急救手法等不易文字化的）。
 
 ### 5.3 Embed + 縮圖策略
 
