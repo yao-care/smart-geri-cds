@@ -73,10 +73,11 @@ export async function buildVideoIndex(opts: BuildOptions = {}): Promise<void> {
   const yamlInapplicable = new Set(
     Object.values(triggers).filter(t => t.inapplicable === true).map(t => t.trigger),
   );
+  const onlyInMatrix = [...matrixInapplicable].filter(k => !yamlInapplicable.has(k));
   const onlyInYaml = [...yamlInapplicable].filter(k => !matrixInapplicable.has(k));
-  if (onlyInYaml.length) {
+  if (onlyInMatrix.length || onlyInYaml.length) {
     throw new Error(
-      `inapplicable mismatch — matrix is source of truth.\n  extra in yaml (not declared in matrix): ${JSON.stringify(onlyInYaml)}`,
+      `inapplicable mismatch — matrix is source of truth.\n  missing in yaml: ${JSON.stringify(onlyInMatrix)}\n  extra in yaml: ${JSON.stringify(onlyInYaml)}`,
     );
   }
 

@@ -1,3 +1,64 @@
 # CDSA domain anomaly trigger map（56 - 10 inapplicable = 46 reachable）
 # trigger key 格式：cdsa.domain.<domain>.anomaly.<ageGroupCDSA>
-[]
+#
+# 10 inapplicable entries（與 scripts/curate/inapplicable-matrix.json 一致，matrix 為 source of truth）
+- trigger: cdsa.domain.behavior.anomaly.2-6m
+  category: domain
+  domain: behavior
+  ageGroup: 2-6m
+  inapplicable: true
+  videoIds: []
+- trigger: cdsa.domain.behavior.anomaly.7-12m
+  category: domain
+  domain: behavior
+  ageGroup: 7-12m
+  inapplicable: true
+  videoIds: []
+- trigger: cdsa.domain.fine_motor.anomaly.2-6m
+  category: domain
+  domain: fine_motor
+  ageGroup: 2-6m
+  inapplicable: true
+  videoIds: []
+- trigger: cdsa.domain.language.anomaly.2-6m
+  category: domain
+  domain: language
+  ageGroup: 2-6m
+  inapplicable: true
+  videoIds: []
+- trigger: cdsa.domain.cognition.anomaly.2-6m
+  category: domain
+  domain: cognition
+  ageGroup: 2-6m
+  inapplicable: true
+  videoIds: []
+- trigger: cdsa.domain.cognition.anomaly.7-12m
+  category: domain
+  domain: cognition
+  ageGroup: 7-12m
+  inapplicable: true
+  videoIds: []
+- trigger: cdsa.domain.language_comprehension.anomaly.2-6m
+  category: domain
+  domain: language_comprehension
+  ageGroup: 2-6m
+  inapplicable: true
+  videoIds: []
+- trigger: cdsa.domain.language_expression.anomaly.2-6m
+  category: domain
+  domain: language_expression
+  ageGroup: 2-6m
+  inapplicable: true
+  videoIds: []
+- trigger: cdsa.domain.language_expression.anomaly.7-12m
+  category: domain
+  domain: language_expression
+  ageGroup: 7-12m
+  inapplicable: true
+  videoIds: []
+- trigger: cdsa.domain.social_emotional.anomaly.2-6m
+  category: domain
+  domain: social_emotional
+  ageGroup: 2-6m
+  inapplicable: true
+  videoIds: []

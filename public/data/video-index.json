@@ -1,4 +1,45 @@
 {
   "catalog": {},
-  "triggers": {}
+  "triggers": {
+    "cdsa.domain.behavior.anomaly.2-6m": {
+      "inapplicable": true,
+      "videoIds": []
+    },
+    "cdsa.domain.behavior.anomaly.7-12m": {
+      "inapplicable": true,
+      "videoIds": []
+    },
+    "cdsa.domain.cognition.anomaly.2-6m": {
+      "inapplicable": true,
+      "videoIds": []
+    },
+    "cdsa.domain.cognition.anomaly.7-12m": {
+      "inapplicable": true,
+      "videoIds": []
+    },
+    "cdsa.domain.fine_motor.anomaly.2-6m": {
+      "inapplicable": true,
+      "videoIds": []
+    },
+    "cdsa.domain.language.anomaly.2-6m": {
+      "inapplicable": true,
+      "videoIds": []
+    },
+    "cdsa.domain.language_comprehension.anomaly.2-6m": {
+      "inapplicable": true,
+      "videoIds": []
+    },
+    "cdsa.domain.language_expression.anomaly.2-6m": {
+      "inapplicable": true,
+      "videoIds": []
+    },
+    "cdsa.domain.language_expression.anomaly.7-12m": {
+      "inapplicable": true,
+      "videoIds": []
+    },
+    "cdsa.domain.social_emotional.anomaly.2-6m": {
+      "inapplicable": true,
+      "videoIds": []
+    }
+  }
 }
