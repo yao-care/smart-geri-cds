@@ -1,8 +1,7 @@
-export type AgeGroupCDSA = '2-6m' | '7-12m' | '13-24m' | '25-36m' | '37-48m' | '49-60m' | '61-72m';
-
-export const AGE_GROUPS_CDSA: readonly AgeGroupCDSA[] = [
+export const AGE_GROUPS_CDSA = [
   '2-6m', '7-12m', '13-24m', '25-36m', '37-48m', '49-60m', '61-72m',
 ] as const;
+export type AgeGroupCDSA = typeof AGE_GROUPS_CDSA[number];
 
 export const AGE_GROUP_LABELS: Record<AgeGroupCDSA, string> = {
   '2-6m': '2-6 個月',

@@ -22,3 +22,9 @@ coverage/
 test-results/
 playwright-report/
 playwright/.cache/
+
+# Education videos curate runtime artifacts
+scripts/curate/cache/
+scripts/curate/reports/
+scripts/curate/channel-whitelist.json
+scripts/curate/.last-build.json
