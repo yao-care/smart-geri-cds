@@ -161,7 +161,6 @@ async function main(): Promise<void> {
     options: {
       trigger: { type: 'string' },
       category: { type: 'string' },
-      'redo-rejected': { type: 'boolean' },
       'validate-only': { type: 'boolean' },
       batch: { type: 'string' },
       clean: { type: 'boolean' },
