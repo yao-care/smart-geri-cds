@@ -1,0 +1,23 @@
+name: CI
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  index-consistency:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v3
+      - uses: actions/setup-node@v4
+        with: { node-version: 20, cache: 'pnpm' }
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm build:video-index
+      - name: Fail if generated index drifted
+        run: |
+          if ! git diff --exit-code public/data/video-index.json; then
+            echo "::error::video-index.json out of sync. Run 'pnpm build:video-index' and commit."
+            exit 1
+          fi
+      - run: pnpm test
