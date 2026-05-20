@@ -87,4 +87,17 @@ describe('ResultView', () => {
     // The triage summary is a sentence — assert there's substantive content.
     expect(container.textContent ?? '').toMatch(/評估|建議|追蹤|正常|轉介/);
   });
+
+  it.skip('renders all 6 questionnaire domains in radar when all provided', () => {
+    // TODO: setup mocking pattern for triageResult emission to ResultView
+    // The radar chart is populated via triageResult.details which is computed
+    // inside ResultView's $effect via computeTriage(). To test the 6-domain
+    // radar we need to either:
+    //   1. inject triageResult directly into assessmentStore (bypassing the effect), or
+    //   2. mock computeTriage to return a controlled TriageResult.
+    // Neither is straightforward with the current architecture where
+    // triageResult is private state inside ResultView. Consider exposing
+    // assessmentStore.triageResult as the single truth source and have
+    // ResultView set it there upon completion.
+  });
 });
