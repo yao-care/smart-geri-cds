@@ -3,6 +3,7 @@ import App from '../../layouts/App.astro';
 import { getCollection } from 'astro:content';
 import CustomEducationList from '../../components/education/CustomEducationList.svelte';
 import EducationFilter from '../../components/education/EducationFilter.svelte';
+import videoIndex from '../../../public/data/video-index.json';
 
 const allEducation = await getCollection('education');
 
@@ -26,6 +27,76 @@ const formatLabels: Record<string, string> = {
   video: '影片',
   questionnaire: '問卷',
 };
+
+const sourceTierLabels: Record<string, string> = {
+  'official-tw': '官方',
+  international: '國際',
+  'pro-kol': '專業',
+};
+
+// Video catalog → cards（YouTube link-out 模式，依 spec v13）
+// educationSlug → CDSS category 推導（fallback 為 'general'）
+function categoryFromSlug(slug: string | undefined): string {
+  if (!slug) return 'general';
+  if (slug.includes('respiratory') || slug.includes('呼吸')) return 'respiratory';
+  if (slug.includes('sleep') || slug.includes('睡眠')) return 'sleep';
+  if (slug.includes('diet') || slug.includes('飲食')) return 'diet';
+  if (slug.includes('exercise') || slug.includes('運動')) return 'exercise';
+  if (slug.includes('milestone') || slug.includes('milestones')) return 'milestone';
+  return 'general';
+}
+
+// 從 triggers map 反查每支 video 對應的 ageGroup 與 educationSlug
+const videoMeta = new Map<string, { ageGroups: Set<string>; slugs: Set<string> }>();
+for (const [trigger, entry] of Object.entries(videoIndex.triggers as Record<string, { videoIds: string[]; inapplicable: boolean }>)) {
+  if (entry.inapplicable || entry.videoIds.length === 0) continue;
+  // trigger 格式：cdsa.{triage|domain}.X.<ageCDSA> 或 cdss.X.Y.<ageCDSS>
+  const parts = trigger.split('.');
+  const lastSeg = parts[parts.length - 1];
+  // CDSA 7 個 month-bin → 對應到 CDSS 3 個 coarse group
+  const ageMap: Record<string, string> = {
+    '2-6m': 'infant', '7-12m': 'infant',
+    '13-24m': 'toddler', '25-36m': 'toddler',
+    '37-48m': 'preschool', '49-60m': 'preschool', '61-72m': 'preschool',
+    infant: 'infant', toddler: 'toddler', preschool: 'preschool',
+  };
+  const ageGroup = ageMap[lastSeg];
+  for (const id of entry.videoIds) {
+    if (!videoMeta.has(id)) videoMeta.set(id, { ageGroups: new Set(), slugs: new Set() });
+    if (ageGroup) videoMeta.get(id)!.ageGroups.add(ageGroup);
+  }
+}
+
+// 整合 catalog + meta 為渲染清單
+const videoCards = Object.entries(videoIndex.catalog as Record<string, {
+  videoId: string; title: string; channel: string; duration: number;
+  language: string; sourceTier: string; score: number;
+}>)
+  .map(([id, v]) => {
+    const meta = videoMeta.get(id);
+    const ageGroups = meta ? [...meta.ageGroups] : [];
+    // 從 trigger map 反推 educationSlug（用最常見的）
+    const slug = Object.values(videoIndex.triggers as Record<string, { videoIds: string[]; inapplicable: boolean }>)
+      .find(t => !t.inapplicable && t.videoIds.includes(id));
+    return {
+      videoId: v.videoId,
+      title: v.title,
+      channel: v.channel,
+      duration: v.duration,
+      sourceTier: v.sourceTier,
+      score: v.score,
+      ageGroups,
+      category: 'general' as string,
+      _slugRef: slug,
+    };
+  })
+  .sort((a, b) => b.score - a.score);
+
+function fmtDuration(sec: number): string {
+  const m = Math.floor(sec / 60);
+  const s = String(sec % 60).padStart(2, '0');
+  return `${m} 分 ${s} 秒`;
+}
 ---
 
 <App title="衛教內容" description="兒科健康衛教資源">
@@ -55,6 +126,44 @@ const formatLabels: Record<string, string> = {
             {entry.data.ageGroup.map((age: string) => (
               <span class="tag">{ageGroupLabels[age] ?? age}</span>
             ))}
+          </div>
+        </a>
+      </article>
+    ))}
+
+    {videoCards.map((v) => (
+      <article
+        class="education-card video-card"
+        data-edu-card
+        data-category={v.category}
+        data-format="video"
+      >
+        <a
+          href={`https://www.youtube.com/watch?v=${v.videoId}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="card-link"
+        >
+          <img
+            src={`https://i.ytimg.com/vi/${v.videoId}/hqdefault.jpg`}
+            alt={v.title}
+            loading="lazy"
+            referrerpolicy="no-referrer"
+            class="card-thumb"
+          />
+          <div class="card-body">
+            <div class="card-meta">
+              <span class="card-badge">{sourceTierLabels[v.sourceTier] ?? v.sourceTier}</span>
+              <span class="card-format">影片</span>
+              <span class="card-duration">{fmtDuration(v.duration)}</span>
+            </div>
+            <h2 class="card-title">{v.title}</h2>
+            <p class="card-summary">{v.channel}</p>
+            <div class="card-tags">
+              {v.ageGroups.map((age) => (
+                <span class="tag">{ageGroupLabels[age] ?? age}</span>
+              ))}
+            </div>
           </div>
         </a>
       </article>
@@ -157,5 +266,26 @@ const formatLabels: Record<string, string> = {
     color: color-mix(in srgb, var(--text), var(--bg) 30%);
     background-color: color-mix(in srgb, var(--bg), var(--text) 5%);
     border-radius: var(--radius-sm);
+  }
+
+  /* Video card: 縮圖 + body 兩段（card-link padding 拿掉，由 body 內部設定）*/
+  .video-card .card-link {
+    padding: 0;
+  }
+  .card-thumb {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    display: block;
+  }
+  .card-body {
+    padding: var(--space-6);
+  }
+  .card-duration {
+    display: inline-block;
+    padding: var(--space-1) var(--space-3);
+    font-size: var(--text-xs);
+    color: color-mix(in srgb, var(--text), var(--bg) 30%);
+    margin-left: auto;
   }
 </style>
