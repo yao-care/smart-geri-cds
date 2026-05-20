@@ -10,10 +10,8 @@
       "startServerReadyPattern": "Local"
     },
     "assert": {
-      "preset": "lighthouse:recommended",
       "assertions": {
-        "categories:performance": ["error", { "minScore": 0.85 }],
-        "third-party-summary": "off"
+        "categories:performance": ["error", { "minScore": 0.85 }]
       }
     },
     "upload": { "target": "temporary-public-storage" }
