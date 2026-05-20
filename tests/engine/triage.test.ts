@@ -176,13 +176,25 @@ describe('computeTriage', () => {
     expect(detail?.directionalZ).toBe(detail?.zScore); // same sign
   });
 
-  it('questionnaireScore detail has directionalZ === null', async () => {
+  it('questionnaireScore detail maps normalized score to directionalZ (-5 to +5)', async () => {
+    // 默認 maxScore fallback = 10；cognition: 3 → normalized = 0.3 → z = (0.3-0.5)*10 = -2
     const result = await computeTriage({
       ...baseInput,
       questionnaireScores: { cognition: 3 },
     });
     const detail = result.details.find((d) => d.metric === 'questionnaireScore');
-    expect(detail?.directionalZ).toBeNull();
+    expect(detail?.directionalZ).toBeCloseTo(-2, 5);
+  });
+
+  it('questionnaireScore at max → directionalZ = +5', async () => {
+    // cognition score = max → normalized 1 → z = +5
+    const result = await computeTriage({
+      ...baseInput,
+      questionnaireScores: { cognition: 10 },
+      questionnaireMaxScores: { cognition: 10 },
+    });
+    const detail = result.details.find((d) => d.metric === 'questionnaireScore');
+    expect(detail?.directionalZ).toBeCloseTo(5, 5);
   });
 
   it('includes questionnaire anomaly when score below 50% of max', async () => {

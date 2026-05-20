@@ -149,12 +149,17 @@ export async function computeTriage(input: TriageInput): Promise<TriageResult> {
       // (questions × 2). Fall back to 10 only when the caller didn't.
       const maxScore = input.questionnaireMaxScores?.[domain] ?? 10;
       const normalized = maxScore > 0 ? score / maxScore : 0;
+      // Map questionnaire raw [0, 1] to directionalZ [-5, +5] so radar shows:
+      //   全選最高分 (normalized=1) → z=+5 → score = 50+10*5 = 100
+      //   完全未達 (normalized=0)   → z=-5 → score = 50-50    = 0
+      //   約一半 (normalized=0.5)   → z=0  → score = 50
+      // isAnomaly 仍以 normalized < 0.5 為主（與既有測試一致）。
       details.push({
         domain,
         metric: 'questionnaireScore',
         value: score,
         zScore: null,
-        directionalZ: null, // questionnaire has no z concept; radar skips these
+        directionalZ: (normalized - 0.5) * 10,
         maxScore,
         isAnomaly: normalized < 0.5,
       });
