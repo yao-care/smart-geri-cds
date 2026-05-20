@@ -899,6 +899,118 @@
       ],
       "clinicallyReviewed": false,
       "source": "manual"
+    },
+    {
+      "id": "gm-07",
+      "domain": "gross_motor",
+      "domainLabel": "粗動作",
+      "ageGroups": [
+        "2-6m"
+      ],
+      "text": "寶寶趴著時能用手臂支撐胸部抬離地面嗎？",
+      "options": [
+        {
+          "value": "yes",
+          "label": "是，經常可以",
+          "score": 2
+        },
+        {
+          "value": "sometimes",
+          "label": "有時候可以",
+          "score": 1
+        },
+        {
+          "value": "no",
+          "label": "還不能",
+          "score": 0
+        }
+      ],
+      "clinicallyReviewed": false,
+      "source": "Denver II inspiration"
+    },
+    {
+      "id": "fm-06",
+      "domain": "fine_motor",
+      "domainLabel": "細動作",
+      "ageGroups": [
+        "7-12m"
+      ],
+      "text": "寶寶能用拇指和食指捏起小東西嗎？（例如：葡萄乾、小餅乾）",
+      "options": [
+        {
+          "value": "yes",
+          "label": "可以準確地捏起",
+          "score": 2
+        },
+        {
+          "value": "sometimes",
+          "label": "還用整隻手抓",
+          "score": 1
+        },
+        {
+          "value": "no",
+          "label": "還不會",
+          "score": 0
+        }
+      ],
+      "clinicallyReviewed": false,
+      "source": "ASQ-3 inspiration"
+    },
+    {
+      "id": "lc-05",
+      "domain": "language_comprehension",
+      "domainLabel": "語言理解",
+      "ageGroups": [
+        "7-12m"
+      ],
+      "text": "叫寶寶名字時，他會轉頭回應嗎？",
+      "options": [
+        {
+          "value": "yes",
+          "label": "是，經常轉頭",
+          "score": 2
+        },
+        {
+          "value": "sometimes",
+          "label": "偶爾會",
+          "score": 1
+        },
+        {
+          "value": "no",
+          "label": "幾乎不會",
+          "score": 0
+        }
+      ],
+      "clinicallyReviewed": false,
+      "source": "M-CHAT inspiration"
+    },
+    {
+      "id": "fm-07",
+      "domain": "fine_motor",
+      "domainLabel": "細動作",
+      "ageGroups": [
+        "13-24m"
+      ],
+      "text": "孩子能堆疊 2-3 塊積木嗎？",
+      "options": [
+        {
+          "value": "yes",
+          "label": "可以穩定堆 3 塊以上",
+          "score": 2
+        },
+        {
+          "value": "sometimes",
+          "label": "勉強堆 2 塊",
+          "score": 1
+        },
+        {
+          "value": "no",
+          "label": "還不會",
+          "score": 0
+        }
+      ],
+      "clinicallyReviewed": false,
+      "source": "Denver II inspiration"
     }
   ]
 }
