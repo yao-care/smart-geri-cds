@@ -1,7 +1,8 @@
 <script lang="ts">
-  import { assessmentStore } from '../../lib/stores/assessment.svelte';
+  import { assessmentStore, type SkippableModule } from '../../lib/stores/assessment.svelte';
   import { recordEvent } from '../../lib/db/assessment-events';
   import questionsData from '../../data/questionnaire/questions.json';
+  import expectedDomainsMap from '../../lib/data/expected-questionnaire-domains.generated.json';
   import type { AgeGroupCDSA } from '../../lib/utils/age-groups';
 
   // ---- Types ----
@@ -138,6 +139,16 @@
       scores[s.domain] = s.score;
       maxScores[s.domain] = s.max;
     }
+
+    if (import.meta.env.DEV && ageGroup) {
+      const expected = (expectedDomainsMap as Record<string, string[]>)[ageGroup as string] ?? [];
+      for (const d of expected) {
+        if (!(d in scores)) {
+          console.warn(`[Questionnaire] Missing domain '${d}' for ageGroup '${ageGroup as string}'.`);
+        }
+      }
+    }
+
     assessmentStore.addAnalysis({
       questionnaireScores: scores,
       questionnaireMaxScores: maxScores,
@@ -150,6 +161,11 @@
     // the call above already covered the happy path.
     persistScoresToStore();
     await assessmentStore.nextStep();
+  }
+
+  async function handleForceFullEval() {
+    assessmentStore.forceFullAssessment = true;
+    await handleFinish();
   }
 </script>
 
@@ -190,6 +206,7 @@
           class="option-btn"
           class:selected={answers[currentQuestion.id]?.value === option.value}
           disabled={isSaving}
+          data-score={option.score}
           onclick={() => handleAnswer(option)}
         >
           {option.label}
@@ -227,9 +244,25 @@
         {/each}
       </div>
 
-      <button class="btn-finish" onclick={handleFinish}>
-        完成問卷
-      </button>
+      <div class="recommendation">
+        <h3>依您的作答結果，建議完成：</h3>
+        <ul>
+          <li>✓ 互動遊戲（量「行為」面向）</li>
+          <li class:skipped={assessmentStore.skippedModules.has('video' as SkippableModule)}>
+            {assessmentStore.skippedModules.has('video' as SkippableModule) ? '✗ 影片錄製（粗動作滿分，已跳過）' : '✓ 影片錄製（粗動作）'}
+          </li>
+          <li class:skipped={assessmentStore.skippedModules.has('drawing' as SkippableModule)}>
+            {assessmentStore.skippedModules.has('drawing' as SkippableModule) ? '✗ 繪圖（細動作滿分，已跳過）' : '✓ 繪圖（細動作）'}
+          </li>
+          <li class:skipped={assessmentStore.skippedModules.has('voice' as SkippableModule)}>
+            {assessmentStore.skippedModules.has('voice' as SkippableModule) ? '✗ 語音（語言滿分，已跳過）' : '✓ 語音（語言）'}
+          </li>
+        </ul>
+        <div class="actions">
+          <button class="btn-finish" onclick={handleFinish}>依建議繼續</button>
+          <button class="btn-finish secondary" onclick={handleForceFullEval}>跑完整評估</button>
+        </div>
+      </div>
     </div>
 
   {:else}
@@ -460,4 +493,13 @@
     margin-left: var(--space-2);
     vertical-align: middle;
   }
+
+  /* ---- Recommendation section ---- */
+  .recommendation { margin-top: var(--space-4); }
+  .recommendation h3 { font-size: var(--text-base); font-weight: var(--font-medium); margin-bottom: var(--space-3); }
+  .recommendation ul { list-style: none; padding: 0; }
+  .recommendation li { padding: var(--space-2) 0; font-size: var(--text-base); }
+  .recommendation li.skipped { color: var(--text); opacity: 0.5; text-decoration: line-through; }
+  .recommendation .actions { display: flex; gap: var(--space-3); margin-top: var(--space-4); }
+  .recommendation .actions button.secondary { background: transparent; border: 1px solid var(--line); color: var(--text); }
 </style>

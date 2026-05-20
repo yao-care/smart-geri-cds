@@ -7,7 +7,8 @@
   import VideoModule from './VideoModule.svelte';
   import DrawingModule from './DrawingModule.svelte';
   import ResultView from './ResultView.svelte';
-  import { assessmentStore } from '../../lib/stores/assessment.svelte';
+  import { tick } from 'svelte';
+  import { assessmentStore, STEP_LABELS, type AssessmentStep, type SkippableModule } from '../../lib/stores/assessment.svelte';
   import { getIncompleteAssessments } from '../../lib/db/assessments';
   import type { Assessment } from '../../lib/db/schema';
   import type { CardItem } from '../../engine/cdsa/card-selector';
@@ -18,8 +19,6 @@
 
   let { cards = [] }: Props = $props();
 
-  const STEP_LABELS = ['基本資料', '問卷', '互動遊戲', '語音互動', '影片錄製', '繪圖測試', '評估結果'];
-
   let incompleteAssessments = $state<Assessment[]>([]);
   let showResume = $state(true);
 
@@ -27,6 +26,13 @@
     getIncompleteAssessments().then(list => {
       incompleteAssessments = list;
     });
+  });
+
+  $effect(() => {
+    const current = assessmentStore.currentStep;
+    if (assessmentStore.skippedModules.has(current as SkippableModule)) {
+      tick().then(() => assessmentStore.nextStep());
+    }
   });
 
   async function handleResume(id: string) {
@@ -41,7 +47,10 @@
 </script>
 
 <div class="assessment-shell">
-  <StepIndicator steps={STEP_LABELS} currentStep={assessmentStore.currentStepIndex} />
+  <StepIndicator
+    steps={assessmentStore.effectiveSteps.map(s => STEP_LABELS[s as AssessmentStep])}
+    currentStep={assessmentStore.effectiveStepIndex}
+  />
 
   <div class="step-content">
     {#if showResume && incompleteAssessments.length > 0 && !assessmentStore.assessment}
@@ -52,7 +61,7 @@
           {#each incompleteAssessments as a}
             <button class="resume-card" onclick={() => handleResume(a.id)}>
               <span class="resume-date">{new Date(a.startedAt).toLocaleDateString('zh-TW')}</span>
-              <span class="resume-status">步驟 {a.currentStep + 1} / {STEP_LABELS.length}</span>
+              <span class="resume-status">步驟 {a.currentStep + 1} / {assessmentStore.effectiveSteps.length}</span>
               <span class="resume-action">繼續 →</span>
             </button>
           {/each}
