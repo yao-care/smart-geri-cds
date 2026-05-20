@@ -6,9 +6,9 @@
   "packageManager": "pnpm@10.32.1",
   "scripts": {
     "dev": "astro dev",
-    "predev": "tsx scripts/build-video-index.ts",
+    "predev": "tsx scripts/build-video-index.ts && tsx scripts/build-questionnaire-applicability.ts",
     "build": "astro build",
-    "prebuild": "tsx scripts/build-video-index.ts",
+    "prebuild": "tsx scripts/build-video-index.ts && tsx scripts/build-questionnaire-applicability.ts",
     "preview": "astro preview",
     "check": "astro check && svelte-check --tsconfig ./tsconfig.json",
     "lint": "eslint src/",
