@@ -48,6 +48,19 @@ class AssessmentStore {
 
   /** 各模組完成時呼叫，累積分析結果 */
   addAnalysis(partial: Partial<PartialAnalysis>): void {
+    // ⚠ 此 warn 依賴 addAnalysis 為 shallow spread（partial.questionnaireScores
+    // 整個替換 this.partialAnalysis.questionnaireScores 而非深 merge）。若日後改深 merge，
+    // 此守護需重寫（newKeys 將包含 prev 所有 key + new，永遠抓不到 drop）。
+    if (import.meta.env.DEV && partial.questionnaireScores) {
+      const prevKeys = Object.keys(this.partialAnalysis.questionnaireScores ?? {});
+      const newKeys = Object.keys(partial.questionnaireScores);
+      const missing = prevKeys.filter(k => !newKeys.includes(k));
+      if (missing.length > 0) {
+        console.warn(
+          `[AssessmentStore] addAnalysis(questionnaireScores) drops previously-set domains: ${missing.join(', ')}`
+        );
+      }
+    }
     this.partialAnalysis = { ...this.partialAnalysis, ...partial };
   }
 
