@@ -46,14 +46,12 @@ function categoryFromSlug(slug: string | undefined): string {
   return 'general';
 }
 
-// 從 triggers map 反查每支 video 對應的 ageGroup 與 educationSlug
-const videoMeta = new Map<string, { ageGroups: Set<string>; slugs: Set<string> }>();
+// 從 triggers map 反查每支 video 對應的 ageGroup 與 trigger 清單
+const videoMeta = new Map<string, { ageGroups: Set<string>; triggers: string[] }>();
 for (const [trigger, entry] of Object.entries(videoIndex.triggers as Record<string, { videoIds: string[]; inapplicable: boolean }>)) {
   if (entry.inapplicable || entry.videoIds.length === 0) continue;
-  // trigger 格式：cdsa.{triage|domain}.X.<ageCDSA> 或 cdss.X.Y.<ageCDSS>
   const parts = trigger.split('.');
   const lastSeg = parts[parts.length - 1];
-  // CDSA 7 個 month-bin → 對應到 CDSS 3 個 coarse group
   const ageMap: Record<string, string> = {
     '2-6m': 'infant', '7-12m': 'infant',
     '13-24m': 'toddler', '25-36m': 'toddler',
@@ -62,9 +60,58 @@ for (const [trigger, entry] of Object.entries(videoIndex.triggers as Record<stri
   };
   const ageGroup = ageMap[lastSeg];
   for (const id of entry.videoIds) {
-    if (!videoMeta.has(id)) videoMeta.set(id, { ageGroups: new Set(), slugs: new Set() });
+    if (!videoMeta.has(id)) videoMeta.set(id, { ageGroups: new Set(), triggers: [] });
     if (ageGroup) videoMeta.get(id)!.ageGroups.add(ageGroup);
+    videoMeta.get(id)!.triggers.push(trigger);
   }
+}
+
+// Trigger key → 人話標籤（醫師可一眼判斷影片觸發情境）
+const AGE_ZH: Record<string, string> = {
+  '2-6m': '2-6個月', '7-12m': '7-12個月',
+  '13-24m': '1-2歲', '25-36m': '2-3歲',
+  '37-48m': '3-4歲', '49-60m': '4-5歲', '61-72m': '5-6歲',
+  infant: '嬰兒(0-1歲)', toddler: '幼兒(1-3歲)', preschool: '學齡前(3-6歲)',
+};
+const DOMAIN_ZH: Record<string, string> = {
+  behavior: '行為', gross_motor: '粗動作', fine_motor: '細動作', language: '語言',
+  cognition: '認知', language_comprehension: '語言理解', language_expression: '語言表達',
+  social_emotional: '社交情緒',
+};
+const INDICATOR_ZH: Record<string, string> = {
+  heart_rate: '心跳異常', spo2: '血氧異常', respiratory_rate: '呼吸異常',
+  temperature: '體溫異常', sleep_quality: '睡眠異常',
+  activity_level: '活動力異常', sugar_intake: '糖份攝取過高',
+};
+const LEVEL_ZH: Record<string, string> = {
+  critical: '危急', warning: '警告', advisory: '注意',
+};
+const TRIAGE_ZH: Record<string, string> = {
+  refer: '建議轉介', monitor: '追蹤觀察',
+};
+
+function triggerToZh(trigger: string): string {
+  const parts = trigger.split('.');
+  if (parts[0] === 'cdsa' && parts[1] === 'triage') {
+    // cdsa.triage.<cat>.<age>
+    const cat = TRIAGE_ZH[parts[2]] ?? parts[2];
+    const age = AGE_ZH[parts[3]] ?? parts[3];
+    return `${age} · 評估${cat}`;
+  }
+  if (parts[0] === 'cdsa' && parts[1] === 'domain') {
+    // cdsa.domain.<domain>.anomaly.<age>
+    const dom = DOMAIN_ZH[parts[2]] ?? parts[2];
+    const age = AGE_ZH[parts[4]] ?? parts[4];
+    return `${age} · ${dom}異常`;
+  }
+  if (parts[0] === 'cdss') {
+    // cdss.<indicator>.<level>.<age>
+    const ind = INDICATOR_ZH[parts[1]] ?? parts[1];
+    const lv = LEVEL_ZH[parts[2]] ?? parts[2];
+    const age = AGE_ZH[parts[3]] ?? parts[3];
+    return `${age} · ${ind} (${lv})`;
+  }
+  return trigger;
 }
 
 // 整合 catalog + meta 為渲染清單
@@ -75,9 +122,7 @@ const videoCards = Object.entries(videoIndex.catalog as Record<string, {
   .map(([id, v]) => {
     const meta = videoMeta.get(id);
     const ageGroups = meta ? [...meta.ageGroups] : [];
-    // 從 trigger map 反推 educationSlug（用最常見的）
-    const slug = Object.values(videoIndex.triggers as Record<string, { videoIds: string[]; inapplicable: boolean }>)
-      .find(t => !t.inapplicable && t.videoIds.includes(id));
+    const triggerLabels = meta ? meta.triggers.map(triggerToZh).sort() : [];
     return {
       videoId: v.videoId,
       title: v.title,
@@ -86,8 +131,8 @@ const videoCards = Object.entries(videoIndex.catalog as Record<string, {
       sourceTier: v.sourceTier,
       score: v.score,
       ageGroups,
+      triggerLabels,
       category: 'general' as string,
-      _slugRef: slug,
     };
   })
   .sort((a, b) => b.score - a.score);
@@ -164,6 +209,16 @@ function fmtDuration(sec: number): string {
                 <span class="tag">{ageGroupLabels[age] ?? age}</span>
               ))}
             </div>
+            {v.triggerLabels.length > 0 && (
+              <details class="card-triggers">
+                <summary>觸發情境（{v.triggerLabels.length}）</summary>
+                <ul>
+                  {v.triggerLabels.map((label) => (
+                    <li>{label}</li>
+                  ))}
+                </ul>
+              </details>
+            )}
           </div>
         </a>
       </article>
@@ -287,5 +342,41 @@ function fmtDuration(sec: number): string {
     font-size: var(--text-xs);
     color: color-mix(in srgb, var(--text), var(--bg) 30%);
     margin-left: auto;
+  }
+
+  /* 觸發情境清單 — 折疊式，預設收起；醫師審核時展開 */
+  .card-triggers {
+    margin-top: var(--space-3);
+    padding-top: var(--space-3);
+    border-top: 1px solid var(--line);
+    font-size: var(--text-xs);
+  }
+  .card-triggers summary {
+    cursor: pointer;
+    color: var(--accent);
+    font-weight: var(--font-medium);
+    padding: var(--space-1) 0;
+    list-style: none;
+  }
+  .card-triggers summary::before {
+    content: '▸ ';
+    display: inline-block;
+    transition: transform 0.15s ease;
+  }
+  .card-triggers[open] summary::before {
+    content: '▾ ';
+  }
+  .card-triggers ul {
+    list-style: none;
+    padding: var(--space-2) 0 0 0;
+    margin: 0;
+  }
+  .card-triggers li {
+    padding: var(--space-1) var(--space-2);
+    border-radius: var(--radius-sm);
+    background-color: color-mix(in srgb, var(--accent) 8%, var(--bg));
+    color: color-mix(in srgb, var(--text), var(--bg) 10%);
+    margin-bottom: var(--space-1);
+    line-height: var(--lh-xs);
   }
 </style>
