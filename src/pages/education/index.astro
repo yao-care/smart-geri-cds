@@ -210,14 +210,14 @@ function fmtDuration(sec: number): string {
               ))}
             </div>
             {v.triggerLabels.length > 0 && (
-              <details class="card-triggers">
-                <summary>觸發情境（{v.triggerLabels.length}）</summary>
+              <div class="card-triggers">
+                <p class="triggers-title">觸發情境（{v.triggerLabels.length}）</p>
                 <ul>
                   {v.triggerLabels.map((label) => (
                     <li>{label}</li>
                   ))}
                 </ul>
-              </details>
+              </div>
             )}
           </div>
         </a>
@@ -344,31 +344,21 @@ function fmtDuration(sec: number): string {
     margin-left: auto;
   }
 
-  /* 觸發情境清單 — 折疊式，預設收起；醫師審核時展開 */
+  /* 觸發情境清單 — 直接顯示供醫師審核 */
   .card-triggers {
     margin-top: var(--space-3);
     padding-top: var(--space-3);
     border-top: 1px solid var(--line);
     font-size: var(--text-xs);
   }
-  .card-triggers summary {
-    cursor: pointer;
+  .triggers-title {
     color: var(--accent);
     font-weight: var(--font-medium);
-    padding: var(--space-1) 0;
-    list-style: none;
-  }
-  .card-triggers summary::before {
-    content: '▸ ';
-    display: inline-block;
-    transition: transform 0.15s ease;
-  }
-  .card-triggers[open] summary::before {
-    content: '▾ ';
+    margin: 0 0 var(--space-2) 0;
   }
   .card-triggers ul {
     list-style: none;
-    padding: var(--space-2) 0 0 0;
+    padding: 0;
     margin: 0;
   }
   .card-triggers li {
