@@ -147,6 +147,8 @@ export interface Assessment {
   /** Origin of the record. Undefined / 'idb' = produced on this device.
    *  'fhir-cache' = pulled from FHIR server by the cross-device resolver and cached locally. */
   _source?: 'idb' | 'fhir-cache';
+  /** v5: when true, run all modules regardless of questionnaire score; default false. */
+  forceFullAssessment?: boolean;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -338,6 +340,29 @@ export class CdssDatabase extends Dexie {
       tenantSettings: 'id, tenantId',
       // New v4 store
       recommendationOverlays: 'id, tenantId, category, domain, [tenantId+category+domain]',
+    });
+    this.version(5).stores({
+      patients: 'id, ageGroup, currentRiskLevel, lastSyncedAt',
+      observations: 'id, patientId, indicator, effectiveDateTime, [patientId+indicator]',
+      alerts: 'id, patientId, riskLevel, status, createdAt, [patientId+status]',
+      baselines: '[patientId+indicator], patientId, updatedAt',
+      syncQueue: 'id, createdAt',
+      serverConfigs: 'id, lastUsedAt',
+      educationInteractions: 'id, contentSlug, createdAt',
+      ruleVersions: 'id, createdAt',
+      webhookHistory: 'id, webhookId, alertId, createdAt',
+      children: 'id, createdAt',
+      assessments: 'id, childId, status, createdAt, [childId+status]',
+      assessmentEvents: 'id, assessmentId, childId, moduleType, timestamp, [assessmentId+moduleType]',
+      mediaFiles: 'id, assessmentId, childId, fileType, createdAt, [assessmentId+fileType]',
+      normThresholds: 'id, ageGroup, metric, [ageGroup+metric]',
+      customEducation: 'id, tenantId, category, isActive, [tenantId+isActive]',
+      tenantSettings: 'id, tenantId',
+      recommendationOverlays: 'id, tenantId, category, domain, [tenantId+category+domain]',
+    }).upgrade(async tx => {
+      await tx.table('assessments').toCollection().modify(a => {
+        a.forceFullAssessment = false;
+      });
     });
   }
 }
