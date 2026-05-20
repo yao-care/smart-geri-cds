@@ -4,6 +4,11 @@ import type { DrawingAnalysisResult } from './drawing-analysis';
 import type { AgeGroupCDSA } from '../../lib/utils/age-groups';
 import { db } from '../../lib/db/schema';
 
+const KNOWN_QUESTIONNAIRE_DOMAINS = new Set([
+  'cognition', 'fine_motor', 'gross_motor',
+  'language_comprehension', 'language_expression', 'social_emotional',
+]);
+
 export interface TriageInput {
   ageGroup: AgeGroupCDSA;
   behavior: BehaviorMetrics;
@@ -143,23 +148,28 @@ export async function computeTriage(input: TriageInput): Promise<TriageResult> {
   }
 
   // Questionnaire scores (if available)
+  if (input.questionnaireScores && import.meta.env?.DEV) {
+    for (const domain of Object.keys(input.questionnaireScores)) {
+      if (!KNOWN_QUESTIONNAIRE_DOMAINS.has(domain)) {
+        console.warn(`[triage] Unknown questionnaire domain: ${domain}`);
+      }
+    }
+    if (!input.questionnaireMaxScores) {
+      console.warn('[triage] questionnaireScores provided without questionnaireMaxScores');
+    }
+  }
   if (input.questionnaireScores) {
     for (const [domain, score] of Object.entries(input.questionnaireScores)) {
       // Use the actual per-domain maximum when caller supplies it
       // (questions × 2). Fall back to 10 only when the caller didn't.
       const maxScore = input.questionnaireMaxScores?.[domain] ?? 10;
       const normalized = maxScore > 0 ? score / maxScore : 0;
-      // Map questionnaire raw [0, 1] to directionalZ [-5, +5] so radar shows:
-      //   全選最高分 (normalized=1) → z=+5 → score = 50+10*5 = 100
-      //   完全未達 (normalized=0)   → z=-5 → score = 50-50    = 0
-      //   約一半 (normalized=0.5)   → z=0  → score = 50
-      // isAnomaly 仍以 normalized < 0.5 為主（與既有測試一致）。
       details.push({
         domain,
         metric: 'questionnaireScore',
         value: score,
         zScore: null,
-        directionalZ: (normalized - 0.5) * 10,
+        directionalZ: null, // questionnaire 不走 z；radar 改路徑識別 (ResultView)
         maxScore,
         isAnomaly: normalized < 0.5,
       });

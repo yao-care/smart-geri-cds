@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { computeTriage, type TriageInput } from '../../src/engine/cdsa/triage';
 import type { BehaviorMetrics } from '../../src/engine/cdsa/behavior-analysis';
 import type { VoiceMetrics } from '../../src/engine/cdsa/voice-analysis';
@@ -176,35 +176,62 @@ describe('computeTriage', () => {
     expect(detail?.directionalZ).toBe(detail?.zScore); // same sign
   });
 
-  it('questionnaireScore detail maps normalized score to directionalZ (-5 to +5)', async () => {
-    // 默認 maxScore fallback = 10；cognition: 3 → normalized = 0.3 → z = (0.3-0.5)*10 = -2
+  it('questionnaireScore detail has directionalZ === null', async () => {
     const result = await computeTriage({
       ...baseInput,
       questionnaireScores: { cognition: 3 },
     });
     const detail = result.details.find((d) => d.metric === 'questionnaireScore');
-    expect(detail?.directionalZ).toBeCloseTo(-2, 5);
-  });
-
-  it('questionnaireScore at max → directionalZ = +5', async () => {
-    // cognition score = max → normalized 1 → z = +5
-    const result = await computeTriage({
-      ...baseInput,
-      questionnaireScores: { cognition: 10 },
-      questionnaireMaxScores: { cognition: 10 },
-    });
-    const detail = result.details.find((d) => d.metric === 'questionnaireScore');
-    expect(detail?.directionalZ).toBeCloseTo(5, 5);
+    expect(detail?.directionalZ).toBeNull();
   });
 
   it('includes questionnaire anomaly when score below 50% of max', async () => {
     const result = await computeTriage({
       ...baseInput,
-      questionnaireScores: { cognition: 3, language: 8 },
+      questionnaireScores: { cognition: 3, language_comprehension: 8 },
     });
     const cognitionDetail = result.details.find((d) => d.domain === 'cognition' && d.metric === 'questionnaireScore');
     expect(cognitionDetail?.isAnomaly).toBe(true);
-    const langDetail = result.details.find((d) => d.domain === 'language' && d.metric === 'questionnaireScore');
+    const langDetail = result.details.find((d) => d.domain === 'language_comprehension' && d.metric === 'questionnaireScore');
     expect(langDetail?.isAnomaly).toBe(false);
+  });
+});
+
+describe('triage dev-mode warnings', () => {
+  it('warns on unknown questionnaire domain', async () => {
+    vi.stubEnv('DEV', true);
+    const spy = vi.spyOn(console, 'warn').mockImplementation(() => {});
+    await computeTriage({
+      ...baseInput,
+      questionnaireScores: { unknown_domain: 5 },
+      questionnaireMaxScores: { unknown_domain: 10 },
+    });
+    expect(spy).toHaveBeenCalledWith(expect.stringContaining('Unknown questionnaire domain'));
+    spy.mockRestore();
+    vi.unstubAllEnvs();
+  });
+
+  it('warns when questionnaireScores has no questionnaireMaxScores', async () => {
+    vi.stubEnv('DEV', true);
+    const spy = vi.spyOn(console, 'warn').mockImplementation(() => {});
+    await computeTriage({
+      ...baseInput,
+      questionnaireScores: { cognition: 3 },
+    });
+    expect(spy).toHaveBeenCalledWith(expect.stringContaining('without questionnaireMaxScores'));
+    spy.mockRestore();
+    vi.unstubAllEnvs();
+  });
+
+  it('does not warn in prod (DEV=false)', async () => {
+    vi.stubEnv('DEV', false);
+    const spy = vi.spyOn(console, 'warn').mockImplementation(() => {});
+    await computeTriage({
+      ...baseInput,
+      questionnaireScores: { unknown_domain: 5 },
+    });
+    expect(spy).not.toHaveBeenCalledWith(expect.stringContaining('Unknown'));
+    spy.mockRestore();
+    vi.unstubAllEnvs();
   });
 });
