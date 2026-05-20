@@ -1151,6 +1151,118 @@
       ],
       "clinicallyReviewed": false,
       "source": "Denver II inspiration"
+    },
+    {
+      "id": "fm-08",
+      "domain": "fine_motor",
+      "domainLabel": "細動作",
+      "ageGroups": [
+        "61-72m"
+      ],
+      "text": "孩子能用剪刀沿線剪簡單圖形嗎？（例如：圓形、方形）",
+      "options": [
+        {
+          "value": "yes",
+          "label": "是，剪得很整齊",
+          "score": 2
+        },
+        {
+          "value": "sometimes",
+          "label": "勉強能剪",
+          "score": 1
+        },
+        {
+          "value": "no",
+          "label": "還不會用剪刀",
+          "score": 0
+        }
+      ],
+      "clinicallyReviewed": false,
+      "source": "Denver II inspiration"
+    },
+    {
+      "id": "lc-08",
+      "domain": "language_comprehension",
+      "domainLabel": "語言理解",
+      "ageGroups": [
+        "61-72m"
+      ],
+      "text": "孩子能理解「在桌上」「在椅子下」等空間概念嗎？",
+      "options": [
+        {
+          "value": "yes",
+          "label": "是，能正確執行指令",
+          "score": 2
+        },
+        {
+          "value": "sometimes",
+          "label": "有時聽得懂",
+          "score": 1
+        },
+        {
+          "value": "no",
+          "label": "還無法",
+          "score": 0
+        }
+      ],
+      "clinicallyReviewed": false,
+      "source": "ASQ-3 inspiration"
+    },
+    {
+      "id": "le-07",
+      "domain": "language_expression",
+      "domainLabel": "語言表達",
+      "ageGroups": [
+        "61-72m"
+      ],
+      "text": "孩子能用完整句子描述昨天發生的事嗎？",
+      "options": [
+        {
+          "value": "yes",
+          "label": "能講得清楚有條理",
+          "score": 2
+        },
+        {
+          "value": "sometimes",
+          "label": "只能講重點",
+          "score": 1
+        },
+        {
+          "value": "no",
+          "label": "還無法描述",
+          "score": 0
+        }
+      ],
+      "clinicallyReviewed": false,
+      "source": "Denver II inspiration"
+    },
+    {
+      "id": "se-03",
+      "domain": "social_emotional",
+      "domainLabel": "社會情緒",
+      "ageGroups": [
+        "61-72m"
+      ],
+      "text": "孩子在玩遊戲時，能輪流和等待嗎？",
+      "options": [
+        {
+          "value": "yes",
+          "label": "能耐心等待",
+          "score": 2
+        },
+        {
+          "value": "sometimes",
+          "label": "需提醒才會",
+          "score": 1
+        },
+        {
+          "value": "no",
+          "label": "還無法等待",
+          "score": 0
+        }
+      ],
+      "clinicallyReviewed": false,
+      "source": "Denver II inspiration"
     }
   ]
 }
