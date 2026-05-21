@@ -2,22 +2,19 @@
 const currentPath = Astro.url.pathname;
 
 const navLinks = [
-  { label: '首頁', href: '/' },
-  { label: '衛教', href: '/education/' },
+  { label: '評估紀錄', href: '/history/' },
+  { label: '衛教資源', href: '/education/' },
   { label: '關於', href: '/about/' },
 ];
 
 function isActive(href: string): boolean {
-  if (href === '/') {
-    return currentPath === '/';
-  }
   return currentPath.startsWith(href);
 }
 ---
 
 <header class="site-header">
   <div class="header-inner container">
-    <a href="/" class="site-title">CDSS 兒科臨床決策輔助系統</a>
+    <a href="/" class="site-title">兒童發展智慧評估</a>
 
     <input type="checkbox" id="nav-toggle" class="nav-toggle" aria-hidden="true" />
     <label for="nav-toggle" class="nav-toggle-label" aria-label="開啟導覽選單">

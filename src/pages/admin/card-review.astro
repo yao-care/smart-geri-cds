@@ -1,5 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
+import Header from '../../components/blocks/Header.astro';
 import { getCollection } from 'astro:content';
 
 const cards = await getCollection('cards');
@@ -30,7 +31,8 @@ const presentDomains = Array.from(new Set(sorted.map((c) => c.data.domain))).sor
 ---
 
 <Base title="圖卡審核" description="人工檢視所有圖卡，編輯 src/data/cards/index.json 修改 reviewStatus">
-  <main class="page">
+  <Header />
+  <main id="main-content" class="page" data-pagefind-body>
     <h1>圖卡審核（唯讀檢視）</h1>
     <p class="intro">
       實際變更狀態請直接編輯 <code>src/data/cards/index.json</code> 並 commit。

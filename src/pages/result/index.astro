@@ -1,19 +1,13 @@
 ---
 import Base from '../../layouts/Base.astro';
+import Header from '../../components/blocks/Header.astro';
 import ResultViewWrapper from '../../components/assess/ResultViewWrapper.svelte';
 ---
 
 <Base title="評估結果" description="兒童發展智慧評估結果">
   <meta slot="head" name="referrer" content="no-referrer" />
   <div class="app-layout">
-    <header class="app-header">
-      <a href="/" class="app-title">兒童發展智慧評估</a>
-      <nav class="app-nav" aria-label="主導覽">
-        <a href="/history/">評估紀錄</a>
-        <a href="/education/">衛教資源</a>
-        <a href="/about/">關於</a>
-      </nav>
-    </header>
+    <Header />
     <main id="main-content" class="app-main">
       <ResultViewWrapper client:load />
     </main>
@@ -25,44 +19,6 @@ import ResultViewWrapper from '../../components/assess/ResultViewWrapper.svelte'
     min-height: 100dvh;
     display: flex;
     flex-direction: column;
-  }
-
-  .app-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: var(--space-3) var(--space-4);
-    background: var(--surface);
-    border-bottom: 1px solid var(--line);
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
-
-  .app-title {
-    font-size: var(--text-lg);
-    line-height: var(--lh-lg);
-    font-weight: var(--font-bold);
-    color: var(--text);
-    text-decoration: none;
-  }
-
-  .app-nav {
-    display: flex;
-    gap: var(--space-4);
-  }
-
-  .app-nav a {
-    font-size: var(--text-sm);
-    color: color-mix(in srgb, var(--text), var(--bg) 30%);
-    text-decoration: none;
-    min-height: 44px;
-    display: flex;
-    align-items: center;
-  }
-
-  .app-nav a:hover {
-    color: var(--accent);
   }
 
   .app-main {

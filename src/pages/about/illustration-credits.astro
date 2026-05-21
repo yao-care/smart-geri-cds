@@ -1,5 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
+import Header from '../../components/blocks/Header.astro';
 import { getCollection } from 'astro:content';
 
 const cards = await getCollection('cards');
@@ -14,7 +15,8 @@ for (const c of approved) {
 ---
 
 <Base title="圖卡來源與授權" description="遊戲圖卡的來源、攝影／插畫者與授權聲明">
-  <main class="page">
+  <Header />
+  <main id="main-content" class="page" data-pagefind-body>
     <h1>圖卡來源與授權</h1>
     <p class="intro">本系統評估遊戲所使用的圖卡，授權與創作者資訊如下。</p>
 

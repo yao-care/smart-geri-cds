@@ -1,14 +1,12 @@
 ---
 import Base from '../layouts/Base.astro';
+import Header from '../components/blocks/Header.astro';
 import AssessmentHistory from '../components/assess/AssessmentHistory.svelte';
 ---
 
 <Base title="評估紀錄" description="過去的兒童發展評估紀錄">
   <div class="history-layout">
-    <header class="history-header">
-      <a href="/" class="back-link" aria-label="返回首頁">← 返回評估</a>
-      <span class="header-title">評估紀錄</span>
-    </header>
+    <Header />
     <main id="main-content" class="history-main" data-pagefind-body>
       <AssessmentHistory client:load />
     </main>
@@ -20,37 +18,6 @@ import AssessmentHistory from '../components/assess/AssessmentHistory.svelte';
     min-height: 100dvh;
     display: flex;
     flex-direction: column;
-  }
-
-  .history-header {
-    display: flex;
-    align-items: center;
-    gap: var(--space-4);
-    padding: var(--space-3) var(--space-4);
-    background: var(--surface);
-    border-bottom: 1px solid var(--line);
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
-
-  .back-link {
-    font-size: var(--text-sm);
-    color: color-mix(in srgb, var(--text), var(--bg) 30%);
-    text-decoration: none;
-    min-height: 44px;
-    display: flex;
-    align-items: center;
-  }
-
-  .back-link:hover {
-    color: var(--accent);
-  }
-
-  .header-title {
-    font-size: var(--text-sm);
-    font-weight: var(--font-bold);
-    color: var(--text);
   }
 
   .history-main {

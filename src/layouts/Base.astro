@@ -12,7 +12,7 @@ const { title, description, canonical } = Astro.props;
 const canonicalURL = canonical
   ? new URL(canonical, Astro.site)
   : new URL(Astro.url.pathname, Astro.site);
-const fullTitle = `${title} | CDSS 兒科臨床決策輔助系統`;
+const fullTitle = `${title} | 兒童發展智慧評估`;
 const base = BASE_PATH;
 
 import '../styles/global.css';

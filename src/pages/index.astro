@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import Header from '../components/blocks/Header.astro';
 import AssessmentShell from '../components/assess/AssessmentShell.svelte';
 import { getCollection } from 'astro:content';
 
@@ -11,14 +12,7 @@ const approvedCards = cardEntries
 
 <Base title="兒童發展智慧評估" description="兒童發展遲緩智慧分流評估系統">
   <div class="app-layout">
-    <header class="app-header">
-      <span class="app-title">兒童發展智慧評估</span>
-      <nav class="app-nav" aria-label="主導覽">
-        <a href="/history/">評估紀錄</a>
-        <a href="/education/">衛教資源</a>
-        <a href="/about/">關於</a>
-      </nav>
-    </header>
+    <Header />
     <main id="main-content" class="app-main" data-pagefind-body>
       <AssessmentShell client:load cards={approvedCards} />
     </main>
@@ -30,43 +24,6 @@ const approvedCards = cardEntries
     min-height: 100dvh;
     display: flex;
     flex-direction: column;
-  }
-
-  .app-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: var(--space-3) var(--space-4);
-    background: var(--surface);
-    border-bottom: 1px solid var(--line);
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
-
-  .app-title {
-    font-size: var(--text-lg);
-    line-height: var(--lh-lg);
-    font-weight: var(--font-bold);
-    color: var(--text);
-  }
-
-  .app-nav {
-    display: flex;
-    gap: var(--space-4);
-  }
-
-  .app-nav a {
-    font-size: var(--text-sm);
-    color: color-mix(in srgb, var(--text), var(--bg) 30%);
-    text-decoration: none;
-    min-height: 44px;
-    display: flex;
-    align-items: center;
-  }
-
-  .app-nav a:hover {
-    color: var(--accent);
   }
 
   .app-main {
