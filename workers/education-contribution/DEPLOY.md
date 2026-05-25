@@ -44,34 +44,37 @@
 > 
 > 例如：`https://github.com/settings/installations/12345678` 中的 `12345678` 就是 Installation ID
 
-### 3. 設置密鑰
+### 3. 轉換私鑰格式（PKCS#1 → PKCS#8）
 
-進入 `workers/education-contribution/` 目錄後，執行以下命令逐一輸入：
+⚠️ **必做**：Cloudflare Workers 使用 Web Crypto API，僅支援 **PKCS#8** 格式私鑰。
+GitHub 下載的 `.pem` 是 **PKCS#1**（開頭 `-----BEGIN RSA PRIVATE KEY-----`），
+未轉換會在執行時丟出 `Private Key is in PKCS#1 format, but only PKCS#8 is supported`。
 
 ```bash
-# 設置 GitHub App ID
-wrangler secret put GITHUB_APP_ID
-# 粘貼 App ID，按 Enter 確認
-
-# 設置 GitHub App 私鑰（需先 base64 編碼）
-# 先在本機編碼 .pem 文件：
-
-# macOS (複製到剪貼板)：
-base64 -i /path/to/private-key.pem | tr -d '\n' | pbcopy
-
-# Linux / WSL (輸出到終端，手動複製)：
-base64 -w 0 /path/to/private-key.pem
-
-# 然後執行：
-wrangler secret put GITHUB_APP_PRIVATE_KEY
-# 粘貼編碼後的內容，按 Enter 確認
-
-# 設置 Installation ID
-wrangler secret put GITHUB_INSTALLATION_ID
-# 粘貼 Installation ID，按 Enter 確認
+openssl pkcs8 -topk8 -inform PEM -outform PEM -nocrypt \
+  -in /path/to/github-private-key.pem \
+  -out /path/to/private-key-pkcs8.pem
 ```
 
-**重要**: `ALLOWED_ORIGIN` 已在 `wrangler.toml` 中設置，無需另行設為密鑰。
+轉換後 `private-key-pkcs8.pem` 開頭應為 `-----BEGIN PRIVATE KEY-----`。
+
+### 4. 設置密鑰
+
+進入 `workers/education-contribution/` 目錄後執行。
+私鑰以「檔案重導向」寫入以**保留換行**（**不要** base64 編碼，Worker 直接把 PEM 字串交給簽章函式，不會解碼）：
+
+```bash
+# GitHub App ID（純數字）
+echo -n "123456" | wrangler secret put GITHUB_APP_ID
+
+# GitHub App 私鑰（PKCS#8 PEM，從檔案讀取以保留換行）
+wrangler secret put GITHUB_APP_PRIVATE_KEY < /path/to/private-key-pkcs8.pem
+
+# Installation ID（純數字）
+echo -n "12345678" | wrangler secret put GITHUB_INSTALLATION_ID
+```
+
+**重要**: `ALLOWED_ORIGIN` 與 `GITHUB_REPO` 已在 `wrangler.toml` 的 `[vars]` 中設置，無需另行設為密鑰。
 
 ## 部署
 
