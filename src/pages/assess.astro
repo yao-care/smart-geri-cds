@@ -1,0 +1,36 @@
+---
+import Base from '../layouts/Base.astro';
+import Header from '../components/blocks/Header.astro';
+import AssessmentShell from '../components/assess/AssessmentShell.svelte';
+import { getCollection } from 'astro:content';
+
+const cardEntries = await getCollection('cards');
+const approvedCards = cardEntries
+  .filter((e) => e.data.reviewStatus === 'approved')
+  .map((e) => ({ id: e.id, ...e.data }));
+---
+
+<Base title="開始評估" description="兒童發展遲緩智慧分流評估">
+  <div class="app-layout">
+    <Header />
+    <main id="main-content" class="app-main" data-pagefind-body>
+      <AssessmentShell client:load cards={approvedCards} />
+    </main>
+  </div>
+</Base>
+
+<style>
+  .app-layout {
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .app-main {
+    flex: 1;
+    padding: var(--space-6) var(--space-4);
+    max-width: 960px;
+    width: 100%;
+    margin: 0 auto;
+  }
+</style>
