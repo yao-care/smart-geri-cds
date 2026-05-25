@@ -39,9 +39,11 @@ import '../styles/global.css';
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="zh_TW" />
     <meta property="og:url" content={canonicalURL.href} />
+    <meta property="og:image" content={new URL(base + '/icons/icon-512.png', Astro.site).href} />
 
     <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content={new URL(base + '/icons/icon-512.png', Astro.site).href} />
     <meta name="twitter:title" content={fullTitle} />
     <meta name="twitter:description" content={description} />
 
