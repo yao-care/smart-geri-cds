@@ -8,6 +8,7 @@ interface Env {
   GITHUB_APP_PRIVATE_KEY: string;
   GITHUB_INSTALLATION_ID: string;
   ALLOWED_ORIGIN: string;
+  GITHUB_REPO: string;
 }
 
 const VALID_TYPES = new Set(['youtube', 'article', 'external-link']);
@@ -19,12 +20,19 @@ const VALID_AGES = new Set([
   '2-6m', '7-12m', '13-24m', '25-36m', '37-48m', '49-60m', '61-72m',
 ]);
 
-function validate(body: unknown): ContributionPayload | string {
+function validate(body: unknown): string | null | ContributionPayload {
   if (!body || typeof body !== 'object') return '請求格式錯誤';
   const b = body as Record<string, unknown>;
   if (!VALID_TYPES.has(b.type as string)) return `type 無效: ${b.type}`;
   if (!VALID_DOMAINS.has(b.domain as string)) return `domain 無效: ${b.domain}`;
   if (!VALID_AGES.has(b.ageGroup as string)) return `ageGroup 無效: ${b.ageGroup}`;
+  // type-specific required fields
+  if ((b.type === 'youtube' || b.type === 'external-link') && !(b.url as string | undefined)?.trim()) {
+    return 'YouTube / 外部連結類型必須填寫 url';
+  }
+  if (b.type === 'article' && (!(b.title as string | undefined)?.trim() || !(b.content as string | undefined)?.trim())) {
+    return 'article 類型必須填寫 title 與 content';
+  }
   return b as unknown as ContributionPayload;
 }
 
@@ -70,7 +78,7 @@ export default {
       );
 
       const issueRes = await fetch(
-        'https://api.github.com/repos/yao-care/smart-pedi-cds/issues',
+        `https://api.github.com/repos/${env.GITHUB_REPO}/issues`,
         {
           method: 'POST',
           headers: {

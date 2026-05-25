@@ -24,6 +24,8 @@
   let issueUrl   = $state<string | null>(null);
   let errorMsg   = $state<string | null>(null);
 
+  let modalEl: HTMLDivElement | undefined = $state();
+
   let videoPreviewId = $derived(type === 'youtube' ? extractYouTubeId(url) : null);
 
   function extractYouTubeId(raw: string): string | null {
@@ -60,6 +62,13 @@
     return () => document.removeEventListener('keydown', onKeydown);
   });
 
+  $effect(() => {
+    if (open) {
+      // delay one frame so the element is rendered
+      requestAnimationFrame(() => modalEl?.focus());
+    }
+  });
+
   function close() { open = false; }
 
   function onTypeChange() {
@@ -90,7 +99,7 @@
 
 {#if open}
 <div class="modal-backdrop" role="dialog" aria-modal="true" aria-label="新增衛教資源">
-  <div class="modal">
+  <div class="modal" tabindex="-1" bind:this={modalEl}>
     <header class="modal-header">
       <h2>新增衛教資源</h2>
       <button class="close-btn" onclick={close} aria-label="關閉">✕</button>
@@ -206,6 +215,8 @@
     background: none; border: none; cursor: pointer;
     font-size: var(--text-lg); color: var(--text); line-height: 1;
     padding: var(--space-1);
+    min-height: 44px;
+    min-width: 44px;
   }
   .modal-context {
     font-size: var(--text-sm); color: color-mix(in srgb, var(--text), var(--bg) 30%);

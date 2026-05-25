@@ -5,3 +5,4 @@ compatibility_flags = ["nodejs_compat"]
 
 [vars]
 ALLOWED_ORIGIN = "https://smart-pedi-cds.yao.care"
+GITHUB_REPO = "yao-care/smart-pedi-cds"
