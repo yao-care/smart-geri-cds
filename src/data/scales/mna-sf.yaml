@@ -1,0 +1,57 @@
+# MNA-SF — Mini Nutritional Assessment Short Form（Nestlé/Rubenstein 2001）
+# 來源：公開標準量表（簡版營養評估），6 項，總分 0–14，分數越高營養越佳
+# （higher = better）。12–14 營養正常／8–11 有營養不良風險／0–7 營養不良。
+# F 項以 BMI 分級（無法量測時可改用小腿圍 F2，此處採 BMI 版以保 0–3 範圍）。
+# 中文題目為暫譯；clinicallyReviewed: false → 中譯、適用 CFS、切分點待臨床
+# 最終簽核，尚不可用於正式臨床決策。
+id: mna-sf
+domain:
+  top: physical
+  sub: nutrition
+applicableCfs: [cfs1, cfs2, cfs3, cfs4, cfs5, cfs6, cfs7, cfs8, cfs9]
+scoring: sum
+inputType: option
+maxScore: 14
+items:
+  - id: mna_intake
+    text: 過去三個月內，是否因食慾不振、消化問題、咀嚼或吞嚥困難而減少進食量？
+    options:
+      - { label: 嚴重食慾不振（食量大幅減少）, score: 0 }
+      - { label: 中度食慾不振（食量減少）, score: 1 }
+      - { label: 食慾正常（食量無減少）, score: 2 }
+  - id: mna_weightloss
+    text: 過去三個月內的體重變化？
+    options:
+      - { label: 體重減輕超過 3 公斤, score: 0 }
+      - { label: 不清楚, score: 1 }
+      - { label: 體重減輕 1–3 公斤, score: 2 }
+      - { label: 體重無減輕, score: 3 }
+  - id: mna_mobility
+    text: 行動能力？
+    options:
+      - { label: 臥床或長期坐輪椅, score: 0 }
+      - { label: 可下床或離開輪椅但無法外出, score: 1 }
+      - { label: 可自由外出活動, score: 2 }
+  - id: mna_stress
+    text: 過去三個月內是否曾有急性疾病或重大心理壓力？
+    options:
+      - { label: 是, score: 0 }
+      - { label: 否, score: 2 }
+  - id: mna_neuro
+    text: 是否有神經精神方面的問題？
+    options:
+      - { label: 嚴重失智或憂鬱, score: 0 }
+      - { label: 輕度失智, score: 1 }
+      - { label: 無神經精神問題, score: 2 }
+  - id: mna_bmi
+    text: 身體質量指數（BMI = 體重kg ÷ 身高m²）
+    options:
+      - { label: BMI < 19, score: 0 }
+      - { label: BMI 19 至 < 21, score: 1 }
+      - { label: BMI 21 至 < 23, score: 2 }
+      - { label: BMI ≥ 23, score: 3 }
+bands:
+  - { min: 0, max: 7, severity: refer, label: 營養不良，建議轉介營養評估與介入 }
+  - { min: 8, max: 11, severity: monitor, label: 有營養不良風險，建議追蹤 }
+  - { min: 12, max: 14, severity: normal, label: 營養狀況正常 }
+clinicallyReviewed: false

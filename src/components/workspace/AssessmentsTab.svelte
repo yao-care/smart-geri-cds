@@ -127,7 +127,7 @@
             {#each list as row}
               <li class="row">
                 <span class="row-date">{formatDate(row.date)}</span>
-                <span class="row-patient">{demoMode ? '兒童' : '病人'} {shortRef(row.patientRef)}</span>
+                <span class="row-patient">{demoMode ? '個案' : '病人'} {shortRef(row.patientRef)}</span>
                 <span class="row-summary" title={row.summary}>{row.summary || '—'}</span>
                 <a class="row-link" href={detailHref(row.id)}>看詳細 →</a>
               </li>

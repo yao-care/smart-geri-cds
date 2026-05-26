@@ -1,34 +1,68 @@
-# SPMSQ — Short Portable Mental Status Questionnaire
-# Phase 1 SAMPLE: only a few items for smoke testing. Full validated content
-# (all 10 items, education-adjusted cutoffs + clinical sign-off) is deferred
-# to Plan 2. clinicallyReviewed: false → not for real clinical use yet.
-# SPMSQ is error-counted (higher = worse); bands encode that direction.
+# SPMSQ — Short Portable Mental Status Questionnaire (Pfeiffer 1975)
+# 來源：公開標準量表，10 題錯誤計數法（error-count，錯越多越差）。
+# 中文題目為暫譯，切分點（錯誤數）依公開版本；clinicallyReviewed: false →
+# 中譯、適用 CFS、切分點待臨床最終簽核，尚不可用於正式臨床決策。
 id: spmsq
 domain:
   top: psychological
   sub: cognition
-applicableCfs: [cfs4, cfs5, cfs6, cfs7, cfs8]
+applicableCfs: [cfs1, cfs2, cfs3, cfs4, cfs5, cfs6, cfs7, cfs8]
 scoring: error-count
 inputType: option
 maxScore: 10
 items:
   - id: spmsq1
-    text: 今天是幾月幾日星期幾？（答錯計 1 分）
+    text: 今天是幾年幾月幾日？（年、月、日全對才算對）
     options:
       - { label: 答對, score: 0 }
       - { label: 答錯, score: 1 }
   - id: spmsq2
-    text: 這裡是什麼地方？（答錯計 1 分）
+    text: 今天是星期幾？
     options:
       - { label: 答對, score: 0 }
       - { label: 答錯, score: 1 }
   - id: spmsq3
-    text: 您的電話號碼是幾號？（答錯計 1 分）
+    text: 這裡是什麼地方？（地點名稱）
+    options:
+      - { label: 答對, score: 0 }
+      - { label: 答錯, score: 1 }
+  - id: spmsq4
+    text: 您的電話號碼是幾號？（若無電話，問現在的住址）
+    options:
+      - { label: 答對, score: 0 }
+      - { label: 答錯, score: 1 }
+  - id: spmsq5
+    text: 您今年幾歲？
+    options:
+      - { label: 答對, score: 0 }
+      - { label: 答錯, score: 1 }
+  - id: spmsq6
+    text: 您是什麼時候出生的？（年、月、日）
+    options:
+      - { label: 答對, score: 0 }
+      - { label: 答錯, score: 1 }
+  - id: spmsq7
+    text: 現任的總統是誰？
+    options:
+      - { label: 答對, score: 0 }
+      - { label: 答錯, score: 1 }
+  - id: spmsq8
+    text: 前一任的總統是誰？
+    options:
+      - { label: 答對, score: 0 }
+      - { label: 答錯, score: 1 }
+  - id: spmsq9
+    text: 您母親的姓名是什麼？
+    options:
+      - { label: 答對, score: 0 }
+      - { label: 答錯, score: 1 }
+  - id: spmsq10
+    text: 從 20 開始，每次減 3 一直減下去（20、17、14…）。
     options:
       - { label: 答對, score: 0 }
       - { label: 答錯, score: 1 }
 bands:
-  - { max: 2, severity: normal, label: 認知功能完整 }
-  - { min: 3, max: 4, severity: monitor, label: 輕度認知障礙，建議追蹤 }
-  - { min: 5, severity: refer, label: 中重度認知障礙，建議轉介 }
+  - { min: 0, max: 2, severity: normal, label: 心智功能完整（錯誤 0–2） }
+  - { min: 3, max: 4, severity: monitor, label: 輕度心智功能障礙，建議追蹤（錯誤 3–4） }
+  - { min: 5, max: 10, severity: refer, label: 中重度心智功能障礙，建議轉介（錯誤 ≥5） }
 clinicallyReviewed: false

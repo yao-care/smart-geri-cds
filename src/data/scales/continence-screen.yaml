@@ -1,0 +1,30 @@
+# 失禁自述短篩 — Continence self-report screen
+# 來源：自述題組（非標準命名量表），以實證合理題目組成，初步辨識尿/便失禁
+# 頻率與其生活影響。每題 0–2，2 題總分 0–4。clinicallyReviewed: false →
+# 題目、適用 CFS、切分點待臨床最終簽核。
+id: continence-screen
+domain:
+  top: physical
+  sub: continence
+applicableCfs: [cfs3, cfs4, cfs5, cfs6, cfs7, cfs8, cfs9]
+scoring: sum
+inputType: option
+maxScore: 4
+items:
+  - id: cont_urine
+    text: 過去一個月，您是否曾有非自主漏尿的情形？
+    options:
+      - { label: 從來沒有, score: 0 }
+      - { label: 偶爾（每週少於一次）, score: 1 }
+      - { label: 經常（每週一次以上或需用尿墊）, score: 2 }
+  - id: cont_impact
+    text: 漏尿或排便失禁是否影響您的日常活動或外出意願？
+    options:
+      - { label: 沒有影響, score: 0 }
+      - { label: 偶有影響, score: 1 }
+      - { label: 明顯影響日常生活, score: 2 }
+bands:
+  - { min: 0, max: 0, severity: normal, label: 無失禁困擾 }
+  - { min: 1, max: 2, severity: monitor, label: 輕度失禁，建議追蹤與行為介入 }
+  - { min: 3, max: 4, severity: refer, label: 明顯失禁影響生活，建議轉介評估 }
+clinicallyReviewed: false

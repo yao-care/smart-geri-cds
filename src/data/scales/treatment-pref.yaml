@@ -1,0 +1,31 @@
+# 維生醫療意願記錄狀態 — Treatment preferences (DNR / life-sustaining) status
+# 來源：自述/狀態題組（非標準命名量表），記錄不施行心肺復甦術（DNR）與維生
+# 醫療（如插管、洗腎、人工營養）意願之表達與記錄狀態。每題 0–2，2 題總分 0–4。
+# 已明確記錄 normal／已表達未正式記錄 monitor／未表達 refer（鼓勵記錄）。
+# clinicallyReviewed: false → 題目、適用 CFS、切分點待臨床最終簽核。
+id: treatment-pref
+domain:
+  top: future_wishes
+  sub: treatment_preferences
+applicableCfs: [cfs5, cfs6, cfs7, cfs8, cfs9]
+scoring: sum
+inputType: option
+maxScore: 4
+items:
+  - id: tp_dnr
+    text: 關於心肺復甦術（CPR/DNR）的意願，您目前的狀態為？
+    options:
+      - { label: 已明確表達並有正式記錄, score: 0 }
+      - { label: 心中已有想法但尚未正式記錄, score: 1 }
+      - { label: 尚未思考或表達, score: 2 }
+  - id: tp_life
+    text: 關於維生醫療（如插管、使用呼吸器、洗腎、人工營養）的意願，您目前的狀態為？
+    options:
+      - { label: 已明確表達並有正式記錄, score: 0 }
+      - { label: 心中已有想法但尚未正式記錄, score: 1 }
+      - { label: 尚未思考或表達, score: 2 }
+bands:
+  - { min: 0, max: 0, severity: normal, label: 維生醫療意願已明確記錄 }
+  - { min: 1, max: 2, severity: monitor, label: 意願部分表達，建議協助正式記錄 }
+  - { min: 3, max: 4, severity: refer, label: 尚未表達維生醫療意願，建議轉介討論與記錄 }
+clinicallyReviewed: false

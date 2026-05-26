@@ -44,11 +44,11 @@
       // Title
       doc.setFontSize(18);
       doc.setFont('NotoSansTC', 'bold');
-      doc.text('CDSS 兒科臨床決策輔助系統', pageWidth / 2, y, { align: 'center' });
+      doc.text('高齡周全性評估（CGA）系統', pageWidth / 2, y, { align: 'center' });
       y += 10;
       doc.setFontSize(12);
       doc.setFont('NotoSansTC', 'normal');
-      doc.text('兒童健康趨勢報告', pageWidth / 2, y, { align: 'center' });
+      doc.text('個案健康評估報告', pageWidth / 2, y, { align: 'center' });
       y += 14;
 
       // Separator line
@@ -105,7 +105,7 @@
       doc.setFontSize(8);
       doc.setTextColor(160, 160, 160);
       doc.text(
-        '由 CDSS 兒科臨床決策輔助系統產製',
+        '由高齡周全性評估（CGA）智慧系統產製',
         pageWidth / 2,
         footerY,
         { align: 'center' },

@@ -1,0 +1,30 @@
+# 輔具與可及性自述短篩 — Assistive device & accessibility self-report screen
+# 來源：自述題組（非標準命名量表），以實證合理題目組成，辨識輔具需求未獲滿足
+# 與居家/社區環境可及性障礙（如門檻、樓梯、無電梯）。每題 0–2，2 題總分 0–4。
+# clinicallyReviewed: false → 題目、適用 CFS、切分點待臨床最終簽核。
+id: accessibility-screen
+domain:
+  top: environmental
+  sub: accessibility
+applicableCfs: [cfs4, cfs5, cfs6, cfs7, cfs8, cfs9]
+scoring: sum
+inputType: option
+maxScore: 4
+items:
+  - id: acc_device
+    text: 您目前是否有需要但尚未取得或不合適的輔具（如助行器、輪椅、助聽器、特製座椅）？
+    options:
+      - { label: 沒有需求或需求已滿足, score: 0 }
+      - { label: 有需求但部分未滿足, score: 1 }
+      - { label: 有明顯需求且未滿足, score: 2 }
+  - id: acc_environment
+    text: 您的住家或社區環境（門檻、樓梯、電梯、通道）是否妨礙您安全進出與移動？
+    options:
+      - { label: 無障礙, score: 0 }
+      - { label: 部分不便, score: 1 }
+      - { label: 嚴重妨礙進出, score: 2 }
+bands:
+  - { min: 0, max: 0, severity: normal, label: 輔具與環境可及性無明顯問題 }
+  - { min: 1, max: 2, severity: monitor, label: 部分可及性障礙，建議追蹤與輔具諮詢 }
+  - { min: 3, max: 4, severity: refer, label: 明顯可及性障礙，建議轉介輔具評估或環境改造 }
+clinicallyReviewed: false

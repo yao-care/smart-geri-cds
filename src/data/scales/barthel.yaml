@@ -1,0 +1,79 @@
+# Barthel Index — 巴氏量表（Mahoney & Barthel 1965，10 項版本）
+# 來源：公開標準量表，評估基本日常生活活動（ADL）獨立程度，總分 0–100，
+# 分數越高表示越獨立（higher = better）。≥91 大致獨立／61–90 部分依賴／
+# ≤60 高度依賴。中文題目為暫譯；clinicallyReviewed: false → 中譯、適用 CFS、
+# 切分點待臨床最終簽核，尚不可用於正式臨床決策。
+id: barthel
+domain:
+  top: functional
+  sub: adl
+applicableCfs: [cfs3, cfs4, cfs5, cfs6, cfs7, cfs8, cfs9]
+scoring: sum
+inputType: option
+maxScore: 100
+items:
+  - id: bi_feeding
+    text: 進食
+    options:
+      - { label: 無法自行進食, score: 0 }
+      - { label: 需部分協助（如切割食物）, score: 5 }
+      - { label: 可自行進食, score: 10 }
+  - id: bi_bathing
+    text: 洗澡
+    options:
+      - { label: 需協助, score: 0 }
+      - { label: 可獨立完成, score: 5 }
+  - id: bi_grooming
+    text: 個人衛生（洗臉、刷牙、刮鬍、梳頭）
+    options:
+      - { label: 需協助, score: 0 }
+      - { label: 可獨立完成, score: 5 }
+  - id: bi_dressing
+    text: 穿脫衣物（含扣釦、拉鍊、鞋帶）
+    options:
+      - { label: 完全依賴, score: 0 }
+      - { label: 需部分協助, score: 5 }
+      - { label: 可獨立完成, score: 10 }
+  - id: bi_bowels
+    text: 大便控制
+    options:
+      - { label: 失禁或需灌腸, score: 0 }
+      - { label: 偶爾失禁（每週 <1 次）, score: 5 }
+      - { label: 完全自制, score: 10 }
+  - id: bi_bladder
+    text: 小便控制
+    options:
+      - { label: 失禁或需他人導尿, score: 0 }
+      - { label: 偶爾失禁（每日 <1 次）, score: 5 }
+      - { label: 完全自制, score: 10 }
+  - id: bi_toilet
+    text: 如廁（移位、清潔、穿脫衣褲）
+    options:
+      - { label: 完全依賴, score: 0 }
+      - { label: 需部分協助, score: 5 }
+      - { label: 可獨立完成, score: 10 }
+  - id: bi_transfer
+    text: 移位（由床到椅及返回）
+    options:
+      - { label: 完全依賴或無法坐起, score: 0 }
+      - { label: 需大量協助（1–2 人）, score: 5 }
+      - { label: 需少量協助或監督, score: 10 }
+      - { label: 可獨立完成, score: 15 }
+  - id: bi_mobility
+    text: 平地行走
+    options:
+      - { label: 無法行走, score: 0 }
+      - { label: 需輪椅但可自行操作 >50 公尺, score: 5 }
+      - { label: 需一人協助或監督行走, score: 10 }
+      - { label: 可獨立行走（可用輔具）>50 公尺, score: 15 }
+  - id: bi_stairs
+    text: 上下樓梯
+    options:
+      - { label: 無法上下樓梯, score: 0 }
+      - { label: 需協助或監督, score: 5 }
+      - { label: 可獨立上下樓梯, score: 10 }
+bands:
+  - { min: 0, max: 60, severity: refer, label: 高度依賴，建議轉介評估照護需求 }
+  - { min: 61, max: 90, severity: monitor, label: 部分依賴，建議追蹤與復能 }
+  - { min: 91, max: 100, severity: normal, label: 大致獨立 }
+clinicallyReviewed: false

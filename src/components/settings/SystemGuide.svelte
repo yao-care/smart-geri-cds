@@ -13,9 +13,9 @@
   <section>
     <h3>系統定位</h3>
     <p>
-      CDSA 兒童發展智慧評估系統採用 <strong>Astro 5 SSG + Svelte 5 + IndexedDB</strong>，
+      高齡周全性評估（CGA）智慧系統採用 <strong>Astro 5 SSG + Svelte 5 + IndexedDB</strong>，
       所有頁面在 build 時靜態產出，部署在 GitHub Pages 上、零後端。
-      家長端評估過程的事件、繪圖筆跡、分流結果都儲存在
+      使用者端評估過程的事件、作答結果、分流摘要都儲存在
       <strong>使用者瀏覽器的 IndexedDB</strong>，不會送到任何第三方。
     </p>
     <p>
@@ -95,10 +95,10 @@
   <section>
     <h3>PHI 與資料治理</h3>
     <ul>
-      <li><strong>家長端 IndexedDB</strong>：包含兒童基本資料、評估事件、PII。屬於該裝置的本地資料，<strong>不會自動上傳任何位置</strong>。家長清除瀏覽器資料即刪除。</li>
+      <li><strong>使用者端 IndexedDB</strong>：包含個案基本資料、評估事件、PII。屬於該裝置的本地資料，<strong>不會自動上傳任何位置</strong>。使用者清除瀏覽器資料即刪除。</li>
       <li><strong>FHIR 上傳</strong>：只有家長明確按下「傳送結果至醫院」才會推送，且僅傳 Observation + DiagnosticReport（分數、結論），不傳原始事件 timeline。</li>
       <li><strong>URL 安全</strong>：所有 assessment id 都是隨機 UUID v4，不含 PII；結果頁加 <code>referrer no-referrer</code> 避免外洩。</li>
-      <li><strong>多 child 設備</strong>：本系統假設「一台裝置一個 child」（家用情境）。診所共用裝置請確保每次評估前清空本機。</li>
+      <li><strong>共用設備</strong>：診所共用裝置請確保每次評估前清空本機，或使用獨立的使用者 profile。</li>
     </ul>
   </section>
 
@@ -117,7 +117,7 @@
     <h3>已知限制 / 未來工作</h3>
     <ul>
       <li>量表完整題目 / cutoff 待臨床審核（clinicallyReviewed 控管）後落地。</li>
-      <li>多 child 切換、家庭模式尚未實作。</li>
+      <li>多個案切換、家庭/代理模式尚未實作。</li>
       <li>FHIR 端的 DiagnosticReport 反查不含原始事件 timeline。</li>
       <li>i18n 目前只支援 zh-TW。</li>
     </ul>
