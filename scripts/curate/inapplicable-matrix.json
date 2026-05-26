@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "cdsa.domain": {
+    "behavior":               { "inapplicable": ["2-6m", "7-12m"] },
+    "gross_motor":            { "inapplicable": [] },
+    "fine_motor":             { "inapplicable": ["2-6m"] },
+    "language":               { "inapplicable": ["2-6m"] },
+    "cognition":              { "inapplicable": ["2-6m", "7-12m"] },
+    "language_comprehension": { "inapplicable": ["2-6m"] },
+    "language_expression":    { "inapplicable": ["2-6m", "7-12m"] },
+    "social_emotional":       { "inapplicable": ["2-6m"] }
+  },
+  "cdsa.triage": { "inapplicable": [] },
+  "cdss":        { "inapplicable": [] }
+}

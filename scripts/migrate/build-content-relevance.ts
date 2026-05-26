@@ -9,8 +9,7 @@
  *   A. scripts/curate/inapplicable-matrix.json
  *   B. src/data/education-videos/*.yaml  (3 files)
  *   C. src/data/recommendations/default.json  (severities for cdsa.domain cells)
- *   D. closed-loop indicator→slug map (from src/engine/closed-loop.ts)
- *   E. diet items from default.json → cdss.sugar_intake.* triggers
+ *   clinicalAlertEducation: CLOSED_LOOP_MAP constant (authoritative indicator→slug[] map)
  */
 
 import fs from 'node:fs/promises';
@@ -63,12 +62,14 @@ interface TriggerRecord {
 const ALL_CDSA_AGES = ['2-6m', '7-12m', '13-24m', '25-36m', '37-48m', '49-60m', '61-72m'] as const;
 const SEVERITY_ORDER = ['normal', 'monitor', 'refer'] as const;
 
-// From src/engine/closed-loop.ts getEducationRecommendations
-const CLOSED_LOOP_MAP: Record<string, string> = {
-  sugar_intake:   'diet-control',
-  sleep_quality:  'sleep-hygiene',
-  spo2:           'respiratory-care',
-  activity_level: 'exercise-guide',
+// Authoritative closed-loop indicator→education-slug map.
+// Mirrors src/engine/closed-loop.ts getEducationRecommendations (pre-refactor).
+// Phase 2: moved here as source of truth; closed-loop now reads the generated module.
+const CLOSED_LOOP_MAP: Record<string, string[]> = {
+  sugar_intake:   ['diet-control'],
+  sleep_quality:  ['sleep-hygiene'],
+  spo2:           ['respiratory-care'],
+  activity_level: ['exercise-guide'],
 };
 
 // Normalize domain names from default.json to canonical schema form
@@ -184,7 +185,7 @@ async function main(): Promise<void> {
     for (const [rawDomain, items] of Object.entries(categoryData)) {
       const domain = normalizeDomain(rawDomain);
 
-      // diet domain is handled in rule E (not a developmental CDSA domain)
+      // diet domain is not a developmental CDSA domain — skip
       if (rawDomain === 'diet') continue;
 
       if (!CDSA_DEV_DOMAINS.has(domain)) continue;
@@ -199,37 +200,6 @@ async function main(): Promise<void> {
           const rec = ensureTrigger(triggerMap, trigger);
           addArticle(rec, item.slug, [category]);
         }
-      }
-    }
-  }
-
-  // ── D. Fold closed-loop map ───────────────────────────────────────────────
-
-  // For each indicator -> slug, add article to every existing cdss.<indicator>.<level>.<age> trigger
-  for (const [indicator, slug] of Object.entries(CLOSED_LOOP_MAP)) {
-    for (const [trigger, rec] of triggerMap.entries()) {
-      if (trigger.startsWith(`cdss.${indicator}.`)) {
-        addArticle(rec, slug, []);
-      }
-    }
-  }
-
-  // ── E. Diet items → every cdss.sugar_intake.*.* trigger ──────────────────
-
-  const dietSlugsForCdss: string[] = [];
-  for (const category of ['monitor', 'refer'] as const) {
-    const dietItems = defaultJson.matrix[category]?.diet ?? [];
-    for (const item of dietItems) {
-      if (item.slug && !dietSlugsForCdss.includes(item.slug)) {
-        dietSlugsForCdss.push(item.slug);
-      }
-    }
-  }
-
-  for (const [trigger, rec] of triggerMap.entries()) {
-    if (trigger.startsWith('cdss.sugar_intake.')) {
-      for (const slug of dietSlugsForCdss) {
-        addArticle(rec, slug, []);
       }
     }
   }
@@ -273,6 +243,7 @@ async function main(): Promise<void> {
   const output = {
     inapplicable: inapplicableSection,
     triggers: triggersOut,
+    clinicalAlertEducation: CLOSED_LOOP_MAP,
   };
 
   const yamlStr = yaml.dump(output, {

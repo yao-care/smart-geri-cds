@@ -526,17 +526,14 @@ triggers:
   - trigger: cdss.activity_level.critical.infant
     videoIds: []
     articles:
-      - slug: exercise-guide
       - slug: when-to-seek-help
   - trigger: cdss.activity_level.critical.preschool
     videoIds: []
     articles:
-      - slug: exercise-guide
       - slug: when-to-seek-help
   - trigger: cdss.activity_level.critical.toddler
     videoIds: []
     articles:
-      - slug: exercise-guide
       - slug: when-to-seek-help
   - trigger: cdss.heart_rate.critical.infant
     videoIds:
@@ -609,8 +606,6 @@ triggers:
       - dl7FpR-WqoE
     articles:
       - slug: diet-control
-      - slug: nutrition-grow-tall
-      - slug: when-to-seek-help
   - trigger: cdss.sugar_intake.critical.preschool
     videoIds:
       - MwGCCsMcegw
@@ -622,8 +617,6 @@ triggers:
       - dl7FpR-WqoE
     articles:
       - slug: diet-control
-      - slug: nutrition-grow-tall
-      - slug: when-to-seek-help
   - trigger: cdss.sugar_intake.critical.toddler
     videoIds:
       - MwGCCsMcegw
@@ -635,8 +628,6 @@ triggers:
       - dl7FpR-WqoE
     articles:
       - slug: diet-control
-      - slug: nutrition-grow-tall
-      - slug: when-to-seek-help
   - trigger: cdss.temperature.critical.infant
     videoIds:
       - lWnAXEAP22E
@@ -658,3 +649,12 @@ triggers:
       - joyesUXbywc
     articles:
       - slug: when-to-seek-help
+clinicalAlertEducation:
+  sugar_intake:
+    - diet-control
+  sleep_quality:
+    - sleep-hygiene
+  spo2:
+    - respiratory-care
+  activity_level:
+    - exercise-guide

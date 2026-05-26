@@ -134,6 +134,7 @@ export const triggerRelevanceSchema = z.object({
 export const contentRelevanceSchema = z.object({
   inapplicable: z.record(z.enum(CDSA_DOMAIN_NAMES), z.array(z.enum(AGE_GROUPS_CDSA))),
   triggers: z.array(triggerRelevanceSchema),
+  clinicalAlertEducation: z.record(z.string(), z.array(z.string())).optional(),
 });
 
 export type ContentRelevance = z.infer<typeof contentRelevanceSchema>;

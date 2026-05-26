@@ -282,14 +282,7 @@
   },
   "clinicalEducation": {
     "activity_level": [
-      "exercise-guide",
-      "when-to-seek-help"
-    ],
-    "heart_rate": [
-      "when-to-seek-help"
-    ],
-    "respiratory_rate": [
-      "respiratory-care"
+      "exercise-guide"
     ],
     "sleep_quality": [
       "sleep-hygiene"
@@ -298,12 +291,7 @@
       "respiratory-care"
     ],
     "sugar_intake": [
-      "diet-control",
-      "nutrition-grow-tall",
-      "when-to-seek-help"
-    ],
-    "temperature": [
-      "when-to-seek-help"
+      "diet-control"
     ]
   },
   "educationSlugToTriggers": {
@@ -1343,17 +1331,17 @@
       ]
     },
     "cdss.activity_level.critical.infant": {
-      "educationSlug": "exercise-guide",
+      "educationSlug": "when-to-seek-help",
       "inapplicable": false,
       "videoIds": []
     },
     "cdss.activity_level.critical.preschool": {
-      "educationSlug": "exercise-guide",
+      "educationSlug": "when-to-seek-help",
       "inapplicable": false,
       "videoIds": []
     },
     "cdss.activity_level.critical.toddler": {
-      "educationSlug": "exercise-guide",
+      "educationSlug": "when-to-seek-help",
       "inapplicable": false,
       "videoIds": []
     },

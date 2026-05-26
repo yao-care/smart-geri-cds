@@ -4,6 +4,7 @@ import type { Alert } from '../lib/db/schema';
 import type { RiskLevel } from '../lib/utils/risk-levels';
 import { isEscalation } from '../lib/utils/risk-levels';
 import type { RiskAnalysisResult } from './risk-analyzer';
+import { CLINICAL_EDUCATION } from '../lib/education/clinical-education.generated';
 
 export interface ClosedLoopConfig {
   advisoryToWarningHours: number;    // default 48
@@ -215,18 +216,9 @@ export class ClosedLoopEngine {
   }
 
   private getEducationRecommendations(indicators: string[]): string[] {
-    // Map indicators to education content slugs
-    const mapping: Record<string, string> = {
-      sugar_intake: 'diet-control',
-      sleep_quality: 'sleep-hygiene',
-      spo2: 'respiratory-care',
-      activity_level: 'exercise-guide',
-    };
-    // Note: indicators here are indicator NAMES (not LOINC codes)
-    // But they might come as LOINC codes from the rule engine
-    // Handle both cases
-    return indicators
-      .map(ind => mapping[ind])
-      .filter((slug): slug is string => slug !== undefined);
+    // Map indicator names to education content slugs.
+    // Source of truth: src/data/education/content-relevance.yaml clinicalAlertEducation section
+    // (compiled to CLINICAL_EDUCATION by scripts/build-content-index.ts).
+    return indicators.flatMap(ind => CLINICAL_EDUCATION[ind] ?? []);
   }
 }
