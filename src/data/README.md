@@ -13,12 +13,11 @@
 src/data/
 ├── education/                   📄 衛教文章 + 唯一關聯源
 │   ├── *.md                     一篇一檔（Astro Content Collection）
-│   ├── milestones/              發展里程碑子目錄
 │   ├── content-relevance.yaml   ★ 唯一關聯源：inapplicable + triggers(videoIds/articles) + clinicalAlertEducation
 │   └── README.md                ← 詳細規則
 │
-├── questionnaire/               📝 CDSA 評估問卷（44 題）
-│   └── questions.json
+├── scales/                      📝 CGA 評估量表（YAML，每檔一量表 = ScaleDef）
+│   └── *.yaml                   依 CFS 等級 applicableCfs 施測，per-scale cutoff 計分
 │
 ├── video-catalog/               🎬 衛教影片元資料（事實，非關聯）
 │   ├── official-tw.yaml         Tier 1 台灣官方
@@ -37,10 +36,10 @@ src/data/
 |---------|--------|------|------------|
 | 📄 文章 | `education/*.md` | `education/content-relevance.yaml` | `/education/` 矩陣 + `/education/<slug>/` 詳細頁 + 評估結果頁推薦 |
 | 🎬 影片 | `video-catalog/<tier>.yaml` | `education/content-relevance.yaml` | `/education/` 矩陣 + 評估結果 / 工作台警示推薦 |
-| 📝 CDSA 問卷 | `questionnaire/questions.json` | — | 評估流程第 2 步（不在 `/education/`） |
-| 🩺 生理基線 | `baselines/pediatric-baselines.json` | — | `src/engine/cdsa/triage.ts` z-score |
-| 🎴 遊戲卡片 | `cards/index.json` | — | 評估流程第 3 步 |
-| ⚙️ CDSS 規則 | `rules/pediatric-default.yaml` | — | 規則引擎 worker |
+| 📝 CGA 量表 | `scales/*.yaml` | — | 評估流程第 2 步（依 CFS 施測，per-scale cutoff 計分） |
+| 🩺 生理基線 | `baselines/*.json` | — | 兒科 legacy；CDSS 生理路徑 Phase 2 停用，待 Phase 3 老年化 |
+| 🎴 遊戲卡片 | `cards/index.json` | — | 兒科 legacy；感測模組移除，Phase 2 停用（空集） |
+| ⚙️ 規則引擎 | `rules/*.yaml` | — | 兒科 legacy；CDSS 規則引擎 worker，Phase 2 停用 |
 
 ## 三視圖如何用 content-relevance.yaml
 
