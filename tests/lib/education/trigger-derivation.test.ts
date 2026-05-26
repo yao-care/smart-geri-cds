@@ -1,64 +1,97 @@
 import { describe, it, expect, vi } from 'vitest';
-import { deriveCdsaTriggers, deriveCdssTriggers } from '../../../src/lib/education/trigger-derivation';
+import { deriveCgaTriggers, deriveCdssTriggers } from '../../../src/lib/education/trigger-derivation';
 import type { TriageResult } from '../../../src/engine/cdsa/triage';
+import type { ScaleResult, Severity } from '../../../src/lib/scales/scale';
 import type { IndicatorResult } from '../../../src/engine/workers/rule-engine.worker';
 
-function makeTriage(category: 'normal' | 'monitor' | 'refer', anomalyDomains: string[]): TriageResult {
+function mkResult(
+  top: string,
+  sub: string,
+  severity: Severity,
+): ScaleResult {
   return {
-    category,
-    confidence: 0.8,
-    summary: 'test',
-    anomalyCount: anomalyDomains.length,
-    details: anomalyDomains.map(domain => ({
-      domain, metric: 'x', value: 0, zScore: -2, directionalZ: -2,
-      normMean: null, normStd: null, maxScore: null, isAnomaly: true,
-    })),
+    scaleId: `${top}.${sub}-scale`,
+    domain: { top: top as ScaleResult['domain']['top'], sub: sub as ScaleResult['domain']['sub'] },
+    rawScore: severity === 'incomplete' ? null : 5,
+    maxScore: 10,
+    severity,
+    bandLabel: severity,
   };
 }
 
-describe('deriveCdsaTriggers', () => {
+function makeTriage(category: TriageResult['category'], details: ScaleResult[]): TriageResult {
+  return { category, details, summary: 'test' };
+}
+
+describe('deriveCgaTriggers', () => {
   it('returns triage trigger for refer', () => {
-    expect(deriveCdsaTriggers(makeTriage('refer', []), '13-24m')).toEqual([
-      'cdsa.triage.refer.13-24m',
+    const triage = makeTriage('refer', [mkResult('functional', 'adl', 'refer')]);
+    const triggers = deriveCgaTriggers(triage, 'cfs5');
+    expect(triggers).toContain('cga.triage.refer.cfs5');
+  });
+
+  it('skips triage trigger when overall normal', () => {
+    const triage = makeTriage('normal', [mkResult('functional', 'adl', 'normal')]);
+    expect(deriveCgaTriggers(triage, 'cfs3')).toEqual([]);
+  });
+
+  it('skips triage trigger when overall incomplete', () => {
+    const triage = makeTriage('incomplete', [mkResult('functional', 'adl', 'incomplete')]);
+    expect(deriveCgaTriggers(triage, 'cfs3')).toEqual([]);
+  });
+
+  it('emits both triage + per-domain triggers (two-level × cfs)', () => {
+    const triage = makeTriage('monitor', [mkResult('functional', 'iadl', 'monitor')]);
+    const triggers = deriveCgaTriggers(triage, 'cfs6');
+    expect(triggers).toContain('cga.triage.monitor.cfs6');
+    expect(triggers).toContain('cga.domain.functional.iadl.anomaly.cfs6');
+  });
+
+  it('does not emit a domain trigger for normal/incomplete scales', () => {
+    const triage = makeTriage('monitor', [
+      mkResult('functional', 'adl', 'normal'),
+      mkResult('psychological', 'mood', 'monitor'),
+      mkResult('physical', 'nutrition', 'incomplete'),
     ]);
+    const triggers = deriveCgaTriggers(triage, 'cfs5');
+    expect(triggers).toContain('cga.domain.psychological.mood.anomaly.cfs5');
+    expect(triggers).not.toContain('cga.domain.functional.adl.anomaly.cfs5');
+    expect(triggers.some(t => t.startsWith('cga.domain.physical.nutrition'))).toBe(false);
   });
 
-  it('skips triage when normal', () => {
-    expect(deriveCdsaTriggers(makeTriage('normal', []), '13-24m')).toEqual([]);
+  it('dedups the same top.sub when emitted twice', () => {
+    const triage = makeTriage('refer', [
+      mkResult('functional', 'mobility', 'refer'),
+      mkResult('functional', 'mobility', 'monitor'),
+    ]);
+    const domainTriggers = deriveCgaTriggers(triage, 'cfs4').filter(t => t.startsWith('cga.domain.'));
+    expect(domainTriggers).toEqual(['cga.domain.functional.mobility.anomaly.cfs4']);
   });
 
-  it('emits both triage + domain triggers', () => {
-    const triggers = deriveCdsaTriggers(makeTriage('monitor', ['fine_motor']), '25-36m');
-    expect(triggers).toContain('cdsa.triage.monitor.25-36m');
-    expect(triggers).toContain('cdsa.domain.fine_motor.anomaly.25-36m');
-  });
-
-  it('dedups fine_motor when both z-score and questionnaire emit', () => {
-    const triage = makeTriage('monitor', ['fine_motor', 'fine_motor']);
-    const triggers = deriveCdsaTriggers(triage, '13-24m');
-    const domainTriggers = triggers.filter(t => t.startsWith('cdsa.domain.'));
-    expect(domainTriggers).toHaveLength(1);
-  });
-
-  it('throws on unknown domain in DEV mode', () => {
+  it('throws on unknown top.sub in DEV mode', () => {
     vi.stubEnv('DEV', true);
-    expect(() => deriveCdsaTriggers(makeTriage('monitor', ['unknown_domain']), '13-24m')).toThrow(/Unknown CDSA domain/);
+    const triage = makeTriage('monitor', [mkResult('bogus', 'nope', 'monitor')]);
+    expect(() => deriveCgaTriggers(triage, 'cfs5')).toThrow(/Unknown CGA domain/);
     vi.unstubAllEnvs();
   });
 
-  it('warns and skips unknown domain in prod mode', () => {
+  it('warns and skips unknown top.sub in prod mode', () => {
     vi.stubEnv('DEV', false);
     const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
-    const triggers = deriveCdsaTriggers(makeTriage('monitor', ['unknown_domain', 'fine_motor']), '13-24m');
-    expect(triggers).not.toContain('cdsa.domain.unknown_domain.anomaly.13-24m');
-    expect(triggers).toContain('cdsa.domain.fine_motor.anomaly.13-24m');
+    const triage = makeTriage('monitor', [
+      mkResult('bogus', 'nope', 'monitor'),
+      mkResult('functional', 'falls', 'monitor'),
+    ]);
+    const triggers = deriveCgaTriggers(triage, 'cfs5');
+    expect(triggers).not.toContain('cga.domain.bogus.nope.anomaly.cfs5');
+    expect(triggers).toContain('cga.domain.functional.falls.anomaly.cfs5');
     expect(warn).toHaveBeenCalledWith(expect.stringContaining('Unknown domain'));
     warn.mockRestore();
     vi.unstubAllEnvs();
   });
 });
 
-describe('deriveCdssTriggers', () => {
+describe('deriveCdssTriggers (kept, unused in questionnaire-only build)', () => {
   const mk = (indicator: string, level: IndicatorResult['level']): IndicatorResult => ({
     indicator, value: 0, level, range: [0, 0],
     rationale: 'test',
@@ -72,15 +105,6 @@ describe('deriveCdssTriggers', () => {
     expect(deriveCdssTriggers([mk('spo2', 'critical')], 'infant')).toEqual([
       'cdss.spo2.critical.infant',
     ]);
-  });
-
-  it('emits multiple triggers from multiple indicators', () => {
-    const triggers = deriveCdssTriggers([
-      mk('spo2', 'warning'),
-      mk('heart_rate', 'advisory'),
-    ], 'toddler');
-    expect(triggers).toContain('cdss.spo2.warning.toddler');
-    expect(triggers).toContain('cdss.heart_rate.advisory.toddler');
   });
 
   it('throws on unknown indicator in DEV', () => {

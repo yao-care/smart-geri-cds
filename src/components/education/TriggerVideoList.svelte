@@ -10,7 +10,7 @@ let videosByTrigger = $state<Record<string, RuntimeVideo[]>>({});
 
 $effect(() => {
   if (triggers.length === 0) { videosByTrigger = {}; return; }
-  getVideosForTriggers(triggers, [], { maxResults: 3, ageGroupFallback: true })
+  getVideosForTriggers(triggers, [], { maxResults: 3, cfsFallback: true })
     .then(result => { videosByTrigger = result; })
     .catch(err => { console.error('[TriggerVideoList] lookup failed', err); });
 });
