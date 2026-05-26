@@ -1,6 +1,16 @@
 import { z } from 'astro/zod';   // = zod v4
 import { AGE_GROUPS_CDSA } from '../utils/age-groups';
 
+// --- 可重用列舉常數（單一源）---
+export const CDSA_DOMAIN_NAMES = [
+  'behavior', 'gross_motor', 'fine_motor', 'language',
+  'cognition', 'language_comprehension', 'language_expression', 'social_emotional',
+] as const;
+export const CDSS_INDICATOR_NAMES = [
+  'heart_rate', 'spo2', 'respiratory_rate', 'temperature',
+  'sleep_quality', 'activity_level', 'sugar_intake',
+] as const;
+
 // --- 影片元資料 ---
 export const videoCatalogItemSchema = z.object({
   videoId: z.string().regex(/^[A-Za-z0-9_-]{11}$/),
@@ -22,14 +32,8 @@ export const videoCatalogItemSchema = z.object({
 });
 
 // --- Trigger 映射（discriminatedUnion + cross-field refine）---
-const KNOWN_DOMAIN_ENUM = z.enum([
-  'behavior', 'gross_motor', 'fine_motor', 'language',
-  'cognition', 'language_comprehension', 'language_expression', 'social_emotional',
-]);
-const CDSS_INDICATOR_ENUM = z.enum([
-  'heart_rate', 'spo2', 'respiratory_rate', 'temperature',
-  'sleep_quality', 'activity_level', 'sugar_intake',
-]);
+const KNOWN_DOMAIN_ENUM = z.enum(CDSA_DOMAIN_NAMES);
+const CDSS_INDICATOR_ENUM = z.enum(CDSS_INDICATOR_NAMES);
 const CDSS_LEVEL_ENUM = z.enum(['advisory', 'warning', 'critical']);
 const CDSS_AGE_ENUM = z.enum(['infant', 'toddler', 'preschool']);
 const videoIdsField = z.array(z.string().regex(/^[A-Za-z0-9_-]{11}$/)).default([]);
