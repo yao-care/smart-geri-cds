@@ -1,11 +1,12 @@
 import { z } from 'astro/zod';   // = zod v4
-import { AGE_GROUPS_CDSA } from '../utils/age-groups';
+import { CFS_LEVELS } from '../utils/cfs-levels';
+import { DOMAIN_TREE, DOMAIN_TOPS, DOMAIN_SUBS, isValidDomain } from '../domain/domain-tree';
+
+// 領域樹單一源於 domain-tree；此處 re-export 供消費端沿用既有匯入路徑。
+export { DOMAIN_TREE };
 
 // --- 可重用列舉常數（單一源）---
-export const CDSA_DOMAIN_NAMES = [
-  'behavior', 'gross_motor', 'fine_motor', 'language',
-  'cognition', 'language_comprehension', 'language_expression', 'social_emotional',
-] as const;
+// CDSS 生理指標（Phase 2 不啟用，schema 保留供 Phase 3）。
 export const CDSS_INDICATOR_NAMES = [
   'heart_rate', 'spo2', 'respiratory_rate', 'temperature',
   'sleep_quality', 'activity_level', 'sugar_intake',
@@ -32,55 +33,62 @@ export const videoCatalogItemSchema = z.object({
 });
 
 // --- Trigger 映射（discriminatedUnion + cross-field refine）---
-const KNOWN_DOMAIN_ENUM = z.enum(CDSA_DOMAIN_NAMES);
+const DOMAIN_TOP_ENUM = z.enum(DOMAIN_TOPS as [string, ...string[]]);
+const DOMAIN_SUB_ENUM = z.enum(DOMAIN_SUBS as [string, ...string[]]);
+const CFS_ENUM = z.enum(CFS_LEVELS);
 const CDSS_INDICATOR_ENUM = z.enum(CDSS_INDICATOR_NAMES);
 const CDSS_LEVEL_ENUM = z.enum(['advisory', 'warning', 'critical']);
-const CDSS_AGE_ENUM = z.enum(['infant', 'toddler', 'preschool']);
 const videoIdsField = z.array(z.string().regex(/^[A-Za-z0-9_-]{11}$/)).default([]);
 
-export const cdsaTriageEntrySchema = z.object({
+export const cgaTriageEntrySchema = z.object({
   trigger: z.string(),
   category: z.literal('triage'),
   triageCategory: z.enum(['monitor', 'refer']),
-  ageGroup: z.enum(AGE_GROUPS_CDSA),
+  cfsLevel: CFS_ENUM,
   educationSlug: z.string().optional(),
   inapplicable: z.literal(true).optional(),
   videoIds: videoIdsField,
 }).refine(
-  d => d.trigger === `cdsa.triage.${d.triageCategory}.${d.ageGroup}`,
-  { message: 'trigger 字串與 triageCategory + ageGroup 不一致', path: ['trigger'] },
+  d => d.trigger === `cga.triage.${d.triageCategory}.${d.cfsLevel}`,
+  { message: 'trigger 字串與 triageCategory + cfsLevel 不一致', path: ['trigger'] },
 );
 
-export const cdsaDomainEntrySchema = z.object({
+export const cgaDomainEntrySchema = z.object({
   trigger: z.string(),
   category: z.literal('domain'),
-  domain: KNOWN_DOMAIN_ENUM,
-  ageGroup: z.enum(AGE_GROUPS_CDSA),
+  top: DOMAIN_TOP_ENUM,
+  sub: DOMAIN_SUB_ENUM,
+  cfsLevel: CFS_ENUM,
   educationSlug: z.string().optional(),
   inapplicable: z.literal(true).optional(),
   videoIds: videoIdsField,
-}).refine(
-  d => d.trigger === `cdsa.domain.${d.domain}.anomaly.${d.ageGroup}`,
-  { message: 'trigger 字串與 domain + ageGroup 不一致', path: ['trigger'] },
-);
+})
+  .refine(
+    d => isValidDomain(d.top, d.sub),
+    { message: 'top/sub 不是合法的二層領域組合', path: ['sub'] },
+  )
+  .refine(
+    d => d.trigger === `cga.domain.${d.top}.${d.sub}.anomaly.${d.cfsLevel}`,
+    { message: 'trigger 字串與 top + sub + cfsLevel 不一致', path: ['trigger'] },
+  );
 
 export const cdssVitalSignEntrySchema = z.object({
   trigger: z.string(),
   category: z.literal('vital-sign'),
   indicator: CDSS_INDICATOR_ENUM,
   level: CDSS_LEVEL_ENUM,
-  ageGroup: CDSS_AGE_ENUM,
+  cfsLevel: CFS_ENUM,
   educationSlug: z.string().optional(),
   inapplicable: z.literal(true).optional(),
   videoIds: videoIdsField,
 }).refine(
-  d => d.trigger === `cdss.${d.indicator}.${d.level}.${d.ageGroup}`,
-  { message: 'trigger 字串與 indicator + level + ageGroup 不一致', path: ['trigger'] },
+  d => d.trigger === `cga.vital.${d.indicator}.${d.level}.${d.cfsLevel}`,
+  { message: 'trigger 字串與 indicator + level + cfsLevel 不一致', path: ['trigger'] },
 );
 
 export const triggerEntrySchema = z.discriminatedUnion('category', [
-  cdsaTriageEntrySchema,
-  cdsaDomainEntrySchema,
+  cgaTriageEntrySchema,
+  cgaDomainEntrySchema,
   cdssVitalSignEntrySchema,
 ]);
 
@@ -133,7 +141,17 @@ export const triggerRelevanceSchema = z.object({
 });
 
 export const contentRelevanceSchema = z.object({
-  inapplicable: z.record(z.enum(CDSA_DOMAIN_NAMES), z.array(z.enum(AGE_GROUPS_CDSA))),
+  // key = `${top}.${sub}`（以 refine 驗合法二層領域組合）；value = 不適用的 CFS 等級。
+  inapplicable: z.record(
+    z.string().refine(
+      k => {
+        const [t, s] = k.split('.');
+        return isValidDomain(t, s);
+      },
+      { message: 'inapplicable key 必須是合法的 top.sub 二層領域' },
+    ),
+    z.array(CFS_ENUM),
+  ),
   triggers: z.array(triggerRelevanceSchema),
   clinicalAlertEducation: z.record(z.string(), z.array(z.string())).optional(),
 });
