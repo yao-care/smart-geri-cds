@@ -495,3 +495,295 @@
   verificationStatus: "verified"
   score: 0.60
   notes: "樂地滋頻道，24 秒講曬香菇提升維生素 D。"
+
+# ─── 粗動作 (gross_motor) ───────────────────────────────────────────────────
+- videoId: "DpRYnBPi_dg"
+  title: "寶寶動作引導訣竅｜抬、翻、爬、坐、站｜新生兒動作發展"
+  channel: "茜茜與人夫謙 Chien&Chien"
+  channelId: "UCJK_IYZyrQAf3UwYmvW0kHg"
+  duration: 620
+  publishedAt: "2021-08-29"
+  language: "zh-Hant"
+  subtitleType: "none"
+  sourceTier: "pro-kol"
+  viewCount: 112110
+  curatedAt: "2026-05-26"
+  verifiedBy: "claude-code"
+  verificationStatus: "verified"
+  score: 0.78
+  notes: "親子 Vlogger（有實際嬰兒示範）完整 10 分鐘講解 0-10m 動作里程碑：抬頭/翻身/爬/坐/站，配合示範實操。11 萬觀看數。繁中全程；對應 2-6m/7-12m/13-24m 粗動作。"
+
+- videoId: "O5Xe8cFHolc"
+  title: "6-10個月－引導寶寶爬行的要訣｜適合6-10個月的寶寶｜恬兒職能治療師"
+  channel: "KidPro醫學級兒童發展教育團隊-恬兒職能治療師"
+  channelId: "UCNyVjJvL98GlP8D7P0zvmkw"
+  duration: 167
+  publishedAt: "2019-04-22"
+  language: "zh-Hant"
+  subtitleType: "none"
+  sourceTier: "pro-kol"
+  viewCount: 265593
+  curatedAt: "2026-05-26"
+  verifiedBy: "claude-code"
+  verificationStatus: "verified"
+  score: 0.82
+  notes: "KidPro 恬兒職能治療師（醫學級兒童發展教育）2.8 分鐘精準說明 6-10m 爬行引導要訣；26 萬觀看。臨床職能治療師背書，無商業推銷。對應 7-12m 粗動作。"
+
+- videoId: "9U8VnfqIYF4"
+  title: "關於爬行的錯誤觀念｜恬兒職能治療師"
+  channel: "KidPro醫學級兒童發展教育團隊-恬兒職能治療師"
+  channelId: "UCNyVjJvL98GlP8D7P0zvmkw"
+  duration: 231
+  publishedAt: "2019-04-29"
+  language: "zh-Hant"
+  subtitleType: "none"
+  sourceTier: "pro-kol"
+  viewCount: 60501
+  curatedAt: "2026-05-26"
+  verifiedBy: "claude-code"
+  verificationStatus: "verified"
+  score: 0.75
+  notes: "KidPro 恬兒職能治療師破解常見爬行迷思 4 分鐘；6 萬觀看，實證導向。適合 2-6m/7-12m 家長。"
+
+- videoId: "-s2Tuk7l63I"
+  title: "孩子成長怎麼看？不可不知的兒童發展歷程！｜伊甸基金會"
+  channel: "伊甸基金會"
+  channelId: "UCVFrJvNw_5ZXafbjmwNVPwQ"
+  duration: 328
+  publishedAt: "2021-02-03"
+  language: "zh-Hant"
+  subtitleType: "none"
+  sourceTier: "pro-kol"
+  viewCount: 18478
+  curatedAt: "2026-05-26"
+  verifiedBy: "claude-code"
+  verificationStatus: "verified"
+  score: 0.72
+  notes: "伊甸基金會（台灣著名早療 NGO）官方頻道，5.5 分鐘涵蓋 0-6 歲兒童發展歷程；含粗動作、認知等多領域介紹。適合 13-24m/25-36m/37-48m 各動作發展領域。"
+
+# ─── 精細動作 (fine_motor) ──────────────────────────────────────────────────
+- videoId: "QjlIXRUqzoE"
+  title: "訓練孩子用湯匙的遊戲│適合1-3歲的遊戲│治療師的腦力遊戲室"
+  channel: "KidPro醫學級兒童發展教育團隊-恬兒職能治療師"
+  channelId: "UCNyVjJvL98GlP8D7P0zvmkw"
+  duration: 242
+  publishedAt: "2021-05-21"
+  language: "zh-Hant"
+  subtitleType: "none"
+  sourceTier: "pro-kol"
+  viewCount: 42756
+  curatedAt: "2026-05-26"
+  verifiedBy: "claude-code"
+  verificationStatus: "verified"
+  score: 0.78
+  notes: "KidPro 恬兒職能治療師 4 分鐘：以遊戲訓練 1-3 歲用湯匙（精細動作/手眼協調）；4.2 萬觀看。臨床職能治療師；繁中；對應 7-12m/13-24m/25-36m 精細動作。"
+
+- videoId: "80aOAdwa5_0"
+  title: "✂如何教孩子使用剪刀？｜【剪刀上手小秘訣】適合2-5歲的遊戲｜治療師的腦力遊戲室"
+  channel: "KidPro醫學級兒童發展教育團隊-恬兒職能治療師"
+  channelId: "UCNyVjJvL98GlP8D7P0zvmkw"
+  duration: 367
+  publishedAt: "2020-10-21"
+  language: "zh-Hant"
+  subtitleType: "none"
+  sourceTier: "pro-kol"
+  viewCount: 43269
+  curatedAt: "2026-05-26"
+  verifiedBy: "claude-code"
+  verificationStatus: "verified"
+  score: 0.80
+  notes: "KidPro 恬兒職能治療師 6 分鐘：剪刀使用技巧 2-5 歲，含手指分化/虎口穩定度/手眼協調；4.3 萬觀看。臨床導向，家長實用指引。對應 25-36m/37-48m/49-60m 精細動作。"
+
+- videoId: "zxVBC48maNU"
+  title: "幫助學寫字，10個經典小肌肉遊戲"
+  channel: "王宏哲教養育兒寶典"
+  channelId: "UCtaf9TkknjodxYJoo-Hk-bg"
+  duration: 285
+  publishedAt: "2020-06-09"
+  language: "zh-Hant"
+  subtitleType: "none"
+  sourceTier: "pro-kol"
+  viewCount: 134137
+  curatedAt: "2026-05-26"
+  verifiedBy: "claude-code"
+  verificationStatus: "verified"
+  score: 0.78
+  notes: "王宏哲（兒童職能治療師/育兒寶典）5 分鐘：10 個小肌肉遊戲助寫字；13.4 萬觀看，無商業推銷。繁中，適合 49-60m/61-72m 精細動作。"
+
+- videoId: "bWuhwQUJ7uI"
+  title: "【在家練習Ep2】訓練孩子的精細動作能力、在家也能練！兒童治療師教你培養孩子「握筆寫字」能力"
+  channel: "Heho"
+  channelId: "UCFo2ocxRNZodXSRePresa_Q"
+  duration: 312
+  publishedAt: "2022-01-08"
+  language: "zh-Hant"
+  subtitleType: "human"
+  sourceTier: "pro-kol"
+  viewCount: 40974
+  curatedAt: "2026-05-26"
+  verifiedBy: "claude-code"
+  verificationStatus: "verified"
+  score: 0.76
+  notes: "Heho 健康媒體邀兒童職能治療師示範 3 個居家精細動作遊戲（橡皮筋/抓握/夾取），5 分鐘，含繁中字幕。4 萬觀看。對應 37-48m/49-60m/61-72m 精細動作。"
+
+- videoId: "Ji9p7HpBtDg"
+  title: "1歲-2歲的寶寶互動遊戲～幫助寶寶健康發展 | 優迪診療間 feat. 林韋伶特教老師"
+  channel: "YODEE 優迪"
+  channelId: "UC8tBUJL6EWZAWOWlFpWr77Q"
+  duration: 355
+  publishedAt: "2023-07-07"
+  language: "zh-Hant"
+  subtitleType: "none"
+  sourceTier: "pro-kol"
+  viewCount: 7547
+  curatedAt: "2026-05-26"
+  verifiedBy: "claude-code"
+  verificationStatus: "verified"
+  score: 0.70
+  notes: "YODEE 優迪邀請特教老師（義大醫院復健科小兒組）說明 1-2 歲互動遊戲提升精細動作/專注力；6 分鐘。義大醫院職能治療背景背書。對應 7-12m/13-24m 精細動作及認知。"
+
+# ─── 認知發展 (cognition) ────────────────────────────────────────────────────
+- videoId: "csQmPzAP0z4"
+  title: "臺灣幼童3C使用率高⁉️ 研究指出恐影響孩子大腦及語言發展！【KIT系列 EP01】｜黃瑽寧醫師健康講堂"
+  channel: "Talk with Dr. TN Huang"
+  channelId: "UCkha3wg7As4t9duOzre5HcQ"
+  duration: 503
+  publishedAt: "2023-03-02"
+  language: "zh-Hant"
+  subtitleType: "human"
+  sourceTier: "pro-kol"
+  viewCount: 138357
+  curatedAt: "2026-05-26"
+  verifiedBy: "claude-code"
+  verificationStatus: "verified"
+  score: 0.85
+  notes: "黃瑽寧醫師 KIT 系列 EP01：國科會研究指出台灣幼童 3C 使用率影響大腦與語言認知發展；含繁中字幕，13.8 萬觀看。直接關聯認知刺激不足議題，適合 13-24m/25-36m 認知發展。"
+
+- videoId: "ciXeOePs_Qo"
+  title: "【短版】讀懂孩子的心理發展 ‖ 黃瑽寧"
+  channel: "黃瑽寧愛+好醫生"
+  channelId: "UCVc43o4svP9fCsfIj9oML1A"
+  duration: 426
+  publishedAt: "2020-01-13"
+  language: "zh-Hant"
+  subtitleType: "none"
+  sourceTier: "pro-kol"
+  viewCount: 2005
+  curatedAt: "2026-05-26"
+  verifiedBy: "claude-code"
+  verificationStatus: "verified"
+  score: 0.68
+  notes: "黃瑽寧醫師（愛+好醫生）7 分鐘：讀懂幼兒心理/認知發展；說明 0-3 歲腦部認知特徵和家長應對方式。對應 13-24m/25-36m/37-48m 認知發展。"
+
+- videoId: "nLIBXYAx11Q"
+  title: "專注力不佳、情緒易失控～孩童的同理心怎麼評估？容易爆衝的男孩怎麼管？｜黃瑽寧（feat. 黃偉垣）"
+  channel: "黃瑽寧愛+好醫生"
+  channelId: "UCVc43o4svP9fCsfIj9oML1A"
+  duration: 1440
+  publishedAt: "2022-02-05"
+  language: "zh-Hant"
+  subtitleType: "none"
+  sourceTier: "pro-kol"
+  viewCount: 6424
+  curatedAt: "2026-05-26"
+  verifiedBy: "claude-code"
+  verificationStatus: "verified"
+  score: 0.70
+  notes: "黃瑽寧醫師（愛+好醫生）24 分鐘：涵蓋兒童專注力、同理心評估、認知行為管理；適合 37-48m 以上認知/社交情緒雙領域。雖長但家長可選段觀看。"
+
+- videoId: "C77ZGOhIwAQ"
+  title: "獨生子女的人際關係怎麼幫？適應幼兒園減輕焦慮黃金5分鐘超管用！│黃瑽寧（feat. 駱郁芬、蔡百祥）"
+  channel: "黃瑽寧愛+好醫生"
+  channelId: "UCVc43o4svP9fCsfIj9oML1A"
+  duration: 1435
+  publishedAt: "2021-09-15"
+  language: "zh-Hant"
+  subtitleType: "none"
+  sourceTier: "pro-kol"
+  viewCount: 34461
+  curatedAt: "2026-05-26"
+  verifiedBy: "claude-code"
+  verificationStatus: "verified"
+  score: 0.72
+  notes: "黃瑽寧醫師（愛+好醫生）24 分鐘：幼兒園適應（分離焦慮/認知成長/社交關係）；3.4 萬觀看。包含 37-48m 認知/社交雙領域，幼兒園前後適用。"
+
+# ─── 社交情緒 (social_emotional) ────────────────────────────────────────────
+- videoId: "B8ozZqQyB7E"
+  title: "2歲兒崩潰尖叫總是粉碎你的理智線嗎？其實有方法可以緩解！｜黃瑽寧醫師健康講堂【瑽寧書房 EP03】"
+  channel: "Talk with Dr. TN Huang"
+  channelId: "UCkha3wg7As4t9duOzre5HcQ"
+  duration: 904
+  publishedAt: "2023-05-04"
+  language: "zh-Hant"
+  subtitleType: "none"
+  sourceTier: "pro-kol"
+  viewCount: 311719
+  curatedAt: "2026-05-26"
+  verifiedBy: "claude-code"
+  verificationStatus: "verified"
+  score: 0.87
+  notes: "黃瑽寧醫師 15 分鐘：2 歲「Terrible Two」不要不要期情緒崩潰處理，邀《恆溫教養》作者黃之盈心理師；31 萬觀看，家長共鳴極高。完美對應 13-24m/25-36m 社交情緒。"
+
+- videoId: "OjcwWrVIJHc"
+  title: "母親做到這舉動，就能減少孩子的攻擊行為!?【KIT系列 EP02】｜黃瑽寧醫師健康講堂"
+  channel: "Talk with Dr. TN Huang"
+  channelId: "UCkha3wg7As4t9duOzre5HcQ"
+  duration: 595
+  publishedAt: "2023-03-23"
+  language: "zh-Hant"
+  subtitleType: "none"
+  sourceTier: "pro-kol"
+  viewCount: 508851
+  curatedAt: "2026-05-26"
+  verifiedBy: "claude-code"
+  verificationStatus: "verified"
+  score: 0.88
+  notes: "黃瑽寧醫師 KIT 系列 EP02：國科會研究：親子互動模式如何影響幼兒攻擊行為（社交情緒發展）；50.8 萬觀看，最高觀看數之一。適合 13-24m/25-36m/37-48m 社交情緒。"
+
+- videoId: "UEk0sO93NnE"
+  title: "暫停孩子情緒風暴，除了以暴制暴，你有更好的選擇！ feat 臨床心理師 陳品皓│ 黃瑽寧x剪接師 EP46"
+  channel: "Talk with Dr. TN Huang"
+  channelId: "UCkha3wg7As4t9duOzre5HcQ"
+  duration: 1025
+  publishedAt: "2022-10-27"
+  language: "zh-Hant"
+  subtitleType: "none"
+  sourceTier: "pro-kol"
+  viewCount: 72371
+  curatedAt: "2026-05-26"
+  verifiedBy: "claude-code"
+  verificationStatus: "verified"
+  score: 0.82
+  notes: "黃瑽寧醫師邀臨床心理師陳品皓 17 分鐘：情緒風暴七個階段及應對（兒童情緒自我調節）；7.2 萬觀看。適合 37-48m/49-60m/61-72m 社交情緒。"
+
+- videoId: "mLocMGU1Z3U"
+  title: "孩子自律怎麼教？從小小孩建立自動自發的習慣就這樣做！│黃瑽寧x剪接師 EP55"
+  channel: "Talk with Dr. TN Huang"
+  channelId: "UCkha3wg7As4t9duOzre5HcQ"
+  duration: 661
+  publishedAt: "2024-05-09"
+  language: "zh-Hant"
+  subtitleType: "none"
+  sourceTier: "pro-kol"
+  viewCount: 148326
+  curatedAt: "2026-05-26"
+  verifiedBy: "claude-code"
+  verificationStatus: "verified"
+  score: 0.83
+  notes: "黃瑽寧醫師 11 分鐘：從小建立兒童自律習慣；14.8 萬觀看。社交情緒發展的自我調節面向，適合 49-60m/61-72m 入學準備的社交情緒。"
+
+- videoId: "pmci326_57Q"
+  title: "乾淨香香上學去！讓孩子跨出成功人際關係第一步：視覺嗅覺都重要 ft.清大幼教系副教授周育如｜黃瑽寧醫師健康講堂"
+  channel: "Talk with Dr. TN Huang"
+  channelId: "UCkha3wg7As4t9duOzre5HcQ"
+  duration: 689
+  publishedAt: "2020-10-29"
+  language: "zh-Hant"
+  subtitleType: "none"
+  sourceTier: "pro-kol"
+  viewCount: 28425
+  curatedAt: "2026-05-26"
+  verifiedBy: "claude-code"
+  verificationStatus: "verified"
+  score: 0.74
+  notes: "黃瑽寧醫師邀清大幼教系副教授周育如 11.5 分鐘：幼兒人際關係第一步（社交技巧/外表/感官）；2.8 萬觀看。哈佛縱貫研究視角，適合 37-48m/49-60m/61-72m 社交情緒。"

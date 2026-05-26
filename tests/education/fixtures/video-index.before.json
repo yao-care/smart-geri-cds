@@ -1,4 +1,26 @@
 {
+  "articleSlugs": [
+    "cognitive-play",
+    "diet-control",
+    "exercise-guide",
+    "fine-motor-activities",
+    "gross-motor-activities",
+    "language-stimulation",
+    "milestones/0-6m",
+    "milestones/1-2y",
+    "milestones/2-3y",
+    "milestones/3-6y",
+    "milestones/6-12m",
+    "nutrition-calcium-tofu",
+    "nutrition-garlic-tip",
+    "nutrition-grow-tall",
+    "nutrition-okra-cooking",
+    "nutrition-vitamin-d-mushroom",
+    "respiratory-care",
+    "sleep-hygiene",
+    "social-emotional-guide",
+    "when-to-seek-help"
+  ],
   "catalog": {
     "-d0DmEv8qVs": {
       "channel": "Talk with Dr. TN Huang",
@@ -8,6 +30,15 @@
       "sourceTier": "pro-kol",
       "title": "超過兩歲不說話，送幼稚園就OK？！難道有自閉傾向？幼兒語言發展大解密｜黃瑽寧x剪接師EP3",
       "videoId": "-d0DmEv8qVs"
+    },
+    "-s2Tuk7l63I": {
+      "channel": "伊甸基金會",
+      "duration": 328,
+      "language": "zh-Hant",
+      "score": 0.72,
+      "sourceTier": "pro-kol",
+      "title": "孩子成長怎麼看？不可不知的兒童發展歷程！｜伊甸基金會",
+      "videoId": "-s2Tuk7l63I"
     },
     "3D1w_XFkx3I": {
       "channel": "Talk with Dr. TN Huang",
@@ -45,6 +76,15 @@
       "title": "【營養食踐家】秋葵最怕兩件事：切了才燙、濕濕下鍋",
       "videoId": "6Dwo2ReTw-w"
     },
+    "80aOAdwa5_0": {
+      "channel": "KidPro醫學級兒童發展教育團隊-恬兒職能治療師",
+      "duration": 367,
+      "language": "zh-Hant",
+      "score": 0.8,
+      "sourceTier": "pro-kol",
+      "title": "✂如何教孩子使用剪刀？｜【剪刀上手小秘訣】適合2-5歲的遊戲｜治療師的腦力遊戲室",
+      "videoId": "80aOAdwa5_0"
+    },
     "8OT2cmJcJvs": {
       "channel": "怡兒大安親子診所-黃斯煒醫師",
       "duration": 362,
@@ -63,6 +103,33 @@
       "title": "發展遲緩兒童 6歲前是早期療育關鍵 南投新聞",
       "videoId": "8wrJmyjo4Us"
     },
+    "9U8VnfqIYF4": {
+      "channel": "KidPro醫學級兒童發展教育團隊-恬兒職能治療師",
+      "duration": 231,
+      "language": "zh-Hant",
+      "score": 0.75,
+      "sourceTier": "pro-kol",
+      "title": "關於爬行的錯誤觀念｜恬兒職能治療師",
+      "videoId": "9U8VnfqIYF4"
+    },
+    "B8ozZqQyB7E": {
+      "channel": "Talk with Dr. TN Huang",
+      "duration": 904,
+      "language": "zh-Hant",
+      "score": 0.87,
+      "sourceTier": "pro-kol",
+      "title": "2歲兒崩潰尖叫總是粉碎你的理智線嗎？其實有方法可以緩解！｜黃瑽寧醫師健康講堂【瑽寧書房 EP03】",
+      "videoId": "B8ozZqQyB7E"
+    },
+    "C77ZGOhIwAQ": {
+      "channel": "黃瑽寧愛+好醫生",
+      "duration": 1435,
+      "language": "zh-Hant",
+      "score": 0.72,
+      "sourceTier": "pro-kol",
+      "title": "獨生子女的人際關係怎麼幫？適應幼兒園減輕焦慮黃金5分鐘超管用！│黃瑽寧（feat. 駱郁芬、蔡百祥）",
+      "videoId": "C77ZGOhIwAQ"
+    },
     "DN-Jrk2I94M": {
       "channel": "Chia Chi Tan",
       "duration": 223,
@@ -71,6 +138,15 @@
       "sourceTier": "pro-kol",
       "title": "5~10歲孩童 心肺體能訓練衛教資料",
       "videoId": "DN-Jrk2I94M"
+    },
+    "DpRYnBPi_dg": {
+      "channel": "茜茜與人夫謙 Chien&Chien",
+      "duration": 620,
+      "language": "zh-Hant",
+      "score": 0.78,
+      "sourceTier": "pro-kol",
+      "title": "寶寶動作引導訣竅｜抬、翻、爬、坐、站｜新生兒動作發展",
+      "videoId": "DpRYnBPi_dg"
     },
     "FnDs6MCUtgs": {
       "channel": "高雄長庚兒童發展暨保護中心",
@@ -89,6 +165,15 @@
       "sourceTier": "pro-kol",
       "title": "自閉傾向的兒童並不少見！父母如何判斷、早療與陪伴？│黃瑽寧x剪接師EP14",
       "videoId": "G7COjy4hpqA"
+    },
+    "Ji9p7HpBtDg": {
+      "channel": "YODEE 優迪",
+      "duration": 355,
+      "language": "zh-Hant",
+      "score": 0.7,
+      "sourceTier": "pro-kol",
+      "title": "1歲-2歲的寶寶互動遊戲～幫助寶寶健康發展 | 優迪診療間 feat. 林韋伶特教老師",
+      "videoId": "Ji9p7HpBtDg"
     },
     "LM5jMqzrXwA": {
       "channel": "大愛新聞DaaiNews",
@@ -117,6 +202,15 @@
       "title": "我的孩子有「發展遲緩」嗎？了解類型跟跡象才不會錯失黃金治療時機｜優迪診療間 feat. 林昰樺·兒童職能治療師",
       "videoId": "MyTQbNlsAs4"
     },
+    "O5Xe8cFHolc": {
+      "channel": "KidPro醫學級兒童發展教育團隊-恬兒職能治療師",
+      "duration": 167,
+      "language": "zh-Hant",
+      "score": 0.82,
+      "sourceTier": "pro-kol",
+      "title": "6-10個月－引導寶寶爬行的要訣｜適合6-10個月的寶寶｜恬兒職能治療師",
+      "videoId": "O5Xe8cFHolc"
+    },
     "OFjKW19mY1I": {
       "channel": "TVBS NEWS",
       "duration": 110,
@@ -125,6 +219,24 @@
       "sourceTier": "pro-kol",
       "title": "童呼吸快.胸凹.鼻翼搧動小心! 醫:3徵兆危險｜TVBS新聞",
       "videoId": "OFjKW19mY1I"
+    },
+    "OjcwWrVIJHc": {
+      "channel": "Talk with Dr. TN Huang",
+      "duration": 595,
+      "language": "zh-Hant",
+      "score": 0.88,
+      "sourceTier": "pro-kol",
+      "title": "母親做到這舉動，就能減少孩子的攻擊行為!?【KIT系列 EP02】｜黃瑽寧醫師健康講堂",
+      "videoId": "OjcwWrVIJHc"
+    },
+    "QjlIXRUqzoE": {
+      "channel": "KidPro醫學級兒童發展教育團隊-恬兒職能治療師",
+      "duration": 242,
+      "language": "zh-Hant",
+      "score": 0.78,
+      "sourceTier": "pro-kol",
+      "title": "訓練孩子用湯匙的遊戲│適合1-3歲的遊戲│治療師的腦力遊戲室",
+      "videoId": "QjlIXRUqzoE"
     },
     "RGcAYoNlIkU": {
       "channel": "Talk with Dr. TN Huang",
@@ -143,6 +255,15 @@
       "sourceTier": "pro-kol",
       "title": "【營養食踐家】這一步決定蒜的效果：拍碎後，先等一下",
       "videoId": "U4Dc9LDkjx8"
+    },
+    "UEk0sO93NnE": {
+      "channel": "Talk with Dr. TN Huang",
+      "duration": 1025,
+      "language": "zh-Hant",
+      "score": 0.82,
+      "sourceTier": "pro-kol",
+      "title": "暫停孩子情緒風暴，除了以暴制暴，你有更好的選擇！ feat 臨床心理師 陳品皓│ 黃瑽寧x剪接師 EP46",
+      "videoId": "UEk0sO93NnE"
     },
     "Ua49xtJOa38": {
       "channel": "Talk with Dr. TN Huang",
@@ -171,6 +292,15 @@
       "title": "我家孩子發展遲緩嗎？評估不等於生病 把握早療黃金期｜臺安醫院心身醫學科主治醫師 陳長聖｜健康醫聊站",
       "videoId": "a7730hw3TZE"
     },
+    "bWuhwQUJ7uI": {
+      "channel": "Heho",
+      "duration": 312,
+      "language": "zh-Hant",
+      "score": 0.76,
+      "sourceTier": "pro-kol",
+      "title": "【在家練習Ep2】訓練孩子的精細動作能力、在家也能練！兒童治療師教你培養孩子「握筆寫字」能力",
+      "videoId": "bWuhwQUJ7uI"
+    },
     "cGjaI1yeLYQ": {
       "channel": "DoctorMK 蔡明耿醫師",
       "duration": 577,
@@ -179,6 +309,24 @@
       "sourceTier": "pro-kol",
       "title": "中暑≠發燒！兒科急救必學：蔡明耿醫師教你「移脫散補」4步驟",
       "videoId": "cGjaI1yeLYQ"
+    },
+    "ciXeOePs_Qo": {
+      "channel": "黃瑽寧愛+好醫生",
+      "duration": 426,
+      "language": "zh-Hant",
+      "score": 0.68,
+      "sourceTier": "pro-kol",
+      "title": "【短版】讀懂孩子的心理發展 ‖ 黃瑽寧",
+      "videoId": "ciXeOePs_Qo"
+    },
+    "csQmPzAP0z4": {
+      "channel": "Talk with Dr. TN Huang",
+      "duration": 503,
+      "language": "zh-Hant",
+      "score": 0.85,
+      "sourceTier": "pro-kol",
+      "title": "臺灣幼童3C使用率高⁉️ 研究指出恐影響孩子大腦及語言發展！【KIT系列 EP01】｜黃瑽寧醫師健康講堂",
+      "videoId": "csQmPzAP0z4"
     },
     "dl7FpR-WqoE": {
       "channel": "樂地滋",
@@ -243,6 +391,24 @@
       "title": "【營養食踐家】長高三要件：蛋白質、鈣＋日光、鋅",
       "videoId": "lbrDCmhQcbg"
     },
+    "mLocMGU1Z3U": {
+      "channel": "Talk with Dr. TN Huang",
+      "duration": 661,
+      "language": "zh-Hant",
+      "score": 0.83,
+      "sourceTier": "pro-kol",
+      "title": "孩子自律怎麼教？從小小孩建立自動自發的習慣就這樣做！│黃瑽寧x剪接師 EP55",
+      "videoId": "mLocMGU1Z3U"
+    },
+    "nLIBXYAx11Q": {
+      "channel": "黃瑽寧愛+好醫生",
+      "duration": 1440,
+      "language": "zh-Hant",
+      "score": 0.7,
+      "sourceTier": "pro-kol",
+      "title": "專注力不佳、情緒易失控～孩童的同理心怎麼評估？容易爆衝的男孩怎麼管？｜黃瑽寧（feat. 黃偉垣）",
+      "videoId": "nLIBXYAx11Q"
+    },
     "oRDPgoXP9Ik": {
       "channel": "Te-Liang Yang",
       "duration": 737,
@@ -251,6 +417,15 @@
       "sourceTier": "pro-kol",
       "title": "兒童基礎救命術教學 第6章 嬰兒胸外按壓與人工呼吸(醫護人員版)",
       "videoId": "oRDPgoXP9Ik"
+    },
+    "pmci326_57Q": {
+      "channel": "Talk with Dr. TN Huang",
+      "duration": 689,
+      "language": "zh-Hant",
+      "score": 0.74,
+      "sourceTier": "pro-kol",
+      "title": "乾淨香香上學去！讓孩子跨出成功人際關係第一步：視覺嗅覺都重要 ft.清大幼教系副教授周育如｜黃瑽寧醫師健康講堂",
+      "videoId": "pmci326_57Q"
     },
     "xvI_F3cPEvI": {
       "channel": "樂地滋",
@@ -278,44 +453,1181 @@
       "sourceTier": "pro-kol",
       "title": "【光仁社福】什麼情況需要評估作早療? 由超人氣小兒科醫生-黃瑽寧來為大家解答!",
       "videoId": "ziWchb0yVA0"
+    },
+    "zxVBC48maNU": {
+      "channel": "王宏哲教養育兒寶典",
+      "duration": 285,
+      "language": "zh-Hant",
+      "score": 0.78,
+      "sourceTier": "pro-kol",
+      "title": "幫助學寫字，10個經典小肌肉遊戲",
+      "videoId": "zxVBC48maNU"
     }
   },
+  "clinicalEducation": {
+    "activity_level": [
+      "exercise-guide"
+    ],
+    "sleep_quality": [
+      "sleep-hygiene"
+    ],
+    "spo2": [
+      "respiratory-care"
+    ],
+    "sugar_intake": [
+      "diet-control"
+    ]
+  },
   "educationSlugToTriggers": {
+    "cognitive-play": [
+      "cdsa.domain.cognition.anomaly.13-24m",
+      "cdsa.domain.cognition.anomaly.25-36m",
+      "cdsa.domain.cognition.anomaly.37-48m",
+      "cdsa.domain.cognition.anomaly.49-60m",
+      "cdsa.domain.cognition.anomaly.61-72m"
+    ],
     "diet-control": [
       "cdss.sugar_intake.critical.infant",
-      "cdss.sugar_intake.critical.toddler",
-      "cdss.sugar_intake.critical.preschool"
+      "cdss.sugar_intake.critical.preschool",
+      "cdss.sugar_intake.critical.toddler"
+    ],
+    "fine-motor-activities": [
+      "cdsa.domain.fine_motor.anomaly.13-24m",
+      "cdsa.domain.fine_motor.anomaly.25-36m",
+      "cdsa.domain.fine_motor.anomaly.37-48m",
+      "cdsa.domain.fine_motor.anomaly.49-60m",
+      "cdsa.domain.fine_motor.anomaly.61-72m",
+      "cdsa.domain.fine_motor.anomaly.7-12m"
+    ],
+    "gross-motor-activities": [
+      "cdsa.domain.gross_motor.anomaly.13-24m",
+      "cdsa.domain.gross_motor.anomaly.2-6m",
+      "cdsa.domain.gross_motor.anomaly.25-36m",
+      "cdsa.domain.gross_motor.anomaly.37-48m",
+      "cdsa.domain.gross_motor.anomaly.49-60m",
+      "cdsa.domain.gross_motor.anomaly.61-72m",
+      "cdsa.domain.gross_motor.anomaly.7-12m"
     ],
     "language-stimulation": [
       "cdsa.domain.language.anomaly.13-24m"
     ],
     "respiratory-care": [
       "cdss.respiratory_rate.critical.infant",
-      "cdss.respiratory_rate.critical.toddler",
-      "cdss.respiratory_rate.critical.preschool"
+      "cdss.respiratory_rate.critical.preschool",
+      "cdss.respiratory_rate.critical.toddler"
     ],
     "sleep-hygiene": [
       "cdss.sleep_quality.critical.infant",
-      "cdss.sleep_quality.critical.toddler",
-      "cdss.sleep_quality.critical.preschool"
+      "cdss.sleep_quality.critical.preschool",
+      "cdss.sleep_quality.critical.toddler"
+    ],
+    "social-emotional-guide": [
+      "cdsa.domain.social_emotional.anomaly.13-24m",
+      "cdsa.domain.social_emotional.anomaly.25-36m",
+      "cdsa.domain.social_emotional.anomaly.37-48m",
+      "cdsa.domain.social_emotional.anomaly.49-60m",
+      "cdsa.domain.social_emotional.anomaly.61-72m",
+      "cdsa.domain.social_emotional.anomaly.7-12m"
     ],
     "when-to-seek-help": [
-      "cdsa.triage.refer.2-6m",
-      "cdsa.triage.refer.7-12m",
       "cdsa.triage.refer.13-24m",
+      "cdsa.triage.refer.2-6m",
       "cdsa.triage.refer.25-36m",
       "cdsa.triage.refer.37-48m",
       "cdsa.triage.refer.49-60m",
       "cdsa.triage.refer.61-72m",
+      "cdsa.triage.refer.7-12m",
       "cdss.heart_rate.critical.infant",
       "cdss.temperature.critical.infant",
-      "cdss.temperature.critical.toddler",
-      "cdss.temperature.critical.preschool"
+      "cdss.temperature.critical.preschool",
+      "cdss.temperature.critical.toddler"
+    ]
+  },
+  "recommendations": {
+    "monitor::behavior::13-24m": [
+      {
+        "slug": "sleep-hygiene",
+        "source": "internal",
+        "summary": "建立良好睡眠習慣，改善兒童睡眠品質的實用建議",
+        "title": "兒童睡眠衛生指導"
+      }
+    ],
+    "monitor::behavior::25-36m": [
+      {
+        "slug": "sleep-hygiene",
+        "source": "internal",
+        "summary": "建立良好睡眠習慣，改善兒童睡眠品質的實用建議",
+        "title": "兒童睡眠衛生指導"
+      }
+    ],
+    "monitor::behavior::37-48m": [
+      {
+        "slug": "sleep-hygiene",
+        "source": "internal",
+        "summary": "建立良好睡眠習慣，改善兒童睡眠品質的實用建議",
+        "title": "兒童睡眠衛生指導"
+      }
+    ],
+    "monitor::behavior::49-60m": [
+      {
+        "slug": "sleep-hygiene",
+        "source": "internal",
+        "summary": "建立良好睡眠習慣，改善兒童睡眠品質的實用建議",
+        "title": "兒童睡眠衛生指導"
+      }
+    ],
+    "monitor::behavior::61-72m": [
+      {
+        "slug": "sleep-hygiene",
+        "source": "internal",
+        "summary": "建立良好睡眠習慣，改善兒童睡眠品質的實用建議",
+        "title": "兒童睡眠衛生指導"
+      }
+    ],
+    "monitor::cognition::13-24m": [
+      {
+        "slug": "cognitive-play",
+        "source": "internal",
+        "summary": "透過遊戲促進兒童認知能力：分類、配對、因果理解",
+        "title": "認知發展遊戲建議"
+      }
+    ],
+    "monitor::cognition::25-36m": [
+      {
+        "slug": "cognitive-play",
+        "source": "internal",
+        "summary": "透過遊戲促進兒童認知能力：分類、配對、因果理解",
+        "title": "認知發展遊戲建議"
+      }
+    ],
+    "monitor::cognition::37-48m": [
+      {
+        "slug": "cognitive-play",
+        "source": "internal",
+        "summary": "透過遊戲促進兒童認知能力：分類、配對、因果理解",
+        "title": "認知發展遊戲建議"
+      }
+    ],
+    "monitor::cognition::49-60m": [
+      {
+        "slug": "cognitive-play",
+        "source": "internal",
+        "summary": "透過遊戲促進兒童認知能力：分類、配對、因果理解",
+        "title": "認知發展遊戲建議"
+      }
+    ],
+    "monitor::cognition::61-72m": [
+      {
+        "slug": "cognitive-play",
+        "source": "internal",
+        "summary": "透過遊戲促進兒童認知能力：分類、配對、因果理解",
+        "title": "認知發展遊戲建議"
+      }
+    ],
+    "monitor::fine_motor::13-24m": [
+      {
+        "slug": "fine-motor-activities",
+        "source": "internal",
+        "summary": "促進手部精細動作與手眼協調的居家活動",
+        "title": "精細動作發展促進活動"
+      }
+    ],
+    "monitor::fine_motor::25-36m": [
+      {
+        "slug": "fine-motor-activities",
+        "source": "internal",
+        "summary": "促進手部精細動作與手眼協調的居家活動",
+        "title": "精細動作發展促進活動"
+      }
+    ],
+    "monitor::fine_motor::37-48m": [
+      {
+        "slug": "fine-motor-activities",
+        "source": "internal",
+        "summary": "促進手部精細動作與手眼協調的居家活動",
+        "title": "精細動作發展促進活動"
+      }
+    ],
+    "monitor::fine_motor::49-60m": [
+      {
+        "slug": "fine-motor-activities",
+        "source": "internal",
+        "summary": "促進手部精細動作與手眼協調的居家活動",
+        "title": "精細動作發展促進活動"
+      }
+    ],
+    "monitor::fine_motor::61-72m": [
+      {
+        "slug": "fine-motor-activities",
+        "source": "internal",
+        "summary": "促進手部精細動作與手眼協調的居家活動",
+        "title": "精細動作發展促進活動"
+      }
+    ],
+    "monitor::fine_motor::7-12m": [
+      {
+        "slug": "fine-motor-activities",
+        "source": "internal",
+        "summary": "促進手部精細動作與手眼協調的居家活動",
+        "title": "精細動作發展促進活動"
+      }
+    ],
+    "monitor::gross_motor::13-24m": [
+      {
+        "slug": "exercise-guide",
+        "source": "internal",
+        "summary": "各年齡層兒童適當運動量與活動類型的專業建議",
+        "title": "兒童運動建議指南"
+      },
+      {
+        "slug": "gross-motor-activities",
+        "source": "internal",
+        "summary": "適合各年齡層的粗動作訓練遊戲與居家活動建議",
+        "title": "粗動作發展促進活動"
+      }
+    ],
+    "monitor::gross_motor::2-6m": [
+      {
+        "slug": "exercise-guide",
+        "source": "internal",
+        "summary": "各年齡層兒童適當運動量與活動類型的專業建議",
+        "title": "兒童運動建議指南"
+      },
+      {
+        "slug": "gross-motor-activities",
+        "source": "internal",
+        "summary": "適合各年齡層的粗動作訓練遊戲與居家活動建議",
+        "title": "粗動作發展促進活動"
+      }
+    ],
+    "monitor::gross_motor::25-36m": [
+      {
+        "slug": "exercise-guide",
+        "source": "internal",
+        "summary": "各年齡層兒童適當運動量與活動類型的專業建議",
+        "title": "兒童運動建議指南"
+      },
+      {
+        "slug": "gross-motor-activities",
+        "source": "internal",
+        "summary": "適合各年齡層的粗動作訓練遊戲與居家活動建議",
+        "title": "粗動作發展促進活動"
+      }
+    ],
+    "monitor::gross_motor::37-48m": [
+      {
+        "slug": "exercise-guide",
+        "source": "internal",
+        "summary": "各年齡層兒童適當運動量與活動類型的專業建議",
+        "title": "兒童運動建議指南"
+      },
+      {
+        "slug": "gross-motor-activities",
+        "source": "internal",
+        "summary": "適合各年齡層的粗動作訓練遊戲與居家活動建議",
+        "title": "粗動作發展促進活動"
+      }
+    ],
+    "monitor::gross_motor::49-60m": [
+      {
+        "slug": "exercise-guide",
+        "source": "internal",
+        "summary": "各年齡層兒童適當運動量與活動類型的專業建議",
+        "title": "兒童運動建議指南"
+      },
+      {
+        "slug": "gross-motor-activities",
+        "source": "internal",
+        "summary": "適合各年齡層的粗動作訓練遊戲與居家活動建議",
+        "title": "粗動作發展促進活動"
+      }
+    ],
+    "monitor::gross_motor::61-72m": [
+      {
+        "slug": "exercise-guide",
+        "source": "internal",
+        "summary": "各年齡層兒童適當運動量與活動類型的專業建議",
+        "title": "兒童運動建議指南"
+      },
+      {
+        "slug": "gross-motor-activities",
+        "source": "internal",
+        "summary": "適合各年齡層的粗動作訓練遊戲與居家活動建議",
+        "title": "粗動作發展促進活動"
+      }
+    ],
+    "monitor::gross_motor::7-12m": [
+      {
+        "slug": "exercise-guide",
+        "source": "internal",
+        "summary": "各年齡層兒童適當運動量與活動類型的專業建議",
+        "title": "兒童運動建議指南"
+      },
+      {
+        "slug": "gross-motor-activities",
+        "source": "internal",
+        "summary": "適合各年齡層的粗動作訓練遊戲與居家活動建議",
+        "title": "粗動作發展促進活動"
+      }
+    ],
+    "monitor::language::13-24m": [
+      {
+        "slug": "language-stimulation",
+        "source": "internal",
+        "summary": "透過日常互動促進兒童語言理解與表達能力",
+        "title": "語言發展促進技巧"
+      }
+    ],
+    "monitor::language::25-36m": [
+      {
+        "slug": "language-stimulation",
+        "source": "internal",
+        "summary": "透過日常互動促進兒童語言理解與表達能力",
+        "title": "語言發展促進技巧"
+      }
+    ],
+    "monitor::language::37-48m": [
+      {
+        "slug": "language-stimulation",
+        "source": "internal",
+        "summary": "透過日常互動促進兒童語言理解與表達能力",
+        "title": "語言發展促進技巧"
+      }
+    ],
+    "monitor::language::49-60m": [
+      {
+        "slug": "language-stimulation",
+        "source": "internal",
+        "summary": "透過日常互動促進兒童語言理解與表達能力",
+        "title": "語言發展促進技巧"
+      }
+    ],
+    "monitor::language::61-72m": [
+      {
+        "slug": "language-stimulation",
+        "source": "internal",
+        "summary": "透過日常互動促進兒童語言理解與表達能力",
+        "title": "語言發展促進技巧"
+      }
+    ],
+    "monitor::language::7-12m": [
+      {
+        "slug": "language-stimulation",
+        "source": "internal",
+        "summary": "透過日常互動促進兒童語言理解與表達能力",
+        "title": "語言發展促進技巧"
+      }
+    ],
+    "monitor::language_comprehension::13-24m": [
+      {
+        "slug": "language-stimulation",
+        "source": "internal",
+        "summary": "透過日常互動促進兒童語言理解與表達能力",
+        "title": "語言發展促進技巧"
+      }
+    ],
+    "monitor::language_comprehension::25-36m": [
+      {
+        "slug": "language-stimulation",
+        "source": "internal",
+        "summary": "透過日常互動促進兒童語言理解與表達能力",
+        "title": "語言發展促進技巧"
+      }
+    ],
+    "monitor::language_comprehension::37-48m": [
+      {
+        "slug": "language-stimulation",
+        "source": "internal",
+        "summary": "透過日常互動促進兒童語言理解與表達能力",
+        "title": "語言發展促進技巧"
+      }
+    ],
+    "monitor::language_comprehension::49-60m": [
+      {
+        "slug": "language-stimulation",
+        "source": "internal",
+        "summary": "透過日常互動促進兒童語言理解與表達能力",
+        "title": "語言發展促進技巧"
+      }
+    ],
+    "monitor::language_comprehension::61-72m": [
+      {
+        "slug": "language-stimulation",
+        "source": "internal",
+        "summary": "透過日常互動促進兒童語言理解與表達能力",
+        "title": "語言發展促進技巧"
+      }
+    ],
+    "monitor::language_comprehension::7-12m": [
+      {
+        "slug": "language-stimulation",
+        "source": "internal",
+        "summary": "透過日常互動促進兒童語言理解與表達能力",
+        "title": "語言發展促進技巧"
+      }
+    ],
+    "monitor::language_expression::13-24m": [
+      {
+        "slug": "language-stimulation",
+        "source": "internal",
+        "summary": "透過日常互動促進兒童語言理解與表達能力",
+        "title": "語言發展促進技巧"
+      }
+    ],
+    "monitor::language_expression::25-36m": [
+      {
+        "slug": "language-stimulation",
+        "source": "internal",
+        "summary": "透過日常互動促進兒童語言理解與表達能力",
+        "title": "語言發展促進技巧"
+      }
+    ],
+    "monitor::language_expression::37-48m": [
+      {
+        "slug": "language-stimulation",
+        "source": "internal",
+        "summary": "透過日常互動促進兒童語言理解與表達能力",
+        "title": "語言發展促進技巧"
+      }
+    ],
+    "monitor::language_expression::49-60m": [
+      {
+        "slug": "language-stimulation",
+        "source": "internal",
+        "summary": "透過日常互動促進兒童語言理解與表達能力",
+        "title": "語言發展促進技巧"
+      }
+    ],
+    "monitor::language_expression::61-72m": [
+      {
+        "slug": "language-stimulation",
+        "source": "internal",
+        "summary": "透過日常互動促進兒童語言理解與表達能力",
+        "title": "語言發展促進技巧"
+      }
+    ],
+    "monitor::social_emotional::13-24m": [
+      {
+        "slug": "social-emotional-guide",
+        "source": "internal",
+        "summary": "培養兒童社交互動、情緒辨識與自我調節能力",
+        "title": "社會情緒發展引導"
+      }
+    ],
+    "monitor::social_emotional::25-36m": [
+      {
+        "slug": "social-emotional-guide",
+        "source": "internal",
+        "summary": "培養兒童社交互動、情緒辨識與自我調節能力",
+        "title": "社會情緒發展引導"
+      }
+    ],
+    "monitor::social_emotional::37-48m": [
+      {
+        "slug": "social-emotional-guide",
+        "source": "internal",
+        "summary": "培養兒童社交互動、情緒辨識與自我調節能力",
+        "title": "社會情緒發展引導"
+      }
+    ],
+    "monitor::social_emotional::49-60m": [
+      {
+        "slug": "social-emotional-guide",
+        "source": "internal",
+        "summary": "培養兒童社交互動、情緒辨識與自我調節能力",
+        "title": "社會情緒發展引導"
+      }
+    ],
+    "monitor::social_emotional::61-72m": [
+      {
+        "slug": "social-emotional-guide",
+        "source": "internal",
+        "summary": "培養兒童社交互動、情緒辨識與自我調節能力",
+        "title": "社會情緒發展引導"
+      }
+    ],
+    "monitor::social_emotional::7-12m": [
+      {
+        "slug": "social-emotional-guide",
+        "source": "internal",
+        "summary": "培養兒童社交互動、情緒辨識與自我調節能力",
+        "title": "社會情緒發展引導"
+      }
+    ],
+    "refer::behavior::13-24m": [
+      {
+        "slug": "sleep-hygiene",
+        "source": "internal",
+        "summary": "建立良好睡眠習慣，改善兒童睡眠品質的實用建議",
+        "title": "兒童睡眠衛生指導"
+      },
+      {
+        "slug": "when-to-seek-help",
+        "source": "internal",
+        "summary": "兒童發展警訊與轉介建議——什麼時候該帶孩子去看醫生",
+        "title": "何時該尋求專業協助"
+      }
+    ],
+    "refer::behavior::25-36m": [
+      {
+        "slug": "sleep-hygiene",
+        "source": "internal",
+        "summary": "建立良好睡眠習慣，改善兒童睡眠品質的實用建議",
+        "title": "兒童睡眠衛生指導"
+      },
+      {
+        "slug": "when-to-seek-help",
+        "source": "internal",
+        "summary": "兒童發展警訊與轉介建議——什麼時候該帶孩子去看醫生",
+        "title": "何時該尋求專業協助"
+      }
+    ],
+    "refer::behavior::37-48m": [
+      {
+        "slug": "sleep-hygiene",
+        "source": "internal",
+        "summary": "建立良好睡眠習慣，改善兒童睡眠品質的實用建議",
+        "title": "兒童睡眠衛生指導"
+      },
+      {
+        "slug": "when-to-seek-help",
+        "source": "internal",
+        "summary": "兒童發展警訊與轉介建議——什麼時候該帶孩子去看醫生",
+        "title": "何時該尋求專業協助"
+      }
+    ],
+    "refer::behavior::49-60m": [
+      {
+        "slug": "sleep-hygiene",
+        "source": "internal",
+        "summary": "建立良好睡眠習慣，改善兒童睡眠品質的實用建議",
+        "title": "兒童睡眠衛生指導"
+      },
+      {
+        "slug": "when-to-seek-help",
+        "source": "internal",
+        "summary": "兒童發展警訊與轉介建議——什麼時候該帶孩子去看醫生",
+        "title": "何時該尋求專業協助"
+      }
+    ],
+    "refer::behavior::61-72m": [
+      {
+        "slug": "sleep-hygiene",
+        "source": "internal",
+        "summary": "建立良好睡眠習慣，改善兒童睡眠品質的實用建議",
+        "title": "兒童睡眠衛生指導"
+      },
+      {
+        "slug": "when-to-seek-help",
+        "source": "internal",
+        "summary": "兒童發展警訊與轉介建議——什麼時候該帶孩子去看醫生",
+        "title": "何時該尋求專業協助"
+      }
+    ],
+    "refer::cognition::13-24m": [
+      {
+        "slug": "cognitive-play",
+        "source": "internal",
+        "summary": "透過遊戲促進兒童認知能力：分類、配對、因果理解",
+        "title": "認知發展遊戲建議"
+      },
+      {
+        "slug": "when-to-seek-help",
+        "source": "internal",
+        "summary": "兒童發展警訊與轉介建議——什麼時候該帶孩子去看醫生",
+        "title": "何時該尋求專業協助"
+      }
+    ],
+    "refer::cognition::25-36m": [
+      {
+        "slug": "cognitive-play",
+        "source": "internal",
+        "summary": "透過遊戲促進兒童認知能力：分類、配對、因果理解",
+        "title": "認知發展遊戲建議"
+      },
+      {
+        "slug": "when-to-seek-help",
+        "source": "internal",
+        "summary": "兒童發展警訊與轉介建議——什麼時候該帶孩子去看醫生",
+        "title": "何時該尋求專業協助"
+      }
+    ],
+    "refer::cognition::37-48m": [
+      {
+        "slug": "cognitive-play",
+        "source": "internal",
+        "summary": "透過遊戲促進兒童認知能力：分類、配對、因果理解",
+        "title": "認知發展遊戲建議"
+      },
+      {
+        "slug": "when-to-seek-help",
+        "source": "internal",
+        "summary": "兒童發展警訊與轉介建議——什麼時候該帶孩子去看醫生",
+        "title": "何時該尋求專業協助"
+      }
+    ],
+    "refer::cognition::49-60m": [
+      {
+        "slug": "cognitive-play",
+        "source": "internal",
+        "summary": "透過遊戲促進兒童認知能力：分類、配對、因果理解",
+        "title": "認知發展遊戲建議"
+      },
+      {
+        "slug": "when-to-seek-help",
+        "source": "internal",
+        "summary": "兒童發展警訊與轉介建議——什麼時候該帶孩子去看醫生",
+        "title": "何時該尋求專業協助"
+      }
+    ],
+    "refer::cognition::61-72m": [
+      {
+        "slug": "cognitive-play",
+        "source": "internal",
+        "summary": "透過遊戲促進兒童認知能力：分類、配對、因果理解",
+        "title": "認知發展遊戲建議"
+      },
+      {
+        "slug": "when-to-seek-help",
+        "source": "internal",
+        "summary": "兒童發展警訊與轉介建議——什麼時候該帶孩子去看醫生",
+        "title": "何時該尋求專業協助"
+      }
+    ],
+    "refer::fine_motor::13-24m": [
+      {
+        "slug": "fine-motor-activities",
+        "source": "internal",
+        "summary": "促進手部精細動作與手眼協調的居家活動",
+        "title": "精細動作發展促進活動"
+      },
+      {
+        "slug": "when-to-seek-help",
+        "source": "internal",
+        "summary": "兒童發展警訊與轉介建議——什麼時候該帶孩子去看醫生",
+        "title": "何時該尋求專業協助"
+      }
+    ],
+    "refer::fine_motor::25-36m": [
+      {
+        "slug": "fine-motor-activities",
+        "source": "internal",
+        "summary": "促進手部精細動作與手眼協調的居家活動",
+        "title": "精細動作發展促進活動"
+      },
+      {
+        "slug": "when-to-seek-help",
+        "source": "internal",
+        "summary": "兒童發展警訊與轉介建議——什麼時候該帶孩子去看醫生",
+        "title": "何時該尋求專業協助"
+      }
+    ],
+    "refer::fine_motor::37-48m": [
+      {
+        "slug": "fine-motor-activities",
+        "source": "internal",
+        "summary": "促進手部精細動作與手眼協調的居家活動",
+        "title": "精細動作發展促進活動"
+      },
+      {
+        "slug": "when-to-seek-help",
+        "source": "internal",
+        "summary": "兒童發展警訊與轉介建議——什麼時候該帶孩子去看醫生",
+        "title": "何時該尋求專業協助"
+      }
+    ],
+    "refer::fine_motor::49-60m": [
+      {
+        "slug": "fine-motor-activities",
+        "source": "internal",
+        "summary": "促進手部精細動作與手眼協調的居家活動",
+        "title": "精細動作發展促進活動"
+      },
+      {
+        "slug": "when-to-seek-help",
+        "source": "internal",
+        "summary": "兒童發展警訊與轉介建議——什麼時候該帶孩子去看醫生",
+        "title": "何時該尋求專業協助"
+      }
+    ],
+    "refer::fine_motor::61-72m": [
+      {
+        "slug": "fine-motor-activities",
+        "source": "internal",
+        "summary": "促進手部精細動作與手眼協調的居家活動",
+        "title": "精細動作發展促進活動"
+      },
+      {
+        "slug": "when-to-seek-help",
+        "source": "internal",
+        "summary": "兒童發展警訊與轉介建議——什麼時候該帶孩子去看醫生",
+        "title": "何時該尋求專業協助"
+      }
+    ],
+    "refer::fine_motor::7-12m": [
+      {
+        "slug": "fine-motor-activities",
+        "source": "internal",
+        "summary": "促進手部精細動作與手眼協調的居家活動",
+        "title": "精細動作發展促進活動"
+      },
+      {
+        "slug": "when-to-seek-help",
+        "source": "internal",
+        "summary": "兒童發展警訊與轉介建議——什麼時候該帶孩子去看醫生",
+        "title": "何時該尋求專業協助"
+      }
+    ],
+    "refer::gross_motor::13-24m": [
+      {
+        "slug": "exercise-guide",
+        "source": "internal",
+        "summary": "各年齡層兒童適當運動量與活動類型的專業建議",
+        "title": "兒童運動建議指南"
+      },
+      {
+        "slug": "gross-motor-activities",
+        "source": "internal",
+        "summary": "適合各年齡層的粗動作訓練遊戲與居家活動建議",
+        "title": "粗動作發展促進活動"
+      },
+      {
+        "slug": "when-to-seek-help",
+        "source": "internal",
+        "summary": "兒童發展警訊與轉介建議——什麼時候該帶孩子去看醫生",
+        "title": "何時該尋求專業協助"
+      }
+    ],
+    "refer::gross_motor::2-6m": [
+      {
+        "slug": "exercise-guide",
+        "source": "internal",
+        "summary": "各年齡層兒童適當運動量與活動類型的專業建議",
+        "title": "兒童運動建議指南"
+      },
+      {
+        "slug": "gross-motor-activities",
+        "source": "internal",
+        "summary": "適合各年齡層的粗動作訓練遊戲與居家活動建議",
+        "title": "粗動作發展促進活動"
+      },
+      {
+        "slug": "when-to-seek-help",
+        "source": "internal",
+        "summary": "兒童發展警訊與轉介建議——什麼時候該帶孩子去看醫生",
+        "title": "何時該尋求專業協助"
+      }
+    ],
+    "refer::gross_motor::25-36m": [
+      {
+        "slug": "exercise-guide",
+        "source": "internal",
+        "summary": "各年齡層兒童適當運動量與活動類型的專業建議",
+        "title": "兒童運動建議指南"
+      },
+      {
+        "slug": "gross-motor-activities",
+        "source": "internal",
+        "summary": "適合各年齡層的粗動作訓練遊戲與居家活動建議",
+        "title": "粗動作發展促進活動"
+      },
+      {
+        "slug": "when-to-seek-help",
+        "source": "internal",
+        "summary": "兒童發展警訊與轉介建議——什麼時候該帶孩子去看醫生",
+        "title": "何時該尋求專業協助"
+      }
+    ],
+    "refer::gross_motor::37-48m": [
+      {
+        "slug": "exercise-guide",
+        "source": "internal",
+        "summary": "各年齡層兒童適當運動量與活動類型的專業建議",
+        "title": "兒童運動建議指南"
+      },
+      {
+        "slug": "gross-motor-activities",
+        "source": "internal",
+        "summary": "適合各年齡層的粗動作訓練遊戲與居家活動建議",
+        "title": "粗動作發展促進活動"
+      },
+      {
+        "slug": "when-to-seek-help",
+        "source": "internal",
+        "summary": "兒童發展警訊與轉介建議——什麼時候該帶孩子去看醫生",
+        "title": "何時該尋求專業協助"
+      }
+    ],
+    "refer::gross_motor::49-60m": [
+      {
+        "slug": "exercise-guide",
+        "source": "internal",
+        "summary": "各年齡層兒童適當運動量與活動類型的專業建議",
+        "title": "兒童運動建議指南"
+      },
+      {
+        "slug": "gross-motor-activities",
+        "source": "internal",
+        "summary": "適合各年齡層的粗動作訓練遊戲與居家活動建議",
+        "title": "粗動作發展促進活動"
+      },
+      {
+        "slug": "when-to-seek-help",
+        "source": "internal",
+        "summary": "兒童發展警訊與轉介建議——什麼時候該帶孩子去看醫生",
+        "title": "何時該尋求專業協助"
+      }
+    ],
+    "refer::gross_motor::61-72m": [
+      {
+        "slug": "exercise-guide",
+        "source": "internal",
+        "summary": "各年齡層兒童適當運動量與活動類型的專業建議",
+        "title": "兒童運動建議指南"
+      },
+      {
+        "slug": "gross-motor-activities",
+        "source": "internal",
+        "summary": "適合各年齡層的粗動作訓練遊戲與居家活動建議",
+        "title": "粗動作發展促進活動"
+      },
+      {
+        "slug": "when-to-seek-help",
+        "source": "internal",
+        "summary": "兒童發展警訊與轉介建議——什麼時候該帶孩子去看醫生",
+        "title": "何時該尋求專業協助"
+      }
+    ],
+    "refer::gross_motor::7-12m": [
+      {
+        "slug": "exercise-guide",
+        "source": "internal",
+        "summary": "各年齡層兒童適當運動量與活動類型的專業建議",
+        "title": "兒童運動建議指南"
+      },
+      {
+        "slug": "gross-motor-activities",
+        "source": "internal",
+        "summary": "適合各年齡層的粗動作訓練遊戲與居家活動建議",
+        "title": "粗動作發展促進活動"
+      },
+      {
+        "slug": "when-to-seek-help",
+        "source": "internal",
+        "summary": "兒童發展警訊與轉介建議——什麼時候該帶孩子去看醫生",
+        "title": "何時該尋求專業協助"
+      }
+    ],
+    "refer::language::13-24m": [
+      {
+        "slug": "language-stimulation",
+        "source": "internal",
+        "summary": "透過日常互動促進兒童語言理解與表達能力",
+        "title": "語言發展促進技巧"
+      }
+    ],
+    "refer::language::25-36m": [
+      {
+        "slug": "language-stimulation",
+        "source": "internal",
+        "summary": "透過日常互動促進兒童語言理解與表達能力",
+        "title": "語言發展促進技巧"
+      }
+    ],
+    "refer::language::37-48m": [
+      {
+        "slug": "language-stimulation",
+        "source": "internal",
+        "summary": "透過日常互動促進兒童語言理解與表達能力",
+        "title": "語言發展促進技巧"
+      }
+    ],
+    "refer::language::49-60m": [
+      {
+        "slug": "language-stimulation",
+        "source": "internal",
+        "summary": "透過日常互動促進兒童語言理解與表達能力",
+        "title": "語言發展促進技巧"
+      }
+    ],
+    "refer::language::61-72m": [
+      {
+        "slug": "language-stimulation",
+        "source": "internal",
+        "summary": "透過日常互動促進兒童語言理解與表達能力",
+        "title": "語言發展促進技巧"
+      }
+    ],
+    "refer::language::7-12m": [
+      {
+        "slug": "language-stimulation",
+        "source": "internal",
+        "summary": "透過日常互動促進兒童語言理解與表達能力",
+        "title": "語言發展促進技巧"
+      }
+    ],
+    "refer::language_comprehension::13-24m": [
+      {
+        "slug": "language-stimulation",
+        "source": "internal",
+        "summary": "透過日常互動促進兒童語言理解與表達能力",
+        "title": "語言發展促進技巧"
+      },
+      {
+        "slug": "when-to-seek-help",
+        "source": "internal",
+        "summary": "兒童發展警訊與轉介建議——什麼時候該帶孩子去看醫生",
+        "title": "何時該尋求專業協助"
+      }
+    ],
+    "refer::language_comprehension::25-36m": [
+      {
+        "slug": "language-stimulation",
+        "source": "internal",
+        "summary": "透過日常互動促進兒童語言理解與表達能力",
+        "title": "語言發展促進技巧"
+      },
+      {
+        "slug": "when-to-seek-help",
+        "source": "internal",
+        "summary": "兒童發展警訊與轉介建議——什麼時候該帶孩子去看醫生",
+        "title": "何時該尋求專業協助"
+      }
+    ],
+    "refer::language_comprehension::37-48m": [
+      {
+        "slug": "language-stimulation",
+        "source": "internal",
+        "summary": "透過日常互動促進兒童語言理解與表達能力",
+        "title": "語言發展促進技巧"
+      },
+      {
+        "slug": "when-to-seek-help",
+        "source": "internal",
+        "summary": "兒童發展警訊與轉介建議——什麼時候該帶孩子去看醫生",
+        "title": "何時該尋求專業協助"
+      }
+    ],
+    "refer::language_comprehension::49-60m": [
+      {
+        "slug": "language-stimulation",
+        "source": "internal",
+        "summary": "透過日常互動促進兒童語言理解與表達能力",
+        "title": "語言發展促進技巧"
+      },
+      {
+        "slug": "when-to-seek-help",
+        "source": "internal",
+        "summary": "兒童發展警訊與轉介建議——什麼時候該帶孩子去看醫生",
+        "title": "何時該尋求專業協助"
+      }
+    ],
+    "refer::language_comprehension::61-72m": [
+      {
+        "slug": "language-stimulation",
+        "source": "internal",
+        "summary": "透過日常互動促進兒童語言理解與表達能力",
+        "title": "語言發展促進技巧"
+      },
+      {
+        "slug": "when-to-seek-help",
+        "source": "internal",
+        "summary": "兒童發展警訊與轉介建議——什麼時候該帶孩子去看醫生",
+        "title": "何時該尋求專業協助"
+      }
+    ],
+    "refer::language_comprehension::7-12m": [
+      {
+        "slug": "language-stimulation",
+        "source": "internal",
+        "summary": "透過日常互動促進兒童語言理解與表達能力",
+        "title": "語言發展促進技巧"
+      },
+      {
+        "slug": "when-to-seek-help",
+        "source": "internal",
+        "summary": "兒童發展警訊與轉介建議——什麼時候該帶孩子去看醫生",
+        "title": "何時該尋求專業協助"
+      }
+    ],
+    "refer::language_expression::13-24m": [
+      {
+        "slug": "language-stimulation",
+        "source": "internal",
+        "summary": "透過日常互動促進兒童語言理解與表達能力",
+        "title": "語言發展促進技巧"
+      },
+      {
+        "slug": "when-to-seek-help",
+        "source": "internal",
+        "summary": "兒童發展警訊與轉介建議——什麼時候該帶孩子去看醫生",
+        "title": "何時該尋求專業協助"
+      }
+    ],
+    "refer::language_expression::25-36m": [
+      {
+        "slug": "language-stimulation",
+        "source": "internal",
+        "summary": "透過日常互動促進兒童語言理解與表達能力",
+        "title": "語言發展促進技巧"
+      },
+      {
+        "slug": "when-to-seek-help",
+        "source": "internal",
+        "summary": "兒童發展警訊與轉介建議——什麼時候該帶孩子去看醫生",
+        "title": "何時該尋求專業協助"
+      }
+    ],
+    "refer::language_expression::37-48m": [
+      {
+        "slug": "language-stimulation",
+        "source": "internal",
+        "summary": "透過日常互動促進兒童語言理解與表達能力",
+        "title": "語言發展促進技巧"
+      },
+      {
+        "slug": "when-to-seek-help",
+        "source": "internal",
+        "summary": "兒童發展警訊與轉介建議——什麼時候該帶孩子去看醫生",
+        "title": "何時該尋求專業協助"
+      }
+    ],
+    "refer::language_expression::49-60m": [
+      {
+        "slug": "language-stimulation",
+        "source": "internal",
+        "summary": "透過日常互動促進兒童語言理解與表達能力",
+        "title": "語言發展促進技巧"
+      },
+      {
+        "slug": "when-to-seek-help",
+        "source": "internal",
+        "summary": "兒童發展警訊與轉介建議——什麼時候該帶孩子去看醫生",
+        "title": "何時該尋求專業協助"
+      }
+    ],
+    "refer::language_expression::61-72m": [
+      {
+        "slug": "language-stimulation",
+        "source": "internal",
+        "summary": "透過日常互動促進兒童語言理解與表達能力",
+        "title": "語言發展促進技巧"
+      },
+      {
+        "slug": "when-to-seek-help",
+        "source": "internal",
+        "summary": "兒童發展警訊與轉介建議——什麼時候該帶孩子去看醫生",
+        "title": "何時該尋求專業協助"
+      }
+    ],
+    "refer::social_emotional::13-24m": [
+      {
+        "slug": "social-emotional-guide",
+        "source": "internal",
+        "summary": "培養兒童社交互動、情緒辨識與自我調節能力",
+        "title": "社會情緒發展引導"
+      },
+      {
+        "slug": "when-to-seek-help",
+        "source": "internal",
+        "summary": "兒童發展警訊與轉介建議——什麼時候該帶孩子去看醫生",
+        "title": "何時該尋求專業協助"
+      }
+    ],
+    "refer::social_emotional::25-36m": [
+      {
+        "slug": "social-emotional-guide",
+        "source": "internal",
+        "summary": "培養兒童社交互動、情緒辨識與自我調節能力",
+        "title": "社會情緒發展引導"
+      },
+      {
+        "slug": "when-to-seek-help",
+        "source": "internal",
+        "summary": "兒童發展警訊與轉介建議——什麼時候該帶孩子去看醫生",
+        "title": "何時該尋求專業協助"
+      }
+    ],
+    "refer::social_emotional::37-48m": [
+      {
+        "slug": "social-emotional-guide",
+        "source": "internal",
+        "summary": "培養兒童社交互動、情緒辨識與自我調節能力",
+        "title": "社會情緒發展引導"
+      },
+      {
+        "slug": "when-to-seek-help",
+        "source": "internal",
+        "summary": "兒童發展警訊與轉介建議——什麼時候該帶孩子去看醫生",
+        "title": "何時該尋求專業協助"
+      }
+    ],
+    "refer::social_emotional::49-60m": [
+      {
+        "slug": "social-emotional-guide",
+        "source": "internal",
+        "summary": "培養兒童社交互動、情緒辨識與自我調節能力",
+        "title": "社會情緒發展引導"
+      },
+      {
+        "slug": "when-to-seek-help",
+        "source": "internal",
+        "summary": "兒童發展警訊與轉介建議——什麼時候該帶孩子去看醫生",
+        "title": "何時該尋求專業協助"
+      }
+    ],
+    "refer::social_emotional::61-72m": [
+      {
+        "slug": "social-emotional-guide",
+        "source": "internal",
+        "summary": "培養兒童社交互動、情緒辨識與自我調節能力",
+        "title": "社會情緒發展引導"
+      },
+      {
+        "slug": "when-to-seek-help",
+        "source": "internal",
+        "summary": "兒童發展警訊與轉介建議——什麼時候該帶孩子去看醫生",
+        "title": "何時該尋求專業協助"
+      }
+    ],
+    "refer::social_emotional::7-12m": [
+      {
+        "slug": "social-emotional-guide",
+        "source": "internal",
+        "summary": "培養兒童社交互動、情緒辨識與自我調節能力",
+        "title": "社會情緒發展引導"
+      },
+      {
+        "slug": "when-to-seek-help",
+        "source": "internal",
+        "summary": "兒童發展警訊與轉介建議——什麼時候該帶孩子去看醫生",
+        "title": "何時該尋求專業協助"
+      }
     ]
   },
   "triggers": {
+    "cdsa.domain.behavior.anomaly.13-24m": {
+      "inapplicable": false,
+      "videoIds": []
+    },
     "cdsa.domain.behavior.anomaly.2-6m": {
       "inapplicable": true,
+      "videoIds": []
+    },
+    "cdsa.domain.behavior.anomaly.25-36m": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cdsa.domain.behavior.anomaly.37-48m": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cdsa.domain.behavior.anomaly.49-60m": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cdsa.domain.behavior.anomaly.61-72m": {
+      "inapplicable": false,
       "videoIds": []
     },
     "cdsa.domain.behavior.anomaly.7-12m": {
@@ -325,7 +1637,11 @@
     "cdsa.domain.cognition.anomaly.13-24m": {
       "educationSlug": "cognitive-play",
       "inapplicable": false,
-      "videoIds": []
+      "videoIds": [
+        "csQmPzAP0z4",
+        "ciXeOePs_Qo",
+        "Ji9p7HpBtDg"
+      ]
     },
     "cdsa.domain.cognition.anomaly.2-6m": {
       "inapplicable": true,
@@ -334,22 +1650,36 @@
     "cdsa.domain.cognition.anomaly.25-36m": {
       "educationSlug": "cognitive-play",
       "inapplicable": false,
-      "videoIds": []
+      "videoIds": [
+        "csQmPzAP0z4",
+        "ciXeOePs_Qo",
+        "-s2Tuk7l63I"
+      ]
     },
     "cdsa.domain.cognition.anomaly.37-48m": {
       "educationSlug": "cognitive-play",
       "inapplicable": false,
-      "videoIds": []
+      "videoIds": [
+        "ciXeOePs_Qo",
+        "nLIBXYAx11Q",
+        "C77ZGOhIwAQ"
+      ]
     },
     "cdsa.domain.cognition.anomaly.49-60m": {
       "educationSlug": "cognitive-play",
       "inapplicable": false,
-      "videoIds": []
+      "videoIds": [
+        "nLIBXYAx11Q",
+        "C77ZGOhIwAQ"
+      ]
     },
     "cdsa.domain.cognition.anomaly.61-72m": {
       "educationSlug": "cognitive-play",
       "inapplicable": false,
-      "videoIds": []
+      "videoIds": [
+        "nLIBXYAx11Q",
+        "C77ZGOhIwAQ"
+      ]
     },
     "cdsa.domain.cognition.anomaly.7-12m": {
       "inapplicable": true,
@@ -358,7 +1688,10 @@
     "cdsa.domain.fine_motor.anomaly.13-24m": {
       "educationSlug": "fine-motor-activities",
       "inapplicable": false,
-      "videoIds": []
+      "videoIds": [
+        "QjlIXRUqzoE",
+        "Ji9p7HpBtDg"
+      ]
     },
     "cdsa.domain.fine_motor.anomaly.2-6m": {
       "inapplicable": true,
@@ -367,62 +1700,97 @@
     "cdsa.domain.fine_motor.anomaly.25-36m": {
       "educationSlug": "fine-motor-activities",
       "inapplicable": false,
-      "videoIds": []
+      "videoIds": [
+        "QjlIXRUqzoE",
+        "80aOAdwa5_0"
+      ]
     },
     "cdsa.domain.fine_motor.anomaly.37-48m": {
       "educationSlug": "fine-motor-activities",
       "inapplicable": false,
-      "videoIds": []
+      "videoIds": [
+        "80aOAdwa5_0",
+        "bWuhwQUJ7uI"
+      ]
     },
     "cdsa.domain.fine_motor.anomaly.49-60m": {
       "educationSlug": "fine-motor-activities",
       "inapplicable": false,
-      "videoIds": []
+      "videoIds": [
+        "80aOAdwa5_0",
+        "zxVBC48maNU",
+        "bWuhwQUJ7uI"
+      ]
     },
     "cdsa.domain.fine_motor.anomaly.61-72m": {
       "educationSlug": "fine-motor-activities",
       "inapplicable": false,
-      "videoIds": []
+      "videoIds": [
+        "zxVBC48maNU",
+        "bWuhwQUJ7uI"
+      ]
     },
     "cdsa.domain.fine_motor.anomaly.7-12m": {
       "educationSlug": "fine-motor-activities",
       "inapplicable": false,
-      "videoIds": []
+      "videoIds": [
+        "QjlIXRUqzoE",
+        "Ji9p7HpBtDg"
+      ]
     },
     "cdsa.domain.gross_motor.anomaly.13-24m": {
       "educationSlug": "gross-motor-activities",
       "inapplicable": false,
-      "videoIds": []
+      "videoIds": [
+        "DpRYnBPi_dg",
+        "-s2Tuk7l63I"
+      ]
     },
     "cdsa.domain.gross_motor.anomaly.2-6m": {
       "educationSlug": "gross-motor-activities",
       "inapplicable": false,
-      "videoIds": []
+      "videoIds": [
+        "DpRYnBPi_dg",
+        "9U8VnfqIYF4"
+      ]
     },
     "cdsa.domain.gross_motor.anomaly.25-36m": {
       "educationSlug": "gross-motor-activities",
       "inapplicable": false,
-      "videoIds": []
+      "videoIds": [
+        "-s2Tuk7l63I",
+        "DpRYnBPi_dg"
+      ]
     },
     "cdsa.domain.gross_motor.anomaly.37-48m": {
       "educationSlug": "gross-motor-activities",
       "inapplicable": false,
-      "videoIds": []
+      "videoIds": [
+        "-s2Tuk7l63I"
+      ]
     },
     "cdsa.domain.gross_motor.anomaly.49-60m": {
       "educationSlug": "gross-motor-activities",
       "inapplicable": false,
-      "videoIds": []
+      "videoIds": [
+        "-s2Tuk7l63I"
+      ]
     },
     "cdsa.domain.gross_motor.anomaly.61-72m": {
       "educationSlug": "gross-motor-activities",
       "inapplicable": false,
-      "videoIds": []
+      "videoIds": [
+        "-s2Tuk7l63I"
+      ]
     },
     "cdsa.domain.gross_motor.anomaly.7-12m": {
       "educationSlug": "gross-motor-activities",
       "inapplicable": false,
-      "videoIds": []
+      "videoIds": [
+        "O5Xe8cFHolc",
+        "9U8VnfqIYF4",
+        "DpRYnBPi_dg"
+      ]
     },
     "cdsa.domain.language.anomaly.13-24m": {
       "educationSlug": "language-stimulation",
@@ -437,12 +1805,81 @@
       "inapplicable": true,
       "videoIds": []
     },
+    "cdsa.domain.language.anomaly.25-36m": {
+      "educationSlug": "language-stimulation",
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cdsa.domain.language.anomaly.37-48m": {
+      "educationSlug": "language-stimulation",
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cdsa.domain.language.anomaly.49-60m": {
+      "educationSlug": "language-stimulation",
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cdsa.domain.language.anomaly.61-72m": {
+      "educationSlug": "language-stimulation",
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cdsa.domain.language.anomaly.7-12m": {
+      "educationSlug": "language-stimulation",
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cdsa.domain.language_comprehension.anomaly.13-24m": {
+      "inapplicable": false,
+      "videoIds": []
+    },
     "cdsa.domain.language_comprehension.anomaly.2-6m": {
       "inapplicable": true,
       "videoIds": []
     },
+    "cdsa.domain.language_comprehension.anomaly.25-36m": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cdsa.domain.language_comprehension.anomaly.37-48m": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cdsa.domain.language_comprehension.anomaly.49-60m": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cdsa.domain.language_comprehension.anomaly.61-72m": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cdsa.domain.language_comprehension.anomaly.7-12m": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cdsa.domain.language_expression.anomaly.13-24m": {
+      "inapplicable": false,
+      "videoIds": []
+    },
     "cdsa.domain.language_expression.anomaly.2-6m": {
       "inapplicable": true,
+      "videoIds": []
+    },
+    "cdsa.domain.language_expression.anomaly.25-36m": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cdsa.domain.language_expression.anomaly.37-48m": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cdsa.domain.language_expression.anomaly.49-60m": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cdsa.domain.language_expression.anomaly.61-72m": {
+      "inapplicable": false,
       "videoIds": []
     },
     "cdsa.domain.language_expression.anomaly.7-12m": {
@@ -452,7 +1889,10 @@
     "cdsa.domain.social_emotional.anomaly.13-24m": {
       "educationSlug": "social-emotional-guide",
       "inapplicable": false,
-      "videoIds": []
+      "videoIds": [
+        "B8ozZqQyB7E",
+        "OjcwWrVIJHc"
+      ]
     },
     "cdsa.domain.social_emotional.anomaly.2-6m": {
       "inapplicable": true,
@@ -461,27 +1901,44 @@
     "cdsa.domain.social_emotional.anomaly.25-36m": {
       "educationSlug": "social-emotional-guide",
       "inapplicable": false,
-      "videoIds": []
+      "videoIds": [
+        "B8ozZqQyB7E",
+        "OjcwWrVIJHc"
+      ]
     },
     "cdsa.domain.social_emotional.anomaly.37-48m": {
       "educationSlug": "social-emotional-guide",
       "inapplicable": false,
-      "videoIds": []
+      "videoIds": [
+        "OjcwWrVIJHc",
+        "UEk0sO93NnE",
+        "pmci326_57Q"
+      ]
     },
     "cdsa.domain.social_emotional.anomaly.49-60m": {
       "educationSlug": "social-emotional-guide",
       "inapplicable": false,
-      "videoIds": []
+      "videoIds": [
+        "UEk0sO93NnE",
+        "mLocMGU1Z3U",
+        "pmci326_57Q"
+      ]
     },
     "cdsa.domain.social_emotional.anomaly.61-72m": {
       "educationSlug": "social-emotional-guide",
       "inapplicable": false,
-      "videoIds": []
+      "videoIds": [
+        "UEk0sO93NnE",
+        "mLocMGU1Z3U",
+        "pmci326_57Q"
+      ]
     },
     "cdsa.domain.social_emotional.anomaly.7-12m": {
       "educationSlug": "social-emotional-guide",
       "inapplicable": false,
-      "videoIds": []
+      "videoIds": [
+        "OjcwWrVIJHc"
+      ]
     },
     "cdsa.triage.refer.13-24m": {
       "educationSlug": "when-to-seek-help",
