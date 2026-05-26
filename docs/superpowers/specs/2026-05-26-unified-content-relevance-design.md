@@ -39,10 +39,10 @@
 ## 架構：單一真相源 → 編譯 → 三投影
 
 ```
-單一來源（內容導向，每筆內容只宣告一次）
+單一來源（cell / 情境導向：每格列 videoIds + articles）
         │  scripts/build-content-index.ts（取代 build-video-index.ts）
         ▼
-public/data/content-index.json（編譯產物，含 catalog + 關聯）
+public/data/video-index.json（編譯產物，超集：保留舊三鍵 + 新 recommendations/clinicalEducation）
         │
    ┌────┴─────────────┬──────────────────────┐
    ▼                  ▼                       ▼
@@ -52,12 +52,12 @@ public/data/content-index.json（編譯產物，含 catalog + 關聯）
                  ResultView/EducationMatch  TriggerVideoList
 ```
 
-### 單一來源（內容導向）
+### 單一來源（cell / 情境導向）
 
-每個內容項目（文章或影片）**只宣告一次**它的關聯，用多值陣列取代「一格一列」的重複：
+每個「情境格」(trigger) 列出該格的影片與文章；文章可標適用嚴重度。**合三份 education-videos yaml + `default.json` + `inapplicable-matrix.json` 為這一份。** 結構接近現有 yaml，故 parity 易證。
 
 ```yaml
-# src/data/education/content-relevance.yaml（唯一關聯真相源，含「不適用」定義）
+# src/data/education/content-relevance.yaml（唯一關聯真相源）
 inapplicable:                 # 哪些 領域×年齡 不評估（取代 inapplicable-matrix.json）
   behavior: [2-6m, 7-12m]
   fine_motor: [2-6m]
@@ -68,23 +68,34 @@ inapplicable:                 # 哪些 領域×年齡 不評估（取代 inappli
   social_emotional: [2-6m]
   # gross_motor：無（全年齡適用）
 
-relevance:                    # 每個內容項目只宣告一次
-  - ref: { type: article, slug: gross-motor-activities }
-    cdsa:
-      domains: [gross_motor]
-      ageGroups: [2-6m, 7-12m, 13-24m, 25-36m, 37-48m, 49-60m, 61-72m]
-      severities: [monitor, refer]   # 哪些分流結果適用（normal/monitor/refer）
+triggers:                     # 每個情境格列出該格內容
+  # 發展領域格：cdsa.domain.<領域>.anomaly.<年齡>
+  - trigger: cdsa.domain.language.anomaly.13-24m
+    videoIds: [yzRi9GlSptM, "-d0DmEv8qVs", G7COjy4hpqA]
+    articles:
+      - { slug: language-stimulation, severities: [monitor, refer] }
 
-  - ref: { type: article, slug: when-to-seek-help }
-    cdsa: { domains: [all], severities: [refer] }
-    clinical: [cdsa.triage.refer.*]  # 臨床觸發（cdss/triage trigger 字串，支援 * 萬用）
+  - trigger: cdsa.domain.gross_motor.anomaly.13-24m
+    articles:
+      - { slug: gross-motor-activities, severities: [monitor, refer] }
+      - { slug: exercise-guide,         severities: [monitor, refer] }
 
-  - ref: { type: article, slug: respiratory-care }
-    clinical: [cdss.respiratory_rate.critical.*]
+  # 生理警示格：cdss.<指標>.<層級>.<年齡>
+  - trigger: cdss.sugar_intake.critical.infant
+    videoIds: [oRDPgoXP9Ik]
+    articles:
+      - { slug: diet-control }
+      - { slug: nutrition-grow-tall }     # 原 default.json diet 格收編於此
 
-  - ref: { type: video, videoId: yzRi9GlSptM }
-    cdsa: { domains: [language], ageGroups: [13-24m] }
+  # 轉介格：cdsa.triage.<類別>.<年齡>
+  - trigger: cdsa.triage.refer.13-24m
+    articles:
+      - { slug: when-to-seek-help }
 ```
+
+- `severities`：只有 `cdsa.domain.*` 格的文章需要（決定哪些分流結果推薦它）；省略時預設 `[monitor, refer]`。
+- `videoIds` / `articles` 皆可省略（預設空陣列）。
+- 不採「內容導向（每篇宣告一次）」是因為它在 (領域×嚴重度) 配對、空 trigger、diet 死格上會破壞 parity；cell 導向天然保留正確配對。
 
 ### 「一個檔」的邊界（100% 承諾）
 
@@ -98,9 +109,11 @@ relevance:                    # 每個內容項目只宣告一次
 
 ### 三視圖投影邏輯（純函式，可單測）
 
-- **矩陣瀏覽**：對每個 (domain, age) cell，收集 `cdsa.domains ∋ domain && ageGroups ∋ age` 的內容（不分嚴重度）。
-- **評估後推薦**：給 (anomalousDomain, childAge, triageCategory)，收集 `domains∋d && ageGroups∋age && severities∋category` 的文章，**再疊租戶 overlay**。
-- **觸發影片**：給 trigger 字串，收集 `clinical` 命中該 trigger（或 cdsa 投影出的對應 trigger）的影片。
+- **矩陣瀏覽**：取所有 `cdsa.domain.<d>.anomaly.<age>` 格 → (d, age) 顯示其 videoIds + articles；`inapplicable` 區的格標「—」。
+- **評估後推薦（年齡感知）**：給 (anomalousDomain d, childAge a, triageCategory c)，取 `cdsa.domain.d.anomaly.a` 中 `severities ∋ c` 的文章 **＋** `cdsa.triage.c.a` 格的文章（c≠normal）；再疊租戶 overlay。
+- **觸發影片 / closed-loop**：給 trigger 字串直接查該格 videoIds；closed-loop 指標 → `cdss.<指標>.*` 格的文章。
+
+> **diet 死格決策**：`default.json` 的 `diet` 非發展領域，評估流程從不以 `diet` 查推薦（已驗證 `ResultView` 只傳異常發展領域）→ `diet-control`/`nutrition-grow-tall` 收編到 `cdss.sugar_intake.*` 臨床格；parity 對 diet 列記為「已驗證不可達」的刻意整併。
 
 ### 租戶 overlay（只在推薦層）
 
@@ -113,7 +126,7 @@ relevance:                    # 每個內容項目只宣告一次
 
 | 現有檔案 | 動作 |
 |----------|------|
-| `src/data/recommendations/default.json` | **刪除**；內容折入 `content-relevance.yaml` 的 `severities` 標記 |
+| `src/data/recommendations/default.json` | **刪除**；發展領域格折入對應 `cdsa.domain` trigger 的文章 `severities`；diet 格收編至 `cdss.sugar_intake.*` 臨床格 |
 | `src/data/education-videos/cdsa-domains.yaml` | **遷移**進 `content-relevance.yaml` 後刪除 |
 | `src/data/education-videos/cdsa-triage.yaml` | **遷移**進 `clinical` 後刪除 |
 | `src/data/education-videos/cdss-vital-signs.yaml` | **遷移**進 `clinical` 後刪除 |

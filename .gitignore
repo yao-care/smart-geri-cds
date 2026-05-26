@@ -31,3 +31,6 @@ scripts/curate/.last-build.json
 
 # Lighthouse CI local output
 .lighthouseci/
+
+# Superpowers brainstorm visual-companion scratch
+.superpowers/
