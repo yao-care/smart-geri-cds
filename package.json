@@ -1,8 +1,8 @@
 {
-  "name": "cdss-pediatric",
+  "name": "smart-geri-cds",
   "type": "module",
   "version": "0.1.0",
-  "description": "開源兒科臨床決策輔助系統 — SMART on FHIR 瀏覽器端 CDS",
+  "description": "開源高齡周全性評估決策系統 — SMART on FHIR 瀏覽器端 CDS",
   "packageManager": "pnpm@10.32.1",
   "scripts": {
     "dev": "astro dev",
