@@ -1,20 +1,22 @@
 <script lang="ts">
-  const DOMAIN_ZH: Record<string, string> = {
-    behavior: '行為', gross_motor: '粗動作', fine_motor: '細動作',
-    language: '語言', language_comprehension: '語言理解',
-    language_expression: '語言表達', cognition: '認知', social_emotional: '社交情緒',
-  };
-  const AGE_ZH: Record<string, string> = {
-    '2-6m': '2-6 個月', '7-12m': '7-12 個月', '13-24m': '1-2 歲',
-    '25-36m': '2-3 歲', '37-48m': '3-4 歲', '49-60m': '4-5 歲', '61-72m': '5-6 歲',
-  };
+  import { domainLabel, isValidDomain } from '../../lib/domain/domain-tree';
+  import { CFS_LABELS } from '../../lib/utils/cfs-levels';
+
+  function contextDomainLabel(top: string, sub: string): string {
+    return isValidDomain(top, sub) ? domainLabel(top, sub) : `${top}.${sub}`;
+  }
+
+  function contextCfsLabel(cfs: string): string {
+    return (CFS_LABELS as Record<string, string>)[cfs] ?? cfs;
+  }
 
   type Mode = 'add' | 'edit-article' | 'delete-article' | 'delete-video';
 
   let open      = $state(false);
   let mode      = $state<Mode>('add');
-  let domain    = $state('');
-  let ageGroup  = $state('');
+  let top       = $state('');
+  let sub       = $state('');
+  let cfsLevel  = $state('');
   // add mode
   let type      = $state<'youtube' | 'article' | 'external-link'>('youtube');
   let url       = $state('');
@@ -52,7 +54,9 @@
   type OpenDetail = {
     action?: string;
     domain: string;
-    age: string;
+    top: string;
+    sub: string;
+    cfsLevel: string;
     slug?: string;
     title?: string;
     summary?: string;
@@ -65,8 +69,9 @@
     function onOpen(e: Event) {
       const detail = (e as CustomEvent<OpenDetail>).detail;
       const action = (detail.action ?? 'add') as Mode;
-      domain = detail.domain;
-      ageGroup = detail.age;
+      top = detail.top;
+      sub = detail.sub;
+      cfsLevel = detail.cfsLevel;
       mode = action;
       // reset all fields
       type = 'youtube'; url = ''; title = ''; summary = ''; content = '';
@@ -139,17 +144,17 @@
       if (mode === 'edit-article') {
         if (!targetSlug) throw new Error('缺少目標文章 slug');
         if (!title) throw new Error('標題為必填');
-        payload = { type: 'edit-article', domain, ageGroup, targetSlug, title, summary, content, notes, submitter };
+        payload = { type: 'edit-article', top, sub, cfsLevel, targetSlug, title, summary, content, notes, submitter };
       } else if (mode === 'delete-article') {
         if (!targetSlug) throw new Error('缺少目標文章 slug');
         if (!notes) throw new Error('刪除原因為必填');
-        payload = { type: 'delete-article', domain, ageGroup, targetSlug, notes, submitter };
+        payload = { type: 'delete-article', top, sub, cfsLevel, targetSlug, notes, submitter };
       } else if (mode === 'delete-video') {
         if (!targetVideoId) throw new Error('缺少目標影片 ID');
         if (!notes) throw new Error('刪除原因為必填');
-        payload = { type: 'delete-video', domain, ageGroup, targetVideoId, videoTitle, notes, submitter };
+        payload = { type: 'delete-video', top, sub, cfsLevel, targetVideoId, videoTitle, notes, submitter };
       } else {
-        payload = { type, domain, ageGroup, url, title, summary, content, notes, submitter };
+        payload = { type, top, sub, cfsLevel, url, title, summary, content, notes, submitter };
       }
 
       const res = await fetch(workerUrl, {
@@ -177,7 +182,7 @@
     </header>
 
     <p class="modal-context">
-      情境：<strong>{DOMAIN_ZH[domain] ?? domain}</strong> × <strong>{AGE_ZH[ageGroup] ?? ageGroup}</strong>
+      情境：<strong>{contextDomainLabel(top, sub)}</strong> × <strong>CFS {cfsLevel.replace('cfs', '')} {contextCfsLabel(cfsLevel)}</strong>
     </p>
 
     {#if issueUrl}

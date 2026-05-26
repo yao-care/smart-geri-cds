@@ -3,7 +3,9 @@ import App from '../../layouts/App.astro';
 import { getCollection } from 'astro:content';
 import ContributionModal from '../../components/education/ContributionModal.svelte';
 import CustomEducationList from '../../components/education/CustomEducationList.svelte';
-import { buildMatrixData, CDSA_DOMAINS, AGE_GROUPS_CDSA, type MatrixCellData } from '../../lib/education/matrix-data';
+import { buildMatrixData, type MatrixCellData } from '../../lib/education/matrix-data';
+import { CFS_LEVELS, CFS_LABELS } from '../../lib/utils/cfs-levels';
+import { DOMAIN_TREE, DOMAIN_TOPS, DOMAIN_TOP_LABELS, domainLabel } from '../../lib/domain/domain-tree';
 import videoIndex from '../../../public/data/video-index.json';
 
 const allEducation = await getCollection('education');
@@ -28,15 +30,11 @@ const matrixData = buildMatrixData(
   videoIndex.triggers as Record<string, { videoIds: string[]; inapplicable: boolean; educationSlug?: string }>,
 );
 
-const DOMAIN_ZH: Record<string, string> = {
-  behavior: '行為', gross_motor: '粗動作', fine_motor: '細動作',
-  language: '語言', language_comprehension: '語言理解',
-  language_expression: '語言表達', cognition: '認知', social_emotional: '社交情緒',
-};
-const AGE_ZH: Record<string, string> = {
-  '2-6m': '2–6 月', '7-12m': '7–12 月', '13-24m': '1–2 歲',
-  '25-36m': '2–3 歲', '37-48m': '3–4 歲', '49-60m': '4–5 歲', '61-72m': '5–6 歲',
-};
+// 矩陣列＝二層子項（top.sub），依 6 頂層域分組；欄＝CFS 1–9。
+// CFS 短標籤：欄頭顯示「等級 + 中文」。
+const CFS_COL_LABEL: Record<string, string> = Object.fromEntries(
+  CFS_LEVELS.map(l => [l, `${l.replace('cfs', '')} ${CFS_LABELS[l]}`]),
+);
 
 function fmtDuration(sec: number): string {
   const m = Math.floor(sec / 60);
@@ -54,115 +52,126 @@ function cellVideos(cell: MatrixCellData): VideoInfo[] {
 }
 ---
 
-<App title="衛教資源" description="兒科健康衛教資源（年齡 × 發展領域矩陣）">
+<App title="衛教資源" description="高齡周全性評估衛教資源（領域 × 臨床衰弱量表 CFS 矩陣）">
   <h1>衛教資源</h1>
+  <p class="matrix-intro">列＝CGA 二層評估領域（依六大頂層域分組），欄＝臨床衰弱量表 CFS 1–9。</p>
 
   <div class="matrix-scroll">
     <table class="education-matrix">
       <thead>
         <tr>
           <th class="domain-col">領域</th>
-          {AGE_GROUPS_CDSA.map(age => (
-            <th class="age-col">{AGE_ZH[age]}</th>
+          {CFS_LEVELS.map(cfs => (
+            <th class="age-col">{CFS_COL_LABEL[cfs]}</th>
           ))}
         </tr>
       </thead>
       <tbody>
-        {CDSA_DOMAINS.map(domain => (
-          <tr>
-            <th class="domain-header">{DOMAIN_ZH[domain]}</th>
-            {AGE_GROUPS_CDSA.map(age => {
-              const cell = matrixData[`${domain}:${age}`];
-              if (cell.inapplicable) {
-                return <td class="cell cell-na">不適用</td>;
-              }
-
-              const articles = cell.articleSlugs.map(slug => ({
-                slug,
-                title: articleTitles.get(slug) ?? slug,
-              }));
-              const videos = cellVideos(cell);
-              const isEmpty = articles.length === 0 && videos.length === 0;
-
+        {DOMAIN_TOPS.map(top => (
+          <>
+            <tr class="group-row">
+              <th class="group-header" colspan={CFS_LEVELS.length + 1}>{DOMAIN_TOP_LABELS[top]}</th>
+            </tr>
+            {DOMAIN_TREE[top].map(sub => {
+              const domain = `${top}.${sub}`;
               return (
-                <td class="cell">
-                  <details>
-                    <summary class="cell-summary">
-                      {articles.length > 0 && (
-                        <span class="badge badge-article">📄 {articles.length}</span>
-                      )}
-                      {videos.length > 0 && (
-                        <span class="badge badge-video">🎬 {videos.length}</span>
-                      )}
-                      {isEmpty && (
-                        <span class="badge badge-empty">＋</span>
-                      )}
-                    </summary>
+                <tr>
+                  <th class="domain-header">{domainLabel(top, sub)}</th>
+                  {CFS_LEVELS.map(cfs => {
+                    const cell = matrixData[`${domain}:${cfs}`];
+                    if (!cell || cell.inapplicable) {
+                      return <td class="cell cell-na">不適用</td>;
+                    }
 
-                    <div class="cell-detail">
-                      {articles.length > 0 && (
-                        <div class="detail-section">
-                          <p class="detail-label">文章</p>
-                          <ul class="resource-list">
-                            {articles.map(a => (
-                              <li class="resource-item">
-                                <a href={`/education/${a.slug}/`} class="article-link">
-                                  {a.title}
-                                </a>
-                                <button class="item-action" data-action="edit-article" data-slug={a.slug} data-domain={domain} data-age={age} type="button" aria-label="修改文章">✏️</button>
-                                <button class="item-action" data-action="delete-article" data-slug={a.slug} data-domain={domain} data-age={age} type="button" aria-label="刪除文章">🗑️</button>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      )}
+                    const articles = cell.articleSlugs.map(slug => ({
+                      slug,
+                      title: articleTitles.get(slug) ?? slug,
+                    }));
+                    const videos = cellVideos(cell);
+                    const isEmpty = articles.length === 0 && videos.length === 0;
 
-                      {videos.length > 0 && (
-                        <div class="detail-section">
-                          <p class="detail-label">影片</p>
-                          <ul class="resource-list video-list">
-                            {videos.map(v => (
-                              <li class="resource-item">
-                                <a
-                                  href={`https://www.youtube.com/watch?v=${v.videoId}`}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  class="video-item"
-                                >
-                                  <img
-                                    src={`https://i.ytimg.com/vi/${v.videoId}/mqdefault.jpg`}
-                                    alt={v.title}
-                                    loading="lazy"
-                                    referrerpolicy="no-referrer"
-                                    class="video-thumb"
-                                  />
-                                  <span class="video-info">
-                                    <span class="video-title">{v.title}</span>
-                                    <span class="video-meta">{v.channel} · {fmtDuration(v.duration)}</span>
-                                  </span>
-                                </a>
-                                <button class="item-action" data-action="delete-video" data-videoid={v.videoId} data-title={v.title} data-domain={domain} data-age={age} type="button" aria-label="刪除影片">🗑️</button>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      )}
+                    return (
+                      <td class="cell">
+                        <details>
+                          <summary class="cell-summary">
+                            {articles.length > 0 && (
+                              <span class="badge badge-article">📄 {articles.length}</span>
+                            )}
+                            {videos.length > 0 && (
+                              <span class="badge badge-video">🎬 {videos.length}</span>
+                            )}
+                            {isEmpty && (
+                              <span class="badge badge-empty">＋</span>
+                            )}
+                          </summary>
 
-                      <button
-                        class="contribute-btn"
-                        data-action="add"
-                        data-domain={domain}
-                        data-age={age}
-                        type="button"
-                      >
-                        ＋ 新增資源至此情境
-                      </button>
-                    </div>
-                  </details>
-                </td>
+                          <div class="cell-detail">
+                            {articles.length > 0 && (
+                              <div class="detail-section">
+                                <p class="detail-label">文章</p>
+                                <ul class="resource-list">
+                                  {articles.map(a => (
+                                    <li class="resource-item">
+                                      <a href={`/education/${a.slug}/`} class="article-link">
+                                        {a.title}
+                                      </a>
+                                      <button class="item-action" data-action="edit-article" data-slug={a.slug} data-domain={domain} data-cfs={cfs} type="button" aria-label="修改文章">✏️</button>
+                                      <button class="item-action" data-action="delete-article" data-slug={a.slug} data-domain={domain} data-cfs={cfs} type="button" aria-label="刪除文章">🗑️</button>
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+                            )}
+
+                            {videos.length > 0 && (
+                              <div class="detail-section">
+                                <p class="detail-label">影片</p>
+                                <ul class="resource-list video-list">
+                                  {videos.map(v => (
+                                    <li class="resource-item">
+                                      <a
+                                        href={`https://www.youtube.com/watch?v=${v.videoId}`}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        class="video-item"
+                                      >
+                                        <img
+                                          src={`https://i.ytimg.com/vi/${v.videoId}/mqdefault.jpg`}
+                                          alt={v.title}
+                                          loading="lazy"
+                                          referrerpolicy="no-referrer"
+                                          class="video-thumb"
+                                        />
+                                        <span class="video-info">
+                                          <span class="video-title">{v.title}</span>
+                                          <span class="video-meta">{v.channel} · {fmtDuration(v.duration)}</span>
+                                        </span>
+                                      </a>
+                                      <button class="item-action" data-action="delete-video" data-videoid={v.videoId} data-title={v.title} data-domain={domain} data-cfs={cfs} type="button" aria-label="刪除影片">🗑️</button>
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+                            )}
+
+                            <button
+                              class="contribute-btn"
+                              data-action="add"
+                              data-domain={domain}
+                              data-cfs={cfs}
+                              type="button"
+                            >
+                              ＋ 新增資源至此情境
+                            </button>
+                          </div>
+                        </details>
+                      </td>
+                    );
+                  })}
+                </tr>
               );
             })}
-          </tr>
+          </>
         ))}
       </tbody>
     </table>
@@ -181,10 +190,18 @@ function cellVideos(cell: MatrixCellData): VideoInfo[] {
     if (!btn) return;
     var action = btn.getAttribute('data-action') || 'add';
     var domain = btn.getAttribute('data-domain') || '';
-    var age = btn.getAttribute('data-age') || '';
-    if (!domain || !age) return;
+    var cfs = btn.getAttribute('data-cfs') || '';
+    if (!domain || !cfs) return;
 
-    var detail: Record<string, string> = { action: action, domain: domain, age: age };
+    // domain is `top.sub`; split for the contribution payload.
+    var parts = domain.split('.');
+    var detail: Record<string, string> = {
+      action: action,
+      domain: domain,
+      top: parts[0] || '',
+      sub: parts[1] || '',
+      cfsLevel: cfs,
+    };
 
     if (action === 'edit-article') {
       var slug = btn.getAttribute('data-slug') || '';
@@ -210,7 +227,22 @@ function cellVideos(cell: MatrixCellData): VideoInfo[] {
 </script>
 
 <style>
-  h1 { margin-bottom: var(--space-6); }
+  h1 { margin-bottom: var(--space-2); }
+
+  .matrix-intro {
+    font-size: var(--text-sm);
+    color: color-mix(in srgb, var(--text), var(--bg) 30%);
+    margin-bottom: var(--space-6);
+  }
+
+  .group-row .group-header {
+    text-align: left;
+    font-size: var(--text-sm);
+    font-weight: var(--font-bold);
+    padding: var(--space-2) var(--space-3);
+    background: color-mix(in srgb, var(--accent) 8%, var(--bg));
+    color: var(--accent);
+  }
 
   .matrix-scroll {
     width: 100%;
