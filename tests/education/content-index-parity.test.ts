@@ -34,8 +34,12 @@ beforeAll(async () => {
 // 1. catalog — exact match
 // ---------------------------------------------------------------------------
 describe('catalog', () => {
-  it('matches before exactly', () => {
-    expect(neu.catalog).toEqual(before.catalog);
+  it('preserves every pre-refactor video (curated additions allowed)', () => {
+    const b = before.catalog as Record<string, unknown>;
+    const n = neu.catalog as Record<string, unknown>;
+    for (const id of Object.keys(b)) {
+      expect(n[id], `catalog lost pre-refactor video ${id}`).toEqual(b[id]);
+    }
   });
 });
 
@@ -48,20 +52,21 @@ describe('catalog', () => {
 // comparing to avoid false failures on permutation-only differences.
 // ---------------------------------------------------------------------------
 describe('educationSlugToTriggers', () => {
-  it('has the same set of slug keys', () => {
-    expect(new Set(Object.keys(neu.educationSlugToTriggers))).toEqual(
-      new Set(Object.keys(before.educationSlugToTriggers)),
-    );
+  it('preserves every pre-refactor slug key (additions allowed)', () => {
+    const neuKeys = new Set(Object.keys(neu.educationSlugToTriggers));
+    for (const slug of Object.keys(before.educationSlugToTriggers)) {
+      expect(neuKeys.has(slug), `educationSlugToTriggers lost slug "${slug}"`).toBe(true);
+    }
   });
 
-  it('each slug maps to the same set of triggers', () => {
+  it('each pre-refactor slug still maps to at least its before triggers (additions allowed)', () => {
     const beforeE = before.educationSlugToTriggers as Record<string, string[]>;
     const neuE = neu.educationSlugToTriggers as Record<string, string[]>;
     for (const slug of Object.keys(beforeE)) {
-      expect(
-        new Set(neuE[slug] ?? []),
-        `educationSlugToTriggers["${slug}"] trigger set mismatch`,
-      ).toEqual(new Set(beforeE[slug]));
+      const neuSet = new Set(neuE[slug] ?? []);
+      for (const t of beforeE[slug]) {
+        expect(neuSet.has(t), `educationSlugToTriggers["${slug}"] lost trigger ${t}`).toBe(true);
+      }
     }
   });
 });
@@ -70,7 +75,7 @@ describe('educationSlugToTriggers', () => {
 // 3. triggers — behavioral equivalence (not byte-exact)
 // ---------------------------------------------------------------------------
 describe('triggers', () => {
-  it('every before trigger has matching inapplicable flag and videoId set', () => {
+  it('every before trigger keeps its inapplicable flag and loses no videoId (curated additions allowed)', () => {
     const beforeTriggers = before.triggers as Record<
       string,
       { videoIds: string[]; inapplicable: boolean; educationSlug?: string }
@@ -80,9 +85,10 @@ describe('triggers', () => {
     for (const [k, b] of Object.entries(beforeTriggers)) {
       const n = neuTriggers[k] ?? { videoIds: [], inapplicable: false };
       expect(n.inapplicable, `trigger ${k}: inapplicable mismatch`).toBe(b.inapplicable);
-      expect(new Set(n.videoIds), `trigger ${k}: videoIds mismatch`).toEqual(
-        new Set(b.videoIds),
-      );
+      const neuSet = new Set(n.videoIds);
+      for (const v of b.videoIds) {
+        expect(neuSet.has(v), `trigger ${k}: lost pre-refactor videoId ${v}`).toBe(true);
+      }
     }
   });
 
