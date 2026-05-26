@@ -26,23 +26,55 @@
 
 本 Worker 使用 GitHub App 身份創建 Issue。需要設置以下四個密鑰：
 
-### 1. 取得 GitHub App 認證資料
+### 1. 建立 GitHub App（完整流程）
 
-若尚未建立 GitHub App，請：
-1. 前往 https://github.com/settings/apps (或組織設定)
-2. 建立新 App（或使用現有的）
-3. 記下：
-   - **App ID** (在 App 詳情頁)
-   - **Installation ID** (見下方)
-   - **Private key** (下載 .pem 檔案)
+**1.1 開啟建立頁面**
 
-### 2. 查詢 Installation ID
+- 組織擁有（建議，App 屬 yao-care）：
+  `https://github.com/organizations/yao-care/settings/apps/new`
+- 或個人帳號：`https://github.com/settings/apps/new`
 
-最簡單的方式是透過 GitHub UI：
+**1.2 填寫註冊表單**（只列需要設定的欄位，其餘留空/預設）
 
-> 前往 GitHub → Settings → Developer settings → GitHub Apps → yao-care-app → Install App → 點擊已安裝的組織/repo → URL 中即有 Installation ID
-> 
-> 例如：`https://github.com/settings/installations/12345678` 中的 `12345678` 就是 Installation ID
+| 欄位 | 設定值 |
+|---|---|
+| **GitHub App name** | 全域唯一，例如 `yao-care-geri-contrib`（若被佔用換一個） |
+| **Homepage URL** | `https://smart-geri-cds.yao.care` |
+| **Identifying and authorizing users** | 全部留空（不需要 user OAuth） |
+| **Post installation** → Setup URL | 留空；Redirect on update 不勾 |
+| **Webhook** → **Active** | **取消勾選**（本 Worker 不用 webhook） |
+| Webhook URL / Secret | 取消 Active 後可留空 |
+| **Permissions → Repository permissions → Issues** | **Read and write**（唯一需要的權限） |
+| 其他所有 Repository / Organization / Account permissions | 全部維持 **No access** |
+| **Subscribe to events** | 全部不勾 |
+| **Where can this GitHub App be installed?** | **Only on this account**（限 yao-care） |
+
+按頁面最下方 **Create GitHub App**。
+
+**1.3 記下 App ID**
+
+建立後進入 App 詳情頁（`.../settings/apps/<app-name>`），最上方 **About** 區有 **App ID**（純數字，例如 `123456`）→ 記下，這是 `GITHUB_APP_ID`。
+
+**1.4 產生並下載 Private key**
+
+同一頁往下捲到 **Private keys** 區 → 按 **Generate a private key** → 瀏覽器會自動下載一個 `*.private-key.pem`（這是 **PKCS#1** 格式，開頭 `-----BEGIN RSA PRIVATE KEY-----`）。
+> 此檔只會出現這一次，請妥善保存；遺失就重新 Generate（舊的可刪）。**切勿 commit 進 git。**
+
+**1.5 安裝 App 到 repo**
+
+App 詳情頁左側選 **Install App** → 在 `yao-care` 那列按 **Install** → 選 **Only select repositories** → 勾 **`smart-geri-cds`** → **Install**。
+
+**1.6 取得 Installation ID**
+
+安裝完成後瀏覽器網址會變成：
+```
+https://github.com/organizations/yao-care/settings/installations/12345678
+```
+（個人帳號則是 `https://github.com/settings/installations/12345678`）
+末段數字 `12345678` 就是 `GITHUB_INSTALLATION_ID`。
+> 之後若忘記：App 詳情頁 → Install App → 點該安裝旁的齒輪（Configure），網址末段即是。
+
+**到這裡你應有三項：App ID、Installation ID、`*.private-key.pem`（待步驟 2 轉 PKCS#8）。**
 
 ### 3. 轉換私鑰格式（PKCS#1 → PKCS#8）
 
