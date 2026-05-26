@@ -1,6 +1,6 @@
 {
-  "name": "CDSA 兒童發展智慧評估",
-  "short_name": "CDSA",
+  "name": "高齡周全性評估",
+  "short_name": "高齡CGA",
   "start_url": "__BASE_PATH__/",
   "scope": "__BASE_PATH__/",
   "display": "standalone",
