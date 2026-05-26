@@ -294,6 +294,14 @@ triggers:
       - slug: when-to-seek-help
         severities:
           - refer
+  - trigger: cdsa.domain.language.anomaly.7-12m
+    videoIds: []
+    articles:
+      - slug: language-stimulation
+        severities:
+          - monitor
+          - refer
+        browse: true
   - trigger: cdsa.domain.language.anomaly.13-24m
     videoIds:
       - yzRi9GlSptM
@@ -301,6 +309,41 @@ triggers:
       - G7COjy4hpqA
     articles:
       - slug: language-stimulation
+        severities:
+          - monitor
+          - refer
+        browse: true
+  - trigger: cdsa.domain.language.anomaly.25-36m
+    videoIds: []
+    articles:
+      - slug: language-stimulation
+        severities:
+          - monitor
+          - refer
+        browse: true
+  - trigger: cdsa.domain.language.anomaly.37-48m
+    videoIds: []
+    articles:
+      - slug: language-stimulation
+        severities:
+          - monitor
+          - refer
+        browse: true
+  - trigger: cdsa.domain.language.anomaly.49-60m
+    videoIds: []
+    articles:
+      - slug: language-stimulation
+        severities:
+          - monitor
+          - refer
+        browse: true
+  - trigger: cdsa.domain.language.anomaly.61-72m
+    videoIds: []
+    articles:
+      - slug: language-stimulation
+        severities:
+          - monitor
+          - refer
         browse: true
   - trigger: cdsa.domain.language_comprehension.anomaly.13-24m
     videoIds: []

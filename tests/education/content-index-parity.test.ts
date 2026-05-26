@@ -157,14 +157,15 @@ describe('recommendations content lock — representative cells', () => {
     'refer::gross_motor::13-24m': new Set(['exercise-guide', 'gross-motor-activities', 'when-to-seek-help']),
     'monitor::cognition::13-24m': new Set(['cognitive-play']),
     'refer::social_emotional::13-24m': new Set(['social-emotional-guide', 'when-to-seek-help']),
+    // 2026-05-26 task 1: language given a recommendation article across applicable ages
+    'monitor::language::13-24m': new Set(['language-stimulation']),
+    'refer::language::49-60m': new Set(['language-stimulation']),
   };
 
-  // Cells that must be ABSENT or EMPTY — browse-only articles that were never
-  // in default.json and must not leak into recommendations (parity fix).
-  const EXPECTED_ABSENT: string[] = [
-    'monitor::language::13-24m',
-    'refer::language::13-24m',
-  ];
+  // Cells that must be ABSENT/EMPTY — browse-only articles WITHOUT severities must
+  // not leak into recommendations. (Language was intentionally given severities in
+  // task 1, so it moved to EXPECTED_SLUGS above.)
+  const EXPECTED_ABSENT: string[] = [];
 
   it('locked cells contain exactly the expected slug sets', () => {
     const recs = neu.recommendations as Recs;
@@ -223,19 +224,16 @@ describe('matrix educationSlug parity', () => {
     >;
     const neuTriggers = (neu.triggers ?? {}) as typeof beforeTriggers;
 
+    // Cells PRESENT before must keep their educationSlug (guards against silently
+    // losing/changing a curated matrix article). Content work MAY add matrix
+    // articles to NEW cells (e.g. task 1 added language-stimulation across language
+    // ages) — that is intentional, so new cells are not prohibited here.
     for (const [k, b] of Object.entries(beforeTriggers)) {
       if (!k.startsWith('cdsa.domain.')) continue;
       const n = neuTriggers[k] ?? {};
       expect((n as { educationSlug?: string }).educationSlug ?? null, k).toBe(
         (b as { educationSlug?: string }).educationSlug ?? null,
       );
-    }
-    // no NEW cdsa.domain cell may introduce an educationSlug absent before
-    for (const [k, n] of Object.entries(neuTriggers)) {
-      if (!k.startsWith('cdsa.domain.')) continue;
-      if (!(k in beforeTriggers) && (n as { educationSlug?: string }).educationSlug != null) {
-        throw new Error(`new cell ${k} introduced educationSlug ${(n as { educationSlug?: string }).educationSlug}`);
-      }
     }
   });
 });
