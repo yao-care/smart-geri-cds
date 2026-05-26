@@ -210,16 +210,6 @@
     padding-left: 0;
   }
 
-  .caveat {
-    padding: var(--space-3);
-    background: color-mix(in srgb, var(--warn) 12%, var(--bg));
-    border-left: 3px solid var(--warn);
-    border-radius: var(--radius-sm);
-    color: var(--text);
-    font-size: var(--text-sm);
-    margin: var(--space-3) 0 0;
-  }
-
   .footer-note {
     margin-top: var(--space-8);
     padding-top: var(--space-4);
