@@ -1,0 +1,42 @@
+# 4AT — Rapid Clinical Test for Delirium (MacLullich et al., www.the4at.com)
+# 來源：公開標準量表（免費臨床使用）。4 項：警醒度(0/4)、AMT4(0–2)、
+# 注意力-倒數月份(0–2)、急性變化或病程波動(0/4)，總分 0–12。
+# ≥4 提示可能譫妄；1–3 提示認知障礙；0 為正常。中文題目為暫譯；
+# clinicallyReviewed: false → 中譯、適用 CFS、切分點待臨床最終簽核。
+id: 4at
+domain:
+  top: psychological
+  sub: delirium
+applicableCfs: [cfs4, cfs5, cfs6, cfs7, cfs8, cfs9]
+scoring: sum
+inputType: option
+maxScore: 12
+items:
+  - id: at4_alertness
+    text: 警醒度：觀察個案是否出現明顯嗜睡（如評估中難以喚醒）或過度警醒躁動。
+    options:
+      - { label: 正常（清醒且穩定）, score: 0 }
+      - { label: 輕度嗜睡 < 10 秒後恢復, score: 0 }
+      - { label: 明顯異常（嗜睡或躁動）, score: 4 }
+  - id: at4_amt4
+    text: AMT4 四題：詢問年齡、出生年月日、目前地點、今年年份，計算答錯題數。
+    options:
+      - { label: 全部答對（0 題錯）, score: 0 }
+      - { label: 答錯 1 題, score: 1 }
+      - { label: 答錯 2 題以上, score: 2 }
+  - id: at4_attention
+    text: 注意力：請個案從 12 月開始，倒著唸出一年的月份（12、11、10…）。
+    options:
+      - { label: 正確唸到 7 個月以上, score: 0 }
+      - { label: 唸出但 < 7 個月或有錯, score: 1 }
+      - { label: 無法開始（因不適、嗜睡或不專注）, score: 2 }
+  - id: at4_acute
+    text: 急性變化或病程波動：過去兩週內是否出現、且過去 24 小時仍存在的意識、認知或精神功能急性變化或波動？
+    options:
+      - { label: 否, score: 0 }
+      - { label: 是, score: 4 }
+bands:
+  - { min: 0, max: 0, severity: normal, label: 無譫妄或認知障礙徵兆 }
+  - { min: 1, max: 3, severity: monitor, label: 疑似認知障礙，建議追蹤評估 }
+  - { min: 4, max: 12, severity: refer, label: 可能譫妄（合併或不合併認知障礙），建議轉介 }
+clinicallyReviewed: false

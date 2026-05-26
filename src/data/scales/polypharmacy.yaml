@@ -1,0 +1,31 @@
+# 多重用藥風險自述短篩 — Polypharmacy & high-risk medication screen
+# 來源：自述題組（非標準命名量表），以實證合理題目組成。用藥顆數分級
+# （<5 / 5–9 / ≥10 種）加計高風險藥物（Beers Criteria 旗標）。計分設計使
+# 5–9 種落在 monitor、≥10 種或含高風險藥落在 refer。每題權重見選項分數，
+# maxScore = 8。clinicallyReviewed: false → 題目、分級閾值、高風險藥定義
+# 與適用 CFS 待臨床最終簽核。
+id: polypharmacy
+domain:
+  top: physical
+  sub: polypharmacy
+applicableCfs: [cfs2, cfs3, cfs4, cfs5, cfs6, cfs7, cfs8, cfs9]
+scoring: sum
+inputType: option
+maxScore: 8
+items:
+  - id: poly_count
+    text: 您目前每天規律服用的處方藥物共有幾種？
+    options:
+      - { label: 少於 5 種, score: 0 }
+      - { label: 5 至 9 種, score: 2 }
+      - { label: 10 種以上, score: 4 }
+  - id: poly_highrisk
+    text: 您目前是否服用高風險藥物（如鎮靜安眠藥、抗膽鹼藥、長效降血糖藥等 Beers 清單藥物）？
+    options:
+      - { label: 否或不確定但無上述藥物, score: 0 }
+      - { label: 是, score: 4 }
+bands:
+  - { min: 0, max: 0, severity: normal, label: 無多重用藥疑慮 }
+  - { min: 1, max: 3, severity: monitor, label: 多重用藥（5–9 種），建議用藥檢視 }
+  - { min: 4, max: 8, severity: refer, label: 嚴重多重用藥或含高風險藥物，建議藥師整合性用藥評估 }
+clinicallyReviewed: false

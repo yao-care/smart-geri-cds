@@ -1,12 +1,13 @@
-# GDS-15 — Geriatric Depression Scale (15-item short form)
-# Phase 1 SAMPLE: only a few items for smoke testing. Full validated content
-# (all 15 items + clinical sign-off) is deferred to Plan 2.
-# clinicallyReviewed: false → must not be used for real clinical decisions yet.
+# GDS-15 — Geriatric Depression Scale (15-item short form, Sheikh & Yesavage 1986)
+# 來源：公開標準量表，15 題；每題計 0 或 1，憂鬱方向題（標 *）答「是」計 1。
+# 切分點 0–4 正常／5–9 疑似／10–15 高度疑似為公開版本常用值。
+# 中文題目為暫譯；clinicallyReviewed: false → 中譯、適用 CFS、切分點待臨床
+# 最終簽核，尚不可用於正式臨床決策。
 id: gds-15
 domain:
   top: psychological
   sub: mood
-applicableCfs: [cfs3, cfs4, cfs5, cfs6, cfs7]
+applicableCfs: [cfs1, cfs2, cfs3, cfs4, cfs5, cfs6, cfs7]
 scoring: sum
 inputType: option
 maxScore: 15
@@ -26,8 +27,68 @@ items:
     options:
       - { label: 是, score: 1 }
       - { label: 否, score: 0 }
+  - id: gds4
+    text: 您是否常常感到無聊？
+    options:
+      - { label: 是, score: 1 }
+      - { label: 否, score: 0 }
+  - id: gds5
+    text: 您是否大部分時間都覺得心情愉快？
+    options:
+      - { label: 是, score: 0 }
+      - { label: 否, score: 1 }
+  - id: gds6
+    text: 您是否害怕將有不好的事情發生在自己身上？
+    options:
+      - { label: 是, score: 1 }
+      - { label: 否, score: 0 }
+  - id: gds7
+    text: 您是否大部分時間都覺得快樂？
+    options:
+      - { label: 是, score: 0 }
+      - { label: 否, score: 1 }
+  - id: gds8
+    text: 您是否常常感到無助？
+    options:
+      - { label: 是, score: 1 }
+      - { label: 否, score: 0 }
+  - id: gds9
+    text: 您是否寧願待在家裡，而不願外出或嘗試新事物？
+    options:
+      - { label: 是, score: 1 }
+      - { label: 否, score: 0 }
+  - id: gds10
+    text: 您是否覺得自己的記憶力比大多數人差？
+    options:
+      - { label: 是, score: 1 }
+      - { label: 否, score: 0 }
+  - id: gds11
+    text: 您是否覺得現在還能活著是很好的事？
+    options:
+      - { label: 是, score: 0 }
+      - { label: 否, score: 1 }
+  - id: gds12
+    text: 您是否覺得自己現在這樣活著沒有什麼價值？
+    options:
+      - { label: 是, score: 1 }
+      - { label: 否, score: 0 }
+  - id: gds13
+    text: 您是否覺得自己充滿活力？
+    options:
+      - { label: 是, score: 0 }
+      - { label: 否, score: 1 }
+  - id: gds14
+    text: 您是否覺得自己的處境沒有希望？
+    options:
+      - { label: 是, score: 1 }
+      - { label: 否, score: 0 }
+  - id: gds15
+    text: 您是否覺得大部分人都過得比自己好？
+    options:
+      - { label: 是, score: 1 }
+      - { label: 否, score: 0 }
 bands:
-  - { max: 4, severity: normal, label: 無憂鬱徵兆 }
+  - { min: 0, max: 4, severity: normal, label: 無憂鬱徵兆 }
   - { min: 5, max: 9, severity: monitor, label: 疑似憂鬱，建議追蹤 }
-  - { min: 10, severity: refer, label: 高度疑似，建議轉介 }
+  - { min: 10, max: 15, severity: refer, label: 高度疑似憂鬱，建議轉介 }
 clinicallyReviewed: false

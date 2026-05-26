@@ -1,0 +1,34 @@
+# 預立醫療照護諮商完成度 — Advance Care Planning (ACP) status screen
+# 來源：自述/狀態題組（非標準命名量表），對應《病人自主權利法》之預立醫療決定
+# （AD）、醫療委任代理人與家庭討論等 ACP 要素。每項未完成計 1 分（鼓勵完成 ACP），
+# 3 題總分 0–3。全完成 normal／部分完成 monitor／未開始 refer。
+# clinicallyReviewed: false → 題目、適用 CFS、切分點待臨床最終簽核。
+id: acp-status
+domain:
+  top: future_wishes
+  sub: advance_care_planning
+applicableCfs: [cfs5, cfs6, cfs7, cfs8, cfs9]
+scoring: sum
+inputType: option
+maxScore: 3
+items:
+  - id: acp_ad
+    text: 您是否已簽署預立醫療決定（AD）或預立安寧緩和醫療意願書？
+    options:
+      - { label: 已簽署, score: 0 }
+      - { label: 尚未簽署, score: 1 }
+  - id: acp_agent
+    text: 您是否已指定醫療委任代理人（在您無法表達時代您做醫療決定）？
+    options:
+      - { label: 已指定, score: 0 }
+      - { label: 尚未指定, score: 1 }
+  - id: acp_discussed
+    text: 您是否曾與家人或醫療團隊討論過自己的醫療照護意願？
+    options:
+      - { label: 已討論, score: 0 }
+      - { label: 尚未討論, score: 1 }
+bands:
+  - { min: 0, max: 0, severity: normal, label: ACP 要素已完成 }
+  - { min: 1, max: 2, severity: monitor, label: ACP 部分完成，建議協助完成其餘項目 }
+  - { min: 3, max: 3, severity: refer, label: 尚未開始 ACP，建議轉介預立醫療照護諮商 }
+clinicallyReviewed: false

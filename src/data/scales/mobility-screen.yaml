@@ -1,0 +1,42 @@
+# 行動能力自述短篩 — Mobility self-report screen
+# 來源：自述題組（非標準命名量表），以實證合理題目組成，用於初步辨識行走、
+# 起身、樓梯與輔具相關之行動困難。每題 0–2（無/輕度/明顯困難），4 題總分 0–8。
+# clinicallyReviewed: false → 題目、適用 CFS、切分點待臨床最終簽核。
+id: mobility-screen
+domain:
+  top: functional
+  sub: mobility
+applicableCfs: [cfs2, cfs3, cfs4, cfs5, cfs6, cfs7]
+scoring: sum
+inputType: option
+maxScore: 8
+items:
+  - id: mob_walk
+    text: 過去一週，您在平地行走是否感到困難？
+    options:
+      - { label: 沒有困難, score: 0 }
+      - { label: 有點困難, score: 1 }
+      - { label: 明顯困難或無法獨立行走, score: 2 }
+  - id: mob_chair
+    text: 您從椅子上站起來是否感到困難（未扶手）？
+    options:
+      - { label: 沒有困難, score: 0 }
+      - { label: 需用手撐才能站起, score: 1 }
+      - { label: 需他人協助才能站起, score: 2 }
+  - id: mob_stairs
+    text: 您上下一層樓梯是否感到困難？
+    options:
+      - { label: 沒有困難, score: 0 }
+      - { label: 需扶扶手或休息, score: 1 }
+      - { label: 無法自行上下樓梯, score: 2 }
+  - id: mob_aid
+    text: 您行走時是否需要使用輔具（拐杖、助行器、輪椅）？
+    options:
+      - { label: 不需要, score: 0 }
+      - { label: 偶爾或室外需要, score: 1 }
+      - { label: 隨時都需要, score: 2 }
+bands:
+  - { min: 0, max: 1, severity: normal, label: 行動能力大致良好 }
+  - { min: 2, max: 4, severity: monitor, label: 輕度行動困難，建議追蹤與運動介入 }
+  - { min: 5, max: 8, severity: refer, label: 明顯行動困難，建議轉介物理治療或評估 }
+clinicallyReviewed: false

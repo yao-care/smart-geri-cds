@@ -1,0 +1,105 @@
+# Charlson Comorbidity Index — 查爾森共病指數（Charlson et al. 1987）
+# 來源：公開標準加權共病量表。每項共病勾選「有」時計入其 Charlson 權重，
+# 加權加總（scoring: weighted）。本檔僅計共病加權分，未納入年齡校正項。
+# maxScore = 所有共病權重之和（10×1 + 4×2 + 1×3 + 2×6 = 33），為理論最大值。
+# 0 無共病負擔／1–2 輕度／≥3 顯著共病負擔。中文病名為暫譯；
+# clinicallyReviewed: false → 病名對應、適用 CFS、切分點待臨床最終簽核。
+id: cci
+domain:
+  top: physical
+  sub: comorbidity
+applicableCfs: [cfs2, cfs3, cfs4, cfs5, cfs6, cfs7, cfs8, cfs9]
+scoring: weighted
+inputType: option
+maxScore: 33
+items:
+  - id: cci_mi
+    text: 心肌梗塞病史
+    options:
+      - { label: 無, score: 0 }
+      - { label: 有, score: 1 }
+  - id: cci_chf
+    text: 充血性心臟衰竭
+    options:
+      - { label: 無, score: 0 }
+      - { label: 有, score: 1 }
+  - id: cci_pvd
+    text: 周邊血管疾病
+    options:
+      - { label: 無, score: 0 }
+      - { label: 有, score: 1 }
+  - id: cci_cvd
+    text: 腦血管疾病（中風或 TIA）
+    options:
+      - { label: 無, score: 0 }
+      - { label: 有, score: 1 }
+  - id: cci_dementia
+    text: 失智症
+    options:
+      - { label: 無, score: 0 }
+      - { label: 有, score: 1 }
+  - id: cci_copd
+    text: 慢性肺部疾病（如 COPD）
+    options:
+      - { label: 無, score: 0 }
+      - { label: 有, score: 1 }
+  - id: cci_ctd
+    text: 結締組織疾病（如類風濕性關節炎、紅斑性狼瘡）
+    options:
+      - { label: 無, score: 0 }
+      - { label: 有, score: 1 }
+  - id: cci_pud
+    text: 消化性潰瘍疾病
+    options:
+      - { label: 無, score: 0 }
+      - { label: 有, score: 1 }
+  - id: cci_liver_mild
+    text: 輕度肝臟疾病
+    options:
+      - { label: 無, score: 0 }
+      - { label: 有, score: 1 }
+  - id: cci_dm
+    text: 糖尿病（無器官併發症）
+    options:
+      - { label: 無, score: 0 }
+      - { label: 有, score: 1 }
+  - id: cci_hemiplegia
+    text: 偏癱或下身癱瘓
+    options:
+      - { label: 無, score: 0 }
+      - { label: 有, score: 2 }
+  - id: cci_renal
+    text: 中度至重度腎臟疾病
+    options:
+      - { label: 無, score: 0 }
+      - { label: 有, score: 2 }
+  - id: cci_dm_organ
+    text: 糖尿病合併器官損害
+    options:
+      - { label: 無, score: 0 }
+      - { label: 有, score: 2 }
+  - id: cci_tumor
+    text: 惡性腫瘤（無轉移）、白血病或淋巴瘤
+    options:
+      - { label: 無, score: 0 }
+      - { label: 有, score: 2 }
+  - id: cci_liver_severe
+    text: 中度至重度肝臟疾病
+    options:
+      - { label: 無, score: 0 }
+      - { label: 有, score: 3 }
+  - id: cci_metastatic
+    text: 轉移性實體腫瘤
+    options:
+      - { label: 無, score: 0 }
+      - { label: 有, score: 6 }
+  - id: cci_aids
+    text: 後天免疫缺乏症候群（AIDS）
+    options:
+      - { label: 無, score: 0 }
+      - { label: 有, score: 6 }
+bands:
+  - { min: 0, max: 0, severity: normal, label: 無顯著共病負擔 }
+  - { min: 1, max: 2, severity: monitor, label: 輕度共病負擔，建議追蹤 }
+  - { min: 3, max: 33, severity: refer, label: 顯著共病負擔，建議整合性照護評估 }
+clinicallyReviewed: false

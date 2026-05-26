@@ -1,0 +1,49 @@
+# 居家跌倒危害檢核 — Home fall-hazard checklist
+# 來源：自述/檢核題組（非標準命名量表），以實證合理之居家跌倒危害項目組成
+# （地面雜物、照明、扶手、地毯、浴廁防滑、夜間照明）。每勾選一項危害計 1 分，
+# 6 題總分 0–6（危害數）。0 無危害／1–2 少數危害／≥3 多項危害。
+# clinicallyReviewed: false → 題目、適用 CFS、切分點待臨床最終簽核。
+id: home-safety
+domain:
+  top: environmental
+  sub: home_safety
+applicableCfs: [cfs3, cfs4, cfs5, cfs6, cfs7, cfs8]
+scoring: sum
+inputType: option
+maxScore: 6
+items:
+  - id: hs_clutter
+    text: 走道或地板上是否常有電線、雜物或障礙物？
+    options:
+      - { label: 否, score: 0 }
+      - { label: 是, score: 1 }
+  - id: hs_lighting
+    text: 室內或走道照明是否不足或有陰暗死角？
+    options:
+      - { label: 否（照明充足）, score: 0 }
+      - { label: 是（照明不足）, score: 1 }
+  - id: hs_grabbar
+    text: 浴廁或樓梯是否缺少可供扶持的扶手？
+    options:
+      - { label: 否（有扶手）, score: 0 }
+      - { label: 是（缺扶手）, score: 1 }
+  - id: hs_rug
+    text: 家中是否有未固定、易滑動或捲邊的地毯或踏墊？
+    options:
+      - { label: 否, score: 0 }
+      - { label: 是, score: 1 }
+  - id: hs_bathroom
+    text: 浴室或廁所地面是否濕滑、缺少防滑墊？
+    options:
+      - { label: 否（已防滑）, score: 0 }
+      - { label: 是（濕滑）, score: 1 }
+  - id: hs_nightlight
+    text: 夜間從臥室到廁所的路線是否缺乏照明？
+    options:
+      - { label: 否（有夜燈）, score: 0 }
+      - { label: 是（無照明）, score: 1 }
+bands:
+  - { min: 0, max: 0, severity: normal, label: 居家環境無明顯跌倒危害 }
+  - { min: 1, max: 2, severity: monitor, label: 少數居家危害，建議改善 }
+  - { min: 3, max: 6, severity: refer, label: 多項居家危害，建議轉介居家環境評估改造 }
+clinicallyReviewed: false

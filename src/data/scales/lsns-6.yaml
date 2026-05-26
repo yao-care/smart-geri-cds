@@ -1,0 +1,73 @@
+# LSNS-6 — Lubben Social Network Scale (6-item, Lubben et al. 2006)
+# 來源：公開標準量表。3 題家人 + 3 題朋友，每題 0–5（依人數分級），
+# 總分 0–30，分數越高社會連結越佳（higher = better）。總分 <12 視為社會孤立。
+# 中文題目為暫譯；clinicallyReviewed: false → 中譯、適用 CFS、切分點待臨床
+# 最終簽核，尚不可用於正式臨床決策。
+id: lsns-6
+domain:
+  top: social
+  sub: social_support
+applicableCfs: [cfs2, cfs3, cfs4, cfs5, cfs6, cfs7, cfs8, cfs9]
+scoring: sum
+inputType: option
+maxScore: 30
+items:
+  - id: lsns_fam_count
+    text: 您每個月至少見面或聯絡一次的家人（親屬）有幾位？
+    options:
+      - { label: 沒有, score: 0 }
+      - { label: 1 位, score: 1 }
+      - { label: 2 位, score: 2 }
+      - { label: 3 至 4 位, score: 3 }
+      - { label: 5 至 8 位, score: 4 }
+      - { label: 9 位以上, score: 5 }
+  - id: lsns_fam_close
+    text: 您覺得有幾位家人是您感到親近、可以談私事的？
+    options:
+      - { label: 沒有, score: 0 }
+      - { label: 1 位, score: 1 }
+      - { label: 2 位, score: 2 }
+      - { label: 3 至 4 位, score: 3 }
+      - { label: 5 至 8 位, score: 4 }
+      - { label: 9 位以上, score: 5 }
+  - id: lsns_fam_help
+    text: 您覺得有幾位家人是您在需要協助時可以求助的？
+    options:
+      - { label: 沒有, score: 0 }
+      - { label: 1 位, score: 1 }
+      - { label: 2 位, score: 2 }
+      - { label: 3 至 4 位, score: 3 }
+      - { label: 5 至 8 位, score: 4 }
+      - { label: 9 位以上, score: 5 }
+  - id: lsns_fr_count
+    text: 您每個月至少見面或聯絡一次的朋友有幾位？
+    options:
+      - { label: 沒有, score: 0 }
+      - { label: 1 位, score: 1 }
+      - { label: 2 位, score: 2 }
+      - { label: 3 至 4 位, score: 3 }
+      - { label: 5 至 8 位, score: 4 }
+      - { label: 9 位以上, score: 5 }
+  - id: lsns_fr_close
+    text: 您覺得有幾位朋友是您感到親近、可以談私事的？
+    options:
+      - { label: 沒有, score: 0 }
+      - { label: 1 位, score: 1 }
+      - { label: 2 位, score: 2 }
+      - { label: 3 至 4 位, score: 3 }
+      - { label: 5 至 8 位, score: 4 }
+      - { label: 9 位以上, score: 5 }
+  - id: lsns_fr_help
+    text: 您覺得有幾位朋友是您在需要協助時可以求助的？
+    options:
+      - { label: 沒有, score: 0 }
+      - { label: 1 位, score: 1 }
+      - { label: 2 位, score: 2 }
+      - { label: 3 至 4 位, score: 3 }
+      - { label: 5 至 8 位, score: 4 }
+      - { label: 9 位以上, score: 5 }
+bands:
+  - { min: 0, max: 5, severity: refer, label: 高度社會孤立，建議轉介社會支持資源 }
+  - { min: 6, max: 11, severity: monitor, label: 社會孤立風險，建議追蹤與鼓勵社會參與 }
+  - { min: 12, max: 30, severity: normal, label: 社會連結良好 }
+clinicallyReviewed: false

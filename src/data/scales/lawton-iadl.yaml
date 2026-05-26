@@ -1,0 +1,59 @@
+# Lawton-Brody IADL — 工具性日常生活活動量表（Lawton & Brody 1969，8 項）
+# 來源：公開標準量表。採二分計分摘要法：每項依能力計 1（獨立）或 0（依賴），
+# 總分 0–8，分數越高越獨立（higher = better）。8 分獨立／6–7 部分依賴／
+# ≤5 高度依賴。中文題目為暫譯；clinicallyReviewed: false → 中譯、適用 CFS、
+# 切分點待臨床最終簽核，尚不可用於正式臨床決策。
+id: lawton-iadl
+domain:
+  top: functional
+  sub: iadl
+applicableCfs: [cfs3, cfs4, cfs5, cfs6, cfs7, cfs8, cfs9]
+scoring: sum
+inputType: option
+maxScore: 8
+items:
+  - id: iadl_phone
+    text: 使用電話的能力
+    options:
+      - { label: 無法使用電話, score: 0 }
+      - { label: 可自行使用電話（含查號、撥號）, score: 1 }
+  - id: iadl_shopping
+    text: 購物
+    options:
+      - { label: 需他人陪同或完全依賴, score: 0 }
+      - { label: 可獨立處理所有購物需求, score: 1 }
+  - id: iadl_cooking
+    text: 備餐
+    options:
+      - { label: 需他人準備餐食, score: 0 }
+      - { label: 可獨立計劃、備製並供應足夠餐食, score: 1 }
+  - id: iadl_housekeeping
+    text: 家務維持
+    options:
+      - { label: 無法參與任何家務, score: 0 }
+      - { label: 可獨立或僅需偶爾協助維持家務, score: 1 }
+  - id: iadl_laundry
+    text: 洗衣
+    options:
+      - { label: 需他人代洗所有衣物, score: 0 }
+      - { label: 可自行清洗個人衣物, score: 1 }
+  - id: iadl_transport
+    text: 使用交通工具
+    options:
+      - { label: 完全無法外出或需特殊協助, score: 0 }
+      - { label: 可自行搭乘大眾運輸或開車, score: 1 }
+  - id: iadl_medication
+    text: 自行服藥
+    options:
+      - { label: 無法自行管理藥物, score: 0 }
+      - { label: 可在正確時間服用正確劑量, score: 1 }
+  - id: iadl_finance
+    text: 處理財務
+    options:
+      - { label: 無法處理金錢, score: 0 }
+      - { label: 可獨立管理財務（理財、付帳、購物找零）, score: 1 }
+bands:
+  - { min: 0, max: 5, severity: refer, label: 高度依賴，建議轉介評估 }
+  - { min: 6, max: 7, severity: monitor, label: 部分依賴，建議追蹤 }
+  - { min: 8, max: 8, severity: normal, label: 工具性日常活動獨立 }
+clinicallyReviewed: false

@@ -1,0 +1,115 @@
+# ZBI-12 — Zarit Burden Interview (12-item short form, Bédard et al. 2001)
+# 來源：公開標準量表（照顧者負荷）。12 題，每題 0–4（從不/很少/有時/經常/
+# 總是），總分 0–48，分數越高負荷越重。0–10 無或輕度／11–20 中度／≥21 重度。
+# 由主要照顧者填答。中文題目為暫譯；clinicallyReviewed: false → 中譯、
+# 適用 CFS、切分點待臨床最終簽核，尚不可用於正式臨床決策。
+id: zarit-12
+domain:
+  top: social
+  sub: caregiver
+applicableCfs: [cfs4, cfs5, cfs6, cfs7, cfs8, cfs9]
+scoring: sum
+inputType: option
+maxScore: 48
+items:
+  - id: zbi1
+    text: 您是否覺得因照顧家人而沒有足夠時間留給自己？
+    options:
+      - { label: 從不, score: 0 }
+      - { label: 很少, score: 1 }
+      - { label: 有時, score: 2 }
+      - { label: 經常, score: 3 }
+      - { label: 總是, score: 4 }
+  - id: zbi2
+    text: 您是否覺得在照顧家人與兼顧家庭或工作之間感到壓力？
+    options:
+      - { label: 從不, score: 0 }
+      - { label: 很少, score: 1 }
+      - { label: 有時, score: 2 }
+      - { label: 經常, score: 3 }
+      - { label: 總是, score: 4 }
+  - id: zbi3
+    text: 您是否在照顧家人時感到情緒緊張？
+    options:
+      - { label: 從不, score: 0 }
+      - { label: 很少, score: 1 }
+      - { label: 有時, score: 2 }
+      - { label: 經常, score: 3 }
+      - { label: 總是, score: 4 }
+  - id: zbi4
+    text: 您是否因照顧家人而覺得身心俱疲？
+    options:
+      - { label: 從不, score: 0 }
+      - { label: 很少, score: 1 }
+      - { label: 有時, score: 2 }
+      - { label: 經常, score: 3 }
+      - { label: 總是, score: 4 }
+  - id: zbi5
+    text: 您是否覺得照顧家人影響了您與其他親友的關係？
+    options:
+      - { label: 從不, score: 0 }
+      - { label: 很少, score: 1 }
+      - { label: 有時, score: 2 }
+      - { label: 經常, score: 3 }
+      - { label: 總是, score: 4 }
+  - id: zbi6
+    text: 您是否覺得自己的健康因照顧家人而受到影響？
+    options:
+      - { label: 從不, score: 0 }
+      - { label: 很少, score: 1 }
+      - { label: 有時, score: 2 }
+      - { label: 經常, score: 3 }
+      - { label: 總是, score: 4 }
+  - id: zbi7
+    text: 您是否覺得因照顧家人而無法擁有自己想要的隱私？
+    options:
+      - { label: 從不, score: 0 }
+      - { label: 很少, score: 1 }
+      - { label: 有時, score: 2 }
+      - { label: 經常, score: 3 }
+      - { label: 總是, score: 4 }
+  - id: zbi8
+    text: 您是否覺得自己的社交生活因照顧家人而受到影響？
+    options:
+      - { label: 從不, score: 0 }
+      - { label: 很少, score: 1 }
+      - { label: 有時, score: 2 }
+      - { label: 經常, score: 3 }
+      - { label: 總是, score: 4 }
+  - id: zbi9
+    text: 您是否覺得家人只能依靠您照顧？
+    options:
+      - { label: 從不, score: 0 }
+      - { label: 很少, score: 1 }
+      - { label: 有時, score: 2 }
+      - { label: 經常, score: 3 }
+      - { label: 總是, score: 4 }
+  - id: zbi10
+    text: 您是否覺得照顧家人讓您無法負擔其他的開銷？
+    options:
+      - { label: 從不, score: 0 }
+      - { label: 很少, score: 1 }
+      - { label: 有時, score: 2 }
+      - { label: 經常, score: 3 }
+      - { label: 總是, score: 4 }
+  - id: zbi11
+    text: 您是否覺得自己無法再繼續承擔照顧的責任？
+    options:
+      - { label: 從不, score: 0 }
+      - { label: 很少, score: 1 }
+      - { label: 有時, score: 2 }
+      - { label: 經常, score: 3 }
+      - { label: 總是, score: 4 }
+  - id: zbi12
+    text: 整體而言，您是否覺得照顧家人對您是一種沉重的負擔？
+    options:
+      - { label: 從不, score: 0 }
+      - { label: 很少, score: 1 }
+      - { label: 有時, score: 2 }
+      - { label: 經常, score: 3 }
+      - { label: 總是, score: 4 }
+bands:
+  - { min: 0, max: 10, severity: normal, label: 無或輕度照顧負荷 }
+  - { min: 11, max: 20, severity: monitor, label: 中度照顧負荷，建議追蹤與支持 }
+  - { min: 21, max: 48, severity: refer, label: 重度照顧負荷，建議轉介喘息或支持服務 }
+clinicallyReviewed: false
