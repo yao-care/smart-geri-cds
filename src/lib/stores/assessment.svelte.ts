@@ -1,38 +1,24 @@
 import type { Assessment, Child } from '../db/schema';
 import * as assessmentDao from '../db/assessments';
-import { ageGroupCDSA, type AgeGroupCDSA } from '../utils/age-groups';
-import type { BehaviorMetrics } from '../../engine/cdsa/behavior-analysis';
-import type { VoiceMetrics } from '../../engine/cdsa/voice-analysis';
-import type { DrawingAnalysisResult } from '../../engine/cdsa/drawing-analysis';
-import type { GrossMotorResult } from '../../engine/cdsa/gross-motor-analysis';
+import type { CfsLevel } from '../utils/cfs-levels';
 import type { TriageResult } from '../../engine/cdsa/triage';
 
-// 移除 'analyzing' 步驟——分析在各模組完成時即時執行
-const STEPS = ['profile', 'questionnaire', 'game', 'voice', 'video', 'drawing', 'result'] as const;
+// 純問卷版三步驟流程（感測模組移除，無可跳模組）。
+const STEPS = ['profile', 'questionnaire', 'result'] as const;
 export type AssessmentStep = typeof STEPS[number];
-export type SkippableModule = 'game' | 'voice' | 'video' | 'drawing';
 
 export const STEP_LABELS: Record<AssessmentStep, string> = {
   profile: '基本資料',
   questionnaire: '問卷',
-  game: '互動遊戲',
-  voice: '語音互動',
-  video: '影片錄製',
-  drawing: '繪圖測試',
   result: '評估結果',
 };
 
-/** 各模組即時產出的分析結果 */
+/** 各模組即時產出的分析結果（純問卷版只有問卷分數）。 */
 export interface PartialAnalysis {
+  /** scaleId / top.sub → 累計原始分。 */
   questionnaireScores?: Record<string, number>;
-  /** Per-domain max score for the questionnaire that produced
-   *  questionnaireScores. Lets triage compute the correct normalised
-   *  ratio instead of dividing by a hardcoded 10. */
+  /** 同 key 的最大可能分，供正規化。 */
   questionnaireMaxScores?: Record<string, number>;
-  behaviorMetrics?: BehaviorMetrics;
-  voiceMetrics?: VoiceMetrics;
-  drawingResult?: DrawingAnalysisResult;
-  grossMotorResult?: GrossMotorResult;
 }
 
 class AssessmentStore {
@@ -42,52 +28,20 @@ class AssessmentStore {
   isLoading = $state(false);
   error = $state<string | null>(null);
 
+  /** 分層軸：CFS 等級（入口 gate 判定，取代年齡帶 ageGroup）。 */
+  cfsLevel = $state<CfsLevel | null>(null);
+
   /** 各模組即時累積的分析結果 */
   partialAnalysis = $state<PartialAnalysis>({});
 
   /** 最終分流結果（進入 result 步驟時由 ResultView 計算） */
   triageResult = $state<TriageResult | null>(null);
 
-  /** 強制完整評估模式（不 skip 任何模組） */
-  forceFullAssessment = $state<boolean>(false);
-
   currentStep = $derived(STEPS[this.currentStepIndex] ?? 'profile');
-  ageGroup = $derived<AgeGroupCDSA | null>(
-    this.child?.birthDate ? ageGroupCDSA(this.child.birthDate) : null
-  );
   isFirstStep = $derived(this.currentStepIndex === 0);
   isLastStep = $derived(this.currentStepIndex === STEPS.length - 1);
   progress = $derived(this.currentStepIndex / (STEPS.length - 1));
   steps = STEPS;
-
-  skippedModules = $derived.by<Set<SkippableModule>>(() => {
-    if (this.forceFullAssessment) return new Set();
-    const scores = this.partialAnalysis.questionnaireScores ?? {};
-    const max = this.partialAnalysis.questionnaireMaxScores ?? {};
-    const isFull = (d: string): boolean =>
-      (max[d] ?? 0) >= 4 && scores[d] === max[d];
-
-    const next = new Set<SkippableModule>();
-    if (isFull('gross_motor')) next.add('video');
-    if (isFull('fine_motor')) next.add('drawing');
-    if (isFull('language_comprehension') && isFull('language_expression')) next.add('voice');
-    return next;
-  });
-
-  effectiveSteps = $derived.by<AssessmentStep[]>(() =>
-    STEPS.filter(s => !this.skippedModules.has(s as SkippableModule))
-  );
-
-  effectiveStepIndex = $derived.by<number>(() => {
-    const idx = this.effectiveSteps.indexOf(this.currentStep);
-    if (idx >= 0) return idx;
-    for (let i = this.currentStepIndex - 1; i >= 0; i--) {
-      const name = STEPS[i];
-      const j = this.effectiveSteps.indexOf(name);
-      if (j >= 0) return j;
-    }
-    return 0;
-  });
 
   /** 各模組完成時呼叫，累積分析結果 */
   addAnalysis(partial: Partial<PartialAnalysis>): void {
@@ -107,7 +61,7 @@ class AssessmentStore {
     this.partialAnalysis = { ...this.partialAnalysis, ...partial };
   }
 
-  async startNew(childData: Omit<Child, 'id' | 'createdAt'>): Promise<void> {
+  async startNew(childData: Omit<Child, 'id' | 'createdAt'>, cfsLevel: CfsLevel): Promise<void> {
     this.isLoading = true;
     this.error = null;
     try {
@@ -118,7 +72,8 @@ class AssessmentStore {
       };
       await assessmentDao.createChild(child);
       this.child = child;
-      const assessment = await assessmentDao.createAssessment(child.id);
+      this.cfsLevel = cfsLevel;
+      const assessment = await assessmentDao.createAssessment(child.id, cfsLevel);
       this.assessment = assessment;
       this.currentStepIndex = 1;
     } catch (e) {
@@ -126,25 +81,6 @@ class AssessmentStore {
     } finally {
       this.isLoading = false;
     }
-  }
-
-  async setForceFullAssessment(value: boolean): Promise<void> {
-    // 寫 DB 後才 mutate 記憶體狀態：失敗時不會 in-memory / IDB desync
-    if (this.assessment) {
-      const id = this.assessment.id;
-      try {
-        await assessmentDao.updateAssessmentForceFull(id, value);
-      } catch (err) {
-        console.error('[AssessmentStore] setForceFullAssessment IDB write failed', err);
-        throw err;
-      }
-      this.assessment = {
-        ...this.assessment,
-        forceFullAssessment: value,
-        updatedAt: new Date(),
-      };
-    }
-    this.forceFullAssessment = value;
   }
 
   async resume(assessmentId: string): Promise<void> {
@@ -157,8 +93,8 @@ class AssessmentStore {
       if (!child) throw new Error('Child not found');
       this.assessment = assessment;
       this.child = child;
+      this.cfsLevel = assessment.cfsLevel;
       this.currentStepIndex = assessment.currentStep;
-      this.forceFullAssessment = assessment.forceFullAssessment ?? false;
       await assessmentDao.updateAssessmentStatus(assessmentId, 'resumed');
     } catch (e) {
       this.error = e instanceof Error ? e.message : 'Failed to resume assessment';
@@ -168,32 +104,18 @@ class AssessmentStore {
   }
 
   async nextStep(): Promise<void> {
-    let idx = this.currentStepIndex;
-    while (idx < STEPS.length - 1) {
-      idx++;
-      const name = STEPS[idx];
-      if (!this.skippedModules.has(name as SkippableModule)) {
-        this.currentStepIndex = idx;
-        if (this.assessment) {
-          await assessmentDao.updateAssessmentStep(this.assessment.id, idx);
-        }
-        return;
-      }
+    if (this.currentStepIndex >= STEPS.length - 1) return;
+    this.currentStepIndex++;
+    if (this.assessment) {
+      await assessmentDao.updateAssessmentStep(this.assessment.id, this.currentStepIndex);
     }
   }
 
   async prevStep(): Promise<void> {
-    let idx = this.currentStepIndex;
-    while (idx > 0) {
-      idx--;
-      const name = STEPS[idx];
-      if (!this.skippedModules.has(name as SkippableModule)) {
-        this.currentStepIndex = idx;
-        if (this.assessment) {
-          await assessmentDao.updateAssessmentStep(this.assessment.id, idx);
-        }
-        return;
-      }
+    if (this.currentStepIndex <= 0) return;
+    this.currentStepIndex--;
+    if (this.assessment) {
+      await assessmentDao.updateAssessmentStep(this.assessment.id, this.currentStepIndex);
     }
   }
 
@@ -214,11 +136,11 @@ class AssessmentStore {
   reset(): void {
     this.child = null;
     this.assessment = null;
+    this.cfsLevel = null;
     this.currentStepIndex = 0;
     this.error = null;
     this.partialAnalysis = {};
     this.triageResult = null;
-    this.forceFullAssessment = false;
   }
 }
 
