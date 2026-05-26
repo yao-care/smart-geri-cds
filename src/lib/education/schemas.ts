@@ -103,7 +103,42 @@ export const runtimeIndexSchema = z.object({
     educationSlug: z.string().optional(),
   })),
   educationSlugToTriggers: z.record(z.string(), z.array(z.string())),
+  recommendations: z.record(z.string(), z.array(z.object({
+    source: z.enum(['internal', 'custom', 'external']),
+    slug: z.string().optional(),
+    customId: z.string().optional(),
+    url: z.string().optional(),
+    title: z.string().optional(),
+    summary: z.string().optional(),
+  }))),
+  clinicalEducation: z.record(z.string(), z.array(z.string())),
 });
+
+// --- Content-relevance schema（單一源）---
+export const SEVERITY_NAMES = ['normal', 'monitor', 'refer'] as const;
+
+const refSchema = z.discriminatedUnion('type', [
+  z.object({ type: z.literal('article'), slug: z.string() }),
+  z.object({ type: z.literal('video'), videoId: z.string().regex(/^[A-Za-z0-9_-]{11}$/) }),
+]);
+
+export const relevanceEntrySchema = z.object({
+  ref: refSchema,
+  cdsa: z.object({
+    domains: z.union([z.literal('all'), z.array(z.enum(CDSA_DOMAIN_NAMES))]).default([]),
+    ageGroups: z.union([z.literal('all'), z.array(z.enum(AGE_GROUPS_CDSA))]).default('all'),
+    severities: z.array(z.enum(SEVERITY_NAMES)).default([...SEVERITY_NAMES]),
+  }).optional(),
+  clinical: z.array(z.string()).default([]),
+});
+
+export const contentRelevanceSchema = z.object({
+  inapplicable: z.record(z.enum(CDSA_DOMAIN_NAMES), z.array(z.enum(AGE_GROUPS_CDSA))),
+  relevance: z.array(relevanceEntrySchema),
+});
+
+export type ContentRelevance = z.infer<typeof contentRelevanceSchema>;
+export type RelevanceEntry = z.infer<typeof relevanceEntrySchema>;
 
 // --- Types ---
 export type VideoCatalogItem = z.infer<typeof videoCatalogItemSchema>;
