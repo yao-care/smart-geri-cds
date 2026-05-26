@@ -1,118 +1,51 @@
 /**
- * Parity test: build-content-index must produce a strict superset of the
- * pre-refactor video-index.json (the "before" fixture).
+ * Content-index format test (CGA axis, Phase 1 minimal content).
  *
- * Run:  pnpm test --run tests/education/content-index-parity.test.ts
+ * The pediatric "before" fixture and per-cell content locks no longer apply —
+ * the migrated content-relevance.yaml ships EMPTY inapplicable/triggers/
+ * clinicalAlertEducation (real CGA content is Plan 2). This test therefore
+ * asserts STRUCTURAL + FORMAT correctness of whatever the build compiler emits:
+ *   - recommendations keys (if any) match  <severity>::<top>.<sub>::cfs<1-9>
+ *   - triggers keys (if any) match the cga.domain / cga.triage grammar
+ *   - empty applicable cells are allowed (contributable, not a failure)
+ *
+ * Run:  pnpm vitest run tests/education/content-index-parity.test.ts
  */
 
 import { describe, it, expect, beforeAll } from 'vitest';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import fs from 'node:fs/promises';
 import type { RuntimeIndex } from '$lib/education/schemas';
 
-// Dynamically import build script (avoids import.meta.url side-effect at top-level)
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 
+const REC_KEY = /^(normal|monitor|refer)::[a-z_]+\.[a-z_]+::cfs[1-9]$/;
+const DOMAIN_TRIGGER = /^cga\.domain\.[a-z_]+\.[a-z_]+\.anomaly\.cfs[1-9]$/;
+const TRIAGE_TRIGGER = /^cga\.triage\.(normal|monitor|refer)\.cfs[1-9]$/;
+
 let neu: RuntimeIndex;
-let before: RuntimeIndex;
 
 beforeAll(async () => {
-  // Import the new build script (must export buildContentIndex)
   const mod = await import(path.join(ROOT, 'scripts/build-content-index.ts'));
   neu = await mod.buildContentIndex({ write: false });
-
-  before = JSON.parse(
-    await fs.readFile(
-      path.join(ROOT, 'tests/education/fixtures/video-index.before.json'),
-      'utf8',
-    ),
-  ) as RuntimeIndex;
 }, 30_000);
 
-// ---------------------------------------------------------------------------
-// 1. catalog — exact match
-// ---------------------------------------------------------------------------
-describe('catalog', () => {
-  it('preserves every pre-refactor video (curated additions allowed)', () => {
-    const b = before.catalog as Record<string, unknown>;
-    const n = neu.catalog as Record<string, unknown>;
-    for (const id of Object.keys(b)) {
-      expect(n[id], `catalog lost pre-refactor video ${id}`).toEqual(b[id]);
+describe('index shape', () => {
+  it('exposes the expected top-level keys', () => {
+    for (const k of ['catalog', 'triggers', 'educationSlugToTriggers', 'recommendations', 'clinicalEducation']) {
+      expect(neu, `missing index key ${k}`).toHaveProperty(k);
     }
+  });
+
+  it('catalog is an object (video catalog is independent of the axis migration)', () => {
+    expect(typeof neu.catalog).toBe('object');
   });
 });
 
-// ---------------------------------------------------------------------------
-// 2. educationSlugToTriggers — set-exact match (keys identical, arrays same set)
-//
-// The before fixture was produced by insertion order (YAML file order), but the
-// new build iterates content-relevance.triggers which is sorted alphabetically.
-// Consumer code treats these arrays as sets; we therefore sort both sides before
-// comparing to avoid false failures on permutation-only differences.
-// ---------------------------------------------------------------------------
-describe('educationSlugToTriggers', () => {
-  it('preserves every pre-refactor slug key (additions allowed)', () => {
-    const neuKeys = new Set(Object.keys(neu.educationSlugToTriggers));
-    for (const slug of Object.keys(before.educationSlugToTriggers)) {
-      expect(neuKeys.has(slug), `educationSlugToTriggers lost slug "${slug}"`).toBe(true);
-    }
-  });
-
-  it('each pre-refactor slug still maps to at least its before triggers (additions allowed)', () => {
-    const beforeE = before.educationSlugToTriggers as Record<string, string[]>;
-    const neuE = neu.educationSlugToTriggers as Record<string, string[]>;
-    for (const slug of Object.keys(beforeE)) {
-      const neuSet = new Set(neuE[slug] ?? []);
-      for (const t of beforeE[slug]) {
-        expect(neuSet.has(t), `educationSlugToTriggers["${slug}"] lost trigger ${t}`).toBe(true);
-      }
-    }
-  });
-});
-
-// ---------------------------------------------------------------------------
-// 3. triggers — behavioral equivalence (not byte-exact)
-// ---------------------------------------------------------------------------
-describe('triggers', () => {
-  it('every before trigger keeps its inapplicable flag and loses no videoId (curated additions allowed)', () => {
-    const beforeTriggers = before.triggers as Record<
-      string,
-      { videoIds: string[]; inapplicable: boolean; educationSlug?: string }
-    >;
-    const neuTriggers = (neu.triggers ?? {}) as typeof beforeTriggers;
-
-    for (const [k, b] of Object.entries(beforeTriggers)) {
-      const n = neuTriggers[k] ?? { videoIds: [], inapplicable: false };
-      expect(n.inapplicable, `trigger ${k}: inapplicable mismatch`).toBe(b.inapplicable);
-      const neuSet = new Set(n.videoIds);
-      for (const v of b.videoIds) {
-        expect(neuSet.has(v), `trigger ${k}: lost pre-refactor videoId ${v}`).toBe(true);
-      }
-    }
-  });
-
-  // NOTE: Intentionally removed — content work legitimately adds video-bearing cells
-  // (behavior/language_comprehension/language_expression ages). The new
-  // "every applicable cell has article + video" test below is the durable guard.
-});
-
-// ---------------------------------------------------------------------------
-// 4. recommendations — structural integrity (default.json removed; parity was
-//    verified at migration time and is now enforced by content-relevance.yaml)
-// ---------------------------------------------------------------------------
-describe('recommendations', () => {
-  it('exists and is a non-empty object', () => {
-    expect(neu.recommendations).toBeDefined();
-    expect(typeof neu.recommendations).toBe('object');
-    expect(Object.keys(neu.recommendations).length).toBeGreaterThan(0);
-  });
-
-  it('all keys match pattern <severity>::<domain>::<ageGroup>', () => {
-    for (const key of Object.keys(neu.recommendations)) {
-      expect(key, `malformed recommendations key: ${key}`).toMatch(
-        /^(normal|monitor|refer)::[a-z_]+::[0-9]+-[0-9]+m$/,
-      );
+describe('recommendations key format (CGA axis)', () => {
+  it('every recommendations key matches <severity>::<top>.<sub>::cfs<1-9>', () => {
+    for (const key of Object.keys(neu.recommendations ?? {})) {
+      expect(key, `malformed recommendations key: ${key}`).toMatch(REC_KEY);
     }
   });
 
@@ -127,141 +60,37 @@ describe('recommendations', () => {
   });
 });
 
-// ---------------------------------------------------------------------------
-// 5. recommendations — content lock for representative cells
-//
-// Snapshot locked from current video-index.json (2026-05-26).
-// A regression swapping article slugs across cells would silently pass the
-// structural tests above; this test catches that by fixing the ACTUAL slug
-// sets for a representative cross-section of category × domain × ageGroup.
-// Order-independent (Set comparison). Each item must also have a non-empty title.
-// ---------------------------------------------------------------------------
-describe('recommendations content lock — representative cells', () => {
-  type RecItem = { slug: string; title: string; source: string; summary?: string };
-  type Recs = Record<string, RecItem[]>;
-
-  // Cells that MUST have specific slugs (came from default.json with explicit severities)
-  const EXPECTED_SLUGS: Record<string, Set<string>> = {
-    'monitor::gross_motor::13-24m': new Set(['exercise-guide', 'gross-motor-activities']),
-    'refer::gross_motor::13-24m': new Set(['exercise-guide', 'gross-motor-activities', 'when-to-seek-help']),
-    'monitor::cognition::13-24m': new Set(['cognitive-play']),
-    'refer::social_emotional::13-24m': new Set(['social-emotional-guide', 'when-to-seek-help']),
-    // 2026-05-26 task 1: language given a recommendation article across applicable ages
-    'monitor::language::13-24m': new Set(['language-stimulation']),
-    'refer::language::49-60m': new Set(['language-stimulation']),
-  };
-
-  // Cells that must be ABSENT/EMPTY — browse-only articles WITHOUT severities must
-  // not leak into recommendations. (Language was intentionally given severities in
-  // task 1, so it moved to EXPECTED_SLUGS above.)
-  const EXPECTED_ABSENT: string[] = [];
-
-  it('locked cells contain exactly the expected slug sets', () => {
-    const recs = neu.recommendations as Recs;
-    for (const [key, expectedSlugs] of Object.entries(EXPECTED_SLUGS)) {
-      const items = recs[key];
-      expect(items, `recommendations["${key}"] should exist`).toBeDefined();
-      const actualSlugs = new Set(items.map((item) => item.slug));
-      expect(actualSlugs, `recommendations["${key}"] slug set mismatch`).toEqual(expectedSlugs);
+describe('triggers grammar (CGA axis)', () => {
+  it('every trigger key matches cga.domain.* or cga.triage.* grammar', () => {
+    const triggers = (neu.triggers ?? {}) as Record<
+      string,
+      { videoIds: string[]; inapplicable: boolean; educationSlug?: string }
+    >;
+    for (const key of Object.keys(triggers)) {
+      const ok = DOMAIN_TRIGGER.test(key) || TRIAGE_TRIGGER.test(key);
+      expect(ok, `malformed trigger key: ${key}`).toBe(true);
     }
   });
 
-  it('browse-only language cells are absent from recommendations (parity with pre-refactor)', () => {
-    const recs = neu.recommendations as Recs;
-    for (const key of EXPECTED_ABSENT) {
-      const items = recs[key];
-      const isEmpty = items == null || items.length === 0;
-      expect(
-        isEmpty,
-        `recommendations["${key}"] should be absent/empty (browse-only article must not leak), but got: ${JSON.stringify(items)}`,
-      ).toBe(true);
+  it('present triggers carry a boolean inapplicable flag and an array of videoIds', () => {
+    const triggers = (neu.triggers ?? {}) as Record<
+      string,
+      { videoIds: string[]; inapplicable: boolean }
+    >;
+    for (const [key, entry] of Object.entries(triggers)) {
+      expect(typeof entry.inapplicable, `${key}: inapplicable not boolean`).toBe('boolean');
+      expect(Array.isArray(entry.videoIds), `${key}: videoIds not array`).toBe(true);
     }
   });
 
-  it('all items in locked cells have a non-empty title', () => {
-    const recs = neu.recommendations as Recs;
-    for (const key of Object.keys(EXPECTED_SLUGS)) {
-      const items = recs[key] ?? [];
-      for (const item of items) {
-        expect(
-          item.title,
-          `recommendations["${key}"] item slug="${item.slug}" has empty title`,
-        ).toBeTruthy();
-      }
-    }
+  it('allows empty triggers (minimal Phase 1 content — cells are contributable)', () => {
+    expect(typeof neu.triggers).toBe('object');
   });
 });
 
-// ---------------------------------------------------------------------------
-// 6. clinicalEducation exists
-// ---------------------------------------------------------------------------
 describe('clinicalEducation', () => {
-  it('exists and is an object', () => {
+  it('exists and is an object (empty in Phase 2 — CDSS deferred)', () => {
     expect(neu.clinicalEducation).toBeDefined();
     expect(typeof neu.clinicalEducation).toBe('object');
-  });
-});
-
-// ---------------------------------------------------------------------------
-// 6. matrix educationSlug per cdsa.domain cell — exact parity lock
-// ---------------------------------------------------------------------------
-describe('matrix educationSlug parity', () => {
-  it('matrix educationSlug per cdsa.domain cell matches before (exact)', () => {
-    const beforeTriggers = before.triggers as Record<
-      string,
-      { videoIds: string[]; inapplicable: boolean; educationSlug?: string }
-    >;
-    const neuTriggers = (neu.triggers ?? {}) as typeof beforeTriggers;
-
-    // Cells that HAD a non-null educationSlug before must keep it (guards against
-    // silently losing/changing a curated matrix article).
-    // Cells that had no article before (null educationSlug) MAY gain one —
-    // intentional content additions are allowed.
-    for (const [k, b] of Object.entries(beforeTriggers)) {
-      if (!k.startsWith('cdsa.domain.')) continue;
-      const beforeSlug = (b as { educationSlug?: string }).educationSlug ?? null;
-      if (beforeSlug === null) continue; // cell had no article before — additions allowed
-      const n = neuTriggers[k] ?? {};
-      expect((n as { educationSlug?: string }).educationSlug ?? null, k).toBe(beforeSlug);
-    }
-  });
-});
-
-// ---------------------------------------------------------------------------
-// 7. every applicable cell has article + video (durable coverage guard)
-// ---------------------------------------------------------------------------
-describe('every applicable cell has article + video', () => {
-  const DOMAINS = [
-    'behavior', 'gross_motor', 'fine_motor', 'language',
-    'language_comprehension', 'language_expression', 'cognition', 'social_emotional',
-  ] as const;
-  const AGE_GROUPS = ['2-6m', '7-12m', '13-24m', '25-36m', '37-48m', '49-60m', '61-72m'] as const;
-
-  it('each non-inapplicable cdsa.domain cell has a non-empty educationSlug AND ≥1 videoId', () => {
-    const neuTriggers = (neu.triggers ?? {}) as Record<
-      string,
-      { videoIds: string[]; inapplicable: boolean; educationSlug?: string }
-    >;
-
-    // Load inapplicable map from content-relevance.yaml (already embedded in the
-    // built index as inapplicable:true on the trigger key)
-    for (const domain of DOMAINS) {
-      for (const age of AGE_GROUPS) {
-        const key = `cdsa.domain.${domain}.anomaly.${age}`;
-        const cell = neuTriggers[key];
-        if (!cell) continue; // absent key = inapplicable (not in YAML triggers)
-        if (cell.inapplicable) continue;
-
-        expect(
-          cell.educationSlug,
-          `${key}: missing matrix article (educationSlug is empty)`,
-        ).toBeTruthy();
-
-        expect(
-          (cell.videoIds ?? []).length,
-          `${key}: missing video (videoIds is empty)`,
-        ).toBeGreaterThanOrEqual(1);
-      }
-    }
   });
 });

@@ -4,32 +4,55 @@ import { tick } from 'svelte';
 import QuestionnaireModule from '../../src/components/assess/QuestionnaireModule.svelte';
 import { assessmentStore } from '../../src/lib/stores/assessment.svelte';
 import { db } from '../../src/lib/db/schema';
-import expectedDomainsMap from '../../src/lib/data/expected-questionnaire-domains.generated.json';
+import type { ScaleDef } from '../../src/lib/scales/scale';
 
-function isoDaysAgo(days: number): string {
-  return new Date(Date.now() - days * 86400_000).toISOString().slice(0, 10);
+/** Synthetic scale set spanning two domains, all applicable at cfs5. */
+function makeScales(): ScaleDef[] {
+  return [
+    {
+      id: 'gds-15',
+      domain: { top: 'psychological', sub: 'mood' },
+      applicableCfs: ['cfs5'],
+      scoring: 'sum',
+      inputType: 'option',
+      maxScore: 2,
+      items: [
+        { id: 'm1', text: '情緒題一？', options: [{ label: '是', score: 1 }, { label: '否', score: 0 }] },
+        { id: 'm2', text: '情緒題二？', options: [{ label: '是', score: 1 }, { label: '否', score: 0 }] },
+      ],
+      bands: [
+        { max: 0, severity: 'normal', label: '正常' },
+        { min: 1, severity: 'monitor', label: '待觀察' },
+      ],
+      clinicallyReviewed: false,
+    },
+    {
+      id: 'barthel',
+      domain: { top: 'functional', sub: 'adl' },
+      applicableCfs: ['cfs5'],
+      scoring: 'sum',
+      inputType: 'option',
+      maxScore: 2,
+      items: [
+        { id: 'a1', text: 'ADL 題一？', options: [{ label: '可', score: 1 }, { label: '不可', score: 0 }] },
+        { id: 'a2', text: 'ADL 題二？', options: [{ label: '可', score: 1 }, { label: '不可', score: 0 }] },
+      ],
+      bands: [
+        { max: 1, severity: 'refer', label: '需協助' },
+        { min: 2, severity: 'normal', label: '獨立' },
+      ],
+      clinicallyReviewed: false,
+    },
+  ];
 }
 
-const AGE_BIRTHDATES: Record<string, string> = {
-  '2-6m':   isoDaysAgo(30 * 4),
-  '7-12m':  isoDaysAgo(30 * 10),
-  '13-24m': isoDaysAgo(30 * 18),
-  '25-36m': isoDaysAgo(30 * 30),
-  '37-48m': isoDaysAgo(30 * 42),
-  '49-60m': isoDaysAgo(30 * 54),
-  '61-72m': isoDaysAgo(30 * 66),
-};
-
-describe('QuestionnaireModule emission per ageGroup', () => {
+describe('QuestionnaireModule flow (CFS-driven, per-scale emission)', () => {
   beforeEach(async () => {
-    // mute dev-warn console.warn to keep test output clean
     vi.spyOn(console, 'warn').mockImplementation(() => {});
     await db.assessmentEvents.clear();
     await db.assessments.clear();
     await db.children.clear();
     assessmentStore.reset();
-    // Activate fake timers only after async DB setup is complete
-    vi.useFakeTimers();
   });
 
   afterEach(() => {
@@ -39,56 +62,58 @@ describe('QuestionnaireModule emission per ageGroup', () => {
     assessmentStore.reset();
   });
 
-  for (const ag of Object.keys(AGE_BIRTHDATES)) {
-    it(`emits all applicable domains for ${ag}`, { timeout: 30000 }, async () => {
-      // startNew must run with real timers (uses IndexedDB)
-      // beforeEach already enabled fake timers; restore to real for this async init
-      vi.useRealTimers();
-      await assessmentStore.startNew({
-        nickName: 'test',
-        birthDate: AGE_BIRTHDATES[ag],
-        gender: 'male',
-      });
-      expect(assessmentStore.ageGroup).toBe(ag);
-      // Move to questionnaire step
-      assessmentStore.currentStepIndex = 1;
-      // Re-enable fake timers for the UI interaction loop
-      vi.useFakeTimers();
+  it('emits one score per applicable scale (keyed by scaleId) at cfs5', async () => {
+    await assessmentStore.startNew(
+      { nickName: 'test', birthDate: '', gender: 'male' },
+      'cfs5',
+    );
+    assessmentStore.currentStepIndex = 1;
 
-      render(QuestionnaireModule);
-      await tick();
+    const scales = makeScales();
+    render(QuestionnaireModule, { scales });
+    await tick();
 
-      // Answer every question with max score (data-score="2")
-      let safety = 80;
-      while (safety-- > 0) {
-        const maxBtn = document.querySelector<HTMLButtonElement>('button[data-score="2"]');
-        if (!maxBtn) break;
-        // If button is disabled, advance time and retry
-        if (maxBtn.disabled) {
-          await vi.advanceTimersByTimeAsync(100);
-          await tick();
-          continue;
-        }
-        await fireEvent.click(maxBtn);
-        // Advance past the 520ms feedback delay
-        await vi.advanceTimersByTimeAsync(550);
+    vi.useFakeTimers();
+
+    // Answer every item with the first option (score 1).
+    let safety = 30;
+    while (safety-- > 0) {
+      const btn = document.querySelector<HTMLButtonElement>('button.option-btn');
+      if (!btn) break;
+      if (btn.disabled) {
+        await vi.advanceTimersByTimeAsync(100);
         await tick();
+        continue;
       }
+      await fireEvent.click(btn);
+      await vi.advanceTimersByTimeAsync(550);
+      await tick();
+    }
+    vi.useRealTimers();
 
-      const expected = (expectedDomainsMap as Record<string, string[]>)[ag] ?? [];
-      const scores = assessmentStore.partialAnalysis.questionnaireScores ?? {};
-      const maxScores = assessmentStore.partialAnalysis.questionnaireMaxScores ?? {};
+    const scores = assessmentStore.partialAnalysis.questionnaireScores ?? {};
+    const maxScores = assessmentStore.partialAnalysis.questionnaireMaxScores ?? {};
 
-      // All applicable domains must be scored AND at max (all-yes answers)
-      for (const d of expected) {
-        expect(scores, `domain '${d}' should be in scores for ${ag}`).toHaveProperty(d);
-        expect(scores[d], `domain '${d}' score should equal max for ${ag}`).toBe(maxScores[d]);
-      }
-      // Every applicable domain must appear in scores (but scores may include
-      // additional domains from questions added after the map was generated)
-      for (const d of expected) {
-        expect(Object.keys(scores)).toContain(d);
-      }
-    });
-  }
+    // Both applicable scales must be scored, keyed by scaleId.
+    for (const scaleId of ['gds-15', 'barthel']) {
+      expect(Object.keys(scores)).toContain(scaleId);
+      expect(maxScores[scaleId]).toBe(2);
+      expect(scores[scaleId]).toBeLessThanOrEqual(maxScores[scaleId]);
+    }
+  }, 30000);
+
+  it('excludes scales not applicable to the CFS level', async () => {
+    await assessmentStore.startNew(
+      { nickName: 'test', birthDate: '', gender: 'male' },
+      'cfs1',
+    );
+    assessmentStore.currentStepIndex = 1;
+
+    const scales = makeScales(); // all applicable only at cfs5
+    const { container } = render(QuestionnaireModule, { scales });
+    await tick();
+
+    // No applicable scale → no option buttons rendered.
+    expect(container.querySelector('button.option-btn')).toBeNull();
+  });
 });

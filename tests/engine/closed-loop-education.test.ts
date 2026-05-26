@@ -1,11 +1,10 @@
 /**
- * TDD: verify that ClosedLoopEngine.processResult correctly attaches
- * educationRecommended slugs that match the CLINICAL_EDUCATION map.
- *
- * getEducationRecommendations is private, so we test via the smallest
- * public surface: processResult — which sets alert.educationRecommended.
- *
- * Also directly tests the CLINICAL_EDUCATION constant for exact mapping parity.
+ * Phase 2 (CDSS deferred): the pure-questionnaire CGA build ships an EMPTY
+ * CLINICAL_EDUCATION map (content-relevance.yaml clinicalAlertEducation is
+ * empty). The closed-loop wiring is preserved but, with no clinical-alert
+ * indicators mapped, processResult attaches no education slugs. This test
+ * asserts that degraded-but-correct behaviour. The geriatric physiological
+ * indicator → education mapping returns in Phase 3.
  */
 
 import 'fake-indexeddb/auto';
@@ -14,10 +13,6 @@ import { ClosedLoopEngine } from '../../src/engine/closed-loop';
 import { db } from '../../src/lib/db/schema';
 import { CLINICAL_EDUCATION } from '../../src/lib/education/clinical-education.generated';
 import type { RiskAnalysisResult } from '../../src/engine/risk-analyzer';
-
-// ---------------------------------------------------------------------------
-// Helpers
-// ---------------------------------------------------------------------------
 
 function makeResult(
   indicators: string[],
@@ -52,86 +47,34 @@ const engine = new ClosedLoopEngine({
   alertAfterHours: 24,
 });
 
-// ---------------------------------------------------------------------------
-// 1. CLINICAL_EDUCATION constant — exact mapping parity
-// ---------------------------------------------------------------------------
-
-describe('CLINICAL_EDUCATION constant', () => {
-  it('maps sugar_intake to diet-control', () => {
-    expect(CLINICAL_EDUCATION['sugar_intake']).toEqual(['diet-control']);
+describe('CLINICAL_EDUCATION constant (Phase 2: empty)', () => {
+  it('is an empty map until CDSS is geriatric-ised (Phase 3)', () => {
+    expect(CLINICAL_EDUCATION).toEqual({});
   });
 
-  it('maps sleep_quality to sleep-hygiene', () => {
-    expect(CLINICAL_EDUCATION['sleep_quality']).toEqual(['sleep-hygiene']);
-  });
-
-  it('maps spo2 to respiratory-care', () => {
-    expect(CLINICAL_EDUCATION['spo2']).toEqual(['respiratory-care']);
-  });
-
-  it('maps activity_level to exercise-guide', () => {
-    expect(CLINICAL_EDUCATION['activity_level']).toEqual(['exercise-guide']);
-  });
-
-  it('returns no entry for an unknown indicator', () => {
+  it('returns no entry for any indicator', () => {
+    expect(CLINICAL_EDUCATION['sugar_intake']).toBeUndefined();
     expect(CLINICAL_EDUCATION['heart_rate']).toBeUndefined();
-    expect(CLINICAL_EDUCATION['unknown_indicator']).toBeUndefined();
-  });
-
-  it('all 4 known indicators produce the expected slugs in order', () => {
-    const indicators = ['sugar_intake', 'sleep_quality', 'spo2', 'activity_level'];
-    const result = indicators.flatMap(ind => CLINICAL_EDUCATION[ind] ?? []);
-    expect(result).toEqual([
-      'diet-control',
-      'sleep-hygiene',
-      'respiratory-care',
-      'exercise-guide',
-    ]);
   });
 });
 
-// ---------------------------------------------------------------------------
-// 2. ClosedLoopEngine.processResult — educationRecommended via real behavior
-// ---------------------------------------------------------------------------
-
-describe('ClosedLoopEngine educationRecommended (via processResult)', () => {
+describe('ClosedLoopEngine educationRecommended (empty map)', () => {
   beforeEach(async () => {
     await db.alerts.clear();
     await db.patients.clear();
   });
 
-  it('all 4 mapped indicators → correct slugs on alert', async () => {
+  it('attaches no education slugs while CLINICAL_EDUCATION is empty', async () => {
     const result = makeResult(['sugar_intake', 'sleep_quality', 'spo2', 'activity_level']);
-    const alert = await engine.processResult(result);
-
-    expect(alert).not.toBeNull();
-    expect(new Set(alert!.educationRecommended)).toEqual(
-      new Set(['diet-control', 'sleep-hygiene', 'respiratory-care', 'exercise-guide']),
-    );
-  });
-
-  it('unknown indicator returns empty educationRecommended', async () => {
-    const result = makeResult(['heart_rate']);
     const alert = await engine.processResult(result);
 
     expect(alert).not.toBeNull();
     expect(alert!.educationRecommended ?? []).toEqual([]);
   });
 
-  it('sugar_intake alone maps to diet-control', async () => {
-    const result = makeResult(['sugar_intake']);
+  it('still produces an alert (closed-loop wiring intact)', async () => {
+    const result = makeResult(['heart_rate']);
     const alert = await engine.processResult(result);
-
     expect(alert).not.toBeNull();
-    expect(alert!.educationRecommended).toContain('diet-control');
-    expect(alert!.educationRecommended).not.toContain('nutrition-grow-tall');
-  });
-
-  it('activity_level alone maps to exercise-guide', async () => {
-    const result = makeResult(['activity_level']);
-    const alert = await engine.processResult(result);
-
-    expect(alert).not.toBeNull();
-    expect(alert!.educationRecommended).toContain('exercise-guide');
   });
 });
