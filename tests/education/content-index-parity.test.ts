@@ -151,13 +151,20 @@ describe('recommendations content lock — representative cells', () => {
   type RecItem = { slug: string; title: string; source: string; summary?: string };
   type Recs = Record<string, RecItem[]>;
 
+  // Cells that MUST have specific slugs (came from default.json with explicit severities)
   const EXPECTED_SLUGS: Record<string, Set<string>> = {
     'monitor::gross_motor::13-24m': new Set(['exercise-guide', 'gross-motor-activities']),
     'refer::gross_motor::13-24m': new Set(['exercise-guide', 'gross-motor-activities', 'when-to-seek-help']),
-    'monitor::language::13-24m': new Set(['language-stimulation']),
     'monitor::cognition::13-24m': new Set(['cognitive-play']),
     'refer::social_emotional::13-24m': new Set(['social-emotional-guide', 'when-to-seek-help']),
   };
+
+  // Cells that must be ABSENT or EMPTY — browse-only articles that were never
+  // in default.json and must not leak into recommendations (parity fix).
+  const EXPECTED_ABSENT: string[] = [
+    'monitor::language::13-24m',
+    'refer::language::13-24m',
+  ];
 
   it('locked cells contain exactly the expected slug sets', () => {
     const recs = neu.recommendations as Recs;
@@ -166,6 +173,18 @@ describe('recommendations content lock — representative cells', () => {
       expect(items, `recommendations["${key}"] should exist`).toBeDefined();
       const actualSlugs = new Set(items.map((item) => item.slug));
       expect(actualSlugs, `recommendations["${key}"] slug set mismatch`).toEqual(expectedSlugs);
+    }
+  });
+
+  it('browse-only language cells are absent from recommendations (parity with pre-refactor)', () => {
+    const recs = neu.recommendations as Recs;
+    for (const key of EXPECTED_ABSENT) {
+      const items = recs[key];
+      const isEmpty = items == null || items.length === 0;
+      expect(
+        isEmpty,
+        `recommendations["${key}"] should be absent/empty (browse-only article must not leak), but got: ${JSON.stringify(items)}`,
+      ).toBe(true);
     }
   });
 

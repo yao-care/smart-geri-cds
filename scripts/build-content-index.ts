@@ -221,8 +221,11 @@ export async function buildContentIndex(opts: BuildOptions = {}): Promise<Runtim
   // Value: Array<{source:'internal', slug, title?, summary?}>
   //
   // Derived from content-relevance.triggers for cdsa.domain.* entries only.
-  // Each article with severities S → push slug into recommendations[`${sev}::${domain}::${age}`].
-  // Default severities when omitted: ['monitor', 'refer']
+  // Each article with an EXPLICIT, non-empty severities array → push slug into
+  // recommendations[`${sev}::${domain}::${age}`] for each listed severity.
+  //
+  // Articles with NO severities (browse-only / matrix-only) are intentionally
+  // skipped — they must NOT appear in recommendations. No default fallback.
   // title/summary are read from src/data/education/<slug>.md frontmatter.
 
   const recommendations: Record<
@@ -245,10 +248,13 @@ export async function buildContentIndex(opts: BuildOptions = {}): Promise<Runtim
     for (const article of entry.articles) {
       allEducationSlugs.add(article.slug);
 
-      const severities =
-        article.severities && article.severities.length > 0
-          ? article.severities
-          : ['monitor', 'refer'];
+      // Skip browse-only / matrix-only articles that have no explicit severities.
+      // These were never part of default.json recommendations; adding a default
+      // would cause parity violations (e.g. language-stimulation leaking into
+      // monitor::language::13-24m where pre-refactor no article was recommended).
+      if (!article.severities || article.severities.length === 0) continue;
+
+      const severities = article.severities;
 
       // Read title/summary from frontmatter (cached)
       const fm = await readFrontmatter(article.slug, cwd);

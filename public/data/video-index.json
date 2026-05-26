@@ -576,14 +576,6 @@
         "title": "粗動作發展促進活動"
       }
     ],
-    "monitor::language::13-24m": [
-      {
-        "slug": "language-stimulation",
-        "source": "internal",
-        "summary": "透過日常互動促進兒童語言理解與表達能力",
-        "title": "語言發展促進技巧"
-      }
-    ],
     "monitor::language_comprehension::13-24m": [
       {
         "slug": "language-stimulation",
@@ -1082,14 +1074,6 @@
         "source": "internal",
         "summary": "兒童發展警訊與轉介建議——什麼時候該帶孩子去看醫生",
         "title": "何時該尋求專業協助"
-      }
-    ],
-    "refer::language::13-24m": [
-      {
-        "slug": "language-stimulation",
-        "source": "internal",
-        "summary": "透過日常互動促進兒童語言理解與表達能力",
-        "title": "語言發展促進技巧"
       }
     ],
     "refer::language_comprehension::13-24m": [
