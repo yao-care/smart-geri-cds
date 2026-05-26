@@ -1,28 +1,22 @@
 {
   "articleSlugs": [
-    "behavior-guidance",
-    "cognitive-play",
-    "diet-control",
-    "exercise-guide",
-    "fine-motor-activities",
-    "gross-motor-activities",
-    "language-comprehension",
-    "language-expression",
-    "language-stimulation",
-    "milestones/0-6m",
-    "milestones/1-2y",
-    "milestones/2-3y",
-    "milestones/3-6y",
-    "milestones/6-12m",
-    "nutrition-calcium-tofu",
-    "nutrition-garlic-tip",
-    "nutrition-grow-tall",
-    "nutrition-okra-cooking",
-    "nutrition-vitamin-d-mushroom",
-    "respiratory-care",
-    "sleep-hygiene",
-    "social-emotional-guide",
-    "when-to-seek-help"
+    "adl-maintenance",
+    "advance-care-planning",
+    "caregiver-support",
+    "cognitive-training",
+    "comorbidity-management",
+    "delirium-awareness",
+    "depression-support",
+    "fall-prevention",
+    "geriatric-nutrition",
+    "home-safety",
+    "incontinence-care",
+    "ltc-resources",
+    "medication-safety",
+    "sarcopenia-exercise",
+    "sensory-impairment",
+    "social-connection",
+    "treatment-preferences"
   ],
   "catalog": {
     "-d0DmEv8qVs": {
@@ -469,6 +463,2804 @@
   },
   "clinicalEducation": {},
   "educationSlugToTriggers": {},
-  "recommendations": {},
-  "triggers": {}
+  "recommendations": {
+    "monitor::environmental.accessibility::cfs4": [
+      {
+        "slug": "home-safety",
+        "source": "internal",
+        "summary": "從照明、地面、扶手到浴廁與動線，逐區檢視並改善居家環境，降低長者跌倒與意外風險。",
+        "title": "居家安全與無障礙"
+      }
+    ],
+    "monitor::environmental.accessibility::cfs5": [
+      {
+        "slug": "home-safety",
+        "source": "internal",
+        "summary": "從照明、地面、扶手到浴廁與動線，逐區檢視並改善居家環境，降低長者跌倒與意外風險。",
+        "title": "居家安全與無障礙"
+      }
+    ],
+    "monitor::environmental.accessibility::cfs6": [
+      {
+        "slug": "home-safety",
+        "source": "internal",
+        "summary": "從照明、地面、扶手到浴廁與動線，逐區檢視並改善居家環境，降低長者跌倒與意外風險。",
+        "title": "居家安全與無障礙"
+      }
+    ],
+    "monitor::environmental.accessibility::cfs7": [
+      {
+        "slug": "home-safety",
+        "source": "internal",
+        "summary": "從照明、地面、扶手到浴廁與動線，逐區檢視並改善居家環境，降低長者跌倒與意外風險。",
+        "title": "居家安全與無障礙"
+      }
+    ],
+    "monitor::environmental.accessibility::cfs8": [
+      {
+        "slug": "home-safety",
+        "source": "internal",
+        "summary": "從照明、地面、扶手到浴廁與動線，逐區檢視並改善居家環境，降低長者跌倒與意外風險。",
+        "title": "居家安全與無障礙"
+      }
+    ],
+    "monitor::environmental.accessibility::cfs9": [
+      {
+        "slug": "home-safety",
+        "source": "internal",
+        "summary": "從照明、地面、扶手到浴廁與動線，逐區檢視並改善居家環境，降低長者跌倒與意外風險。",
+        "title": "居家安全與無障礙"
+      }
+    ],
+    "monitor::environmental.home_safety::cfs3": [
+      {
+        "slug": "home-safety",
+        "source": "internal",
+        "summary": "從照明、地面、扶手到浴廁與動線，逐區檢視並改善居家環境，降低長者跌倒與意外風險。",
+        "title": "居家安全與無障礙"
+      }
+    ],
+    "monitor::environmental.home_safety::cfs4": [
+      {
+        "slug": "home-safety",
+        "source": "internal",
+        "summary": "從照明、地面、扶手到浴廁與動線，逐區檢視並改善居家環境，降低長者跌倒與意外風險。",
+        "title": "居家安全與無障礙"
+      }
+    ],
+    "monitor::environmental.home_safety::cfs5": [
+      {
+        "slug": "home-safety",
+        "source": "internal",
+        "summary": "從照明、地面、扶手到浴廁與動線，逐區檢視並改善居家環境，降低長者跌倒與意外風險。",
+        "title": "居家安全與無障礙"
+      }
+    ],
+    "monitor::environmental.home_safety::cfs6": [
+      {
+        "slug": "home-safety",
+        "source": "internal",
+        "summary": "從照明、地面、扶手到浴廁與動線，逐區檢視並改善居家環境，降低長者跌倒與意外風險。",
+        "title": "居家安全與無障礙"
+      }
+    ],
+    "monitor::environmental.home_safety::cfs7": [
+      {
+        "slug": "home-safety",
+        "source": "internal",
+        "summary": "從照明、地面、扶手到浴廁與動線，逐區檢視並改善居家環境，降低長者跌倒與意外風險。",
+        "title": "居家安全與無障礙"
+      }
+    ],
+    "monitor::environmental.home_safety::cfs8": [
+      {
+        "slug": "home-safety",
+        "source": "internal",
+        "summary": "從照明、地面、扶手到浴廁與動線，逐區檢視並改善居家環境，降低長者跌倒與意外風險。",
+        "title": "居家安全與無障礙"
+      }
+    ],
+    "monitor::functional.adl::cfs3": [
+      {
+        "slug": "adl-maintenance",
+        "source": "internal",
+        "summary": "認識基本與工具性日常生活活動能力（ADL/IADL），透過復能、輔具與環境調整協助長者維持獨立。",
+        "title": "日常生活功能的維持"
+      }
+    ],
+    "monitor::functional.adl::cfs4": [
+      {
+        "slug": "adl-maintenance",
+        "source": "internal",
+        "summary": "認識基本與工具性日常生活活動能力（ADL/IADL），透過復能、輔具與環境調整協助長者維持獨立。",
+        "title": "日常生活功能的維持"
+      }
+    ],
+    "monitor::functional.adl::cfs5": [
+      {
+        "slug": "adl-maintenance",
+        "source": "internal",
+        "summary": "認識基本與工具性日常生活活動能力（ADL/IADL），透過復能、輔具與環境調整協助長者維持獨立。",
+        "title": "日常生活功能的維持"
+      }
+    ],
+    "monitor::functional.adl::cfs6": [
+      {
+        "slug": "adl-maintenance",
+        "source": "internal",
+        "summary": "認識基本與工具性日常生活活動能力（ADL/IADL），透過復能、輔具與環境調整協助長者維持獨立。",
+        "title": "日常生活功能的維持"
+      }
+    ],
+    "monitor::functional.adl::cfs7": [
+      {
+        "slug": "adl-maintenance",
+        "source": "internal",
+        "summary": "認識基本與工具性日常生活活動能力（ADL/IADL），透過復能、輔具與環境調整協助長者維持獨立。",
+        "title": "日常生活功能的維持"
+      }
+    ],
+    "monitor::functional.adl::cfs8": [
+      {
+        "slug": "adl-maintenance",
+        "source": "internal",
+        "summary": "認識基本與工具性日常生活活動能力（ADL/IADL），透過復能、輔具與環境調整協助長者維持獨立。",
+        "title": "日常生活功能的維持"
+      }
+    ],
+    "monitor::functional.adl::cfs9": [
+      {
+        "slug": "adl-maintenance",
+        "source": "internal",
+        "summary": "認識基本與工具性日常生活活動能力（ADL/IADL），透過復能、輔具與環境調整協助長者維持獨立。",
+        "title": "日常生活功能的維持"
+      }
+    ],
+    "monitor::functional.falls::cfs2": [
+      {
+        "slug": "fall-prevention",
+        "source": "internal",
+        "summary": "了解跌倒的常見原因與可行的預防策略，從居家環境、運動到用藥檢視多管齊下降低跌倒風險。",
+        "title": "長者跌倒預防"
+      }
+    ],
+    "monitor::functional.falls::cfs3": [
+      {
+        "slug": "fall-prevention",
+        "source": "internal",
+        "summary": "了解跌倒的常見原因與可行的預防策略，從居家環境、運動到用藥檢視多管齊下降低跌倒風險。",
+        "title": "長者跌倒預防"
+      }
+    ],
+    "monitor::functional.falls::cfs4": [
+      {
+        "slug": "fall-prevention",
+        "source": "internal",
+        "summary": "了解跌倒的常見原因與可行的預防策略，從居家環境、運動到用藥檢視多管齊下降低跌倒風險。",
+        "title": "長者跌倒預防"
+      }
+    ],
+    "monitor::functional.falls::cfs5": [
+      {
+        "slug": "fall-prevention",
+        "source": "internal",
+        "summary": "了解跌倒的常見原因與可行的預防策略，從居家環境、運動到用藥檢視多管齊下降低跌倒風險。",
+        "title": "長者跌倒預防"
+      }
+    ],
+    "monitor::functional.falls::cfs6": [
+      {
+        "slug": "fall-prevention",
+        "source": "internal",
+        "summary": "了解跌倒的常見原因與可行的預防策略，從居家環境、運動到用藥檢視多管齊下降低跌倒風險。",
+        "title": "長者跌倒預防"
+      }
+    ],
+    "monitor::functional.falls::cfs7": [
+      {
+        "slug": "fall-prevention",
+        "source": "internal",
+        "summary": "了解跌倒的常見原因與可行的預防策略，從居家環境、運動到用藥檢視多管齊下降低跌倒風險。",
+        "title": "長者跌倒預防"
+      }
+    ],
+    "monitor::functional.falls::cfs8": [
+      {
+        "slug": "fall-prevention",
+        "source": "internal",
+        "summary": "了解跌倒的常見原因與可行的預防策略，從居家環境、運動到用藥檢視多管齊下降低跌倒風險。",
+        "title": "長者跌倒預防"
+      }
+    ],
+    "monitor::functional.iadl::cfs3": [
+      {
+        "slug": "adl-maintenance",
+        "source": "internal",
+        "summary": "認識基本與工具性日常生活活動能力（ADL/IADL），透過復能、輔具與環境調整協助長者維持獨立。",
+        "title": "日常生活功能的維持"
+      }
+    ],
+    "monitor::functional.iadl::cfs4": [
+      {
+        "slug": "adl-maintenance",
+        "source": "internal",
+        "summary": "認識基本與工具性日常生活活動能力（ADL/IADL），透過復能、輔具與環境調整協助長者維持獨立。",
+        "title": "日常生活功能的維持"
+      }
+    ],
+    "monitor::functional.iadl::cfs5": [
+      {
+        "slug": "adl-maintenance",
+        "source": "internal",
+        "summary": "認識基本與工具性日常生活活動能力（ADL/IADL），透過復能、輔具與環境調整協助長者維持獨立。",
+        "title": "日常生活功能的維持"
+      }
+    ],
+    "monitor::functional.iadl::cfs6": [
+      {
+        "slug": "adl-maintenance",
+        "source": "internal",
+        "summary": "認識基本與工具性日常生活活動能力（ADL/IADL），透過復能、輔具與環境調整協助長者維持獨立。",
+        "title": "日常生活功能的維持"
+      }
+    ],
+    "monitor::functional.iadl::cfs7": [
+      {
+        "slug": "adl-maintenance",
+        "source": "internal",
+        "summary": "認識基本與工具性日常生活活動能力（ADL/IADL），透過復能、輔具與環境調整協助長者維持獨立。",
+        "title": "日常生活功能的維持"
+      }
+    ],
+    "monitor::functional.iadl::cfs8": [
+      {
+        "slug": "adl-maintenance",
+        "source": "internal",
+        "summary": "認識基本與工具性日常生活活動能力（ADL/IADL），透過復能、輔具與環境調整協助長者維持獨立。",
+        "title": "日常生活功能的維持"
+      }
+    ],
+    "monitor::functional.iadl::cfs9": [
+      {
+        "slug": "adl-maintenance",
+        "source": "internal",
+        "summary": "認識基本與工具性日常生活活動能力（ADL/IADL），透過復能、輔具與環境調整協助長者維持獨立。",
+        "title": "日常生活功能的維持"
+      }
+    ],
+    "monitor::functional.mobility::cfs2": [
+      {
+        "slug": "sarcopenia-exercise",
+        "source": "internal",
+        "summary": "認識隨年齡流失的肌肉量與肌力（肌少症），並透過阻力運動與足夠蛋白質攝取維持行動能力。",
+        "title": "肌少症與運動"
+      }
+    ],
+    "monitor::functional.mobility::cfs3": [
+      {
+        "slug": "sarcopenia-exercise",
+        "source": "internal",
+        "summary": "認識隨年齡流失的肌肉量與肌力（肌少症），並透過阻力運動與足夠蛋白質攝取維持行動能力。",
+        "title": "肌少症與運動"
+      }
+    ],
+    "monitor::functional.mobility::cfs4": [
+      {
+        "slug": "sarcopenia-exercise",
+        "source": "internal",
+        "summary": "認識隨年齡流失的肌肉量與肌力（肌少症），並透過阻力運動與足夠蛋白質攝取維持行動能力。",
+        "title": "肌少症與運動"
+      }
+    ],
+    "monitor::functional.mobility::cfs5": [
+      {
+        "slug": "sarcopenia-exercise",
+        "source": "internal",
+        "summary": "認識隨年齡流失的肌肉量與肌力（肌少症），並透過阻力運動與足夠蛋白質攝取維持行動能力。",
+        "title": "肌少症與運動"
+      }
+    ],
+    "monitor::functional.mobility::cfs6": [
+      {
+        "slug": "sarcopenia-exercise",
+        "source": "internal",
+        "summary": "認識隨年齡流失的肌肉量與肌力（肌少症），並透過阻力運動與足夠蛋白質攝取維持行動能力。",
+        "title": "肌少症與運動"
+      }
+    ],
+    "monitor::functional.mobility::cfs7": [
+      {
+        "slug": "sarcopenia-exercise",
+        "source": "internal",
+        "summary": "認識隨年齡流失的肌肉量與肌力（肌少症），並透過阻力運動與足夠蛋白質攝取維持行動能力。",
+        "title": "肌少症與運動"
+      }
+    ],
+    "monitor::future_wishes.advance_care_planning::cfs5": [
+      {
+        "slug": "advance-care-planning",
+        "source": "internal",
+        "summary": "了解預立醫療照護諮商與預立醫療決定的意義，提早與家人、醫療團隊討論未來醫療照護的偏好。",
+        "title": "預立醫療照護諮商（ACP）"
+      }
+    ],
+    "monitor::future_wishes.advance_care_planning::cfs6": [
+      {
+        "slug": "advance-care-planning",
+        "source": "internal",
+        "summary": "了解預立醫療照護諮商與預立醫療決定的意義，提早與家人、醫療團隊討論未來醫療照護的偏好。",
+        "title": "預立醫療照護諮商（ACP）"
+      }
+    ],
+    "monitor::future_wishes.advance_care_planning::cfs7": [
+      {
+        "slug": "advance-care-planning",
+        "source": "internal",
+        "summary": "了解預立醫療照護諮商與預立醫療決定的意義，提早與家人、醫療團隊討論未來醫療照護的偏好。",
+        "title": "預立醫療照護諮商（ACP）"
+      }
+    ],
+    "monitor::future_wishes.advance_care_planning::cfs8": [
+      {
+        "slug": "advance-care-planning",
+        "source": "internal",
+        "summary": "了解預立醫療照護諮商與預立醫療決定的意義，提早與家人、醫療團隊討論未來醫療照護的偏好。",
+        "title": "預立醫療照護諮商（ACP）"
+      }
+    ],
+    "monitor::future_wishes.advance_care_planning::cfs9": [
+      {
+        "slug": "advance-care-planning",
+        "source": "internal",
+        "summary": "了解預立醫療照護諮商與預立醫療決定的意義，提早與家人、醫療團隊討論未來醫療照護的偏好。",
+        "title": "預立醫療照護諮商（ACP）"
+      }
+    ],
+    "monitor::future_wishes.treatment_preferences::cfs5": [
+      {
+        "slug": "treatment-preferences",
+        "source": "internal",
+        "summary": "認識維持生命治療的選擇與 DNR/安寧緩和意願，了解如何表達並記錄自己對末期醫療的偏好。",
+        "title": "治療意願與不施行心肺復甦（DNR）"
+      }
+    ],
+    "monitor::future_wishes.treatment_preferences::cfs6": [
+      {
+        "slug": "treatment-preferences",
+        "source": "internal",
+        "summary": "認識維持生命治療的選擇與 DNR/安寧緩和意願，了解如何表達並記錄自己對末期醫療的偏好。",
+        "title": "治療意願與不施行心肺復甦（DNR）"
+      }
+    ],
+    "monitor::future_wishes.treatment_preferences::cfs7": [
+      {
+        "slug": "treatment-preferences",
+        "source": "internal",
+        "summary": "認識維持生命治療的選擇與 DNR/安寧緩和意願，了解如何表達並記錄自己對末期醫療的偏好。",
+        "title": "治療意願與不施行心肺復甦（DNR）"
+      }
+    ],
+    "monitor::future_wishes.treatment_preferences::cfs8": [
+      {
+        "slug": "treatment-preferences",
+        "source": "internal",
+        "summary": "認識維持生命治療的選擇與 DNR/安寧緩和意願，了解如何表達並記錄自己對末期醫療的偏好。",
+        "title": "治療意願與不施行心肺復甦（DNR）"
+      }
+    ],
+    "monitor::future_wishes.treatment_preferences::cfs9": [
+      {
+        "slug": "treatment-preferences",
+        "source": "internal",
+        "summary": "認識維持生命治療的選擇與 DNR/安寧緩和意願，了解如何表達並記錄自己對末期醫療的偏好。",
+        "title": "治療意願與不施行心肺復甦（DNR）"
+      }
+    ],
+    "monitor::physical.comorbidity::cfs2": [
+      {
+        "slug": "comorbidity-management",
+        "source": "internal",
+        "summary": "多重慢性病在長者常見，了解整合照護、優先順序與個人化目標的概念，並做好自我管理與就醫溝通。",
+        "title": "共病管理"
+      }
+    ],
+    "monitor::physical.comorbidity::cfs3": [
+      {
+        "slug": "comorbidity-management",
+        "source": "internal",
+        "summary": "多重慢性病在長者常見，了解整合照護、優先順序與個人化目標的概念，並做好自我管理與就醫溝通。",
+        "title": "共病管理"
+      }
+    ],
+    "monitor::physical.comorbidity::cfs4": [
+      {
+        "slug": "comorbidity-management",
+        "source": "internal",
+        "summary": "多重慢性病在長者常見，了解整合照護、優先順序與個人化目標的概念，並做好自我管理與就醫溝通。",
+        "title": "共病管理"
+      }
+    ],
+    "monitor::physical.comorbidity::cfs5": [
+      {
+        "slug": "comorbidity-management",
+        "source": "internal",
+        "summary": "多重慢性病在長者常見，了解整合照護、優先順序與個人化目標的概念，並做好自我管理與就醫溝通。",
+        "title": "共病管理"
+      }
+    ],
+    "monitor::physical.comorbidity::cfs6": [
+      {
+        "slug": "comorbidity-management",
+        "source": "internal",
+        "summary": "多重慢性病在長者常見，了解整合照護、優先順序與個人化目標的概念，並做好自我管理與就醫溝通。",
+        "title": "共病管理"
+      }
+    ],
+    "monitor::physical.comorbidity::cfs7": [
+      {
+        "slug": "comorbidity-management",
+        "source": "internal",
+        "summary": "多重慢性病在長者常見，了解整合照護、優先順序與個人化目標的概念，並做好自我管理與就醫溝通。",
+        "title": "共病管理"
+      }
+    ],
+    "monitor::physical.comorbidity::cfs8": [
+      {
+        "slug": "comorbidity-management",
+        "source": "internal",
+        "summary": "多重慢性病在長者常見，了解整合照護、優先順序與個人化目標的概念，並做好自我管理與就醫溝通。",
+        "title": "共病管理"
+      }
+    ],
+    "monitor::physical.comorbidity::cfs9": [
+      {
+        "slug": "comorbidity-management",
+        "source": "internal",
+        "summary": "多重慢性病在長者常見，了解整合照護、優先順序與個人化目標的概念，並做好自我管理與就醫溝通。",
+        "title": "共病管理"
+      }
+    ],
+    "monitor::physical.continence::cfs3": [
+      {
+        "slug": "incontinence-care",
+        "source": "internal",
+        "summary": "尿失禁在長者常見但並非無法改善，了解類型、生活調整與骨盆底訓練，並鼓勵就醫評估找出可治療的原因。",
+        "title": "尿失禁照護"
+      }
+    ],
+    "monitor::physical.continence::cfs4": [
+      {
+        "slug": "incontinence-care",
+        "source": "internal",
+        "summary": "尿失禁在長者常見但並非無法改善，了解類型、生活調整與骨盆底訓練，並鼓勵就醫評估找出可治療的原因。",
+        "title": "尿失禁照護"
+      }
+    ],
+    "monitor::physical.continence::cfs5": [
+      {
+        "slug": "incontinence-care",
+        "source": "internal",
+        "summary": "尿失禁在長者常見但並非無法改善，了解類型、生活調整與骨盆底訓練，並鼓勵就醫評估找出可治療的原因。",
+        "title": "尿失禁照護"
+      }
+    ],
+    "monitor::physical.continence::cfs6": [
+      {
+        "slug": "incontinence-care",
+        "source": "internal",
+        "summary": "尿失禁在長者常見但並非無法改善，了解類型、生活調整與骨盆底訓練，並鼓勵就醫評估找出可治療的原因。",
+        "title": "尿失禁照護"
+      }
+    ],
+    "monitor::physical.continence::cfs7": [
+      {
+        "slug": "incontinence-care",
+        "source": "internal",
+        "summary": "尿失禁在長者常見但並非無法改善，了解類型、生活調整與骨盆底訓練，並鼓勵就醫評估找出可治療的原因。",
+        "title": "尿失禁照護"
+      }
+    ],
+    "monitor::physical.continence::cfs8": [
+      {
+        "slug": "incontinence-care",
+        "source": "internal",
+        "summary": "尿失禁在長者常見但並非無法改善，了解類型、生活調整與骨盆底訓練，並鼓勵就醫評估找出可治療的原因。",
+        "title": "尿失禁照護"
+      }
+    ],
+    "monitor::physical.continence::cfs9": [
+      {
+        "slug": "incontinence-care",
+        "source": "internal",
+        "summary": "尿失禁在長者常見但並非無法改善，了解類型、生活調整與骨盆底訓練，並鼓勵就醫評估找出可治療的原因。",
+        "title": "尿失禁照護"
+      }
+    ],
+    "monitor::physical.nutrition::cfs1": [
+      {
+        "slug": "geriatric-nutrition",
+        "source": "internal",
+        "summary": "認識長者營養不良與體重流失的風險因子，掌握均衡飲食、足夠蛋白質與水分，以及進食困難的因應。",
+        "title": "長者營養照護"
+      }
+    ],
+    "monitor::physical.nutrition::cfs2": [
+      {
+        "slug": "geriatric-nutrition",
+        "source": "internal",
+        "summary": "認識長者營養不良與體重流失的風險因子，掌握均衡飲食、足夠蛋白質與水分，以及進食困難的因應。",
+        "title": "長者營養照護"
+      }
+    ],
+    "monitor::physical.nutrition::cfs3": [
+      {
+        "slug": "geriatric-nutrition",
+        "source": "internal",
+        "summary": "認識長者營養不良與體重流失的風險因子，掌握均衡飲食、足夠蛋白質與水分，以及進食困難的因應。",
+        "title": "長者營養照護"
+      }
+    ],
+    "monitor::physical.nutrition::cfs4": [
+      {
+        "slug": "geriatric-nutrition",
+        "source": "internal",
+        "summary": "認識長者營養不良與體重流失的風險因子，掌握均衡飲食、足夠蛋白質與水分，以及進食困難的因應。",
+        "title": "長者營養照護"
+      }
+    ],
+    "monitor::physical.nutrition::cfs5": [
+      {
+        "slug": "geriatric-nutrition",
+        "source": "internal",
+        "summary": "認識長者營養不良與體重流失的風險因子，掌握均衡飲食、足夠蛋白質與水分，以及進食困難的因應。",
+        "title": "長者營養照護"
+      }
+    ],
+    "monitor::physical.nutrition::cfs6": [
+      {
+        "slug": "geriatric-nutrition",
+        "source": "internal",
+        "summary": "認識長者營養不良與體重流失的風險因子，掌握均衡飲食、足夠蛋白質與水分，以及進食困難的因應。",
+        "title": "長者營養照護"
+      }
+    ],
+    "monitor::physical.nutrition::cfs7": [
+      {
+        "slug": "geriatric-nutrition",
+        "source": "internal",
+        "summary": "認識長者營養不良與體重流失的風險因子，掌握均衡飲食、足夠蛋白質與水分，以及進食困難的因應。",
+        "title": "長者營養照護"
+      }
+    ],
+    "monitor::physical.nutrition::cfs8": [
+      {
+        "slug": "geriatric-nutrition",
+        "source": "internal",
+        "summary": "認識長者營養不良與體重流失的風險因子，掌握均衡飲食、足夠蛋白質與水分，以及進食困難的因應。",
+        "title": "長者營養照護"
+      }
+    ],
+    "monitor::physical.nutrition::cfs9": [
+      {
+        "slug": "geriatric-nutrition",
+        "source": "internal",
+        "summary": "認識長者營養不良與體重流失的風險因子，掌握均衡飲食、足夠蛋白質與水分，以及進食困難的因應。",
+        "title": "長者營養照護"
+      }
+    ],
+    "monitor::physical.polypharmacy::cfs2": [
+      {
+        "slug": "medication-safety",
+        "source": "internal",
+        "summary": "了解多重用藥（polypharmacy）對長者的風險，學習整理藥單、與醫師藥師討論減藥的原則與用藥安全習慣。",
+        "title": "多重用藥安全"
+      }
+    ],
+    "monitor::physical.polypharmacy::cfs3": [
+      {
+        "slug": "medication-safety",
+        "source": "internal",
+        "summary": "了解多重用藥（polypharmacy）對長者的風險，學習整理藥單、與醫師藥師討論減藥的原則與用藥安全習慣。",
+        "title": "多重用藥安全"
+      }
+    ],
+    "monitor::physical.polypharmacy::cfs4": [
+      {
+        "slug": "medication-safety",
+        "source": "internal",
+        "summary": "了解多重用藥（polypharmacy）對長者的風險，學習整理藥單、與醫師藥師討論減藥的原則與用藥安全習慣。",
+        "title": "多重用藥安全"
+      }
+    ],
+    "monitor::physical.polypharmacy::cfs5": [
+      {
+        "slug": "medication-safety",
+        "source": "internal",
+        "summary": "了解多重用藥（polypharmacy）對長者的風險，學習整理藥單、與醫師藥師討論減藥的原則與用藥安全習慣。",
+        "title": "多重用藥安全"
+      }
+    ],
+    "monitor::physical.polypharmacy::cfs6": [
+      {
+        "slug": "medication-safety",
+        "source": "internal",
+        "summary": "了解多重用藥（polypharmacy）對長者的風險，學習整理藥單、與醫師藥師討論減藥的原則與用藥安全習慣。",
+        "title": "多重用藥安全"
+      }
+    ],
+    "monitor::physical.polypharmacy::cfs7": [
+      {
+        "slug": "medication-safety",
+        "source": "internal",
+        "summary": "了解多重用藥（polypharmacy）對長者的風險，學習整理藥單、與醫師藥師討論減藥的原則與用藥安全習慣。",
+        "title": "多重用藥安全"
+      }
+    ],
+    "monitor::physical.polypharmacy::cfs8": [
+      {
+        "slug": "medication-safety",
+        "source": "internal",
+        "summary": "了解多重用藥（polypharmacy）對長者的風險，學習整理藥單、與醫師藥師討論減藥的原則與用藥安全習慣。",
+        "title": "多重用藥安全"
+      }
+    ],
+    "monitor::physical.polypharmacy::cfs9": [
+      {
+        "slug": "medication-safety",
+        "source": "internal",
+        "summary": "了解多重用藥（polypharmacy）對長者的風險，學習整理藥單、與醫師藥師討論減藥的原則與用藥安全習慣。",
+        "title": "多重用藥安全"
+      }
+    ],
+    "monitor::physical.sensory::cfs1": [
+      {
+        "slug": "sensory-impairment",
+        "source": "internal",
+        "summary": "視力與聽力退化會影響安全、溝通與情緒，了解常見問題、輔具運用與環境調整，並鼓勵定期檢查。",
+        "title": "視聽功能障礙的因應"
+      }
+    ],
+    "monitor::physical.sensory::cfs2": [
+      {
+        "slug": "sensory-impairment",
+        "source": "internal",
+        "summary": "視力與聽力退化會影響安全、溝通與情緒，了解常見問題、輔具運用與環境調整，並鼓勵定期檢查。",
+        "title": "視聽功能障礙的因應"
+      }
+    ],
+    "monitor::physical.sensory::cfs3": [
+      {
+        "slug": "sensory-impairment",
+        "source": "internal",
+        "summary": "視力與聽力退化會影響安全、溝通與情緒，了解常見問題、輔具運用與環境調整，並鼓勵定期檢查。",
+        "title": "視聽功能障礙的因應"
+      }
+    ],
+    "monitor::physical.sensory::cfs4": [
+      {
+        "slug": "sensory-impairment",
+        "source": "internal",
+        "summary": "視力與聽力退化會影響安全、溝通與情緒，了解常見問題、輔具運用與環境調整，並鼓勵定期檢查。",
+        "title": "視聽功能障礙的因應"
+      }
+    ],
+    "monitor::physical.sensory::cfs5": [
+      {
+        "slug": "sensory-impairment",
+        "source": "internal",
+        "summary": "視力與聽力退化會影響安全、溝通與情緒，了解常見問題、輔具運用與環境調整，並鼓勵定期檢查。",
+        "title": "視聽功能障礙的因應"
+      }
+    ],
+    "monitor::physical.sensory::cfs6": [
+      {
+        "slug": "sensory-impairment",
+        "source": "internal",
+        "summary": "視力與聽力退化會影響安全、溝通與情緒，了解常見問題、輔具運用與環境調整，並鼓勵定期檢查。",
+        "title": "視聽功能障礙的因應"
+      }
+    ],
+    "monitor::physical.sensory::cfs7": [
+      {
+        "slug": "sensory-impairment",
+        "source": "internal",
+        "summary": "視力與聽力退化會影響安全、溝通與情緒，了解常見問題、輔具運用與環境調整，並鼓勵定期檢查。",
+        "title": "視聽功能障礙的因應"
+      }
+    ],
+    "monitor::physical.sensory::cfs8": [
+      {
+        "slug": "sensory-impairment",
+        "source": "internal",
+        "summary": "視力與聽力退化會影響安全、溝通與情緒，了解常見問題、輔具運用與環境調整，並鼓勵定期檢查。",
+        "title": "視聽功能障礙的因應"
+      }
+    ],
+    "monitor::physical.sensory::cfs9": [
+      {
+        "slug": "sensory-impairment",
+        "source": "internal",
+        "summary": "視力與聽力退化會影響安全、溝通與情緒，了解常見問題、輔具運用與環境調整，並鼓勵定期檢查。",
+        "title": "視聽功能障礙的因應"
+      }
+    ],
+    "monitor::psychological.cognition::cfs1": [
+      {
+        "slug": "cognitive-training",
+        "source": "internal",
+        "summary": "了解正常老化與失智症的差異，學習促進認知活力的生活方式，以及面對記憶力下降時的因應與資源。",
+        "title": "認知促進與失智因應"
+      }
+    ],
+    "monitor::psychological.cognition::cfs2": [
+      {
+        "slug": "cognitive-training",
+        "source": "internal",
+        "summary": "了解正常老化與失智症的差異，學習促進認知活力的生活方式，以及面對記憶力下降時的因應與資源。",
+        "title": "認知促進與失智因應"
+      }
+    ],
+    "monitor::psychological.cognition::cfs3": [
+      {
+        "slug": "cognitive-training",
+        "source": "internal",
+        "summary": "了解正常老化與失智症的差異，學習促進認知活力的生活方式，以及面對記憶力下降時的因應與資源。",
+        "title": "認知促進與失智因應"
+      }
+    ],
+    "monitor::psychological.cognition::cfs4": [
+      {
+        "slug": "cognitive-training",
+        "source": "internal",
+        "summary": "了解正常老化與失智症的差異，學習促進認知活力的生活方式，以及面對記憶力下降時的因應與資源。",
+        "title": "認知促進與失智因應"
+      }
+    ],
+    "monitor::psychological.cognition::cfs5": [
+      {
+        "slug": "cognitive-training",
+        "source": "internal",
+        "summary": "了解正常老化與失智症的差異，學習促進認知活力的生活方式，以及面對記憶力下降時的因應與資源。",
+        "title": "認知促進與失智因應"
+      }
+    ],
+    "monitor::psychological.cognition::cfs6": [
+      {
+        "slug": "cognitive-training",
+        "source": "internal",
+        "summary": "了解正常老化與失智症的差異，學習促進認知活力的生活方式，以及面對記憶力下降時的因應與資源。",
+        "title": "認知促進與失智因應"
+      }
+    ],
+    "monitor::psychological.cognition::cfs7": [
+      {
+        "slug": "cognitive-training",
+        "source": "internal",
+        "summary": "了解正常老化與失智症的差異，學習促進認知活力的生活方式，以及面對記憶力下降時的因應與資源。",
+        "title": "認知促進與失智因應"
+      }
+    ],
+    "monitor::psychological.cognition::cfs8": [
+      {
+        "slug": "cognitive-training",
+        "source": "internal",
+        "summary": "了解正常老化與失智症的差異，學習促進認知活力的生活方式，以及面對記憶力下降時的因應與資源。",
+        "title": "認知促進與失智因應"
+      }
+    ],
+    "monitor::psychological.delirium::cfs4": [
+      {
+        "slug": "delirium-awareness",
+        "source": "internal",
+        "summary": "譫妄是一種急性、波動的意識與注意力混亂，常見於住院或生病的長者，及早辨識並處理誘因很重要。",
+        "title": "譫妄的認識與處理"
+      }
+    ],
+    "monitor::psychological.delirium::cfs5": [
+      {
+        "slug": "delirium-awareness",
+        "source": "internal",
+        "summary": "譫妄是一種急性、波動的意識與注意力混亂，常見於住院或生病的長者，及早辨識並處理誘因很重要。",
+        "title": "譫妄的認識與處理"
+      }
+    ],
+    "monitor::psychological.delirium::cfs6": [
+      {
+        "slug": "delirium-awareness",
+        "source": "internal",
+        "summary": "譫妄是一種急性、波動的意識與注意力混亂，常見於住院或生病的長者，及早辨識並處理誘因很重要。",
+        "title": "譫妄的認識與處理"
+      }
+    ],
+    "monitor::psychological.delirium::cfs7": [
+      {
+        "slug": "delirium-awareness",
+        "source": "internal",
+        "summary": "譫妄是一種急性、波動的意識與注意力混亂，常見於住院或生病的長者，及早辨識並處理誘因很重要。",
+        "title": "譫妄的認識與處理"
+      }
+    ],
+    "monitor::psychological.delirium::cfs8": [
+      {
+        "slug": "delirium-awareness",
+        "source": "internal",
+        "summary": "譫妄是一種急性、波動的意識與注意力混亂，常見於住院或生病的長者，及早辨識並處理誘因很重要。",
+        "title": "譫妄的認識與處理"
+      }
+    ],
+    "monitor::psychological.delirium::cfs9": [
+      {
+        "slug": "delirium-awareness",
+        "source": "internal",
+        "summary": "譫妄是一種急性、波動的意識與注意力混亂，常見於住院或生病的長者，及早辨識並處理誘因很重要。",
+        "title": "譫妄的認識與處理"
+      }
+    ],
+    "monitor::psychological.mood::cfs1": [
+      {
+        "slug": "depression-support",
+        "source": "internal",
+        "summary": "認識老年憂鬱的常見徵兆，了解它並非老化必然，並學習自我照顧、家人支持與適時求助的方式。",
+        "title": "長者憂鬱與情緒支持"
+      }
+    ],
+    "monitor::psychological.mood::cfs2": [
+      {
+        "slug": "depression-support",
+        "source": "internal",
+        "summary": "認識老年憂鬱的常見徵兆，了解它並非老化必然，並學習自我照顧、家人支持與適時求助的方式。",
+        "title": "長者憂鬱與情緒支持"
+      }
+    ],
+    "monitor::psychological.mood::cfs3": [
+      {
+        "slug": "depression-support",
+        "source": "internal",
+        "summary": "認識老年憂鬱的常見徵兆，了解它並非老化必然，並學習自我照顧、家人支持與適時求助的方式。",
+        "title": "長者憂鬱與情緒支持"
+      }
+    ],
+    "monitor::psychological.mood::cfs4": [
+      {
+        "slug": "depression-support",
+        "source": "internal",
+        "summary": "認識老年憂鬱的常見徵兆，了解它並非老化必然，並學習自我照顧、家人支持與適時求助的方式。",
+        "title": "長者憂鬱與情緒支持"
+      }
+    ],
+    "monitor::psychological.mood::cfs5": [
+      {
+        "slug": "depression-support",
+        "source": "internal",
+        "summary": "認識老年憂鬱的常見徵兆，了解它並非老化必然，並學習自我照顧、家人支持與適時求助的方式。",
+        "title": "長者憂鬱與情緒支持"
+      }
+    ],
+    "monitor::psychological.mood::cfs6": [
+      {
+        "slug": "depression-support",
+        "source": "internal",
+        "summary": "認識老年憂鬱的常見徵兆，了解它並非老化必然，並學習自我照顧、家人支持與適時求助的方式。",
+        "title": "長者憂鬱與情緒支持"
+      }
+    ],
+    "monitor::psychological.mood::cfs7": [
+      {
+        "slug": "depression-support",
+        "source": "internal",
+        "summary": "認識老年憂鬱的常見徵兆，了解它並非老化必然，並學習自我照顧、家人支持與適時求助的方式。",
+        "title": "長者憂鬱與情緒支持"
+      }
+    ],
+    "monitor::social.caregiver::cfs4": [
+      {
+        "slug": "caregiver-support",
+        "source": "internal",
+        "summary": "長期照顧容易累積身心壓力與負荷，認識照顧者倦怠的徵兆，學習自我照顧與善用喘息與支持資源。",
+        "title": "照顧者壓力與支持"
+      }
+    ],
+    "monitor::social.caregiver::cfs5": [
+      {
+        "slug": "caregiver-support",
+        "source": "internal",
+        "summary": "長期照顧容易累積身心壓力與負荷，認識照顧者倦怠的徵兆，學習自我照顧與善用喘息與支持資源。",
+        "title": "照顧者壓力與支持"
+      }
+    ],
+    "monitor::social.caregiver::cfs6": [
+      {
+        "slug": "caregiver-support",
+        "source": "internal",
+        "summary": "長期照顧容易累積身心壓力與負荷，認識照顧者倦怠的徵兆，學習自我照顧與善用喘息與支持資源。",
+        "title": "照顧者壓力與支持"
+      }
+    ],
+    "monitor::social.caregiver::cfs7": [
+      {
+        "slug": "caregiver-support",
+        "source": "internal",
+        "summary": "長期照顧容易累積身心壓力與負荷，認識照顧者倦怠的徵兆，學習自我照顧與善用喘息與支持資源。",
+        "title": "照顧者壓力與支持"
+      }
+    ],
+    "monitor::social.caregiver::cfs8": [
+      {
+        "slug": "caregiver-support",
+        "source": "internal",
+        "summary": "長期照顧容易累積身心壓力與負荷，認識照顧者倦怠的徵兆，學習自我照顧與善用喘息與支持資源。",
+        "title": "照顧者壓力與支持"
+      }
+    ],
+    "monitor::social.caregiver::cfs9": [
+      {
+        "slug": "caregiver-support",
+        "source": "internal",
+        "summary": "長期照顧容易累積身心壓力與負荷，認識照顧者倦怠的徵兆，學習自我照顧與善用喘息與支持資源。",
+        "title": "照顧者壓力與支持"
+      }
+    ],
+    "monitor::social.financial::cfs3": [
+      {
+        "slug": "ltc-resources",
+        "source": "internal",
+        "summary": "認識長者可運用的長期照顧與社會福利資源，了解申請流程的概念，減輕照顧與經濟負擔。",
+        "title": "經濟與長照資源"
+      }
+    ],
+    "monitor::social.financial::cfs4": [
+      {
+        "slug": "ltc-resources",
+        "source": "internal",
+        "summary": "認識長者可運用的長期照顧與社會福利資源，了解申請流程的概念，減輕照顧與經濟負擔。",
+        "title": "經濟與長照資源"
+      }
+    ],
+    "monitor::social.financial::cfs5": [
+      {
+        "slug": "ltc-resources",
+        "source": "internal",
+        "summary": "認識長者可運用的長期照顧與社會福利資源，了解申請流程的概念，減輕照顧與經濟負擔。",
+        "title": "經濟與長照資源"
+      }
+    ],
+    "monitor::social.financial::cfs6": [
+      {
+        "slug": "ltc-resources",
+        "source": "internal",
+        "summary": "認識長者可運用的長期照顧與社會福利資源，了解申請流程的概念，減輕照顧與經濟負擔。",
+        "title": "經濟與長照資源"
+      }
+    ],
+    "monitor::social.financial::cfs7": [
+      {
+        "slug": "ltc-resources",
+        "source": "internal",
+        "summary": "認識長者可運用的長期照顧與社會福利資源，了解申請流程的概念，減輕照顧與經濟負擔。",
+        "title": "經濟與長照資源"
+      }
+    ],
+    "monitor::social.financial::cfs8": [
+      {
+        "slug": "ltc-resources",
+        "source": "internal",
+        "summary": "認識長者可運用的長期照顧與社會福利資源，了解申請流程的概念，減輕照顧與經濟負擔。",
+        "title": "經濟與長照資源"
+      }
+    ],
+    "monitor::social.financial::cfs9": [
+      {
+        "slug": "ltc-resources",
+        "source": "internal",
+        "summary": "認識長者可運用的長期照顧與社會福利資源，了解申請流程的概念，減輕照顧與經濟負擔。",
+        "title": "經濟與長照資源"
+      }
+    ],
+    "monitor::social.social_support::cfs2": [
+      {
+        "slug": "social-connection",
+        "source": "internal",
+        "summary": "社會孤立與孤獨會影響長者的身心健康，了解風險、維持人際連結的方法與可運用的社區資源。",
+        "title": "社會連結與孤立預防"
+      }
+    ],
+    "monitor::social.social_support::cfs3": [
+      {
+        "slug": "social-connection",
+        "source": "internal",
+        "summary": "社會孤立與孤獨會影響長者的身心健康，了解風險、維持人際連結的方法與可運用的社區資源。",
+        "title": "社會連結與孤立預防"
+      }
+    ],
+    "monitor::social.social_support::cfs4": [
+      {
+        "slug": "social-connection",
+        "source": "internal",
+        "summary": "社會孤立與孤獨會影響長者的身心健康，了解風險、維持人際連結的方法與可運用的社區資源。",
+        "title": "社會連結與孤立預防"
+      }
+    ],
+    "monitor::social.social_support::cfs5": [
+      {
+        "slug": "social-connection",
+        "source": "internal",
+        "summary": "社會孤立與孤獨會影響長者的身心健康，了解風險、維持人際連結的方法與可運用的社區資源。",
+        "title": "社會連結與孤立預防"
+      }
+    ],
+    "monitor::social.social_support::cfs6": [
+      {
+        "slug": "social-connection",
+        "source": "internal",
+        "summary": "社會孤立與孤獨會影響長者的身心健康，了解風險、維持人際連結的方法與可運用的社區資源。",
+        "title": "社會連結與孤立預防"
+      }
+    ],
+    "monitor::social.social_support::cfs7": [
+      {
+        "slug": "social-connection",
+        "source": "internal",
+        "summary": "社會孤立與孤獨會影響長者的身心健康，了解風險、維持人際連結的方法與可運用的社區資源。",
+        "title": "社會連結與孤立預防"
+      }
+    ],
+    "monitor::social.social_support::cfs8": [
+      {
+        "slug": "social-connection",
+        "source": "internal",
+        "summary": "社會孤立與孤獨會影響長者的身心健康，了解風險、維持人際連結的方法與可運用的社區資源。",
+        "title": "社會連結與孤立預防"
+      }
+    ],
+    "monitor::social.social_support::cfs9": [
+      {
+        "slug": "social-connection",
+        "source": "internal",
+        "summary": "社會孤立與孤獨會影響長者的身心健康，了解風險、維持人際連結的方法與可運用的社區資源。",
+        "title": "社會連結與孤立預防"
+      }
+    ],
+    "refer::environmental.accessibility::cfs4": [
+      {
+        "slug": "home-safety",
+        "source": "internal",
+        "summary": "從照明、地面、扶手到浴廁與動線，逐區檢視並改善居家環境，降低長者跌倒與意外風險。",
+        "title": "居家安全與無障礙"
+      }
+    ],
+    "refer::environmental.accessibility::cfs5": [
+      {
+        "slug": "home-safety",
+        "source": "internal",
+        "summary": "從照明、地面、扶手到浴廁與動線，逐區檢視並改善居家環境，降低長者跌倒與意外風險。",
+        "title": "居家安全與無障礙"
+      }
+    ],
+    "refer::environmental.accessibility::cfs6": [
+      {
+        "slug": "home-safety",
+        "source": "internal",
+        "summary": "從照明、地面、扶手到浴廁與動線，逐區檢視並改善居家環境，降低長者跌倒與意外風險。",
+        "title": "居家安全與無障礙"
+      }
+    ],
+    "refer::environmental.accessibility::cfs7": [
+      {
+        "slug": "home-safety",
+        "source": "internal",
+        "summary": "從照明、地面、扶手到浴廁與動線，逐區檢視並改善居家環境，降低長者跌倒與意外風險。",
+        "title": "居家安全與無障礙"
+      }
+    ],
+    "refer::environmental.accessibility::cfs8": [
+      {
+        "slug": "home-safety",
+        "source": "internal",
+        "summary": "從照明、地面、扶手到浴廁與動線，逐區檢視並改善居家環境，降低長者跌倒與意外風險。",
+        "title": "居家安全與無障礙"
+      }
+    ],
+    "refer::environmental.accessibility::cfs9": [
+      {
+        "slug": "home-safety",
+        "source": "internal",
+        "summary": "從照明、地面、扶手到浴廁與動線，逐區檢視並改善居家環境，降低長者跌倒與意外風險。",
+        "title": "居家安全與無障礙"
+      }
+    ],
+    "refer::environmental.home_safety::cfs3": [
+      {
+        "slug": "home-safety",
+        "source": "internal",
+        "summary": "從照明、地面、扶手到浴廁與動線，逐區檢視並改善居家環境，降低長者跌倒與意外風險。",
+        "title": "居家安全與無障礙"
+      }
+    ],
+    "refer::environmental.home_safety::cfs4": [
+      {
+        "slug": "home-safety",
+        "source": "internal",
+        "summary": "從照明、地面、扶手到浴廁與動線，逐區檢視並改善居家環境，降低長者跌倒與意外風險。",
+        "title": "居家安全與無障礙"
+      }
+    ],
+    "refer::environmental.home_safety::cfs5": [
+      {
+        "slug": "home-safety",
+        "source": "internal",
+        "summary": "從照明、地面、扶手到浴廁與動線，逐區檢視並改善居家環境，降低長者跌倒與意外風險。",
+        "title": "居家安全與無障礙"
+      }
+    ],
+    "refer::environmental.home_safety::cfs6": [
+      {
+        "slug": "home-safety",
+        "source": "internal",
+        "summary": "從照明、地面、扶手到浴廁與動線，逐區檢視並改善居家環境，降低長者跌倒與意外風險。",
+        "title": "居家安全與無障礙"
+      }
+    ],
+    "refer::environmental.home_safety::cfs7": [
+      {
+        "slug": "home-safety",
+        "source": "internal",
+        "summary": "從照明、地面、扶手到浴廁與動線，逐區檢視並改善居家環境，降低長者跌倒與意外風險。",
+        "title": "居家安全與無障礙"
+      }
+    ],
+    "refer::environmental.home_safety::cfs8": [
+      {
+        "slug": "home-safety",
+        "source": "internal",
+        "summary": "從照明、地面、扶手到浴廁與動線，逐區檢視並改善居家環境，降低長者跌倒與意外風險。",
+        "title": "居家安全與無障礙"
+      }
+    ],
+    "refer::functional.adl::cfs3": [
+      {
+        "slug": "adl-maintenance",
+        "source": "internal",
+        "summary": "認識基本與工具性日常生活活動能力（ADL/IADL），透過復能、輔具與環境調整協助長者維持獨立。",
+        "title": "日常生活功能的維持"
+      }
+    ],
+    "refer::functional.adl::cfs4": [
+      {
+        "slug": "adl-maintenance",
+        "source": "internal",
+        "summary": "認識基本與工具性日常生活活動能力（ADL/IADL），透過復能、輔具與環境調整協助長者維持獨立。",
+        "title": "日常生活功能的維持"
+      }
+    ],
+    "refer::functional.adl::cfs5": [
+      {
+        "slug": "adl-maintenance",
+        "source": "internal",
+        "summary": "認識基本與工具性日常生活活動能力（ADL/IADL），透過復能、輔具與環境調整協助長者維持獨立。",
+        "title": "日常生活功能的維持"
+      }
+    ],
+    "refer::functional.adl::cfs6": [
+      {
+        "slug": "adl-maintenance",
+        "source": "internal",
+        "summary": "認識基本與工具性日常生活活動能力（ADL/IADL），透過復能、輔具與環境調整協助長者維持獨立。",
+        "title": "日常生活功能的維持"
+      }
+    ],
+    "refer::functional.adl::cfs7": [
+      {
+        "slug": "adl-maintenance",
+        "source": "internal",
+        "summary": "認識基本與工具性日常生活活動能力（ADL/IADL），透過復能、輔具與環境調整協助長者維持獨立。",
+        "title": "日常生活功能的維持"
+      }
+    ],
+    "refer::functional.adl::cfs8": [
+      {
+        "slug": "adl-maintenance",
+        "source": "internal",
+        "summary": "認識基本與工具性日常生活活動能力（ADL/IADL），透過復能、輔具與環境調整協助長者維持獨立。",
+        "title": "日常生活功能的維持"
+      }
+    ],
+    "refer::functional.adl::cfs9": [
+      {
+        "slug": "adl-maintenance",
+        "source": "internal",
+        "summary": "認識基本與工具性日常生活活動能力（ADL/IADL），透過復能、輔具與環境調整協助長者維持獨立。",
+        "title": "日常生活功能的維持"
+      }
+    ],
+    "refer::functional.falls::cfs2": [
+      {
+        "slug": "fall-prevention",
+        "source": "internal",
+        "summary": "了解跌倒的常見原因與可行的預防策略，從居家環境、運動到用藥檢視多管齊下降低跌倒風險。",
+        "title": "長者跌倒預防"
+      }
+    ],
+    "refer::functional.falls::cfs3": [
+      {
+        "slug": "fall-prevention",
+        "source": "internal",
+        "summary": "了解跌倒的常見原因與可行的預防策略，從居家環境、運動到用藥檢視多管齊下降低跌倒風險。",
+        "title": "長者跌倒預防"
+      }
+    ],
+    "refer::functional.falls::cfs4": [
+      {
+        "slug": "fall-prevention",
+        "source": "internal",
+        "summary": "了解跌倒的常見原因與可行的預防策略，從居家環境、運動到用藥檢視多管齊下降低跌倒風險。",
+        "title": "長者跌倒預防"
+      }
+    ],
+    "refer::functional.falls::cfs5": [
+      {
+        "slug": "fall-prevention",
+        "source": "internal",
+        "summary": "了解跌倒的常見原因與可行的預防策略，從居家環境、運動到用藥檢視多管齊下降低跌倒風險。",
+        "title": "長者跌倒預防"
+      }
+    ],
+    "refer::functional.falls::cfs6": [
+      {
+        "slug": "fall-prevention",
+        "source": "internal",
+        "summary": "了解跌倒的常見原因與可行的預防策略，從居家環境、運動到用藥檢視多管齊下降低跌倒風險。",
+        "title": "長者跌倒預防"
+      }
+    ],
+    "refer::functional.falls::cfs7": [
+      {
+        "slug": "fall-prevention",
+        "source": "internal",
+        "summary": "了解跌倒的常見原因與可行的預防策略，從居家環境、運動到用藥檢視多管齊下降低跌倒風險。",
+        "title": "長者跌倒預防"
+      }
+    ],
+    "refer::functional.falls::cfs8": [
+      {
+        "slug": "fall-prevention",
+        "source": "internal",
+        "summary": "了解跌倒的常見原因與可行的預防策略，從居家環境、運動到用藥檢視多管齊下降低跌倒風險。",
+        "title": "長者跌倒預防"
+      }
+    ],
+    "refer::functional.iadl::cfs3": [
+      {
+        "slug": "adl-maintenance",
+        "source": "internal",
+        "summary": "認識基本與工具性日常生活活動能力（ADL/IADL），透過復能、輔具與環境調整協助長者維持獨立。",
+        "title": "日常生活功能的維持"
+      }
+    ],
+    "refer::functional.iadl::cfs4": [
+      {
+        "slug": "adl-maintenance",
+        "source": "internal",
+        "summary": "認識基本與工具性日常生活活動能力（ADL/IADL），透過復能、輔具與環境調整協助長者維持獨立。",
+        "title": "日常生活功能的維持"
+      }
+    ],
+    "refer::functional.iadl::cfs5": [
+      {
+        "slug": "adl-maintenance",
+        "source": "internal",
+        "summary": "認識基本與工具性日常生活活動能力（ADL/IADL），透過復能、輔具與環境調整協助長者維持獨立。",
+        "title": "日常生活功能的維持"
+      }
+    ],
+    "refer::functional.iadl::cfs6": [
+      {
+        "slug": "adl-maintenance",
+        "source": "internal",
+        "summary": "認識基本與工具性日常生活活動能力（ADL/IADL），透過復能、輔具與環境調整協助長者維持獨立。",
+        "title": "日常生活功能的維持"
+      }
+    ],
+    "refer::functional.iadl::cfs7": [
+      {
+        "slug": "adl-maintenance",
+        "source": "internal",
+        "summary": "認識基本與工具性日常生活活動能力（ADL/IADL），透過復能、輔具與環境調整協助長者維持獨立。",
+        "title": "日常生活功能的維持"
+      }
+    ],
+    "refer::functional.iadl::cfs8": [
+      {
+        "slug": "adl-maintenance",
+        "source": "internal",
+        "summary": "認識基本與工具性日常生活活動能力（ADL/IADL），透過復能、輔具與環境調整協助長者維持獨立。",
+        "title": "日常生活功能的維持"
+      }
+    ],
+    "refer::functional.iadl::cfs9": [
+      {
+        "slug": "adl-maintenance",
+        "source": "internal",
+        "summary": "認識基本與工具性日常生活活動能力（ADL/IADL），透過復能、輔具與環境調整協助長者維持獨立。",
+        "title": "日常生活功能的維持"
+      }
+    ],
+    "refer::functional.mobility::cfs2": [
+      {
+        "slug": "sarcopenia-exercise",
+        "source": "internal",
+        "summary": "認識隨年齡流失的肌肉量與肌力（肌少症），並透過阻力運動與足夠蛋白質攝取維持行動能力。",
+        "title": "肌少症與運動"
+      }
+    ],
+    "refer::functional.mobility::cfs3": [
+      {
+        "slug": "sarcopenia-exercise",
+        "source": "internal",
+        "summary": "認識隨年齡流失的肌肉量與肌力（肌少症），並透過阻力運動與足夠蛋白質攝取維持行動能力。",
+        "title": "肌少症與運動"
+      }
+    ],
+    "refer::functional.mobility::cfs4": [
+      {
+        "slug": "sarcopenia-exercise",
+        "source": "internal",
+        "summary": "認識隨年齡流失的肌肉量與肌力（肌少症），並透過阻力運動與足夠蛋白質攝取維持行動能力。",
+        "title": "肌少症與運動"
+      }
+    ],
+    "refer::functional.mobility::cfs5": [
+      {
+        "slug": "sarcopenia-exercise",
+        "source": "internal",
+        "summary": "認識隨年齡流失的肌肉量與肌力（肌少症），並透過阻力運動與足夠蛋白質攝取維持行動能力。",
+        "title": "肌少症與運動"
+      }
+    ],
+    "refer::functional.mobility::cfs6": [
+      {
+        "slug": "sarcopenia-exercise",
+        "source": "internal",
+        "summary": "認識隨年齡流失的肌肉量與肌力（肌少症），並透過阻力運動與足夠蛋白質攝取維持行動能力。",
+        "title": "肌少症與運動"
+      }
+    ],
+    "refer::functional.mobility::cfs7": [
+      {
+        "slug": "sarcopenia-exercise",
+        "source": "internal",
+        "summary": "認識隨年齡流失的肌肉量與肌力（肌少症），並透過阻力運動與足夠蛋白質攝取維持行動能力。",
+        "title": "肌少症與運動"
+      }
+    ],
+    "refer::future_wishes.advance_care_planning::cfs5": [
+      {
+        "slug": "advance-care-planning",
+        "source": "internal",
+        "summary": "了解預立醫療照護諮商與預立醫療決定的意義，提早與家人、醫療團隊討論未來醫療照護的偏好。",
+        "title": "預立醫療照護諮商（ACP）"
+      }
+    ],
+    "refer::future_wishes.advance_care_planning::cfs6": [
+      {
+        "slug": "advance-care-planning",
+        "source": "internal",
+        "summary": "了解預立醫療照護諮商與預立醫療決定的意義，提早與家人、醫療團隊討論未來醫療照護的偏好。",
+        "title": "預立醫療照護諮商（ACP）"
+      }
+    ],
+    "refer::future_wishes.advance_care_planning::cfs7": [
+      {
+        "slug": "advance-care-planning",
+        "source": "internal",
+        "summary": "了解預立醫療照護諮商與預立醫療決定的意義，提早與家人、醫療團隊討論未來醫療照護的偏好。",
+        "title": "預立醫療照護諮商（ACP）"
+      }
+    ],
+    "refer::future_wishes.advance_care_planning::cfs8": [
+      {
+        "slug": "advance-care-planning",
+        "source": "internal",
+        "summary": "了解預立醫療照護諮商與預立醫療決定的意義，提早與家人、醫療團隊討論未來醫療照護的偏好。",
+        "title": "預立醫療照護諮商（ACP）"
+      }
+    ],
+    "refer::future_wishes.advance_care_planning::cfs9": [
+      {
+        "slug": "advance-care-planning",
+        "source": "internal",
+        "summary": "了解預立醫療照護諮商與預立醫療決定的意義，提早與家人、醫療團隊討論未來醫療照護的偏好。",
+        "title": "預立醫療照護諮商（ACP）"
+      }
+    ],
+    "refer::future_wishes.treatment_preferences::cfs5": [
+      {
+        "slug": "treatment-preferences",
+        "source": "internal",
+        "summary": "認識維持生命治療的選擇與 DNR/安寧緩和意願，了解如何表達並記錄自己對末期醫療的偏好。",
+        "title": "治療意願與不施行心肺復甦（DNR）"
+      }
+    ],
+    "refer::future_wishes.treatment_preferences::cfs6": [
+      {
+        "slug": "treatment-preferences",
+        "source": "internal",
+        "summary": "認識維持生命治療的選擇與 DNR/安寧緩和意願，了解如何表達並記錄自己對末期醫療的偏好。",
+        "title": "治療意願與不施行心肺復甦（DNR）"
+      }
+    ],
+    "refer::future_wishes.treatment_preferences::cfs7": [
+      {
+        "slug": "treatment-preferences",
+        "source": "internal",
+        "summary": "認識維持生命治療的選擇與 DNR/安寧緩和意願，了解如何表達並記錄自己對末期醫療的偏好。",
+        "title": "治療意願與不施行心肺復甦（DNR）"
+      }
+    ],
+    "refer::future_wishes.treatment_preferences::cfs8": [
+      {
+        "slug": "treatment-preferences",
+        "source": "internal",
+        "summary": "認識維持生命治療的選擇與 DNR/安寧緩和意願，了解如何表達並記錄自己對末期醫療的偏好。",
+        "title": "治療意願與不施行心肺復甦（DNR）"
+      }
+    ],
+    "refer::future_wishes.treatment_preferences::cfs9": [
+      {
+        "slug": "treatment-preferences",
+        "source": "internal",
+        "summary": "認識維持生命治療的選擇與 DNR/安寧緩和意願，了解如何表達並記錄自己對末期醫療的偏好。",
+        "title": "治療意願與不施行心肺復甦（DNR）"
+      }
+    ],
+    "refer::physical.comorbidity::cfs2": [
+      {
+        "slug": "comorbidity-management",
+        "source": "internal",
+        "summary": "多重慢性病在長者常見，了解整合照護、優先順序與個人化目標的概念，並做好自我管理與就醫溝通。",
+        "title": "共病管理"
+      }
+    ],
+    "refer::physical.comorbidity::cfs3": [
+      {
+        "slug": "comorbidity-management",
+        "source": "internal",
+        "summary": "多重慢性病在長者常見，了解整合照護、優先順序與個人化目標的概念，並做好自我管理與就醫溝通。",
+        "title": "共病管理"
+      }
+    ],
+    "refer::physical.comorbidity::cfs4": [
+      {
+        "slug": "comorbidity-management",
+        "source": "internal",
+        "summary": "多重慢性病在長者常見，了解整合照護、優先順序與個人化目標的概念，並做好自我管理與就醫溝通。",
+        "title": "共病管理"
+      }
+    ],
+    "refer::physical.comorbidity::cfs5": [
+      {
+        "slug": "comorbidity-management",
+        "source": "internal",
+        "summary": "多重慢性病在長者常見，了解整合照護、優先順序與個人化目標的概念，並做好自我管理與就醫溝通。",
+        "title": "共病管理"
+      }
+    ],
+    "refer::physical.comorbidity::cfs6": [
+      {
+        "slug": "comorbidity-management",
+        "source": "internal",
+        "summary": "多重慢性病在長者常見，了解整合照護、優先順序與個人化目標的概念，並做好自我管理與就醫溝通。",
+        "title": "共病管理"
+      }
+    ],
+    "refer::physical.comorbidity::cfs7": [
+      {
+        "slug": "comorbidity-management",
+        "source": "internal",
+        "summary": "多重慢性病在長者常見，了解整合照護、優先順序與個人化目標的概念，並做好自我管理與就醫溝通。",
+        "title": "共病管理"
+      }
+    ],
+    "refer::physical.comorbidity::cfs8": [
+      {
+        "slug": "comorbidity-management",
+        "source": "internal",
+        "summary": "多重慢性病在長者常見，了解整合照護、優先順序與個人化目標的概念，並做好自我管理與就醫溝通。",
+        "title": "共病管理"
+      }
+    ],
+    "refer::physical.comorbidity::cfs9": [
+      {
+        "slug": "comorbidity-management",
+        "source": "internal",
+        "summary": "多重慢性病在長者常見，了解整合照護、優先順序與個人化目標的概念，並做好自我管理與就醫溝通。",
+        "title": "共病管理"
+      }
+    ],
+    "refer::physical.continence::cfs3": [
+      {
+        "slug": "incontinence-care",
+        "source": "internal",
+        "summary": "尿失禁在長者常見但並非無法改善，了解類型、生活調整與骨盆底訓練，並鼓勵就醫評估找出可治療的原因。",
+        "title": "尿失禁照護"
+      }
+    ],
+    "refer::physical.continence::cfs4": [
+      {
+        "slug": "incontinence-care",
+        "source": "internal",
+        "summary": "尿失禁在長者常見但並非無法改善，了解類型、生活調整與骨盆底訓練，並鼓勵就醫評估找出可治療的原因。",
+        "title": "尿失禁照護"
+      }
+    ],
+    "refer::physical.continence::cfs5": [
+      {
+        "slug": "incontinence-care",
+        "source": "internal",
+        "summary": "尿失禁在長者常見但並非無法改善，了解類型、生活調整與骨盆底訓練，並鼓勵就醫評估找出可治療的原因。",
+        "title": "尿失禁照護"
+      }
+    ],
+    "refer::physical.continence::cfs6": [
+      {
+        "slug": "incontinence-care",
+        "source": "internal",
+        "summary": "尿失禁在長者常見但並非無法改善，了解類型、生活調整與骨盆底訓練，並鼓勵就醫評估找出可治療的原因。",
+        "title": "尿失禁照護"
+      }
+    ],
+    "refer::physical.continence::cfs7": [
+      {
+        "slug": "incontinence-care",
+        "source": "internal",
+        "summary": "尿失禁在長者常見但並非無法改善，了解類型、生活調整與骨盆底訓練，並鼓勵就醫評估找出可治療的原因。",
+        "title": "尿失禁照護"
+      }
+    ],
+    "refer::physical.continence::cfs8": [
+      {
+        "slug": "incontinence-care",
+        "source": "internal",
+        "summary": "尿失禁在長者常見但並非無法改善，了解類型、生活調整與骨盆底訓練，並鼓勵就醫評估找出可治療的原因。",
+        "title": "尿失禁照護"
+      }
+    ],
+    "refer::physical.continence::cfs9": [
+      {
+        "slug": "incontinence-care",
+        "source": "internal",
+        "summary": "尿失禁在長者常見但並非無法改善，了解類型、生活調整與骨盆底訓練，並鼓勵就醫評估找出可治療的原因。",
+        "title": "尿失禁照護"
+      }
+    ],
+    "refer::physical.nutrition::cfs1": [
+      {
+        "slug": "geriatric-nutrition",
+        "source": "internal",
+        "summary": "認識長者營養不良與體重流失的風險因子，掌握均衡飲食、足夠蛋白質與水分，以及進食困難的因應。",
+        "title": "長者營養照護"
+      }
+    ],
+    "refer::physical.nutrition::cfs2": [
+      {
+        "slug": "geriatric-nutrition",
+        "source": "internal",
+        "summary": "認識長者營養不良與體重流失的風險因子，掌握均衡飲食、足夠蛋白質與水分，以及進食困難的因應。",
+        "title": "長者營養照護"
+      }
+    ],
+    "refer::physical.nutrition::cfs3": [
+      {
+        "slug": "geriatric-nutrition",
+        "source": "internal",
+        "summary": "認識長者營養不良與體重流失的風險因子，掌握均衡飲食、足夠蛋白質與水分，以及進食困難的因應。",
+        "title": "長者營養照護"
+      }
+    ],
+    "refer::physical.nutrition::cfs4": [
+      {
+        "slug": "geriatric-nutrition",
+        "source": "internal",
+        "summary": "認識長者營養不良與體重流失的風險因子，掌握均衡飲食、足夠蛋白質與水分，以及進食困難的因應。",
+        "title": "長者營養照護"
+      }
+    ],
+    "refer::physical.nutrition::cfs5": [
+      {
+        "slug": "geriatric-nutrition",
+        "source": "internal",
+        "summary": "認識長者營養不良與體重流失的風險因子，掌握均衡飲食、足夠蛋白質與水分，以及進食困難的因應。",
+        "title": "長者營養照護"
+      }
+    ],
+    "refer::physical.nutrition::cfs6": [
+      {
+        "slug": "geriatric-nutrition",
+        "source": "internal",
+        "summary": "認識長者營養不良與體重流失的風險因子，掌握均衡飲食、足夠蛋白質與水分，以及進食困難的因應。",
+        "title": "長者營養照護"
+      }
+    ],
+    "refer::physical.nutrition::cfs7": [
+      {
+        "slug": "geriatric-nutrition",
+        "source": "internal",
+        "summary": "認識長者營養不良與體重流失的風險因子，掌握均衡飲食、足夠蛋白質與水分，以及進食困難的因應。",
+        "title": "長者營養照護"
+      }
+    ],
+    "refer::physical.nutrition::cfs8": [
+      {
+        "slug": "geriatric-nutrition",
+        "source": "internal",
+        "summary": "認識長者營養不良與體重流失的風險因子，掌握均衡飲食、足夠蛋白質與水分，以及進食困難的因應。",
+        "title": "長者營養照護"
+      }
+    ],
+    "refer::physical.nutrition::cfs9": [
+      {
+        "slug": "geriatric-nutrition",
+        "source": "internal",
+        "summary": "認識長者營養不良與體重流失的風險因子，掌握均衡飲食、足夠蛋白質與水分，以及進食困難的因應。",
+        "title": "長者營養照護"
+      }
+    ],
+    "refer::physical.polypharmacy::cfs2": [
+      {
+        "slug": "medication-safety",
+        "source": "internal",
+        "summary": "了解多重用藥（polypharmacy）對長者的風險，學習整理藥單、與醫師藥師討論減藥的原則與用藥安全習慣。",
+        "title": "多重用藥安全"
+      }
+    ],
+    "refer::physical.polypharmacy::cfs3": [
+      {
+        "slug": "medication-safety",
+        "source": "internal",
+        "summary": "了解多重用藥（polypharmacy）對長者的風險，學習整理藥單、與醫師藥師討論減藥的原則與用藥安全習慣。",
+        "title": "多重用藥安全"
+      }
+    ],
+    "refer::physical.polypharmacy::cfs4": [
+      {
+        "slug": "medication-safety",
+        "source": "internal",
+        "summary": "了解多重用藥（polypharmacy）對長者的風險，學習整理藥單、與醫師藥師討論減藥的原則與用藥安全習慣。",
+        "title": "多重用藥安全"
+      }
+    ],
+    "refer::physical.polypharmacy::cfs5": [
+      {
+        "slug": "medication-safety",
+        "source": "internal",
+        "summary": "了解多重用藥（polypharmacy）對長者的風險，學習整理藥單、與醫師藥師討論減藥的原則與用藥安全習慣。",
+        "title": "多重用藥安全"
+      }
+    ],
+    "refer::physical.polypharmacy::cfs6": [
+      {
+        "slug": "medication-safety",
+        "source": "internal",
+        "summary": "了解多重用藥（polypharmacy）對長者的風險，學習整理藥單、與醫師藥師討論減藥的原則與用藥安全習慣。",
+        "title": "多重用藥安全"
+      }
+    ],
+    "refer::physical.polypharmacy::cfs7": [
+      {
+        "slug": "medication-safety",
+        "source": "internal",
+        "summary": "了解多重用藥（polypharmacy）對長者的風險，學習整理藥單、與醫師藥師討論減藥的原則與用藥安全習慣。",
+        "title": "多重用藥安全"
+      }
+    ],
+    "refer::physical.polypharmacy::cfs8": [
+      {
+        "slug": "medication-safety",
+        "source": "internal",
+        "summary": "了解多重用藥（polypharmacy）對長者的風險，學習整理藥單、與醫師藥師討論減藥的原則與用藥安全習慣。",
+        "title": "多重用藥安全"
+      }
+    ],
+    "refer::physical.polypharmacy::cfs9": [
+      {
+        "slug": "medication-safety",
+        "source": "internal",
+        "summary": "了解多重用藥（polypharmacy）對長者的風險，學習整理藥單、與醫師藥師討論減藥的原則與用藥安全習慣。",
+        "title": "多重用藥安全"
+      }
+    ],
+    "refer::physical.sensory::cfs1": [
+      {
+        "slug": "sensory-impairment",
+        "source": "internal",
+        "summary": "視力與聽力退化會影響安全、溝通與情緒，了解常見問題、輔具運用與環境調整，並鼓勵定期檢查。",
+        "title": "視聽功能障礙的因應"
+      }
+    ],
+    "refer::physical.sensory::cfs2": [
+      {
+        "slug": "sensory-impairment",
+        "source": "internal",
+        "summary": "視力與聽力退化會影響安全、溝通與情緒，了解常見問題、輔具運用與環境調整，並鼓勵定期檢查。",
+        "title": "視聽功能障礙的因應"
+      }
+    ],
+    "refer::physical.sensory::cfs3": [
+      {
+        "slug": "sensory-impairment",
+        "source": "internal",
+        "summary": "視力與聽力退化會影響安全、溝通與情緒，了解常見問題、輔具運用與環境調整，並鼓勵定期檢查。",
+        "title": "視聽功能障礙的因應"
+      }
+    ],
+    "refer::physical.sensory::cfs4": [
+      {
+        "slug": "sensory-impairment",
+        "source": "internal",
+        "summary": "視力與聽力退化會影響安全、溝通與情緒，了解常見問題、輔具運用與環境調整，並鼓勵定期檢查。",
+        "title": "視聽功能障礙的因應"
+      }
+    ],
+    "refer::physical.sensory::cfs5": [
+      {
+        "slug": "sensory-impairment",
+        "source": "internal",
+        "summary": "視力與聽力退化會影響安全、溝通與情緒，了解常見問題、輔具運用與環境調整，並鼓勵定期檢查。",
+        "title": "視聽功能障礙的因應"
+      }
+    ],
+    "refer::physical.sensory::cfs6": [
+      {
+        "slug": "sensory-impairment",
+        "source": "internal",
+        "summary": "視力與聽力退化會影響安全、溝通與情緒，了解常見問題、輔具運用與環境調整，並鼓勵定期檢查。",
+        "title": "視聽功能障礙的因應"
+      }
+    ],
+    "refer::physical.sensory::cfs7": [
+      {
+        "slug": "sensory-impairment",
+        "source": "internal",
+        "summary": "視力與聽力退化會影響安全、溝通與情緒，了解常見問題、輔具運用與環境調整，並鼓勵定期檢查。",
+        "title": "視聽功能障礙的因應"
+      }
+    ],
+    "refer::physical.sensory::cfs8": [
+      {
+        "slug": "sensory-impairment",
+        "source": "internal",
+        "summary": "視力與聽力退化會影響安全、溝通與情緒，了解常見問題、輔具運用與環境調整，並鼓勵定期檢查。",
+        "title": "視聽功能障礙的因應"
+      }
+    ],
+    "refer::physical.sensory::cfs9": [
+      {
+        "slug": "sensory-impairment",
+        "source": "internal",
+        "summary": "視力與聽力退化會影響安全、溝通與情緒，了解常見問題、輔具運用與環境調整，並鼓勵定期檢查。",
+        "title": "視聽功能障礙的因應"
+      }
+    ],
+    "refer::psychological.cognition::cfs1": [
+      {
+        "slug": "cognitive-training",
+        "source": "internal",
+        "summary": "了解正常老化與失智症的差異，學習促進認知活力的生活方式，以及面對記憶力下降時的因應與資源。",
+        "title": "認知促進與失智因應"
+      }
+    ],
+    "refer::psychological.cognition::cfs2": [
+      {
+        "slug": "cognitive-training",
+        "source": "internal",
+        "summary": "了解正常老化與失智症的差異，學習促進認知活力的生活方式，以及面對記憶力下降時的因應與資源。",
+        "title": "認知促進與失智因應"
+      }
+    ],
+    "refer::psychological.cognition::cfs3": [
+      {
+        "slug": "cognitive-training",
+        "source": "internal",
+        "summary": "了解正常老化與失智症的差異，學習促進認知活力的生活方式，以及面對記憶力下降時的因應與資源。",
+        "title": "認知促進與失智因應"
+      }
+    ],
+    "refer::psychological.cognition::cfs4": [
+      {
+        "slug": "cognitive-training",
+        "source": "internal",
+        "summary": "了解正常老化與失智症的差異，學習促進認知活力的生活方式，以及面對記憶力下降時的因應與資源。",
+        "title": "認知促進與失智因應"
+      }
+    ],
+    "refer::psychological.cognition::cfs5": [
+      {
+        "slug": "cognitive-training",
+        "source": "internal",
+        "summary": "了解正常老化與失智症的差異，學習促進認知活力的生活方式，以及面對記憶力下降時的因應與資源。",
+        "title": "認知促進與失智因應"
+      }
+    ],
+    "refer::psychological.cognition::cfs6": [
+      {
+        "slug": "cognitive-training",
+        "source": "internal",
+        "summary": "了解正常老化與失智症的差異，學習促進認知活力的生活方式，以及面對記憶力下降時的因應與資源。",
+        "title": "認知促進與失智因應"
+      }
+    ],
+    "refer::psychological.cognition::cfs7": [
+      {
+        "slug": "cognitive-training",
+        "source": "internal",
+        "summary": "了解正常老化與失智症的差異，學習促進認知活力的生活方式，以及面對記憶力下降時的因應與資源。",
+        "title": "認知促進與失智因應"
+      }
+    ],
+    "refer::psychological.cognition::cfs8": [
+      {
+        "slug": "cognitive-training",
+        "source": "internal",
+        "summary": "了解正常老化與失智症的差異，學習促進認知活力的生活方式，以及面對記憶力下降時的因應與資源。",
+        "title": "認知促進與失智因應"
+      }
+    ],
+    "refer::psychological.delirium::cfs4": [
+      {
+        "slug": "delirium-awareness",
+        "source": "internal",
+        "summary": "譫妄是一種急性、波動的意識與注意力混亂，常見於住院或生病的長者，及早辨識並處理誘因很重要。",
+        "title": "譫妄的認識與處理"
+      }
+    ],
+    "refer::psychological.delirium::cfs5": [
+      {
+        "slug": "delirium-awareness",
+        "source": "internal",
+        "summary": "譫妄是一種急性、波動的意識與注意力混亂，常見於住院或生病的長者，及早辨識並處理誘因很重要。",
+        "title": "譫妄的認識與處理"
+      }
+    ],
+    "refer::psychological.delirium::cfs6": [
+      {
+        "slug": "delirium-awareness",
+        "source": "internal",
+        "summary": "譫妄是一種急性、波動的意識與注意力混亂，常見於住院或生病的長者，及早辨識並處理誘因很重要。",
+        "title": "譫妄的認識與處理"
+      }
+    ],
+    "refer::psychological.delirium::cfs7": [
+      {
+        "slug": "delirium-awareness",
+        "source": "internal",
+        "summary": "譫妄是一種急性、波動的意識與注意力混亂，常見於住院或生病的長者，及早辨識並處理誘因很重要。",
+        "title": "譫妄的認識與處理"
+      }
+    ],
+    "refer::psychological.delirium::cfs8": [
+      {
+        "slug": "delirium-awareness",
+        "source": "internal",
+        "summary": "譫妄是一種急性、波動的意識與注意力混亂，常見於住院或生病的長者，及早辨識並處理誘因很重要。",
+        "title": "譫妄的認識與處理"
+      }
+    ],
+    "refer::psychological.delirium::cfs9": [
+      {
+        "slug": "delirium-awareness",
+        "source": "internal",
+        "summary": "譫妄是一種急性、波動的意識與注意力混亂，常見於住院或生病的長者，及早辨識並處理誘因很重要。",
+        "title": "譫妄的認識與處理"
+      }
+    ],
+    "refer::psychological.mood::cfs1": [
+      {
+        "slug": "depression-support",
+        "source": "internal",
+        "summary": "認識老年憂鬱的常見徵兆，了解它並非老化必然，並學習自我照顧、家人支持與適時求助的方式。",
+        "title": "長者憂鬱與情緒支持"
+      }
+    ],
+    "refer::psychological.mood::cfs2": [
+      {
+        "slug": "depression-support",
+        "source": "internal",
+        "summary": "認識老年憂鬱的常見徵兆，了解它並非老化必然，並學習自我照顧、家人支持與適時求助的方式。",
+        "title": "長者憂鬱與情緒支持"
+      }
+    ],
+    "refer::psychological.mood::cfs3": [
+      {
+        "slug": "depression-support",
+        "source": "internal",
+        "summary": "認識老年憂鬱的常見徵兆，了解它並非老化必然，並學習自我照顧、家人支持與適時求助的方式。",
+        "title": "長者憂鬱與情緒支持"
+      }
+    ],
+    "refer::psychological.mood::cfs4": [
+      {
+        "slug": "depression-support",
+        "source": "internal",
+        "summary": "認識老年憂鬱的常見徵兆，了解它並非老化必然，並學習自我照顧、家人支持與適時求助的方式。",
+        "title": "長者憂鬱與情緒支持"
+      }
+    ],
+    "refer::psychological.mood::cfs5": [
+      {
+        "slug": "depression-support",
+        "source": "internal",
+        "summary": "認識老年憂鬱的常見徵兆，了解它並非老化必然，並學習自我照顧、家人支持與適時求助的方式。",
+        "title": "長者憂鬱與情緒支持"
+      }
+    ],
+    "refer::psychological.mood::cfs6": [
+      {
+        "slug": "depression-support",
+        "source": "internal",
+        "summary": "認識老年憂鬱的常見徵兆，了解它並非老化必然，並學習自我照顧、家人支持與適時求助的方式。",
+        "title": "長者憂鬱與情緒支持"
+      }
+    ],
+    "refer::psychological.mood::cfs7": [
+      {
+        "slug": "depression-support",
+        "source": "internal",
+        "summary": "認識老年憂鬱的常見徵兆，了解它並非老化必然，並學習自我照顧、家人支持與適時求助的方式。",
+        "title": "長者憂鬱與情緒支持"
+      }
+    ],
+    "refer::social.caregiver::cfs4": [
+      {
+        "slug": "caregiver-support",
+        "source": "internal",
+        "summary": "長期照顧容易累積身心壓力與負荷，認識照顧者倦怠的徵兆，學習自我照顧與善用喘息與支持資源。",
+        "title": "照顧者壓力與支持"
+      }
+    ],
+    "refer::social.caregiver::cfs5": [
+      {
+        "slug": "caregiver-support",
+        "source": "internal",
+        "summary": "長期照顧容易累積身心壓力與負荷，認識照顧者倦怠的徵兆，學習自我照顧與善用喘息與支持資源。",
+        "title": "照顧者壓力與支持"
+      }
+    ],
+    "refer::social.caregiver::cfs6": [
+      {
+        "slug": "caregiver-support",
+        "source": "internal",
+        "summary": "長期照顧容易累積身心壓力與負荷，認識照顧者倦怠的徵兆，學習自我照顧與善用喘息與支持資源。",
+        "title": "照顧者壓力與支持"
+      }
+    ],
+    "refer::social.caregiver::cfs7": [
+      {
+        "slug": "caregiver-support",
+        "source": "internal",
+        "summary": "長期照顧容易累積身心壓力與負荷，認識照顧者倦怠的徵兆，學習自我照顧與善用喘息與支持資源。",
+        "title": "照顧者壓力與支持"
+      }
+    ],
+    "refer::social.caregiver::cfs8": [
+      {
+        "slug": "caregiver-support",
+        "source": "internal",
+        "summary": "長期照顧容易累積身心壓力與負荷，認識照顧者倦怠的徵兆，學習自我照顧與善用喘息與支持資源。",
+        "title": "照顧者壓力與支持"
+      }
+    ],
+    "refer::social.caregiver::cfs9": [
+      {
+        "slug": "caregiver-support",
+        "source": "internal",
+        "summary": "長期照顧容易累積身心壓力與負荷，認識照顧者倦怠的徵兆，學習自我照顧與善用喘息與支持資源。",
+        "title": "照顧者壓力與支持"
+      }
+    ],
+    "refer::social.financial::cfs3": [
+      {
+        "slug": "ltc-resources",
+        "source": "internal",
+        "summary": "認識長者可運用的長期照顧與社會福利資源，了解申請流程的概念，減輕照顧與經濟負擔。",
+        "title": "經濟與長照資源"
+      }
+    ],
+    "refer::social.financial::cfs4": [
+      {
+        "slug": "ltc-resources",
+        "source": "internal",
+        "summary": "認識長者可運用的長期照顧與社會福利資源，了解申請流程的概念，減輕照顧與經濟負擔。",
+        "title": "經濟與長照資源"
+      }
+    ],
+    "refer::social.financial::cfs5": [
+      {
+        "slug": "ltc-resources",
+        "source": "internal",
+        "summary": "認識長者可運用的長期照顧與社會福利資源，了解申請流程的概念，減輕照顧與經濟負擔。",
+        "title": "經濟與長照資源"
+      }
+    ],
+    "refer::social.financial::cfs6": [
+      {
+        "slug": "ltc-resources",
+        "source": "internal",
+        "summary": "認識長者可運用的長期照顧與社會福利資源，了解申請流程的概念，減輕照顧與經濟負擔。",
+        "title": "經濟與長照資源"
+      }
+    ],
+    "refer::social.financial::cfs7": [
+      {
+        "slug": "ltc-resources",
+        "source": "internal",
+        "summary": "認識長者可運用的長期照顧與社會福利資源，了解申請流程的概念，減輕照顧與經濟負擔。",
+        "title": "經濟與長照資源"
+      }
+    ],
+    "refer::social.financial::cfs8": [
+      {
+        "slug": "ltc-resources",
+        "source": "internal",
+        "summary": "認識長者可運用的長期照顧與社會福利資源，了解申請流程的概念，減輕照顧與經濟負擔。",
+        "title": "經濟與長照資源"
+      }
+    ],
+    "refer::social.financial::cfs9": [
+      {
+        "slug": "ltc-resources",
+        "source": "internal",
+        "summary": "認識長者可運用的長期照顧與社會福利資源，了解申請流程的概念，減輕照顧與經濟負擔。",
+        "title": "經濟與長照資源"
+      }
+    ],
+    "refer::social.social_support::cfs2": [
+      {
+        "slug": "social-connection",
+        "source": "internal",
+        "summary": "社會孤立與孤獨會影響長者的身心健康，了解風險、維持人際連結的方法與可運用的社區資源。",
+        "title": "社會連結與孤立預防"
+      }
+    ],
+    "refer::social.social_support::cfs3": [
+      {
+        "slug": "social-connection",
+        "source": "internal",
+        "summary": "社會孤立與孤獨會影響長者的身心健康，了解風險、維持人際連結的方法與可運用的社區資源。",
+        "title": "社會連結與孤立預防"
+      }
+    ],
+    "refer::social.social_support::cfs4": [
+      {
+        "slug": "social-connection",
+        "source": "internal",
+        "summary": "社會孤立與孤獨會影響長者的身心健康，了解風險、維持人際連結的方法與可運用的社區資源。",
+        "title": "社會連結與孤立預防"
+      }
+    ],
+    "refer::social.social_support::cfs5": [
+      {
+        "slug": "social-connection",
+        "source": "internal",
+        "summary": "社會孤立與孤獨會影響長者的身心健康，了解風險、維持人際連結的方法與可運用的社區資源。",
+        "title": "社會連結與孤立預防"
+      }
+    ],
+    "refer::social.social_support::cfs6": [
+      {
+        "slug": "social-connection",
+        "source": "internal",
+        "summary": "社會孤立與孤獨會影響長者的身心健康，了解風險、維持人際連結的方法與可運用的社區資源。",
+        "title": "社會連結與孤立預防"
+      }
+    ],
+    "refer::social.social_support::cfs7": [
+      {
+        "slug": "social-connection",
+        "source": "internal",
+        "summary": "社會孤立與孤獨會影響長者的身心健康，了解風險、維持人際連結的方法與可運用的社區資源。",
+        "title": "社會連結與孤立預防"
+      }
+    ],
+    "refer::social.social_support::cfs8": [
+      {
+        "slug": "social-connection",
+        "source": "internal",
+        "summary": "社會孤立與孤獨會影響長者的身心健康，了解風險、維持人際連結的方法與可運用的社區資源。",
+        "title": "社會連結與孤立預防"
+      }
+    ],
+    "refer::social.social_support::cfs9": [
+      {
+        "slug": "social-connection",
+        "source": "internal",
+        "summary": "社會孤立與孤獨會影響長者的身心健康，了解風險、維持人際連結的方法與可運用的社區資源。",
+        "title": "社會連結與孤立預防"
+      }
+    ]
+  },
+  "triggers": {
+    "cga.domain.environmental.accessibility.anomaly.cfs1": {
+      "inapplicable": true,
+      "videoIds": []
+    },
+    "cga.domain.environmental.accessibility.anomaly.cfs2": {
+      "inapplicable": true,
+      "videoIds": []
+    },
+    "cga.domain.environmental.accessibility.anomaly.cfs3": {
+      "inapplicable": true,
+      "videoIds": []
+    },
+    "cga.domain.environmental.accessibility.anomaly.cfs4": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.environmental.accessibility.anomaly.cfs5": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.environmental.accessibility.anomaly.cfs6": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.environmental.accessibility.anomaly.cfs7": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.environmental.accessibility.anomaly.cfs8": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.environmental.accessibility.anomaly.cfs9": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.environmental.home_safety.anomaly.cfs1": {
+      "inapplicable": true,
+      "videoIds": []
+    },
+    "cga.domain.environmental.home_safety.anomaly.cfs2": {
+      "inapplicable": true,
+      "videoIds": []
+    },
+    "cga.domain.environmental.home_safety.anomaly.cfs3": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.environmental.home_safety.anomaly.cfs4": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.environmental.home_safety.anomaly.cfs5": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.environmental.home_safety.anomaly.cfs6": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.environmental.home_safety.anomaly.cfs7": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.environmental.home_safety.anomaly.cfs8": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.environmental.home_safety.anomaly.cfs9": {
+      "inapplicable": true,
+      "videoIds": []
+    },
+    "cga.domain.functional.adl.anomaly.cfs1": {
+      "inapplicable": true,
+      "videoIds": []
+    },
+    "cga.domain.functional.adl.anomaly.cfs2": {
+      "inapplicable": true,
+      "videoIds": []
+    },
+    "cga.domain.functional.adl.anomaly.cfs3": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.functional.adl.anomaly.cfs4": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.functional.adl.anomaly.cfs5": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.functional.adl.anomaly.cfs6": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.functional.adl.anomaly.cfs7": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.functional.adl.anomaly.cfs8": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.functional.adl.anomaly.cfs9": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.functional.falls.anomaly.cfs1": {
+      "inapplicable": true,
+      "videoIds": []
+    },
+    "cga.domain.functional.falls.anomaly.cfs2": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.functional.falls.anomaly.cfs3": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.functional.falls.anomaly.cfs4": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.functional.falls.anomaly.cfs5": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.functional.falls.anomaly.cfs6": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.functional.falls.anomaly.cfs7": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.functional.falls.anomaly.cfs8": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.functional.falls.anomaly.cfs9": {
+      "inapplicable": true,
+      "videoIds": []
+    },
+    "cga.domain.functional.iadl.anomaly.cfs1": {
+      "inapplicable": true,
+      "videoIds": []
+    },
+    "cga.domain.functional.iadl.anomaly.cfs2": {
+      "inapplicable": true,
+      "videoIds": []
+    },
+    "cga.domain.functional.iadl.anomaly.cfs3": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.functional.iadl.anomaly.cfs4": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.functional.iadl.anomaly.cfs5": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.functional.iadl.anomaly.cfs6": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.functional.iadl.anomaly.cfs7": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.functional.iadl.anomaly.cfs8": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.functional.iadl.anomaly.cfs9": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.functional.mobility.anomaly.cfs1": {
+      "inapplicable": true,
+      "videoIds": []
+    },
+    "cga.domain.functional.mobility.anomaly.cfs2": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.functional.mobility.anomaly.cfs3": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.functional.mobility.anomaly.cfs4": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.functional.mobility.anomaly.cfs5": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.functional.mobility.anomaly.cfs6": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.functional.mobility.anomaly.cfs7": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.functional.mobility.anomaly.cfs8": {
+      "inapplicable": true,
+      "videoIds": []
+    },
+    "cga.domain.functional.mobility.anomaly.cfs9": {
+      "inapplicable": true,
+      "videoIds": []
+    },
+    "cga.domain.future_wishes.advance_care_planning.anomaly.cfs1": {
+      "inapplicable": true,
+      "videoIds": []
+    },
+    "cga.domain.future_wishes.advance_care_planning.anomaly.cfs2": {
+      "inapplicable": true,
+      "videoIds": []
+    },
+    "cga.domain.future_wishes.advance_care_planning.anomaly.cfs3": {
+      "inapplicable": true,
+      "videoIds": []
+    },
+    "cga.domain.future_wishes.advance_care_planning.anomaly.cfs4": {
+      "inapplicable": true,
+      "videoIds": []
+    },
+    "cga.domain.future_wishes.advance_care_planning.anomaly.cfs5": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.future_wishes.advance_care_planning.anomaly.cfs6": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.future_wishes.advance_care_planning.anomaly.cfs7": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.future_wishes.advance_care_planning.anomaly.cfs8": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.future_wishes.advance_care_planning.anomaly.cfs9": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.future_wishes.treatment_preferences.anomaly.cfs1": {
+      "inapplicable": true,
+      "videoIds": []
+    },
+    "cga.domain.future_wishes.treatment_preferences.anomaly.cfs2": {
+      "inapplicable": true,
+      "videoIds": []
+    },
+    "cga.domain.future_wishes.treatment_preferences.anomaly.cfs3": {
+      "inapplicable": true,
+      "videoIds": []
+    },
+    "cga.domain.future_wishes.treatment_preferences.anomaly.cfs4": {
+      "inapplicable": true,
+      "videoIds": []
+    },
+    "cga.domain.future_wishes.treatment_preferences.anomaly.cfs5": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.future_wishes.treatment_preferences.anomaly.cfs6": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.future_wishes.treatment_preferences.anomaly.cfs7": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.future_wishes.treatment_preferences.anomaly.cfs8": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.future_wishes.treatment_preferences.anomaly.cfs9": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.physical.comorbidity.anomaly.cfs1": {
+      "inapplicable": true,
+      "videoIds": []
+    },
+    "cga.domain.physical.comorbidity.anomaly.cfs2": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.physical.comorbidity.anomaly.cfs3": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.physical.comorbidity.anomaly.cfs4": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.physical.comorbidity.anomaly.cfs5": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.physical.comorbidity.anomaly.cfs6": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.physical.comorbidity.anomaly.cfs7": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.physical.comorbidity.anomaly.cfs8": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.physical.comorbidity.anomaly.cfs9": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.physical.continence.anomaly.cfs1": {
+      "inapplicable": true,
+      "videoIds": []
+    },
+    "cga.domain.physical.continence.anomaly.cfs2": {
+      "inapplicable": true,
+      "videoIds": []
+    },
+    "cga.domain.physical.continence.anomaly.cfs3": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.physical.continence.anomaly.cfs4": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.physical.continence.anomaly.cfs5": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.physical.continence.anomaly.cfs6": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.physical.continence.anomaly.cfs7": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.physical.continence.anomaly.cfs8": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.physical.continence.anomaly.cfs9": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.physical.nutrition.anomaly.cfs1": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.physical.nutrition.anomaly.cfs2": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.physical.nutrition.anomaly.cfs3": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.physical.nutrition.anomaly.cfs4": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.physical.nutrition.anomaly.cfs5": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.physical.nutrition.anomaly.cfs6": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.physical.nutrition.anomaly.cfs7": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.physical.nutrition.anomaly.cfs8": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.physical.nutrition.anomaly.cfs9": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.physical.polypharmacy.anomaly.cfs1": {
+      "inapplicable": true,
+      "videoIds": []
+    },
+    "cga.domain.physical.polypharmacy.anomaly.cfs2": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.physical.polypharmacy.anomaly.cfs3": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.physical.polypharmacy.anomaly.cfs4": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.physical.polypharmacy.anomaly.cfs5": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.physical.polypharmacy.anomaly.cfs6": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.physical.polypharmacy.anomaly.cfs7": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.physical.polypharmacy.anomaly.cfs8": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.physical.polypharmacy.anomaly.cfs9": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.physical.sensory.anomaly.cfs1": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.physical.sensory.anomaly.cfs2": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.physical.sensory.anomaly.cfs3": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.physical.sensory.anomaly.cfs4": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.physical.sensory.anomaly.cfs5": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.physical.sensory.anomaly.cfs6": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.physical.sensory.anomaly.cfs7": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.physical.sensory.anomaly.cfs8": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.physical.sensory.anomaly.cfs9": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.psychological.cognition.anomaly.cfs1": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.psychological.cognition.anomaly.cfs2": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.psychological.cognition.anomaly.cfs3": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.psychological.cognition.anomaly.cfs4": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.psychological.cognition.anomaly.cfs5": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.psychological.cognition.anomaly.cfs6": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.psychological.cognition.anomaly.cfs7": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.psychological.cognition.anomaly.cfs8": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.psychological.cognition.anomaly.cfs9": {
+      "inapplicable": true,
+      "videoIds": []
+    },
+    "cga.domain.psychological.delirium.anomaly.cfs1": {
+      "inapplicable": true,
+      "videoIds": []
+    },
+    "cga.domain.psychological.delirium.anomaly.cfs2": {
+      "inapplicable": true,
+      "videoIds": []
+    },
+    "cga.domain.psychological.delirium.anomaly.cfs3": {
+      "inapplicable": true,
+      "videoIds": []
+    },
+    "cga.domain.psychological.delirium.anomaly.cfs4": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.psychological.delirium.anomaly.cfs5": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.psychological.delirium.anomaly.cfs6": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.psychological.delirium.anomaly.cfs7": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.psychological.delirium.anomaly.cfs8": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.psychological.delirium.anomaly.cfs9": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.psychological.mood.anomaly.cfs1": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.psychological.mood.anomaly.cfs2": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.psychological.mood.anomaly.cfs3": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.psychological.mood.anomaly.cfs4": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.psychological.mood.anomaly.cfs5": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.psychological.mood.anomaly.cfs6": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.psychological.mood.anomaly.cfs7": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.psychological.mood.anomaly.cfs8": {
+      "inapplicable": true,
+      "videoIds": []
+    },
+    "cga.domain.psychological.mood.anomaly.cfs9": {
+      "inapplicable": true,
+      "videoIds": []
+    },
+    "cga.domain.social.caregiver.anomaly.cfs1": {
+      "inapplicable": true,
+      "videoIds": []
+    },
+    "cga.domain.social.caregiver.anomaly.cfs2": {
+      "inapplicable": true,
+      "videoIds": []
+    },
+    "cga.domain.social.caregiver.anomaly.cfs3": {
+      "inapplicable": true,
+      "videoIds": []
+    },
+    "cga.domain.social.caregiver.anomaly.cfs4": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.social.caregiver.anomaly.cfs5": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.social.caregiver.anomaly.cfs6": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.social.caregiver.anomaly.cfs7": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.social.caregiver.anomaly.cfs8": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.social.caregiver.anomaly.cfs9": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.social.financial.anomaly.cfs1": {
+      "inapplicable": true,
+      "videoIds": []
+    },
+    "cga.domain.social.financial.anomaly.cfs2": {
+      "inapplicable": true,
+      "videoIds": []
+    },
+    "cga.domain.social.financial.anomaly.cfs3": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.social.financial.anomaly.cfs4": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.social.financial.anomaly.cfs5": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.social.financial.anomaly.cfs6": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.social.financial.anomaly.cfs7": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.social.financial.anomaly.cfs8": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.social.financial.anomaly.cfs9": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.social.social_support.anomaly.cfs1": {
+      "inapplicable": true,
+      "videoIds": []
+    },
+    "cga.domain.social.social_support.anomaly.cfs2": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.social.social_support.anomaly.cfs3": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.social.social_support.anomaly.cfs4": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.social.social_support.anomaly.cfs5": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.social.social_support.anomaly.cfs6": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.social.social_support.anomaly.cfs7": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.social.social_support.anomaly.cfs8": {
+      "inapplicable": false,
+      "videoIds": []
+    },
+    "cga.domain.social.social_support.anomaly.cfs9": {
+      "inapplicable": false,
+      "videoIds": []
+    }
+  }
 }

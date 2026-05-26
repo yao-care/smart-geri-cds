@@ -1,23 +1,49 @@
-# 衛教內容 — Markdown 文章單一來源
+# 衛教內容 — Markdown 文章單一來源（高齡周全性評估 CGA）
 
 ## 用途
 
-每篇 markdown = 一篇衛教**文章**（純文字 / 問卷）。**不放影片資料**。
+每篇 markdown = 一篇高齡衛教**文章**（純文字）。**不放影片資料**。
+文章對應到 CGA 評估結果（領域子項 × CFS 等級）的關聯，由 `content-relevance.yaml` 維護。
 
-## Schema
+## Schema（見 `src/content.config.ts` 的 education collection）
 
 ```typescript
 {
   title: string;
   summary: string;
   category: 'diet' | 'sleep' | 'respiratory' | 'exercise' | 'milestone' | 'general';
-  ageGroup: ('infant' | 'toddler' | 'preschool')[];
-  format: 'article' | 'questionnaire';   // ← 不可為 'video'
+  ageGroup: ('infant' | 'toddler' | 'preschool')[];   // 高齡文章一律用 []
+  format: 'article';                                    // ← 僅允許 'article'
   publishedAt: Date;
   updatedAt?: Date;
-  locale?: string;                       // 預設 'zh-TW'
+  locale?: string;                                      // 預設 'zh-TW'
 }
 ```
+
+> 註：`category` / `ageGroup` enum 為早期兒科設計殘留；高齡文章統一以 `category: general` + `ageGroup: []` 撰寫。
+> enum 收斂為高齡語意（領域分類）屬 Phase 2-C 殘留清理範圍。
+
+## 現有高齡衛教文章（slug → 對應 CGA 領域子項）
+
+| slug | 主題 | 領域子項（top.sub） |
+|---|---|---|
+| `fall-prevention` | 跌倒預防 | functional.falls |
+| `sarcopenia-exercise` | 肌少症與運動 | functional.mobility |
+| `cognitive-training` | 認知促進與失智因應 | psychological.cognition |
+| `depression-support` | 憂鬱與情緒支持 | psychological.mood |
+| `delirium-awareness` | 譫妄認識與處理 | psychological.delirium |
+| `medication-safety` | 多重用藥安全 | physical.polypharmacy |
+| `geriatric-nutrition` | 長者營養 | physical.nutrition |
+| `incontinence-care` | 尿失禁照護 | physical.continence |
+| `sensory-impairment` | 視聽功能障礙因應 | physical.sensory |
+| `comorbidity-management` | 共病管理 | physical.comorbidity |
+| `advance-care-planning` | 預立醫療照護諮商（ACP） | future_wishes.advance_care_planning |
+| `treatment-preferences` | 治療意願與 DNR | future_wishes.treatment_preferences |
+| `caregiver-support` | 照顧者壓力與支持 | social.caregiver |
+| `social-connection` | 社會連結與孤立預防 | social.social_support |
+| `ltc-resources` | 經濟與長照資源 | social.financial |
+| `home-safety` | 居家安全與無障礙 | environmental.home_safety / accessibility |
+| `adl-maintenance` | 日常生活功能維持 | functional.adl / iadl |
 
 ## ❌ 禁止欄位
 
@@ -25,21 +51,16 @@
 
 - `videoUrl` — 影片網址移到 `src/data/video-catalog/<tier>.yaml`
 - `triggerIndicators` — trigger 對應移到 `src/data/education/content-relevance.yaml`
-- `format: "video"` — 走 yaml catalog，不存在 markdown 中
+- `format: "video"` / `format: "questionnaire"` — 影片走 yaml catalog；評估問卷走 scales
 
-## 影片要加在哪裡？
+## 影片與 trigger 關聯放哪裡？
 
 - **影片元資料**（title / channel / duration / sourceTier / score）→ `src/data/video-catalog/<tier>.yaml`
-- **影片對應到哪些評估結果**（cdsa.triage.refer.13-24m / cdss.spo2.critical.infant 等）→ `src/data/education/content-relevance.yaml`
+- **內容關聯**（哪個 `cga.domain.<top>.<sub>.anomaly.<cfs>` 對應哪些文章/影片、哪些領域在哪些 CFS 不適用）→ `src/data/education/content-relevance.yaml`
 
-詳見 `../video-catalog/README.md`。
+## 為什麼分兩套（markdown 文章 / yaml 影片 / yaml 關聯）
 
-## 為什麼分兩套（markdown 文章 / yaml 影片）
+歷史上一度有 markdown frontmatter 帶 `videoUrl` 的設計，但發現 markdown 缺影片元資料、trigger 表達能力不足、雙資料來源造成 UI 渲染分岔。
 
-歷史上一度有 markdown frontmatter 帶 `videoUrl` 的設計，但發現：
-
-1. Markdown 缺 channel / sourceTier / duration / view count 等影片元資料
-2. Markdown 的 `triggerIndicators: ["sugar_intake"]` 只到 indicator 名稱，無法表達完整 `cdss.sugar_intake.critical.preschool` 等 ageGroup × level × indicator
-3. 兩套並存時 UI 渲染分岔（縮圖卡 vs 純文字卡）
-
-2026-05-21 統一決策：markdown = 文章；yaml = 影片。**單一資料來源原則**由 schema + test 雙重守護。
+統一決策：**markdown = 文章；video-catalog yaml = 影片；content-relevance yaml = 關聯與適用矩陣**。
+**單一資料來源原則**由 schema + test 雙重守護。
