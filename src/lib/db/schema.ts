@@ -1,5 +1,7 @@
 import Dexie, { type Table } from 'dexie';
 import type { RiskLevel } from '../utils/risk-levels';
+import type { CfsLevel } from '../utils/cfs-levels';
+import type { ScaleResult } from '../scales/scale';
 
 export type { RiskLevel };
 export type AlertStatus = 'open' | 'acknowledged' | 'false_positive' | 'resolved';
@@ -100,8 +102,6 @@ export interface WebhookHistoryEntry {
 
 export type AssessmentStatus = 'started' | 'paused' | 'resumed' | 'completed' | 'incomplete';
 
-export type AgeGroupCDSA = '2-6m' | '7-12m' | '13-24m' | '25-36m' | '37-48m' | '49-60m' | '61-72m';
-
 export interface Child {
   id: string;
   birthDate: string;
@@ -113,6 +113,8 @@ export interface Child {
 export interface Assessment {
   id: string;
   childId: string;
+  /** 分層軸：入口 gate 判定的 CFS 等級（取代兒科 ageGroup）。 */
+  cfsLevel: CfsLevel;
   status: AssessmentStatus;
   language: string;
   currentStep: number;
@@ -120,25 +122,13 @@ export interface Assessment {
   completedAt?: Date;
   pausedAt?: Date;
   triageResult?: {
-    category: 'normal' | 'monitor' | 'refer';
-    confidence: number;
+    /** 整體分流＝取最嚴重領域（含 incomplete）。 */
+    category: 'normal' | 'monitor' | 'refer' | 'incomplete';
     summary: string;
-    /** Optional full per-metric breakdown. Populated by the parent flow so
-     *  the standalone /result/?id= page can render the radar without
-     *  recomputing triage. Older records (saved before this field was
-     *  added) won't have it; UI should fall back to a summary-only view. */
-    details?: Array<{
-      domain: string;
-      metric: string;
-      value: number;
-      zScore: number | null;
-      directionalZ: number | null;
-      normMean?: number | null;
-      normStd?: number | null;
-      maxScore?: number | null;
-      isAnomaly: boolean;
-    }>;
-    anomalyCount?: number;
+    /** Per-scale breakdown. Populated by the parent flow so the standalone
+     *  /result/?id= page can render the radar without recomputing triage.
+     *  Older records won't have it; UI falls back to a summary-only view. */
+    details?: ScaleResult[];
   };
   fhirSubmitted: boolean;
   fhirDiagnosticReportId?: string;
@@ -147,8 +137,6 @@ export interface Assessment {
   /** Origin of the record. Undefined / 'idb' = produced on this device.
    *  'fhir-cache' = pulled from FHIR server by the cross-device resolver and cached locally. */
   _source?: 'idb' | 'fhir-cache';
-  /** v5: when true, run all modules regardless of questionnaire score; default false. */
-  forceFullAssessment?: boolean;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -179,16 +167,6 @@ export interface MediaFile {
   duration?: number;
   processed: boolean;
   createdAt: Date;
-}
-
-export interface NormThreshold {
-  id: string;
-  ageGroup: AgeGroupCDSA;
-  metric: string;
-  mean: number;
-  std: number;
-  source: string;
-  updatedAt: Date;
 }
 
 export interface CustomEducation {
@@ -264,12 +242,13 @@ export class CdssDatabase extends Dexie {
   assessments!: Table<Assessment>;
   assessmentEvents!: Table<AssessmentEvent>;
   mediaFiles!: Table<MediaFile>;
-  normThresholds!: Table<NormThreshold>;
   customEducation!: Table<CustomEducation>;
   tenantSettings!: Table<TenantSettings>;
   recommendationOverlays!: Table<RecommendationOverlay>;
 
   constructor() {
+    // smart-geri-cds 為全新 DB 名（刻意不遷兒科資料），版本鏈重置為乾淨 v1。
+    // 移除 normThresholds 表/index；assessments 沿用既有 index（cfsLevel 非索引欄）。
     super('smart-geri-cds');
     this.version(1).stores({
       patients: 'id, ageGroup, currentRiskLevel, lastSyncedAt',
@@ -281,88 +260,13 @@ export class CdssDatabase extends Dexie {
       educationInteractions: 'id, contentSlug, createdAt',
       ruleVersions: 'id, createdAt',
       webhookHistory: 'id, webhookId, alertId, createdAt',
-    });
-    this.version(2).stores({
-      // Repeat ALL v1 stores exactly as they are
-      patients: 'id, ageGroup, currentRiskLevel, lastSyncedAt',
-      observations: 'id, patientId, indicator, effectiveDateTime, [patientId+indicator]',
-      alerts: 'id, patientId, riskLevel, status, createdAt, [patientId+status]',
-      baselines: '[patientId+indicator], patientId, updatedAt',
-      syncQueue: 'id, createdAt',
-      serverConfigs: 'id, lastUsedAt',
-      educationInteractions: 'id, contentSlug, createdAt',
-      ruleVersions: 'id, createdAt',
-      webhookHistory: 'id, webhookId, alertId, createdAt',
-      // New v2 stores
       children: 'id, createdAt',
       assessments: 'id, childId, status, createdAt, [childId+status]',
       assessmentEvents: 'id, assessmentId, childId, moduleType, timestamp, [assessmentId+moduleType]',
       mediaFiles: 'id, assessmentId, childId, fileType, createdAt, [assessmentId+fileType]',
-      normThresholds: 'id, ageGroup, metric, [ageGroup+metric]',
-    });
-    this.version(3).stores({
-      // Repeat ALL v2 stores exactly as they are
-      patients: 'id, ageGroup, currentRiskLevel, lastSyncedAt',
-      observations: 'id, patientId, indicator, effectiveDateTime, [patientId+indicator]',
-      alerts: 'id, patientId, riskLevel, status, createdAt, [patientId+status]',
-      baselines: '[patientId+indicator], patientId, updatedAt',
-      syncQueue: 'id, createdAt',
-      serverConfigs: 'id, lastUsedAt',
-      educationInteractions: 'id, contentSlug, createdAt',
-      ruleVersions: 'id, createdAt',
-      webhookHistory: 'id, webhookId, alertId, createdAt',
-      children: 'id, createdAt',
-      assessments: 'id, childId, status, createdAt, [childId+status]',
-      assessmentEvents: 'id, assessmentId, childId, moduleType, timestamp, [assessmentId+moduleType]',
-      mediaFiles: 'id, assessmentId, childId, fileType, createdAt, [assessmentId+fileType]',
-      normThresholds: 'id, ageGroup, metric, [ageGroup+metric]',
-      // New v3 stores
-      customEducation: 'id, tenantId, category, isActive, [tenantId+isActive]',
-      tenantSettings: 'id, tenantId',
-    });
-    this.version(4).stores({
-      // Repeat ALL v3 stores exactly as they are
-      patients: 'id, ageGroup, currentRiskLevel, lastSyncedAt',
-      observations: 'id, patientId, indicator, effectiveDateTime, [patientId+indicator]',
-      alerts: 'id, patientId, riskLevel, status, createdAt, [patientId+status]',
-      baselines: '[patientId+indicator], patientId, updatedAt',
-      syncQueue: 'id, createdAt',
-      serverConfigs: 'id, lastUsedAt',
-      educationInteractions: 'id, contentSlug, createdAt',
-      ruleVersions: 'id, createdAt',
-      webhookHistory: 'id, webhookId, alertId, createdAt',
-      children: 'id, createdAt',
-      assessments: 'id, childId, status, createdAt, [childId+status]',
-      assessmentEvents: 'id, assessmentId, childId, moduleType, timestamp, [assessmentId+moduleType]',
-      mediaFiles: 'id, assessmentId, childId, fileType, createdAt, [assessmentId+fileType]',
-      normThresholds: 'id, ageGroup, metric, [ageGroup+metric]',
-      customEducation: 'id, tenantId, category, isActive, [tenantId+isActive]',
-      tenantSettings: 'id, tenantId',
-      // New v4 store
-      recommendationOverlays: 'id, tenantId, category, domain, [tenantId+category+domain]',
-    });
-    this.version(5).stores({
-      patients: 'id, ageGroup, currentRiskLevel, lastSyncedAt',
-      observations: 'id, patientId, indicator, effectiveDateTime, [patientId+indicator]',
-      alerts: 'id, patientId, riskLevel, status, createdAt, [patientId+status]',
-      baselines: '[patientId+indicator], patientId, updatedAt',
-      syncQueue: 'id, createdAt',
-      serverConfigs: 'id, lastUsedAt',
-      educationInteractions: 'id, contentSlug, createdAt',
-      ruleVersions: 'id, createdAt',
-      webhookHistory: 'id, webhookId, alertId, createdAt',
-      children: 'id, createdAt',
-      assessments: 'id, childId, status, createdAt, [childId+status]',
-      assessmentEvents: 'id, assessmentId, childId, moduleType, timestamp, [assessmentId+moduleType]',
-      mediaFiles: 'id, assessmentId, childId, fileType, createdAt, [assessmentId+fileType]',
-      normThresholds: 'id, ageGroup, metric, [ageGroup+metric]',
       customEducation: 'id, tenantId, category, isActive, [tenantId+isActive]',
       tenantSettings: 'id, tenantId',
       recommendationOverlays: 'id, tenantId, category, domain, [tenantId+category+domain]',
-    }).upgrade(async tx => {
-      await tx.table('assessments').toCollection().modify(a => {
-        a.forceFullAssessment = false;
-      });
     });
   }
 }
