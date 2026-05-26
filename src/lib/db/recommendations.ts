@@ -1,38 +1,44 @@
 import { db, type RecommendationOverlay, type RecommendationItem, type RecommendationCategory } from './schema';
 import { getCustomEducation } from './custom-education';
 import { loadVideoIndex } from '../education/index-loader';
-import { CDSA_DOMAIN_NAMES } from '../education/schemas';
-import type { AgeGroupCDSA } from '../utils/age-groups';
+import { DOMAIN_TREE, DOMAIN_TOPS } from '../domain/domain-tree';
+import type { CfsLevel } from '../utils/cfs-levels';
 
-export const DOMAINS = CDSA_DOMAIN_NAMES;
+// 全部二層子項（`top.sub`）為 recommendations 維度；單一源於 domain-tree。
+export const DOMAINS: string[] = DOMAIN_TOPS.flatMap(
+  top => DOMAIN_TREE[top].map(sub => `${top}.${sub}`),
+);
 
+// RecommendationCategory 即 severity 列舉（normal | monitor | refer）。
+// incomplete 不進此處（排除於 recommendations 查詢）。
 export const CATEGORIES: RecommendationCategory[] = ['normal', 'monitor', 'refer'];
 
-export type Domain = typeof DOMAINS[number];
+export type Domain = string;
 
 function buildId(tenantId: string, category: RecommendationCategory, domain: string): string {
   return `${tenantId}::${category}::${domain}`;
 }
 
 /**
- * Get the default recommendation list for one cell (category × domain × ageGroup).
- * Reads from the unified video-index.json (age-aware).
+ * Get the default recommendation list for one cell (severity × top.sub × cfsLevel).
+ * Reads from the unified video-index.json (cfs-aware).
  * Returns empty array if no default is defined.
+ * Key: `${severity}::${top.sub}::${cfsLevel}`.
  */
 export async function getDefaultRecommendations(
   category: RecommendationCategory,
   domain: string,
-  ageGroup: AgeGroupCDSA,
+  cfsLevel: CfsLevel,
 ): Promise<RecommendationItem[]> {
   const idx = await loadVideoIndex();
-  const key = `${category}::${domain}::${ageGroup}`;
+  const key = `${category}::${domain}::${cfsLevel}`;
   return (idx.recommendations[key] ?? []) as RecommendationItem[];
 }
 
 /**
  * Load the tenant overlay for one cell, if any.
  * Returns null when the tenant has not customised that cell.
- * Key is 3-part (tenant::category::domain) — age-independent.
+ * Key is 3-part (tenant::category::top.sub) — cfs-independent.
  */
 export async function getOverlay(
   tenantId: string,
@@ -45,7 +51,7 @@ export async function getOverlay(
 
 /**
  * Save (upsert) a tenant overlay.
- * Key remains 3-part (age-independent) — no IndexedDB migration required.
+ * Key remains 3-part (cfs-independent) — no IndexedDB migration required.
  */
 export async function saveOverlay(
   tenantId: string,
@@ -85,8 +91,8 @@ export async function getAllOverlays(tenantId: string): Promise<RecommendationOv
 }
 
 /**
- * Merge default + tenant overlay for one cell (age-aware defaults, age-independent overlay).
- * - No overlay → default items (age-specific from index).
+ * Merge default + tenant overlay for one cell (cfs-aware defaults, cfs-independent overlay).
+ * - No overlay → default items (cfs-specific from index).
  * - Overlay with mergeWithDefault=true → default items + overlay items (deduped by source-key).
  * - Overlay with mergeWithDefault=false → overlay items only (full replace).
  */
@@ -94,10 +100,10 @@ export async function mergeRecommendations(
   tenantId: string,
   category: RecommendationCategory,
   domain: string,
-  ageGroup: AgeGroupCDSA,
+  cfsLevel: CfsLevel,
 ): Promise<RecommendationItem[]> {
   const overlay = await getOverlay(tenantId, category, domain);
-  const defaults = await getDefaultRecommendations(category, domain, ageGroup);
+  const defaults = await getDefaultRecommendations(category, domain, cfsLevel);
 
   if (!overlay) return defaults;
 
@@ -120,21 +126,34 @@ export async function mergeRecommendations(
   return out;
 }
 
+/** Per-domain severity input for {@link mergeRecommendationsForContext}. */
+export interface PerDomainSeverity {
+  /** `${top}.${sub}` key. */
+  domain: string;
+  /** Per-domain severity. `incomplete` is excluded from the query. */
+  severity: RecommendationCategory | 'incomplete';
+}
+
 /**
- * Merge across multiple domains for a single category — used by ResultView
- * (called once per assessment with the anomaly-domain list and the child's ageGroup).
- * Items are deduped across domains by the same composite key.
+ * Merge recommendations across multiple domains, each with its OWN severity —
+ * used by the result page (called once per assessment with the per-domain
+ * severity list and the subject's CFS level).
+ *
+ * New axis model (M4): the result page produces one severity per `top.sub`,
+ * so we query each domain at its own severity, not a single overall category.
+ * `incomplete` domains are EXCLUDED (no recommendation query). Items are
+ * deduped across domains by the same composite source key.
  */
 export async function mergeRecommendationsForContext(
   tenantId: string,
-  category: RecommendationCategory,
-  domains: string[],
-  ageGroup: AgeGroupCDSA,
+  perDomain: PerDomainSeverity[],
+  cfsLevel: CfsLevel,
 ): Promise<RecommendationItem[]> {
   const seen = new Set<string>();
   const out: RecommendationItem[] = [];
-  for (const domain of domains) {
-    const items = await mergeRecommendations(tenantId, category, domain, ageGroup);
+  for (const { domain, severity } of perDomain) {
+    if (severity === 'incomplete') continue;
+    const items = await mergeRecommendations(tenantId, severity, domain, cfsLevel);
     for (const item of items) {
       const key = itemKey(item);
       if (!seen.has(key)) {
