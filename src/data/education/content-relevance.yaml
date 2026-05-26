@@ -69,7 +69,10 @@ triggers:
         severities:
           - refer
   - trigger: cdsa.domain.cognition.anomaly.13-24m
-    videoIds: []
+    videoIds:
+      - csQmPzAP0z4
+      - ciXeOePs_Qo
+      - Ji9p7HpBtDg
     articles:
       - slug: cognitive-play
         severities:
@@ -80,7 +83,10 @@ triggers:
         severities:
           - refer
   - trigger: cdsa.domain.cognition.anomaly.25-36m
-    videoIds: []
+    videoIds:
+      - csQmPzAP0z4
+      - ciXeOePs_Qo
+      - "-s2Tuk7l63I"
     articles:
       - slug: cognitive-play
         severities:
@@ -91,7 +97,10 @@ triggers:
         severities:
           - refer
   - trigger: cdsa.domain.cognition.anomaly.37-48m
-    videoIds: []
+    videoIds:
+      - ciXeOePs_Qo
+      - nLIBXYAx11Q
+      - C77ZGOhIwAQ
     articles:
       - slug: cognitive-play
         severities:
@@ -102,7 +111,9 @@ triggers:
         severities:
           - refer
   - trigger: cdsa.domain.cognition.anomaly.49-60m
-    videoIds: []
+    videoIds:
+      - nLIBXYAx11Q
+      - C77ZGOhIwAQ
     articles:
       - slug: cognitive-play
         severities:
@@ -113,7 +124,9 @@ triggers:
         severities:
           - refer
   - trigger: cdsa.domain.cognition.anomaly.61-72m
-    videoIds: []
+    videoIds:
+      - nLIBXYAx11Q
+      - C77ZGOhIwAQ
     articles:
       - slug: cognitive-play
         severities:
@@ -124,7 +137,9 @@ triggers:
         severities:
           - refer
   - trigger: cdsa.domain.fine_motor.anomaly.13-24m
-    videoIds: []
+    videoIds:
+      - QjlIXRUqzoE
+      - Ji9p7HpBtDg
     articles:
       - slug: fine-motor-activities
         severities:
@@ -135,7 +150,9 @@ triggers:
         severities:
           - refer
   - trigger: cdsa.domain.fine_motor.anomaly.25-36m
-    videoIds: []
+    videoIds:
+      - QjlIXRUqzoE
+      - 80aOAdwa5_0
     articles:
       - slug: fine-motor-activities
         severities:
@@ -146,7 +163,9 @@ triggers:
         severities:
           - refer
   - trigger: cdsa.domain.fine_motor.anomaly.37-48m
-    videoIds: []
+    videoIds:
+      - 80aOAdwa5_0
+      - bWuhwQUJ7uI
     articles:
       - slug: fine-motor-activities
         severities:
@@ -157,7 +176,10 @@ triggers:
         severities:
           - refer
   - trigger: cdsa.domain.fine_motor.anomaly.49-60m
-    videoIds: []
+    videoIds:
+      - 80aOAdwa5_0
+      - zxVBC48maNU
+      - bWuhwQUJ7uI
     articles:
       - slug: fine-motor-activities
         severities:
@@ -168,7 +190,9 @@ triggers:
         severities:
           - refer
   - trigger: cdsa.domain.fine_motor.anomaly.61-72m
-    videoIds: []
+    videoIds:
+      - zxVBC48maNU
+      - bWuhwQUJ7uI
     articles:
       - slug: fine-motor-activities
         severities:
@@ -179,7 +203,9 @@ triggers:
         severities:
           - refer
   - trigger: cdsa.domain.fine_motor.anomaly.7-12m
-    videoIds: []
+    videoIds:
+      - QjlIXRUqzoE
+      - Ji9p7HpBtDg
     articles:
       - slug: fine-motor-activities
         severities:
@@ -190,7 +216,9 @@ triggers:
         severities:
           - refer
   - trigger: cdsa.domain.gross_motor.anomaly.13-24m
-    videoIds: []
+    videoIds:
+      - DpRYnBPi_dg
+      - "-s2Tuk7l63I"
     articles:
       - slug: exercise-guide
         severities:
@@ -205,7 +233,9 @@ triggers:
         severities:
           - refer
   - trigger: cdsa.domain.gross_motor.anomaly.2-6m
-    videoIds: []
+    videoIds:
+      - DpRYnBPi_dg
+      - 9U8VnfqIYF4
     articles:
       - slug: exercise-guide
         severities:
@@ -220,7 +250,9 @@ triggers:
         severities:
           - refer
   - trigger: cdsa.domain.gross_motor.anomaly.25-36m
-    videoIds: []
+    videoIds:
+      - "-s2Tuk7l63I"
+      - DpRYnBPi_dg
     articles:
       - slug: exercise-guide
         severities:
@@ -235,7 +267,8 @@ triggers:
         severities:
           - refer
   - trigger: cdsa.domain.gross_motor.anomaly.37-48m
-    videoIds: []
+    videoIds:
+      - "-s2Tuk7l63I"
     articles:
       - slug: exercise-guide
         severities:
@@ -250,7 +283,8 @@ triggers:
         severities:
           - refer
   - trigger: cdsa.domain.gross_motor.anomaly.49-60m
-    videoIds: []
+    videoIds:
+      - "-s2Tuk7l63I"
     articles:
       - slug: exercise-guide
         severities:
@@ -265,7 +299,8 @@ triggers:
         severities:
           - refer
   - trigger: cdsa.domain.gross_motor.anomaly.61-72m
-    videoIds: []
+    videoIds:
+      - "-s2Tuk7l63I"
     articles:
       - slug: exercise-guide
         severities:
@@ -280,7 +315,10 @@ triggers:
         severities:
           - refer
   - trigger: cdsa.domain.gross_motor.anomaly.7-12m
-    videoIds: []
+    videoIds:
+      - O5Xe8cFHolc
+      - 9U8VnfqIYF4
+      - DpRYnBPi_dg
     articles:
       - slug: exercise-guide
         severities:
@@ -456,7 +494,9 @@ triggers:
         severities:
           - refer
   - trigger: cdsa.domain.social_emotional.anomaly.13-24m
-    videoIds: []
+    videoIds:
+      - B8ozZqQyB7E
+      - OjcwWrVIJHc
     articles:
       - slug: social-emotional-guide
         severities:
@@ -467,7 +507,9 @@ triggers:
         severities:
           - refer
   - trigger: cdsa.domain.social_emotional.anomaly.25-36m
-    videoIds: []
+    videoIds:
+      - B8ozZqQyB7E
+      - OjcwWrVIJHc
     articles:
       - slug: social-emotional-guide
         severities:
@@ -478,7 +520,10 @@ triggers:
         severities:
           - refer
   - trigger: cdsa.domain.social_emotional.anomaly.37-48m
-    videoIds: []
+    videoIds:
+      - OjcwWrVIJHc
+      - UEk0sO93NnE
+      - pmci326_57Q
     articles:
       - slug: social-emotional-guide
         severities:
@@ -489,7 +534,10 @@ triggers:
         severities:
           - refer
   - trigger: cdsa.domain.social_emotional.anomaly.49-60m
-    videoIds: []
+    videoIds:
+      - UEk0sO93NnE
+      - mLocMGU1Z3U
+      - pmci326_57Q
     articles:
       - slug: social-emotional-guide
         severities:
@@ -500,7 +548,10 @@ triggers:
         severities:
           - refer
   - trigger: cdsa.domain.social_emotional.anomaly.61-72m
-    videoIds: []
+    videoIds:
+      - UEk0sO93NnE
+      - mLocMGU1Z3U
+      - pmci326_57Q
     articles:
       - slug: social-emotional-guide
         severities:
@@ -511,7 +562,8 @@ triggers:
         severities:
           - refer
   - trigger: cdsa.domain.social_emotional.anomaly.7-12m
-    videoIds: []
+    videoIds:
+      - OjcwWrVIJHc
     articles:
       - slug: social-emotional-guide
         severities:

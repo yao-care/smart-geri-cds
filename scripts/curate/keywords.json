@@ -63,6 +63,198 @@
     "maxDuration": 1500,
     "timeSensitive": false
   },
+  "cdsa.domain.gross_motor.anomaly.2-6m": {
+    "primary": ["嬰兒 粗動作 大動作 發展 0-6個月", "寶寶 趴趴 頭部控制 翻身 衛教", "嬰兒 動作發展 遲緩 早療"],
+    "secondary": ["infant gross motor development 0-6 months"],
+    "educationSlug": "gross-motor-activities",
+    "minDuration": 120,
+    "maxDuration": 1800,
+    "timeSensitive": false
+  },
+  "cdsa.domain.gross_motor.anomaly.7-12m": {
+    "primary": ["嬰兒 大動作 爬行 站立 7-12個月 發展", "寶寶 爬爬 站立 扶走 發展遲緩", "嬰兒 粗動作 發展 衛教"],
+    "secondary": ["infant crawling standing gross motor 7-12 months"],
+    "educationSlug": "gross-motor-activities",
+    "minDuration": 120,
+    "maxDuration": 1800,
+    "timeSensitive": false
+  },
+  "cdsa.domain.gross_motor.anomaly.13-24m": {
+    "primary": ["幼兒 學走路 大動作 發展遲緩 衛教", "1歲 2歲 走路 平衡 動作發展", "幼兒 粗動作 運動 發展 黃瑽寧"],
+    "secondary": ["toddler walking gross motor development delay"],
+    "educationSlug": "gross-motor-activities",
+    "minDuration": 120,
+    "maxDuration": 1800,
+    "timeSensitive": false
+  },
+  "cdsa.domain.gross_motor.anomaly.25-36m": {
+    "primary": ["幼兒 跑步 跳躍 動作發展 2歲 3歲", "學齡前 粗動作 平衡 體能遊戲 衛教", "幼兒 大動作 發展遲緩 早療"],
+    "secondary": ["toddler preschool running jumping gross motor"],
+    "educationSlug": "gross-motor-activities",
+    "minDuration": 120,
+    "maxDuration": 1800,
+    "timeSensitive": false
+  },
+  "cdsa.domain.gross_motor.anomaly.37-48m": {
+    "primary": ["學齡前 動作發展 3歲 4歲 體能活動", "兒童 平衡感 協調能力 大動作 衛教", "學齡前 粗動作 發展遲緩 早療 黃瑽寧"],
+    "secondary": ["preschool gross motor coordination balance activities"],
+    "educationSlug": "gross-motor-activities",
+    "minDuration": 120,
+    "maxDuration": 1800,
+    "timeSensitive": false
+  },
+  "cdsa.domain.gross_motor.anomaly.49-60m": {
+    "primary": ["4歲 5歲 體能遊戲 動作發展 衛教", "學齡前 粗動作 跑跳 協調 發展", "兒童 大動作 運動 發展遲緩 早療"],
+    "secondary": ["preschool gross motor activities 4-5 years"],
+    "educationSlug": "gross-motor-activities",
+    "minDuration": 120,
+    "maxDuration": 1800,
+    "timeSensitive": false
+  },
+  "cdsa.domain.gross_motor.anomaly.61-72m": {
+    "primary": ["5歲 6歲 動作發展 體能 學齡前 衛教", "入學前 大動作 運動 協調能力 兒童", "學齡前 粗動作 發展遲緩 早療"],
+    "secondary": ["school-ready gross motor coordination preschool"],
+    "educationSlug": "gross-motor-activities",
+    "minDuration": 120,
+    "maxDuration": 1800,
+    "timeSensitive": false
+  },
+  "cdsa.domain.fine_motor.anomaly.7-12m": {
+    "primary": ["嬰兒 手部發展 抓握 精細動作 7-12個月", "寶寶 手眼協調 玩具 抓取 衛教", "嬰兒 精細動作 發展 遲緩"],
+    "secondary": ["infant fine motor grasping hand development"],
+    "educationSlug": "fine-motor-activities",
+    "minDuration": 120,
+    "maxDuration": 1800,
+    "timeSensitive": false
+  },
+  "cdsa.domain.fine_motor.anomaly.13-24m": {
+    "primary": ["幼兒 精細動作 手眼協調 1歲 2歲 衛教", "寶寶 堆疊積木 塗鴉 手部發展", "幼兒 精細動作 發展遲緩 早療"],
+    "secondary": ["toddler fine motor hand-eye coordination stacking"],
+    "educationSlug": "fine-motor-activities",
+    "minDuration": 120,
+    "maxDuration": 1800,
+    "timeSensitive": false
+  },
+  "cdsa.domain.fine_motor.anomaly.25-36m": {
+    "primary": ["幼兒 精細動作 剪刀 畫畫 2歲 3歲 衛教", "學齡前 手眼協調 精細動作 發展", "幼兒 塗鴉 串珠 精細動作 遲緩"],
+    "secondary": ["toddler fine motor scissors drawing activity"],
+    "educationSlug": "fine-motor-activities",
+    "minDuration": 120,
+    "maxDuration": 1800,
+    "timeSensitive": false
+  },
+  "cdsa.domain.fine_motor.anomaly.37-48m": {
+    "primary": ["學齡前 精細動作 剪貼 繪畫 3歲 4歲", "兒童 手眼協調 精細動作 發展 衛教", "學齡前 精細動作 發展遲緩 早療"],
+    "secondary": ["preschool fine motor cutting drawing crafts"],
+    "educationSlug": "fine-motor-activities",
+    "minDuration": 120,
+    "maxDuration": 1800,
+    "timeSensitive": false
+  },
+  "cdsa.domain.fine_motor.anomaly.49-60m": {
+    "primary": ["4歲 5歲 精細動作 書寫準備 剪貼 手部", "學齡前 手眼協調 書前技巧 精細動作", "兒童 精細動作 發展遲緩 早療 衛教"],
+    "secondary": ["preschool fine motor pre-writing skills 4-5 years"],
+    "educationSlug": "fine-motor-activities",
+    "minDuration": 120,
+    "maxDuration": 1800,
+    "timeSensitive": false
+  },
+  "cdsa.domain.fine_motor.anomaly.61-72m": {
+    "primary": ["5歲 6歲 精細動作 書寫 剪貼 學齡前 衛教", "入學前 手眼協調 精細動作 發展 兒童", "學齡前 精細動作 發展遲緩 入學準備"],
+    "secondary": ["school-ready fine motor writing skills preschool"],
+    "educationSlug": "fine-motor-activities",
+    "minDuration": 120,
+    "maxDuration": 1800,
+    "timeSensitive": false
+  },
+  "cdsa.domain.cognition.anomaly.13-24m": {
+    "primary": ["幼兒 認知發展 1歲 2歲 玩具 遊戲 衛教", "寶寶 認知遊戲 配對 因果 發展 黃瑽寧", "幼兒 認知 發展遲緩 早療 衛教"],
+    "secondary": ["toddler cognitive development play 12-24 months"],
+    "educationSlug": "cognitive-play",
+    "minDuration": 120,
+    "maxDuration": 1800,
+    "timeSensitive": false
+  },
+  "cdsa.domain.cognition.anomaly.25-36m": {
+    "primary": ["幼兒 認知發展 2歲 3歲 配對 分類 遊戲", "學齡前 認知 專注力 記憶力 發展 衛教", "幼兒 認知 發展遲緩 早療"],
+    "secondary": ["toddler cognitive development matching sorting 2-3 years"],
+    "educationSlug": "cognitive-play",
+    "minDuration": 120,
+    "maxDuration": 1800,
+    "timeSensitive": false
+  },
+  "cdsa.domain.cognition.anomaly.37-48m": {
+    "primary": ["學齡前 認知遊戲 專注力 3歲 4歲 衛教", "兒童 認知發展 分類 思考 問題解決 遊戲", "學齡前 認知 發展遲緩 早療 黃瑽寧"],
+    "secondary": ["preschool cognitive development attention problem-solving"],
+    "educationSlug": "cognitive-play",
+    "minDuration": 120,
+    "maxDuration": 1800,
+    "timeSensitive": false
+  },
+  "cdsa.domain.cognition.anomaly.49-60m": {
+    "primary": ["4歲 5歲 認知遊戲 記憶 推理 學齡前 衛教", "兒童 認知發展 專注力 學前準備 遊戲", "學齡前 認知 發展遲緩 入學準備 早療"],
+    "secondary": ["preschool cognitive development memory reasoning 4-5 years"],
+    "educationSlug": "cognitive-play",
+    "minDuration": 120,
+    "maxDuration": 1800,
+    "timeSensitive": false
+  },
+  "cdsa.domain.cognition.anomaly.61-72m": {
+    "primary": ["5歲 6歲 認知發展 入學準備 邏輯 衛教", "學齡前 認知遊戲 專注力 問題解決 入學", "兒童 認知 發展遲緩 早療 衛教"],
+    "secondary": ["school-ready cognitive development logic preschool"],
+    "educationSlug": "cognitive-play",
+    "minDuration": 120,
+    "maxDuration": 1800,
+    "timeSensitive": false
+  },
+  "cdsa.domain.social_emotional.anomaly.7-12m": {
+    "primary": ["嬰兒 社交發展 依附 情緒 7-12個月 衛教", "寶寶 陌生人焦慮 社交 互動 發展", "嬰兒 情緒發展 親子互動 依附關係"],
+    "secondary": ["infant social emotional development attachment 7-12 months"],
+    "educationSlug": "social-emotional-guide",
+    "minDuration": 120,
+    "maxDuration": 1800,
+    "timeSensitive": false
+  },
+  "cdsa.domain.social_emotional.anomaly.13-24m": {
+    "primary": ["幼兒 情緒發展 社交 1歲 2歲 衛教 黃瑽寧", "寶寶 情緒管理 發脾氣 分離焦慮 衛教", "幼兒 社交 情緒 發展遲緩 早療"],
+    "secondary": ["toddler social emotional development tantrums"],
+    "educationSlug": "social-emotional-guide",
+    "minDuration": 120,
+    "maxDuration": 1800,
+    "timeSensitive": false
+  },
+  "cdsa.domain.social_emotional.anomaly.25-36m": {
+    "primary": ["幼兒 情緒管理 分享 同伴 2歲 3歲 衛教", "學齡前 社交發展 情緒 自我調節 遊戲", "幼兒 社交 情緒 發展遲緩 早療 黃瑽寧"],
+    "secondary": ["toddler preschool social sharing emotional regulation"],
+    "educationSlug": "social-emotional-guide",
+    "minDuration": 120,
+    "maxDuration": 1800,
+    "timeSensitive": false
+  },
+  "cdsa.domain.social_emotional.anomaly.37-48m": {
+    "primary": ["學齡前 情緒管理 同理心 3歲 4歲 衛教", "兒童 情緒辨識 社交技巧 朋友 遊戲", "學齡前 社交 情緒 發展遲緩 早療"],
+    "secondary": ["preschool emotional regulation empathy social skills"],
+    "educationSlug": "social-emotional-guide",
+    "minDuration": 120,
+    "maxDuration": 1800,
+    "timeSensitive": false
+  },
+  "cdsa.domain.social_emotional.anomaly.49-60m": {
+    "primary": ["4歲 5歲 情緒管理 社交技巧 同理心 衛教", "學齡前 兒童 情緒 朋友 合作 遊戲 發展", "學齡前 社交 情緒 發展遲緩 早療 衛教"],
+    "secondary": ["preschool social skills empathy cooperation 4-5 years"],
+    "educationSlug": "social-emotional-guide",
+    "minDuration": 120,
+    "maxDuration": 1800,
+    "timeSensitive": false
+  },
+  "cdsa.domain.social_emotional.anomaly.61-72m": {
+    "primary": ["5歲 6歲 情緒管理 社交 入學準備 衛教", "學齡前 兒童 情緒辨識 同理心 合作 發展", "入學前 社交 情緒 發展遲緩 早療 衛教"],
+    "secondary": ["school-ready social emotional development preschool"],
+    "educationSlug": "social-emotional-guide",
+    "minDuration": 120,
+    "maxDuration": 1800,
+    "timeSensitive": false
+  },
   "cdss.heart_rate.critical.infant": {
     "primary": ["嬰兒 心跳異常 急救", "新生兒 心跳過快 過慢 處置", "嬰兒 心律不整 衛教"],
     "secondary": ["infant heart rate emergency"],
