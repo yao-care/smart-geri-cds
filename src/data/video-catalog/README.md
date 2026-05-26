@@ -9,9 +9,9 @@
 
 ```
 src/data/video-catalog/        # 影片本身的元資料（catalog，本目錄）
-├── official-tw.yaml           # Tier 1 — 台灣官方頻道（國健署、各醫學中心、學會）
-├── international.yaml          # Tier 2 — 國際認證頻道（AAP、CDC、NHS 等）
-└── pro-kol.yaml               # Tier 3 — 醫療專業 KOL（醫師個人頻道）
+├── official-tw.yaml           # Tier 1 — 台灣官方頻道（國健署、衛福部、各醫院高齡醫學科）
+├── international.yaml          # Tier 2 — 國際認證頻道（WHO、AGS、NICE、Cleveland Clinic 等）
+└── pro-kol.yaml               # Tier 3 — 醫療專業 KOL（老年醫學/長照/失智/跌倒預防醫師頻道）
 
 src/data/education/content-relevance.yaml   # 唯一關聯源：
 #   inapplicable           哪些 領域×年齡 不評估
@@ -45,13 +45,13 @@ src/data/education/content-relevance.yaml   # 唯一關聯源：
 
 ```yaml
 triggers:
-  - trigger: cdss.sugar_intake.critical.infant
-    videoIds: [MwGCCsMcegw, xvI_F3cPEvI]
+  - trigger: cga.domain.functional.falls.anomaly.cfs4
+    videoIds: []
     articles:
-      - { slug: diet-control }
+      - { slug: fall-prevention }
 ```
 
-trigger 字串格式：`cdsa.domain.<領域>.anomaly.<年齡>`、`cdsa.triage.<類別>.<年齡>`、`cdss.<指標>.<層級>.<年齡>`。
+trigger 字串格式：`cga.domain.<top>.<sub>.anomaly.<cfs>`（高齡周全性評估 CGA）。
 
 ## 維護流程（新增影片）
 

@@ -1,11 +1,8 @@
 {
-  "_comment": "Real channel IDs verified via yt-dlp 2026-05-20. Phase 4 operator may add more.",
+  "_comment": "Phase 4 operator: 請加入已驗證的高齡醫學/長照/失智/跌倒預防頻道（需 yt-dlp 驗證 channelId）。現有條目已 yt-dlp 驗證。",
   "official-tw": [
-    { "tag": "@HPATaiwan", "channelId": "UChBzG9Gk6MmTZ6RAkdPozow", "name": "衛生福利部國民健康署" }
+    { "tag": "@HPATaiwan", "channelId": "UChBzG9Gk6MmTZ6RAkdPozow", "name": "衛生福利部國民健康署（含高齡健康/長照資訊）" }
   ],
   "international": [],
-  "pro-kol": [
-    { "tag": "@DrTNHuang", "channelId": "UCkha3wg7As4t9duOzre5HcQ", "name": "黃瑽寧醫師健康講堂" },
-    { "tag": "@GoodMD", "channelId": "UCVc43o4svP9fCsfIj9oML1A", "name": "黃瑽寧愛+好醫生 (GOOD TV)" }
-  ]
+  "pro-kol": []
 }

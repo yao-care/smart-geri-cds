@@ -33,9 +33,9 @@
     { value: 'diet', label: '飲食營養' },
     { value: 'sleep', label: '睡眠' },
     { value: 'respiratory', label: '呼吸照護' },
-    { value: 'exercise', label: '運動發展' },
-    { value: 'milestone', label: '發展里程碑' },
-    { value: 'general', label: '一般衛教' },
+    { value: 'exercise', label: '運動復健' },
+    { value: 'milestone', label: '里程碑' },
+    { value: 'general', label: '高齡照護' },
   ];
 
   const ageGroupOptions = [

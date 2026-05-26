@@ -41,8 +41,8 @@
 
       <dt>評估</dt>
       <dd>
-        所有 CDSA 兒童發展智慧評估報告，依分流（建議轉介 / 追蹤觀察 / 正常）分組。
-        <strong>本機模式也能用</strong> — 沒登入時讀此裝置 IndexedDB 內的家長端測試資料。
+        所有 CGA 高齡周全性評估報告，依分流（建議轉介 / 追蹤觀察 / 正常）分組。
+        <strong>本機模式也能用</strong> — 沒登入時讀此裝置 IndexedDB 內的本地測試資料。
       </dd>
 
       <dt>使用說明</dt>
@@ -51,13 +51,13 @@
   </section>
 
   <section>
-    <h3>看一份 CDSA 評估的詳細指標</h3>
+    <h3>看一份 CGA 評估的詳細指標</h3>
     <p>
       在「評估」清單點任一筆「看詳細」，會進到
       <code>/workspace/result/?id=...</code>。頁面分三段：
     </p>
     <ol>
-      <li><strong>頂部摘要</strong>：兒童識別碼、評估日期、分流類別、資料來源（本地 / 醫院 FHIR）。</li>
+      <li><strong>頂部摘要</strong>：個案識別碼、評估日期、分流類別、資料來源（本地 / 醫院 FHIR）。</li>
       <li><strong>分流判定</strong>：類別 + 信心度 + 異常 metric 數，並附判定規則。</li>
       <li><strong>完整指標</strong>：每筆 metric 的數值 / 常模 / Z-score / 狀態。z ≤ -1.5 表示比常模差超過 1.5 個標準差。</li>
     </ol>

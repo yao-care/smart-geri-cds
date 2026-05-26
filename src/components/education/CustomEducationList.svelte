@@ -20,8 +20,8 @@
     sleep: '睡眠',
     respiratory: '呼吸',
     exercise: '運動',
-    milestone: '發展里程碑',
-    general: '一般',
+    milestone: '里程碑',
+    general: '高齡照護',
   };
 </script>
 
