@@ -270,7 +270,7 @@ export class CdssDatabase extends Dexie {
   recommendationOverlays!: Table<RecommendationOverlay>;
 
   constructor() {
-    super('cdss-pediatric');
+    super('smart-geri-cds');
     this.version(1).stores({
       patients: 'id, ageGroup, currentRiskLevel, lastSyncedAt',
       observations: 'id, patientId, indicator, effectiveDateTime, [patientId+indicator]',
