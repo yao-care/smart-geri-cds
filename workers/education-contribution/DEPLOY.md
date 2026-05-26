@@ -112,11 +112,12 @@ PUBLIC_CONTRIBUTION_WORKER_URL=https://education-contribution.<account>.workers.
 ```bash
 curl -X POST https://education-contribution.<account>.workers.dev/education-contribution \
   -H "Content-Type: application/json" \
-  -H "Origin: https://smart-pedi-cds.yao.care" \
+  -H "Origin: https://smart-geri-cds.yao.care" \
   -d '{
     "type": "youtube",
-    "domain": "language",
-    "ageGroup": "13-24m",
+    "top": "functional",
+    "sub": "falls",
+    "cfsLevel": "cfs5",
     "url": "https://www.youtube.com/watch?v=TEST_VIDEO_ID",
     "title": "測試影片"
   }'
@@ -127,19 +128,19 @@ curl -X POST https://education-contribution.<account>.workers.dev/education-cont
 預期成功回應（HTTP 201）：
 ```json
 {
-  "issueUrl": "https://github.com/yao-care/smart-pedi-cds/issues/XXX"
+  "issueUrl": "https://github.com/yao-care/smart-geri-cds/issues/XXX"
 }
 ```
 
 常見錯誤排查：
-- **CORS 錯誤**: 檢查 Origin header 是否為 `https://smart-pedi-cds.yao.care`
+- **CORS 錯誤**: 檢查 Origin header 是否為 `https://smart-geri-cds.yao.care`
 - **GitHub auth 失敗**: 確認三個密鑰（App ID、Private Key、Installation ID）已正確設置
-- **無效 payload**: 檢查 `type`、`domain`、`ageGroup` 是否在有效值清單中
+- **無效 payload**: 檢查 `type`、`top`、`sub`、`cfsLevel` 是否在有效值清單中
 
-有效值清單：
-- **type**: `youtube`, `article`, `external-link`
-- **domain**: `behavior`, `gross_motor`, `fine_motor`, `language`, `language_comprehension`, `language_expression`, `cognition`, `social_emotional`
-- **ageGroup**: `2-6m`, `7-12m`, `13-24m`, `25-36m`, `37-48m`, `49-60m`, `61-72m`
+有效值清單（CGA 二層域 × CFS）：
+- **type**: `youtube`, `article`, `external-link`, `edit-article`, `delete-article`, `delete-video`
+- **top.sub**: `physical.{comorbidity,polypharmacy,nutrition,continence,sensory}`、`psychological.{cognition,mood,delirium}`、`functional.{adl,iadl,mobility,falls}`、`social.{social_support,caregiver,financial}`、`environmental.{home_safety,accessibility}`、`future_wishes.{advance_care_planning,treatment_preferences}`
+- **cfsLevel**: `cfs1`…`cfs9`
 
 ## 持續部署
 
@@ -165,7 +166,7 @@ wrangler tail
 
 ### 無法連接到 GitHub API
 
-確保網路連線正常，GitHub API 可達。檢查 GitHub App 是否已安裝到目標 repo（`yao-care/smart-pedi-cds`）。
+確保網路連線正常，GitHub API 可達。檢查 GitHub App 是否已安裝到目標 repo（`yao-care/smart-geri-cds`）。
 
 ---
 
