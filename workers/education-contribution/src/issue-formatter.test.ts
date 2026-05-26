@@ -73,3 +73,60 @@ describe('formatIssueBody', () => {
     expect(body).toContain('Dr. Chen，台大兒科');
   });
 });
+
+describe('edit-article / delete-article / delete-video', () => {
+  it('edit-article title starts with [衛教修改] and contains targetSlug', () => {
+    const title = formatIssueTitle({
+      type: 'edit-article', domain: 'language', ageGroup: '13-24m',
+      targetSlug: 'language-delay-tips', title: '語言遲緩改版標題',
+    });
+    expect(title.startsWith('[衛教修改]')).toBe(true);
+    expect(title).toContain('language-delay-tips');
+  });
+
+  it('edit-article body contains proposed title and targetSlug', () => {
+    const body = formatIssueBody({
+      type: 'edit-article', domain: 'language', ageGroup: '13-24m',
+      targetSlug: 'language-delay-tips', title: '語言遲緩改版標題',
+      summary: '更新摘要', notes: '原文有錯誤',
+    });
+    expect(body).toContain('語言遲緩改版標題');
+    expect(body).toContain('language-delay-tips');
+  });
+
+  it('delete-article title starts with [衛教刪除文章]', () => {
+    const title = formatIssueTitle({
+      type: 'delete-article', domain: 'cognition', ageGroup: '25-36m',
+      targetSlug: 'old-cognition-article', notes: '內容過時',
+    });
+    expect(title.startsWith('[衛教刪除文章]')).toBe(true);
+    expect(title).toContain('old-cognition-article');
+  });
+
+  it('delete-video title starts with [衛教刪除影片] and shows videoTitle when provided', () => {
+    const title = formatIssueTitle({
+      type: 'delete-video', domain: 'gross_motor', ageGroup: '7-12m',
+      targetVideoId: 'abc12345678', videoTitle: '爬行練習示範', notes: '影片連結失效',
+    });
+    expect(title.startsWith('[衛教刪除影片]')).toBe(true);
+    expect(title).toContain('爬行練習示範');
+  });
+
+  it('delete-video title falls back to targetVideoId when videoTitle absent', () => {
+    const title = formatIssueTitle({
+      type: 'delete-video', domain: 'gross_motor', ageGroup: '7-12m',
+      targetVideoId: 'abc12345678', notes: '影片連結失效',
+    });
+    expect(title).toContain('abc12345678');
+  });
+
+  it('delete-video body contains deletion reason', () => {
+    const body = formatIssueBody({
+      type: 'delete-video', domain: 'gross_motor', ageGroup: '7-12m',
+      targetVideoId: 'abc12345678', videoTitle: '爬行練習示範',
+      notes: '影片連結已失效，請移除',
+    });
+    expect(body).toContain('影片連結已失效，請移除');
+    expect(body).toContain('abc12345678');
+  });
+});

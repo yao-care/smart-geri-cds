@@ -11,7 +11,7 @@ interface Env {
   GITHUB_REPO: string;
 }
 
-const VALID_TYPES = new Set(['youtube', 'article', 'external-link']);
+const VALID_TYPES = new Set(['youtube', 'article', 'external-link', 'edit-article', 'delete-article', 'delete-video']);
 const VALID_DOMAINS = new Set([
   'behavior', 'gross_motor', 'fine_motor', 'language',
   'language_comprehension', 'language_expression', 'cognition', 'social_emotional',
@@ -20,7 +20,7 @@ const VALID_AGES = new Set([
   '2-6m', '7-12m', '13-24m', '25-36m', '37-48m', '49-60m', '61-72m',
 ]);
 
-function validate(body: unknown): string | null | ContributionPayload {
+function validate(body: unknown): string | ContributionPayload {
   if (!body || typeof body !== 'object') return '請求格式錯誤';
   const b = body as Record<string, unknown>;
   if (!VALID_TYPES.has(b.type as string)) return `type 無效: ${b.type}`;
@@ -32,6 +32,18 @@ function validate(body: unknown): string | null | ContributionPayload {
   }
   if (b.type === 'article' && (!(b.title as string | undefined)?.trim() || !(b.content as string | undefined)?.trim())) {
     return 'article 類型必須填寫 title 與 content';
+  }
+  if (b.type === 'edit-article') {
+    if (!(b.targetSlug as string | undefined)?.trim()) return 'edit-article 必須填寫 targetSlug';
+    if (!(b.title as string | undefined)?.trim()) return 'edit-article 必須填寫建議的 title';
+  }
+  if (b.type === 'delete-article') {
+    if (!(b.targetSlug as string | undefined)?.trim()) return 'delete-article 必須填寫 targetSlug';
+    if (!(b.notes as string | undefined)?.trim()) return 'delete-article 必須填寫刪除原因 (notes)';
+  }
+  if (b.type === 'delete-video') {
+    if (!(b.targetVideoId as string | undefined)?.trim()) return 'delete-video 必須填寫 targetVideoId';
+    if (!(b.notes as string | undefined)?.trim()) return 'delete-video 必須填寫刪除原因 (notes)';
   }
   return b as unknown as ContributionPayload;
 }
