@@ -1,0 +1,33 @@
+# GDS-15 — Geriatric Depression Scale (15-item short form)
+# Phase 1 SAMPLE: only a few items for smoke testing. Full validated content
+# (all 15 items + clinical sign-off) is deferred to Plan 2.
+# clinicallyReviewed: false → must not be used for real clinical decisions yet.
+id: gds-15
+domain:
+  top: psychological
+  sub: mood
+applicableCfs: [cfs3, cfs4, cfs5, cfs6, cfs7]
+scoring: sum
+inputType: option
+maxScore: 15
+items:
+  - id: gds1
+    text: 您對生活大致上滿意嗎？
+    options:
+      - { label: 是, score: 0 }
+      - { label: 否, score: 1 }
+  - id: gds2
+    text: 您是否減少了許多活動和興趣？
+    options:
+      - { label: 是, score: 1 }
+      - { label: 否, score: 0 }
+  - id: gds3
+    text: 您是否覺得生活很空虛？
+    options:
+      - { label: 是, score: 1 }
+      - { label: 否, score: 0 }
+bands:
+  - { max: 4, severity: normal, label: 無憂鬱徵兆 }
+  - { min: 5, max: 9, severity: monitor, label: 疑似憂鬱，建議追蹤 }
+  - { min: 10, severity: refer, label: 高度疑似，建議轉介 }
+clinicallyReviewed: false

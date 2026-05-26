@@ -1,5 +1,5 @@
 import { isAuthorized, getAccessToken } from './client';
-import { buildAssessmentObservations, buildTriageDiagnosticReport } from './cdsa-resources';
+import { buildAssessmentObservations, buildTriageDiagnosticReport } from './cga-resources';
 import { markFhirSubmitted } from '../db/assessments';
 import { authStore } from '../stores/auth.svelte';
 import type { Assessment } from '../db/schema';

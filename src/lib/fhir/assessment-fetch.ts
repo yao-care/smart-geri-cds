@@ -1,5 +1,7 @@
-import type { Assessment } from '../db/schema';
-import { CODE_SYSTEM, ID_SYSTEM, CONFIDENCE_EXT_URL } from './cdsa-resources';
+import type { Assessment, AssessmentStatus } from '../db/schema';
+import type { CfsLevel } from '../utils/cfs-levels';
+import { cfsFromScore } from '../utils/cfs-levels';
+import { CODE_SYSTEM, ID_SYSTEM, CFS_CODE } from './cga-resources';
 
 export interface AssessmentSummary {
   id: string;
@@ -44,12 +46,19 @@ function stripLegacyConclusionPrefix(conclusion: string): string {
 }
 
 /**
- * Parse Observation.code.text "CDSA gross_motor::reactionLatency" (new format)
- * or "CDSA gross_motor: reactionLatency" (legacy). Returns null on miss.
+ * Read the CFS level from a CFS Observation (local code system) in the bundle.
+ * Falls back to cfs1 when no CFS Observation is present (legacy / partial data).
  */
-export function parseObservationCode(text: string): { domain: string; metric: string } | null {
-  const m = text.match(/^CDSA\s+(\w+)(?:::|:\s+)(\w+)$/);
-  return m ? { domain: m[1], metric: m[2] } : null;
+function readCfsLevel(observations: Record<string, any>[]): CfsLevel {
+  for (const obs of observations) {
+    const coding = obs.code?.coding as Array<{ system?: string; code?: string }> | undefined;
+    const isCfs = coding?.some(c => c.system === CODE_SYSTEM && c.code === CFS_CODE);
+    if (isCfs) {
+      const value = obs.valueQuantity?.value as number | undefined;
+      if (typeof value === 'number') return cfsFromScore(value);
+    }
+  }
+  return 'cfs1';
 }
 
 /**
@@ -59,16 +68,13 @@ export function parseObservationCode(text: string): { domain: string; metric: st
  */
 export function bundleToAssessment(
   report: Record<string, any>,
-  _observations: Record<string, any>[],
+  observations: Record<string, any>[],
 ): Assessment {
   const identifiers = (report.identifier as Array<{ system?: string; value?: string }>) ?? [];
   const idVal = identifiers.find((i) => i.system === ID_SYSTEM)?.value ?? report.id;
 
   const conclusionCode = report.conclusionCode?.[0]?.coding?.[0]?.code as string | undefined;
   const category = snomedToCategory(conclusionCode);
-
-  const extensions = (report.extension as Array<{ url?: string; valueDecimal?: number }>) ?? [];
-  const confidence = extensions.find((x) => x.url === CONFIDENCE_EXT_URL)?.valueDecimal ?? 0;
 
   const period = report.effectivePeriod as { start?: string; end?: string } | undefined;
   const startedAtStr = period?.start ?? report.effectiveDateTime;
@@ -81,17 +87,23 @@ export function bundleToAssessment(
   const subjectRef = (report.subject as { reference?: string } | undefined)?.reference ?? '';
   const childId = subjectRef.replace(/^Patient\//, '');
 
+  const cfsLevel = readCfsLevel(observations);
+
+  // FHIR DiagnosticReport.status='final' → completed; otherwise treat as
+  // incomplete (a reconstructed report without an end period never resumes).
+  const status: AssessmentStatus = report.status === 'final' ? 'completed' : 'incomplete';
+
   return {
     id: idVal,
     childId,
-    status: report.status === 'final' ? 'completed' : 'in_progress',
+    cfsLevel,
+    status,
     language: 'zh-TW',
-    currentStep: 7,
+    currentStep: 3,
     startedAt,
     completedAt,
     triageResult: {
       category,
-      confidence,
       summary,
     },
     fhirSubmitted: true,
@@ -136,7 +148,7 @@ export async function listAssessmentsFromFhir(
   const subjectClause = patientId ? `subject=Patient/${patientId}&` : '';
   const bundle = (await client.request(
     `DiagnosticReport?${subjectClause}` +
-      `code=${CODE_SYSTEM}|cdsa-assessment` +
+      `code=${CODE_SYSTEM}|cga-assessment` +
       `&_sort=-date`,
   )) as Bundle;
   return (bundle.entry ?? []).map((e) => {

@@ -5,11 +5,18 @@
   import { submitAssessmentToFhir } from '../../lib/fhir/cdsa-submit';
   import { computeTriage, type TriageResult } from '../../engine/cdsa/triage';
   import { computeDomainScores } from '../../engine/cdsa/radar-scoring';
+  import { scoreScale, type ScaleDef, type ScaleResult } from '../../lib/scales/scale';
   import RadarChart from './RadarChart.svelte';
   import EducationMatch from './EducationMatch.svelte';
   import AssessmentPdfReport from './AssessmentPdfReport.svelte';
-  import { deriveCdsaTriggers } from '$lib/education/trigger-derivation';
+  import { deriveCgaTriggers } from '$lib/education/trigger-derivation';
   import TriggerVideoList from '../education/TriggerVideoList.svelte';
+
+  interface Props {
+    scales?: ScaleDef[];
+  }
+
+  let { scales = [] }: Props = $props();
 
   let fhirSubmitting = $state(false);
   let fhirSubmitted = $state(false);
@@ -21,69 +28,65 @@
     normal: '正常',
     monitor: '追蹤觀察',
     refer: '建議轉介',
+    incomplete: '尚未完成',
   };
 
   const categoryColors: Record<string, string> = {
     normal: 'var(--accent)',
     monitor: 'var(--warn)',
     refer: 'var(--danger)',
+    incomplete: 'var(--line)',
   };
 
   const categoryBgColors: Record<string, string> = {
     normal: 'color-mix(in srgb, var(--accent) 12%, var(--bg))',
     monitor: 'color-mix(in srgb, var(--warn) 12%, var(--bg))',
     refer: 'color-mix(in srgb, var(--danger) 14%, var(--bg))',
+    incomplete: 'var(--surface)',
   };
+
+  /** Build ScaleResult[] from the questionnaire raw scores (keyed by scaleId)
+   *  using each scale's validated cutoff bands (scoreScale). */
+  function buildScaleResults(): ScaleResult[] {
+    const raw = assessmentStore.partialAnalysis.questionnaireScores ?? {};
+    const cfsLevel = assessmentStore.cfsLevel;
+    if (!cfsLevel) return [];
+    const applicable = scales.filter(s => s.applicableCfs.includes(cfsLevel));
+    return applicable.map(def => {
+      const rawScore = def.id in raw ? raw[def.id] : null;
+      return scoreScale(def, rawScore);
+    });
+  }
 
   // 進入結果頁時，從 partialAnalysis 即時計算分流（<1 秒）
   $effect(() => {
-    if (!assessmentStore.ageGroup) return;
-    const pa = assessmentStore.partialAnalysis;
-
-    computeTriage({
-      ageGroup: assessmentStore.ageGroup,
-      behavior: pa.behaviorMetrics ?? {
-        responseTimeDistribution: { p50: 0, p95: 0, std: 0 },
-        interactionRhythm: 0, operationConsistency: 0, retryCount: 0,
-        interruptionPattern: 0, reactionLatency: 0, completionRate: 0,
-      },
-      voice: pa.voiceMetrics ?? {
-        pitchMean: null, pitchStd: null, intensityMean: null, intensityStd: null,
-        speechRate: null, fluencyPauseCount: 0, voiceLatencyMean: null,
-        voiceDurationTotal: 0, speechRatio: 0, mfccMean: null, spectralCentroid: null,
-      },
-      drawing: pa.drawingResult ?? { shapes: [], overallScore: 0, maturityLevel: 'age_appropriate' },
-      questionnaireScores: pa.questionnaireScores,
-      questionnaireMaxScores: pa.questionnaireMaxScores,
-      grossMotor: pa.grossMotorResult ? {
-        classification: pa.grossMotorResult.classification,
-        confidence: pa.grossMotorResult.confidence,
-        features: pa.grossMotorResult.features as unknown as Record<string, number>,
-      } : undefined,
-    }).then(result => {
-      triageResult = result;
-      isComputing = false;
-      saveResult(result);
-    }).catch(() => {
-      // 分流計算失敗時用預設結果
-      triageResult = {
-        category: 'normal', confidence: 0.5,
-        summary: '評估資料不足，無法完整分析。建議諮詢專業醫師。',
-        anomalyCount: 0, details: [],
-      };
-      isComputing = false;
-    });
+    const cfsLevel = assessmentStore.cfsLevel;
+    if (!cfsLevel) return;
+    const scaleResults = buildScaleResults();
+    const result = computeTriage({ cfsLevel, scaleResults });
+    triageResult = result;
+    isComputing = false;
+    void saveResult(result);
   });
 
   const domainScores = $derived(computeDomainScores(triageResult));
 
-  const anomalyDomains = $derived(
-    triageResult?.details.filter(d => d.isAnomaly).map(d => d.domain) ?? []
+  /** Per-domain severity rows for the recommendation engine (incomplete kept;
+   *  EducationMatch filters it out). */
+  const perDomain = $derived(
+    triageResult?.details.map(d => ({
+      domain: `${d.domain.top}.${d.domain.sub}`,
+      severity: d.severity,
+    })) ?? [],
+  );
+
+  const hasActionable = $derived(
+    perDomain.some(d => d.severity === 'monitor' || d.severity === 'refer'),
   );
 
   const videoTriggers = $derived(
-    triageResult && assessmentStore.ageGroup
-      ? deriveCdsaTriggers(triageResult, assessmentStore.ageGroup)
+    triageResult && assessmentStore.cfsLevel
+      ? deriveCgaTriggers(triageResult, assessmentStore.cfsLevel)
       : [],
   );
 
@@ -91,10 +94,8 @@
     if (!assessmentStore.assessment) return;
     await setTriageResult(assessmentStore.assessment.id, {
       category: result.category,
-      confidence: result.confidence,
       summary: result.summary,
       details: result.details,
-      anomalyCount: result.anomalyCount,
     });
     await assessmentStore.complete();
   }
@@ -124,7 +125,7 @@
 {:else}
 <div class="result-view">
   <div class="disclaimer" role="alert">
-    本評估結果僅供參考，不構成醫療診斷。如有疑慮，請諮詢專業兒科醫師。
+    本評估結果僅供參考，不構成醫療診斷。如有疑慮，請諮詢專業醫療人員。
   </div>
 
   <div
@@ -134,7 +135,6 @@
     <h2 style="color: {categoryColors[triageResult.category]};">
       {categoryLabels[triageResult.category]}
     </h2>
-    <p class="confidence">信心度 {Math.round(triageResult.confidence * 100)}%</p>
     <p class="summary">{triageResult.summary}</p>
   </div>
 
@@ -145,14 +145,10 @@
     </section>
   {/if}
 
-  {#if triageResult && assessmentStore.ageGroup && (anomalyDomains.length > 0 || triageResult.category !== 'normal')}
+  {#if triageResult && assessmentStore.cfsLevel && hasActionable}
     <section class="education-section" aria-label="衛教建議">
       <h3>建議閱讀</h3>
-      <EducationMatch
-        category={triageResult.category}
-        domains={anomalyDomains.length > 0 ? [...new Set(anomalyDomains)] : ['behavior']}
-        ageGroup={assessmentStore.ageGroup}
-      />
+      <EducationMatch {perDomain} cfsLevel={assessmentStore.cfsLevel} />
     </section>
   {/if}
 
@@ -216,12 +212,6 @@
   .triage-card h2 {
     font-size: var(--text-3xl);
     margin-bottom: var(--space-2);
-  }
-
-  .confidence {
-    font-size: var(--text-sm);
-    color: color-mix(in srgb, var(--text), var(--bg) 30%);
-    margin-bottom: var(--space-3);
   }
 
   .summary {

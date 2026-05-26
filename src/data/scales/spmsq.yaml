@@ -1,0 +1,34 @@
+# SPMSQ — Short Portable Mental Status Questionnaire
+# Phase 1 SAMPLE: only a few items for smoke testing. Full validated content
+# (all 10 items, education-adjusted cutoffs + clinical sign-off) is deferred
+# to Plan 2. clinicallyReviewed: false → not for real clinical use yet.
+# SPMSQ is error-counted (higher = worse); bands encode that direction.
+id: spmsq
+domain:
+  top: psychological
+  sub: cognition
+applicableCfs: [cfs4, cfs5, cfs6, cfs7, cfs8]
+scoring: error-count
+inputType: option
+maxScore: 10
+items:
+  - id: spmsq1
+    text: 今天是幾月幾日星期幾？（答錯計 1 分）
+    options:
+      - { label: 答對, score: 0 }
+      - { label: 答錯, score: 1 }
+  - id: spmsq2
+    text: 這裡是什麼地方？（答錯計 1 分）
+    options:
+      - { label: 答對, score: 0 }
+      - { label: 答錯, score: 1 }
+  - id: spmsq3
+    text: 您的電話號碼是幾號？（答錯計 1 分）
+    options:
+      - { label: 答對, score: 0 }
+      - { label: 答錯, score: 1 }
+bands:
+  - { max: 2, severity: normal, label: 認知功能完整 }
+  - { min: 3, max: 4, severity: monitor, label: 輕度認知障礙，建議追蹤 }
+  - { min: 5, severity: refer, label: 中重度認知障礙，建議轉介 }
+clinicallyReviewed: false

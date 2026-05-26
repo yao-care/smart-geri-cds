@@ -1,7 +1,8 @@
 import { getEventsByModule } from '../../lib/db/assessment-events';
 import { computeTriage, type TriageResult } from './triage';
 import type { CfsLevel } from '../../lib/utils/cfs-levels';
-import type { ScaleResult, Severity } from '../../lib/scales/scale';
+import type { ScaleResult, ScaleDef } from '../../lib/scales/scale';
+import { scoreScale } from '../../lib/scales/scale';
 import { isValidDomain, type DomainTop, type DomainSub } from '../../lib/domain/domain-tree';
 
 export interface AssessmentAnalysisResult {
@@ -18,30 +19,23 @@ interface ScaleAccumulator {
 }
 
 /**
- * Phase 1 placeholder severity: until per-scale validated cutoffs (ScaleDef
- * bands) are loaded from the scales collection (Task 1.14), derive severity
- * from the normalised ratio. Higher score = worse (matches deficit-style
- * scales like GDS-15/SPMSQ); function-style scales whose direction differs
- * are reconciled when band-based scoreScale wiring lands.
- */
-function placeholderSeverity(rawScore: number, maxScore: number): Severity {
-  if (maxScore <= 0) return 'incomplete';
-  const ratio = rawScore / maxScore;
-  if (ratio >= 0.66) return 'refer';
-  if (ratio >= 0.33) return 'monitor';
-  return 'normal';
-}
-
-/**
  * Questionnaire-only analysis (post sensor-module removal).
- * Reads questionnaire events for the assessment, aggregates them per scale
- * (`top.sub`), produces ScaleResult[], and runs the triage aggregation.
+ * Reads questionnaire events for the assessment, aggregates them per scale,
+ * scores each scale against its validated cutoff bands (scoreScale), and runs
+ * the triage aggregation (worst severity, incomplete ignored).
+ *
+ * Band direction is honoured entirely by the scale's own bands — there is no
+ * hardcoded "higher = worse". When a matching ScaleDef is not supplied, the
+ * accumulated raw/max is still recorded so the radar/detail view can render,
+ * but the scale carries no flag (severity = normal) since it can't be judged.
  */
 export async function analyzeAssessment(
   assessmentId: string,
   cfsLevel: CfsLevel,
+  scaleDefs: ScaleDef[] = [],
 ): Promise<AssessmentAnalysisResult> {
   const questionnaireEvents = await getEventsByModule(assessmentId, 'questionnaire');
+  const defById = new Map(scaleDefs.map(d => [d.id, d]));
 
   // Aggregate per scaleId. Each event carries { scaleId, top, sub, score, maxScore }.
   const accumulators = new Map<string, ScaleAccumulator>();
@@ -71,14 +65,19 @@ export async function analyzeAssessment(
   }
 
   const scaleResults: ScaleResult[] = [...accumulators.values()].map(a => {
-    const severity = placeholderSeverity(a.rawScore, a.maxScore);
+    const def = defById.get(a.scaleId);
+    if (def) {
+      // Real scoring: bands carry the validated cutoffs + direction.
+      return scoreScale(def, a.rawScore);
+    }
+    // No def supplied: record raw/max but leave un-flagged (cannot classify).
     return {
       scaleId: a.scaleId,
       domain: { top: a.top, sub: a.sub },
-      rawScore: severity === 'incomplete' ? null : a.rawScore,
+      rawScore: a.rawScore,
       maxScore: a.maxScore,
-      severity,
-      bandLabel: severity === 'incomplete' ? '未完成' : '',
+      severity: 'normal',
+      bandLabel: '',
     };
   });
 
