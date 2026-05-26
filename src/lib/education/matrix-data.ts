@@ -1,13 +1,14 @@
-import { AGE_GROUPS_CDSA } from '$lib/utils/age-groups';
-export { AGE_GROUPS_CDSA } from '$lib/utils/age-groups';
+import { CFS_LEVELS, type CfsLevel } from '$lib/utils/cfs-levels';
+import { DOMAIN_TREE, DOMAIN_TOPS, type DomainTop, type DomainSub } from '$lib/domain/domain-tree';
 
-export const CDSA_DOMAINS = [
-  'behavior', 'gross_motor', 'fine_motor', 'language',
-  'language_comprehension', 'language_expression', 'cognition', 'social_emotional',
-] as const;
-export type CdsaDomain = typeof CDSA_DOMAINS[number];
-export type AgeGroupCDSA = typeof AGE_GROUPS_CDSA[number];
-export type MatrixKey = `${CdsaDomain}:${AgeGroupCDSA}`;
+export { CFS_LEVELS } from '$lib/utils/cfs-levels';
+
+/** 矩陣列＝全部二層子項（`top.sub`）；單一源於 domain-tree。 */
+export const CDSA_DOMAINS: string[] = DOMAIN_TOPS.flatMap(
+  top => DOMAIN_TREE[top].map(sub => `${top}.${sub}`),
+);
+
+export type MatrixKey = `${string}:${CfsLevel}`;
 
 export type MatrixCellData = {
   inapplicable: boolean;
@@ -22,22 +23,28 @@ type TriggerMap = Record<string, { videoIds: string[]; inapplicable: boolean; ed
 export function buildMatrixData(triggers: TriggerMap): MatrixData {
   const data: Record<string, MatrixCellData> = {};
 
-  // Initialise all cells as applicable (empty → contributable).
+  // Initialise all `top.sub × cfs` cells as applicable (empty → contributable).
   // Source of truth for inapplicability is src/data/education/content-relevance.yaml,
-  // whose inapplicable section is compiled into cdsa.domain triggers with
+  // whose inapplicable section is compiled into cga.domain triggers with
   // inapplicable:true; only those flip a cell back to inapplicable below.
-  for (const domain of CDSA_DOMAINS) {
-    for (const age of AGE_GROUPS_CDSA) {
-      data[`${domain}:${age}`] = { inapplicable: false, articleSlugs: [], videoIds: [] };
+  for (const top of DOMAIN_TOPS as DomainTop[]) {
+    for (const sub of DOMAIN_TREE[top] as readonly DomainSub[]) {
+      for (const cfs of CFS_LEVELS) {
+        data[`${top}.${sub}:${cfs}`] = { inapplicable: false, articleSlugs: [], videoIds: [] };
+      }
     }
   }
 
-  // Populate from cdsa.domain.* triggers only. Articles (educationSlug) and videos
+  // Populate from cga.domain.* triggers only. Articles (educationSlug) and videos
   // are independent — a cell may have an article, a video, both, or neither.
+  // Trigger shape: cga.domain.<top>.<sub>.anomaly.<cfs>
+  //   parts[0]=cga  parts[1]=domain  parts[2]=top  parts[3]=sub
+  //   parts[4]=anomaly  parts[5]=cfs
   for (const [trigger, entry] of Object.entries(triggers)) {
     const parts = trigger.split('.');
-    if (parts[0] !== 'cdsa' || parts[1] !== 'domain' || parts[3] !== 'anomaly') continue;
-    const cell = data[`${parts[2]}:${parts[4]}`];
+    if (parts.length !== 6) continue;
+    if (parts[0] !== 'cga' || parts[1] !== 'domain' || parts[4] !== 'anomaly') continue;
+    const cell = data[`${parts[2]}.${parts[3]}:${parts[5]}`];
     if (!cell) continue;
     cell.inapplicable = entry.inapplicable;
     if (!entry.inapplicable) {

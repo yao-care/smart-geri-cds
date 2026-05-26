@@ -4,17 +4,17 @@
   import {
     mergeRecommendationsForContext,
     resolveItemDisplay,
+    type PerDomainSeverity,
   } from '../../lib/db/recommendations';
-  import type { RecommendationCategory } from '../../lib/db/schema';
-  import type { AgeGroupCDSA } from '../../lib/utils/age-groups';
+  import type { CfsLevel } from '../../lib/utils/cfs-levels';
 
   interface Props {
-    category: RecommendationCategory;
-    domains: string[];
-    ageGroup: AgeGroupCDSA;
+    /** Per `top.sub` severity (one row per scored domain). */
+    perDomain: PerDomainSeverity[];
+    cfsLevel: CfsLevel;
   }
 
-  let { category, domains, ageGroup }: Props = $props();
+  let { perDomain, cfsLevel }: Props = $props();
 
   const tenantId = $derived(getTenantId(authStore.fhirBaseUrl));
 
@@ -30,13 +30,12 @@
 
   $effect(() => {
     // Snapshot reactive deps before async boundary
-    const cat = category;
-    const ds = domains;
+    const pd = perDomain;
     const tid = tenantId;
-    const ag = ageGroup;
+    const cfs = cfsLevel;
     loading = true;
     (async () => {
-      const items = await mergeRecommendationsForContext(tid, cat, ds, ag);
+      const items = await mergeRecommendationsForContext(tid, pd, cfs);
       const display = await Promise.all(items.map((i) => resolveItemDisplay(i, tid)));
       resolved = display;
       loading = false;
@@ -70,7 +69,7 @@
     {/each}
   </div>
 {:else}
-  <p class="no-recommendations">目前無特別建議。持續關注孩子的發展即可。</p>
+  <p class="no-recommendations">目前無特別建議。持續關注長者的整體狀況即可。</p>
 {/if}
 
 <style>

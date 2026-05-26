@@ -1,5 +1,7 @@
 import { defineCollection, z } from 'astro:content';
 import { glob, file } from 'astro/loaders';
+import { CFS_LEVELS } from './lib/utils/cfs-levels';
+import { DOMAIN_TOPS, DOMAIN_SUBS, isValidDomain } from './lib/domain/domain-tree';
 
 // ---------- tuple helper ----------
 const rangeTuple = z.tuple([z.number(), z.number()]);
@@ -125,10 +127,47 @@ const cardsCollection = defineCollection({
   }),
 });
 
+// ---------- scales collection (glob loader, YAML) ----------
+// Mirrors ScaleDef in src/lib/scales/scale.ts. Each YAML file is one validated
+// CGA scale (GDS-15, SPMSQ, …). Cross-field refine guards top/sub legality.
+const scaleBandSchema = z.object({
+  min: z.number().optional(),
+  max: z.number().optional(),
+  severity: z.enum(['normal', 'monitor', 'refer']),
+  label: z.string(),
+});
+
+const scaleItemSchema = z.object({
+  id: z.string(),
+  text: z.string(),
+  options: z.array(z.object({ label: z.string(), score: z.number() })),
+});
+
+const scalesCollection = defineCollection({
+  loader: glob({ pattern: ['**/*.yaml', '!**/README.md'], base: './src/data/scales' }),
+  schema: z.object({
+    id: z.string(),
+    domain: z.object({
+      top: z.enum(DOMAIN_TOPS as [string, ...string[]]),
+      sub: z.enum(DOMAIN_SUBS as [string, ...string[]]),
+    }).refine(d => isValidDomain(d.top, d.sub), {
+      message: 'domain.top/domain.sub 不是合法的二層域組合',
+    }),
+    applicableCfs: z.array(z.enum(CFS_LEVELS)),
+    scoring: z.enum(['sum', 'weighted', 'error-count', 'measured-value']),
+    inputType: z.enum(['option', 'numeric']),
+    maxScore: z.number(),
+    items: z.array(scaleItemSchema),
+    bands: z.array(scaleBandSchema),
+    clinicallyReviewed: z.boolean(),
+  }),
+});
+
 // ---------- export ----------
 export const collections = {
   rules: rulesCollection,
   baselines: baselinesCollection,
   education: educationCollection,
   cards: cardsCollection,
+  scales: scalesCollection,
 };

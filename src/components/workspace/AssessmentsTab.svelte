@@ -53,14 +53,17 @@
       .where('status').equals('completed')
       .reverse().sortBy('completedAt');
     return all
-      .filter((a) => a.triageResult)
+      // Roster groups by refer/monitor/normal; an incomplete triage has no
+      // bucket (and a completed-yet-incomplete record is degenerate) — skip it.
+      .filter((a): a is typeof a & { triageResult: { category: 'normal' | 'monitor' | 'refer'; summary: string } } =>
+        a.triageResult != null && a.triageResult.category !== 'incomplete')
       .map((a) => ({
         id: a.id,
         fhirReportId: a.fhirDiagnosticReportId ?? a.id,
         patientRef: `Local/${a.childId}`,
         date: new Date(a.completedAt ?? a.startedAt),
-        category: a.triageResult!.category,
-        summary: a.triageResult!.summary,
+        category: a.triageResult.category,
+        summary: a.triageResult.summary,
       }));
   }
 

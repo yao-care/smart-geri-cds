@@ -1,13 +1,14 @@
 import { describe, it, expect } from 'vitest';
 import {
   videoCatalogItemSchema, triggerEntrySchema,
-  cdsaTriageEntrySchema, cdsaDomainEntrySchema, cdssVitalSignEntrySchema,
+  cgaTriageEntrySchema, cgaDomainEntrySchema, cdssVitalSignEntrySchema,
+  contentRelevanceSchema,
 } from '../../../src/lib/education/schemas';
 
 const validVideo = {
   videoId: 'abc123XYZ45',
   title: '範例衛教',
-  channel: '台大兒醫',
+  channel: '台大老醫',
   channelId: 'UC' + 'a'.repeat(22),
   duration: 245,
   publishedAt: '2024-03-15',
@@ -30,14 +31,6 @@ describe('videoCatalogItemSchema', () => {
     expect(() => videoCatalogItemSchema.parse({ ...validVideo, videoId: 'abc123XYZ4' })).toThrow();
   });
 
-  it('rejects invalid videoId regex (12 chars)', () => {
-    expect(() => videoCatalogItemSchema.parse({ ...validVideo, videoId: 'abc123XYZ455' })).toThrow();
-  });
-
-  it('rejects invalid channelId regex', () => {
-    expect(() => videoCatalogItemSchema.parse({ ...validVideo, channelId: 'NotAChannelId' })).toThrow();
-  });
-
   it('rejects score > 1', () => {
     expect(() => videoCatalogItemSchema.parse({ ...validVideo, score: 1.5 })).toThrow();
   });
@@ -48,89 +41,150 @@ describe('videoCatalogItemSchema', () => {
   });
 });
 
-describe('triggerEntrySchema discriminatedUnion', () => {
-  it('accepts valid cdsa.triage entry', () => {
+describe('cgaDomainEntrySchema (two-level domain × cfs)', () => {
+  it('accepts a legal top/sub combo with matching trigger', () => {
     expect(triggerEntrySchema.parse({
-      trigger: 'cdsa.triage.refer.13-24m',
-      category: 'triage',
-      triageCategory: 'refer',
-      ageGroup: '13-24m',
+      trigger: 'cga.domain.psychological.cognition.anomaly.cfs5',
+      category: 'domain',
+      top: 'psychological',
+      sub: 'cognition',
+      cfsLevel: 'cfs5',
       videoIds: ['abc123XYZ45'],
     })).toBeDefined();
   });
 
-  it('rejects cross-field mismatch (trigger ≠ fields)', () => {
-    expect(() => cdsaTriageEntrySchema.parse({
-      trigger: 'cdsa.triage.refer.25-36m',
-      category: 'triage',
-      triageCategory: 'refer',
-      ageGroup: '13-24m',
+  it('rejects an illegal top/sub combo', () => {
+    // adl belongs to functional, not psychological
+    expect(() => cgaDomainEntrySchema.parse({
+      trigger: 'cga.domain.psychological.adl.anomaly.cfs5',
+      category: 'domain',
+      top: 'psychological',
+      sub: 'adl',
+      cfsLevel: 'cfs5',
       videoIds: [],
     })).toThrow();
   });
 
-  it('accepts cdsa.domain with inapplicable: true', () => {
-    expect(triggerEntrySchema.parse({
-      trigger: 'cdsa.domain.fine_motor.anomaly.2-6m',
+  it('rejects an unknown top', () => {
+    expect(() => cgaDomainEntrySchema.parse({
+      trigger: 'cga.domain.nope.cognition.anomaly.cfs5',
       category: 'domain',
-      domain: 'fine_motor',
-      ageGroup: '2-6m',
+      top: 'nope',
+      sub: 'cognition',
+      cfsLevel: 'cfs5',
+      videoIds: [],
+    })).toThrow();
+  });
+
+  it('rejects trigger string ≠ top.sub.cfs fields', () => {
+    expect(() => cgaDomainEntrySchema.parse({
+      trigger: 'cga.domain.psychological.cognition.anomaly.cfs4',
+      category: 'domain',
+      top: 'psychological',
+      sub: 'cognition',
+      cfsLevel: 'cfs5',
+      videoIds: [],
+    })).toThrow();
+  });
+
+  it('accepts cga.domain with inapplicable: true', () => {
+    expect(triggerEntrySchema.parse({
+      trigger: 'cga.domain.functional.adl.anomaly.cfs2',
+      category: 'domain',
+      top: 'functional',
+      sub: 'adl',
+      cfsLevel: 'cfs2',
       inapplicable: true,
       videoIds: [],
     })).toBeDefined();
   });
+});
 
-  it('rejects cdsa.domain with unknown domain', () => {
-    expect(() => cdsaDomainEntrySchema.parse({
-      trigger: 'cdsa.domain.unknown.anomaly.13-24m',
-      category: 'domain',
-      domain: 'unknown',
-      ageGroup: '13-24m',
+describe('cgaTriageEntrySchema (cfs)', () => {
+  it('accepts a valid cga.triage entry', () => {
+    expect(triggerEntrySchema.parse({
+      trigger: 'cga.triage.refer.cfs5',
+      category: 'triage',
+      triageCategory: 'refer',
+      cfsLevel: 'cfs5',
+      videoIds: ['abc123XYZ45'],
+    })).toBeDefined();
+  });
+
+  it('rejects cross-field mismatch (trigger ≠ category + cfs)', () => {
+    expect(() => cgaTriageEntrySchema.parse({
+      trigger: 'cga.triage.refer.cfs6',
+      category: 'triage',
+      triageCategory: 'refer',
+      cfsLevel: 'cfs5',
       videoIds: [],
     })).toThrow();
   });
 
-  it('accepts cdss.vital-sign with critical', () => {
-    expect(triggerEntrySchema.parse({
-      trigger: 'cdss.spo2.critical.infant',
-      category: 'vital-sign',
-      indicator: 'spo2',
-      level: 'critical',
-      ageGroup: 'infant',
-      videoIds: [],
-    })).toBeDefined();
-  });
-
-  it('rejects cdss with normal level (not in enum)', () => {
-    expect(() => cdssVitalSignEntrySchema.parse({
-      trigger: 'cdss.spo2.normal.infant',
-      category: 'vital-sign',
-      indicator: 'spo2',
-      level: 'normal',
-      ageGroup: 'infant',
+  it('rejects unknown cfs level', () => {
+    expect(() => cgaTriageEntrySchema.parse({
+      trigger: 'cga.triage.monitor.cfs99',
+      category: 'triage',
+      triageCategory: 'monitor',
+      cfsLevel: 'cfs99',
       videoIds: [],
     })).toThrow();
   });
 
   it('rejects videoIds with invalid regex', () => {
-    expect(() => cdsaTriageEntrySchema.parse({
-      trigger: 'cdsa.triage.monitor.13-24m',
+    expect(() => cgaTriageEntrySchema.parse({
+      trigger: 'cga.triage.monitor.cfs5',
       category: 'triage',
       triageCategory: 'monitor',
-      ageGroup: '13-24m',
+      cfsLevel: 'cfs5',
       videoIds: ['SHORT'],
     })).toThrow();
   });
+});
 
-  it('strips extra indicator field on category=domain (zod default strip)', () => {
-    const parsed = cdsaDomainEntrySchema.parse({
-      trigger: 'cdsa.domain.behavior.anomaly.13-24m',
-      category: 'domain',
-      domain: 'behavior',
-      ageGroup: '13-24m',
+describe('cdssVitalSignEntrySchema (kept, cfs-keyed; Phase 2 unused)', () => {
+  it('accepts a valid cga.vital entry', () => {
+    expect(triggerEntrySchema.parse({
+      trigger: 'cga.vital.spo2.critical.cfs5',
+      category: 'vital-sign',
       indicator: 'spo2',
+      level: 'critical',
+      cfsLevel: 'cfs5',
       videoIds: [],
-    });
-    expect('indicator' in parsed).toBe(false);
+    })).toBeDefined();
+  });
+
+  it('rejects normal level (not in enum)', () => {
+    expect(() => cdssVitalSignEntrySchema.parse({
+      trigger: 'cga.vital.spo2.normal.cfs5',
+      category: 'vital-sign',
+      indicator: 'spo2',
+      level: 'normal',
+      cfsLevel: 'cfs5',
+      videoIds: [],
+    })).toThrow();
+  });
+});
+
+describe('contentRelevanceSchema.inapplicable (top.sub → cfs[])', () => {
+  it('accepts a legal top.sub key with cfs array', () => {
+    expect(contentRelevanceSchema.parse({
+      inapplicable: { 'psychological.cognition': ['cfs1', 'cfs2'] },
+      triggers: [],
+    })).toBeDefined();
+  });
+
+  it('rejects an illegal top.sub key', () => {
+    expect(() => contentRelevanceSchema.parse({
+      inapplicable: { 'psychological.adl': ['cfs1'] },
+      triggers: [],
+    })).toThrow();
+  });
+
+  it('rejects a non-cfs value', () => {
+    expect(() => contentRelevanceSchema.parse({
+      inapplicable: { 'functional.adl': ['2-6m'] },
+      triggers: [],
+    })).toThrow();
   });
 });

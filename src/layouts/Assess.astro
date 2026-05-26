@@ -6,14 +6,14 @@ interface Props {
   description?: string;
 }
 
-const { title, description = '兒童發展智慧評估' } = Astro.props;
+const { title, description = '高齡周全性評估' } = Astro.props;
 ---
 
 <Base title={title} description={description}>
   <div class="assess-layout">
     <header class="assess-header">
       <a href="/" class="back-link" aria-label="返回首頁">← 返回</a>
-      <span class="assess-title">兒童發展評估</span>
+      <span class="assess-title">高齡周全性評估</span>
     </header>
     <main id="main-content" class="assess-main" data-pagefind-body>
       <slot />

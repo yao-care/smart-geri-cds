@@ -7,7 +7,6 @@ import NotificationPrefs from '../components/settings/NotificationPrefs.svelte';
 import ModelManager from '../components/settings/ModelManager.svelte';
 import EducationManager from '../components/settings/EducationManager.svelte';
 import RecommendationsManager from '../components/settings/RecommendationsManager.svelte';
-import NormsManager from '../components/settings/NormsManager.svelte';
 import SystemGuide from '../components/settings/SystemGuide.svelte';
 
 const tabs = [
@@ -19,7 +18,6 @@ const tabs = [
   { id: 'model', label: '模型管理' },
   { id: 'education', label: '衛教管理' },
   { id: 'recommendations', label: '評估推薦' },
-  { id: 'norms', label: '常模管理' },
 ];
 ---
 
@@ -68,10 +66,6 @@ const tabs = [
     <section id="panel-recommendations" class="tab-panel" aria-label="評估推薦">
       <h2>評估推薦清單</h2>
       <RecommendationsManager client:idle />
-    </section>
-    <section id="panel-norms" class="tab-panel" aria-label="常模管理">
-      <h2>CDSA 常模管理</h2>
-      <NormsManager client:idle />
     </section>
     <section id="panel-guide" class="tab-panel" aria-label="系統說明">
       <SystemGuide client:idle />
@@ -152,7 +146,6 @@ const tabs = [
   #tab-model:checked ~ #panel-model,
   #tab-education:checked ~ #panel-education,
   #tab-recommendations:checked ~ #panel-recommendations,
-  #tab-norms:checked ~ #panel-norms,
   #tab-guide:checked ~ #panel-guide {
     display: block;
   }
@@ -164,7 +157,6 @@ const tabs = [
   #tab-model:checked ~ label[for="tab-model"],
   #tab-education:checked ~ label[for="tab-education"],
   #tab-recommendations:checked ~ label[for="tab-recommendations"],
-  #tab-norms:checked ~ label[for="tab-norms"],
   #tab-guide:checked ~ label[for="tab-guide"] {
     color: var(--accent);
     border-bottom-color: var(--accent);

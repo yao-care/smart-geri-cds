@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { Assessment, Child } from '../../lib/db/schema';
-  import { ageInMonths } from '../../lib/utils/age-groups';
+  import { ageInMonths, CFS_LABELS } from '../../lib/utils/cfs-levels';
   import { loadChineseFontInto } from '../../lib/pdf/font-loader';
 
   interface Props {
@@ -18,12 +18,16 @@
     normal: '正常',
     monitor: '追蹤觀察',
     refer: '建議轉介',
+    incomplete: '尚未完成',
   };
 
+  // Aligns with AssessmentStatus: started | paused | resumed | completed | incomplete
   const statusLabelsCn: Record<string, string> = {
-    in_progress: '進行中',
+    started: '已開始',
+    paused: '已暫停',
+    resumed: '已恢復',
     completed: '已完成',
-    interrupted: '已中斷',
+    incomplete: '未完成',
   };
 
   function formatDate(d: Date | string): string {
@@ -79,7 +83,7 @@
       }
 
       // ===== Title =====
-      drawLine('兒童發展智慧評估報告', 16, 'bold', 'center');
+      drawLine('高齡周全性評估報告', 16, 'bold', 'center');
       y += 4;
       drawSeparator();
 
@@ -90,11 +94,15 @@
       const assessDate = assessment.completedAt
         ? formatDate(assessment.completedAt)
         : formatDate(assessment.startedAt);
-      const monthsAtAssess = ageInMonths(child.birthDate);
+      // DOB is optional for CGA; ageInMonths returns 0 when absent.
+      const monthsAtAssess = child.birthDate ? ageInMonths(child.birthDate) : 0;
 
-      drawLine(`兒童識別碼：${abbreviateId(child.id)}`, 10);
+      drawLine(`受測者識別碼：${abbreviateId(child.id)}`, 10);
       drawLine(`評估日期：${assessDate}`, 10);
-      drawLine(`評估時月齡:${monthsAtAssess} 個月`, 10);
+      if (monthsAtAssess > 0) {
+        drawLine(`年齡：約 ${Math.floor(monthsAtAssess / 12)} 歲`, 10);
+      }
+      drawLine(`臨床衰弱量表 (CFS)：${CFS_LABELS[assessment.cfsLevel] ?? assessment.cfsLevel}`, 10);
       drawLine(`狀態：${statusLabelsCn[assessment.status] ?? assessment.status}`, 10);
       y += 4;
       drawSeparator();
@@ -107,7 +115,6 @@
 
         const catLabel = categoryLabelsCn[triage.category] ?? triage.category;
         drawLine(`分類：${catLabel}`, 10);
-        drawLine(`信心度：${Math.round(triage.confidence * 100)}%`, 10);
         const summaryLines = doc.splitTextToSize(`摘要：${triage.summary}`, contentWidth);
         doc.setFontSize(10);
         doc.setFont('NotoSansTC', 'normal');
@@ -136,9 +143,9 @@
       doc.setFont('NotoSansTC', 'normal');
       doc.setTextColor(150, 150, 150);
       doc.text(`產製時間：${formatTimestamp(new Date())}`, margin, y);
-      doc.text('CDSA 兒童發展智慧評估系統', pageWidth - margin, y, { align: 'right' });
+      doc.text('高齡周全性評估 (CGA) 系統', pageWidth - margin, y, { align: 'right' });
 
-      const filename = `cdsa-report-${abbreviateId(assessment.id)}-${assessDate.replace(/\//g, '')}.pdf`;
+      const filename = `cga-report-${abbreviateId(assessment.id)}-${assessDate.replace(/\//g, '')}.pdf`;
       doc.save(filename);
 
       onGenerated?.();

@@ -3,37 +3,23 @@
   import { isAuthorized } from '../../lib/fhir/client';
   import type { Assessment } from '../../lib/db/schema';
   import { db } from '../../lib/db/schema';
-  import { deriveCdsaTriggers } from '$lib/education/trigger-derivation';
-  import { ageGroupCDSA } from '$lib/utils/age-groups';
+  import { deriveCgaTriggers } from '$lib/education/trigger-derivation';
+  import { domainLabel } from '$lib/domain/domain-tree';
+  import { CFS_LABELS } from '$lib/utils/cfs-levels';
   import TriggerVideoList from '../education/TriggerVideoList.svelte';
-
-  const DOMAIN_LABELS: Record<string, string> = {
-    behavior: '行為',
-    gross_motor: '粗動作',
-    fine_motor: '細動作',
-    language: '語言',
-    language_comprehension: '語言理解',
-    language_expression: '語言表達',
-    cognition: '認知',
-    social_emotional: '社交情緒',
-    diet: '飲食',
-  };
-
-  const METRIC_LABELS: Record<string, string> = {
-    completionRate: '完成率',
-    operationConsistency: '操作一致性',
-    reactionLatency: '反應延遲 (ms)',
-    interactionRhythm: '互動節奏',
-    drawingScore: '繪圖總分',
-    voiceDuration: '發聲總時長 (秒)',
-    questionnaireScore: '問卷得分',
-    poseClassification: '動作分類信心',
-  };
 
   const CATEGORY_LABELS: Record<string, string> = {
     normal: '正常',
     monitor: '追蹤觀察',
     refer: '建議轉介',
+    incomplete: '尚未完成',
+  };
+
+  const SEVERITY_LABELS: Record<string, string> = {
+    normal: '正常',
+    monitor: '待觀察',
+    refer: '建議轉介',
+    incomplete: '未完成',
   };
 
   // Physician-facing detail view. Loads assessment via the cross-device
@@ -45,7 +31,6 @@
   let assessment = $state<Assessment | null>(null);
   let source = $state<Source | null>(null);
   let returnUrl = $state<string>('');
-  let childBirthDate = $state<string | null>(null);
 
   $effect(() => {
     (async () => {
@@ -59,7 +44,7 @@
         returnUrl = `/workspace/result/?id=${encodeURIComponent(id)}`;
 
         if (!isAuthorized()) {
-          // Redirect parent-style view; do not render any medical data here.
+          // Redirect subject-style view; do not render any medical data here.
           window.location.replace(`/result/?id=${encodeURIComponent(id)}`);
           return; // loading stays true until redirect lands
         }
@@ -68,9 +53,6 @@
         if (result.ok) {
           assessment = result.assessment;
           source = result.source;
-          // Load child birthDate to derive CDSA age group for video triggers
-          const child = await db.children.get(result.assessment.childId).catch(() => null);
-          if (child?.birthDate) childBirthDate = child.birthDate;
         } else {
           error = result.error;
         }
@@ -83,21 +65,23 @@
   });
 
   const triage = $derived(assessment?.triageResult ?? null);
+  const cfsLevel = $derived(assessment?.cfsLevel ?? null);
 
-  const videoTriggers = $derived.by(() => {
-    if (!triage || !childBirthDate) return [];
-    const ageGroup = ageGroupCDSA(childBirthDate);
-    return deriveCdsaTriggers(
-      {
-        category: triage.category,
-        confidence: triage.confidence,
-        summary: triage.summary,
-        anomalyCount: triage.anomalyCount ?? 0,
-        details: triage.details ?? [],
-      },
-      ageGroup,
-    );
-  });
+  const referCount = $derived(triage?.details?.filter((d) => d.severity === 'refer').length ?? 0);
+  const monitorCount = $derived(triage?.details?.filter((d) => d.severity === 'monitor').length ?? 0);
+
+  const videoTriggers = $derived(
+    triage && cfsLevel
+      ? deriveCgaTriggers(
+          {
+            category: triage.category,
+            summary: triage.summary,
+            details: triage.details ?? [],
+          },
+          cfsLevel,
+        )
+      : [],
+  );
 
   let note = $state('');
   let noteSaveTimer: ReturnType<typeof setTimeout> | null = null;
@@ -146,7 +130,7 @@
   <article class="detail">
     <header class="summary-bar">
       <div>
-        <span class="label">兒童識別碼</span>
+        <span class="label">受測者識別碼</span>
         <span class="value">{assessment.childId.slice(0, 8)}…</span>
       </div>
       <div>
@@ -156,8 +140,12 @@
         </span>
       </div>
       <div>
+        <span class="label">衰弱等級 (CFS)</span>
+        <span class="value">{cfsLevel ? CFS_LABELS[cfsLevel] : '—'}</span>
+      </div>
+      <div>
         <span class="label">分類</span>
-        <span class="value">{triage.category}</span>
+        <span class="value">{CATEGORY_LABELS[triage.category] ?? triage.category}</span>
       </div>
       <div class="source-badge" class:source-fhir={source === 'fhir'}>
         {source === 'fhir' ? '來自 FHIR Server' : '本地紀錄'}
@@ -168,63 +156,52 @@
       <h3>分流判定</h3>
       <div class="triage-summary">
         <span class="triage-cat triage-{triage.category}">{CATEGORY_LABELS[triage.category]}</span>
-        <span class="muted">信心度 {Math.round(triage.confidence * 100)}%</span>
         <span class="muted">·</span>
-        <span class="muted">異常 metric {triage.details?.filter((d) => d.isAnomaly).length ?? 0} 項 / {triage.details?.length ?? 0} 項</span>
+        <span class="muted">建議轉介 {referCount} 項 · 待觀察 {monitorCount} 項 / 共 {triage.details?.length ?? 0} 項量表</span>
       </div>
       <details class="rule-detail">
         <summary>分流判定規則</summary>
         <ul>
-          <li><strong>refer</strong>：≥ 3 個異常 metric 且 ≥ 2 個 domain 受影響</li>
-          <li><strong>monitor</strong>：≥ 1 個異常 metric（未達轉介門檻）</li>
-          <li><strong>normal</strong>：無任何異常 metric</li>
-          <li>異常 metric 判定：z-score ≤ -1.5（反向 metric 則 ≥ 1.5）；問卷得分 / 上限 &lt; 50%</li>
+          <li><strong>refer</strong>：任一量表落入「建議轉介」分段</li>
+          <li><strong>monitor</strong>：任一量表落入「待觀察」分段（無轉介）</li>
+          <li><strong>normal</strong>：所有量表皆在正常分段</li>
+          <li>整體分流＝取各量表最嚴重者；<strong>未完成</strong>量表不參與彙整</li>
         </ul>
       </details>
     </section>
 
-    <section aria-label="完整指標">
-      <h3>完整指標</h3>
+    <section aria-label="各量表結果">
+      <h3>各量表結果</h3>
       {#if triage.details && triage.details.length > 0}
         <table class="metric-table">
           <thead>
             <tr>
               <th>領域</th>
-              <th>指標</th>
-              <th>數值</th>
-              <th>常模 / 上限</th>
-              <th>Z-score</th>
-              <th>方向 Z</th>
-              <th>狀態</th>
+              <th>量表</th>
+              <th>原始分</th>
+              <th>滿分</th>
+              <th>判讀</th>
+              <th>嚴重度</th>
             </tr>
           </thead>
           <tbody>
             {#each triage.details as d}
-              <tr class:anomaly={d.isAnomaly}>
-                <td>{DOMAIN_LABELS[d.domain] ?? d.domain}</td>
-                <td>{METRIC_LABELS[d.metric] ?? d.metric}</td>
-                <td class="num">{typeof d.value === 'number' ? d.value.toFixed(2) : d.value}</td>
-                <td class="num norm">
-                  {#if d.normMean != null && d.normStd != null}
-                    {d.normMean.toFixed(2)} ± {d.normStd.toFixed(2)}
-                  {:else if d.maxScore != null}
-                    上限 {d.maxScore}
-                  {:else}
-                    —
-                  {/if}
-                </td>
-                <td class="num">{d.zScore !== null ? d.zScore.toFixed(2) : '—'}</td>
-                <td class="num">{d.directionalZ !== null && d.directionalZ !== undefined ? d.directionalZ.toFixed(2) : '—'}</td>
-                <td><span class="status-pill status-{d.isAnomaly ? 'anomaly' : 'normal'}">{d.isAnomaly ? '偏離' : '正常'}</span></td>
+              <tr class:anomaly={d.severity === 'refer' || d.severity === 'monitor'}>
+                <td>{domainLabel(d.domain.top, d.domain.sub)}</td>
+                <td>{d.scaleId}</td>
+                <td class="num">{d.rawScore ?? '—'}</td>
+                <td class="num">{d.maxScore}</td>
+                <td>{d.bandLabel || '—'}</td>
+                <td><span class="status-pill status-{d.severity}">{SEVERITY_LABELS[d.severity] ?? d.severity}</span></td>
               </tr>
             {/each}
           </tbody>
         </table>
         <p class="muted small">
-          常模 = 該年齡層該指標的平均值 ± 標準差，目前使用內建預設值。可在「設定 → 常模管理」改為醫院本地常模。
+          各量表依其驗證過的切分點 (cutoff) 判讀嚴重度，與年齡無關（CFS 僅作分層與詮釋脈絡）。
         </p>
       {:else}
-        <p class="muted">此評估未保留 metric 細節，可能來自舊版或精簡 FHIR 紀錄。</p>
+        <p class="muted">此評估未保留量表細節，可能來自舊版或精簡 FHIR 紀錄。</p>
       {/if}
     </section>
 
@@ -343,11 +320,6 @@
     background: color-mix(in srgb, var(--danger) 14%, var(--bg));
   }
 
-  .metric-table td.norm {
-    color: color-mix(in srgb, var(--text), var(--bg) 30%);
-    font-size: var(--text-xs);
-  }
-
   .triage-summary {
     display: flex;
     align-items: center;
@@ -366,6 +338,7 @@
   .triage-normal { background: color-mix(in srgb, var(--accent) 12%, var(--bg)); color: var(--accent); }
   .triage-monitor { background: color-mix(in srgb, var(--warn) 12%, var(--bg)); color: var(--warn); }
   .triage-refer { background: color-mix(in srgb, var(--danger) 14%, var(--bg)); color: var(--danger); }
+  .triage-incomplete { background: color-mix(in srgb, var(--bg), var(--text) 8%); color: color-mix(in srgb, var(--text), var(--bg) 40%); }
 
   .rule-detail {
     margin-top: var(--space-2);
@@ -394,7 +367,9 @@
   }
 
   .status-pill.status-normal { background: color-mix(in srgb, var(--accent) 12%, var(--bg)); color: var(--accent); }
-  .status-pill.status-anomaly { background: color-mix(in srgb, var(--danger) 14%, var(--bg)); color: var(--danger); }
+  .status-pill.status-monitor { background: color-mix(in srgb, var(--warn) 12%, var(--bg)); color: var(--warn); }
+  .status-pill.status-refer { background: color-mix(in srgb, var(--danger) 14%, var(--bg)); color: var(--danger); }
+  .status-pill.status-incomplete { background: color-mix(in srgb, var(--bg), var(--text) 8%); color: color-mix(in srgb, var(--text), var(--bg) 40%); }
 
   .muted {
     color: color-mix(in srgb, var(--text), var(--bg) 30%);

@@ -1,4 +1,5 @@
 import { db, type Assessment, type AssessmentStatus, type Child } from './schema';
+import type { CfsLevel } from '../utils/cfs-levels';
 
 // ---- Child DAO ----
 export async function createChild(child: Child): Promise<string> {
@@ -15,11 +16,16 @@ export async function getAllChildren(): Promise<Child[]> {
 }
 
 // ---- Assessment DAO ----
-export async function createAssessment(childId: string, language = 'zh-TW'): Promise<Assessment> {
+export async function createAssessment(
+  childId: string,
+  cfsLevel: CfsLevel,
+  language = 'zh-TW',
+): Promise<Assessment> {
   const now = new Date();
   const assessment: Assessment = {
     id: crypto.randomUUID(),
     childId,
+    cfsLevel,
     status: 'started',
     language,
     currentStep: 0,
@@ -65,8 +71,4 @@ export async function markFhirSubmitted(id: string, fhirDiagnosticReportId: stri
 
 export async function getIncompleteAssessments(): Promise<Assessment[]> {
   return db.assessments.where('status').anyOf(['started', 'paused', 'resumed']).reverse().sortBy('createdAt');
-}
-
-export async function updateAssessmentForceFull(id: string, value: boolean): Promise<void> {
-  await db.assessments.update(id, { forceFullAssessment: value, updatedAt: new Date() });
 }

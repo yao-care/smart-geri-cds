@@ -3,7 +3,8 @@ import App from '../layouts/App.astro';
 import { siteFaqs, faqJsonLd } from '../data/site-faqs';
 
 const introHighlights = [
-  '雙角色：家長自評 + 醫護工作台',
+  'CFS 衰弱分層：CFS 1–9 作為評估起點',
+  '十一大 CGA 領域篩檢量表',
   '隱私優先：資料不離開瀏覽器',
   '開源免費，免登入',
   'SMART on FHIR 標準',
@@ -11,48 +12,57 @@ const introHighlights = [
 
 const flowSteps = [
   {
-    title: '輸入年齡',
-    desc: '以出生日期換算月齡。適用 0–72 個月，自動歸入 7 個年齡組（2–6m、7–12m、13–24m、25–36m、37–48m、49–60m、61–72m）。',
+    title: '評定 CFS 衰弱等級',
+    desc: '臨床人員依整體觀察（體能活動程度、功能依賴、疾病負擔）評定 CFS 1–9 分。CFS 分層作為後續量表施測與分流閾值的基準，並影響衛教資源推播的優先順序。',
   },
   {
-    title: '依年齡施測',
-    desc: '按年齡組給對應的發展題目，引導家長完成各評估模組：問卷、互動遊戲、語音、繪圖、動作。',
-  },
-  {
-    title: '逐面向計分、標記「需注意」',
-    desc: '六大發展面向（粗動作、精細動作、語言理解、語言表達、認知、社會情緒）各自評分，符合下列任一條件即標記為「需注意」：',
+    title: '逐領域施測量表',
+    desc: '依 CGA（周全性老年評估）架構，涵蓋以下十一個核心領域，各領域採用對應的標準化篩檢工具：',
     criteria: [
-      '問卷面向得分未達滿分的一半',
-      '行為／繪圖／語音明顯偏離同齡常模（約 1.5 個標準差）',
-      '動作經 AI 姿態分析判讀為疑似遲緩',
+      '認知功能（如 MMSE、MoCA 簡版）',
+      '情緒/憂鬱（如 GDS 老年憂鬱量表）',
+      '日常功能：ADL（Katz）、IADL（Lawton）',
+      '行動、步態與跌倒風險（如 TUG、跌倒史）',
+      '營養狀態（如 MNA 微型營養評估）',
+      '感官功能（視力、聽力自評）',
+      '多重用藥與藥物審查',
+      '共病與慢性病負擔',
+      '社會支持與照護資源',
+      '居家環境與安全',
+      '預立醫療意願（ACP）',
     ],
   },
   {
+    title: '逐領域計分、標記「需注意」',
+    desc: '各領域依各自量表切截分數（cut-off）判定是否需注意，不同 CFS 分層可有差異化的閾值。',
+  },
+  {
     title: '綜合判讀（三級分流）',
-    desc: '同時看「需注意」的項目數，以及它們橫跨幾個發展面向，分為三級：',
+    desc: '依「需注意」領域數及 CFS 分層，分為三級處置建議：',
   },
 ];
 
 const outcomes = [
-  { key: 'normal', tag: '正常', cond: '無「需注意」項目', action: '各面向發展在正常範圍' },
-  { key: 'monitor', tag: '追蹤觀察', cond: '1 項以上「需注意」', action: '建議持續追蹤' },
-  { key: 'refer', tag: '建議轉介', cond: '「需注意」≥ 3 項，且橫跨 ≥ 2 個面向', action: '建議進一步專業評估' },
+  { key: 'normal', tag: '正常', cond: '各領域均未達「需注意」閾值', action: '顯示結果摘要，建議定期複評' },
+  { key: 'monitor', tag: '追蹤觀察', cond: '1 個以上領域達「需注意」', action: '推播對應衛教，建議追蹤' },
+  { key: 'refer', tag: '建議轉介', cond: '多領域需注意，或高 CFS 合併功能快速下降', action: '建議進一步專業評估或跨域轉介' },
 ];
 ---
 
-<App title="關於" description="Smart Pedi 兒科健康評估與臨床決策輔助系統使用說明">
+<App title="關於" description="高齡周全性評估決策輔助系統（CGA CDSS）說明：CFS 衰弱分層、十一大 CGA 領域篩檢、三級分流邏輯、SMART on FHIR 瀏覽器端架構與開源資訊。">
   <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
 
-  <h1>關於 Smart Pedi 兒科健康輔助系統</h1>
+  <h1>關於高齡周全性評估決策輔助系統</h1>
 
   <section class="about-section about-twocol" aria-label="系統介紹">
     <div class="twocol-main">
       <h2>系統介紹</h2>
       <p>
-        Smart Pedi 是一套開源的兒科健康輔助系統，提供雙角色服務：
-        家長可透過 CDSA（臨床決策輔助應用）進行孩子健康自評並取得衛教建議；
-        醫護人員可透過 CDSS（臨床決策輔助系統）工作台即時監測指標、接收預警。
-        系統以 SMART on FHIR 標準運行於瀏覽器端，確保隱私與互通性。
+        本系統是一套開源的高齡周全性評估（Comprehensive Geriatric Assessment, CGA）臨床決策輔助工具，
+        提供雙角色服務：照護者與高齡者本人可進行自我篩檢並取得衛教建議；
+        醫護人員可透過工作台系統性地完成多領域評估、接收分流建議與預警。
+        系統以 SMART on FHIR 標準運行於瀏覽器端，確保隱私與電子病歷互通性。
+        本工具為篩檢與決策輔助用途，評估結果不構成醫療診斷。
       </p>
     </div>
     <aside class="twocol-aside" aria-label="重點摘要">
@@ -66,8 +76,8 @@ const outcomes = [
   <section class="about-section flow-section" aria-label="臨床決策流程">
     <h2>臨床決策流程</h2>
     <p class="flow-intro">
-      從孩子的年齡開始，到產生衛教建議為止，系統的判讀邏輯如下。
-      本流程僅為發展分流參考，不取代專業臨床判斷。
+      從 CFS 衰弱等級評定開始，到產生分流建議與衛教資源為止，系統的判讀邏輯如下。
+      本流程僅為篩檢與分流參考，不取代專業臨床判斷。
     </p>
 
     <ol class="flow">
@@ -100,12 +110,12 @@ const outcomes = [
 
     <div class="flow-edu">
       <h3>提供衛教資源</h3>
-      <p>判讀為<strong>追蹤觀察</strong>或<strong>建議轉介</strong>時，依「分級 × 需注意面向」自動帶出：</p>
+      <p>判讀為<strong>追蹤觀察</strong>或<strong>建議轉介</strong>時，依「分流等級 × 需注意領域」自動帶出：</p>
       <ul class="flow-criteria">
-        <li><strong>建議閱讀</strong>：對應的衛教文章（內容可由各院所自訂）</li>
-        <li><strong>參考影片</strong>：對應主題的精選衛教影片</li>
+        <li><strong>建議閱讀</strong>：對應領域的衛教文章（內容可由各院所自訂）</li>
+        <li><strong>參考資源</strong>：對應主題的衛教影片與外部連結</li>
       </ul>
-      <p class="flow-note">判讀為「正常」時，僅顯示結果摘要與發展雷達圖，不另行推送衛教資源。</p>
+      <p class="flow-note">判讀為「正常」時，僅顯示結果摘要與領域雷達圖，建議定期複評。</p>
     </div>
   </section>
 

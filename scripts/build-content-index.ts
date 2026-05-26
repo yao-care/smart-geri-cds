@@ -19,7 +19,6 @@ import {
   videoCatalogItemSchema,
   contentRelevanceSchema,
   runtimeIndexSchema,
-  CDSA_DOMAIN_NAMES,
   type VideoCatalogItem,
   type RuntimeIndex,
 } from '../src/lib/education/schemas.js';
@@ -147,13 +146,14 @@ export async function buildContentIndex(opts: BuildOptions = {}): Promise<Runtim
   // ── 3. Build inapplicable trigger set ─────────────────────────────────────
   //
   // content-relevance.yaml inapplicable section:
-  //   Record<domain, ageCDSA[]>
-  // Expand to Set<trigger string> e.g. "cdsa.domain.behavior.anomaly.2-6m"
+  //   Record<"top.sub", cfsLevel[]>
+  // Expand to Set<trigger string> e.g. "cga.domain.functional.adl.anomaly.cfs1"
 
   const inapplicableTriggerSet = new Set<string>();
-  for (const [domain, ages] of Object.entries(contentRelevance.inapplicable)) {
-    for (const age of ages) {
-      inapplicableTriggerSet.add(`cdsa.domain.${domain}.anomaly.${age}`);
+  for (const [topSub, cfsLevels] of Object.entries(contentRelevance.inapplicable)) {
+    const [top, sub] = topSub.split('.');
+    for (const cfs of cfsLevels) {
+      inapplicableTriggerSet.add(`cga.domain.${top}.${sub}.anomaly.${cfs}`);
     }
   }
 
@@ -183,12 +183,12 @@ export async function buildContentIndex(opts: BuildOptions = {}): Promise<Runtim
     }
     const verifiedVideoIds = entry.videoIds.filter(id => verifiedCatalog[id] != null);
     // Use the article marked browse:true as the matrix/browse educationSlug.
-    // Fall back to first article only for non-cdsa.domain triggers (triage/cdss)
+    // Fall back to first article only for non-cga.domain triggers (triage/cdss)
     // which never have browse markers but may still have an educationSlug.
     const browseArticle = entry.articles.find(a => a.browse === true);
     const educationSlugSource = browseArticle
       ? browseArticle.slug
-      : (entry.trigger.startsWith('cdsa.domain.') ? undefined : entry.articles[0]?.slug);
+      : (entry.trigger.startsWith('cga.domain.') ? undefined : entry.articles[0]?.slug);
     triggers[entry.trigger] = {
       videoIds: verifiedVideoIds,
       inapplicable: false,
@@ -199,14 +199,14 @@ export async function buildContentIndex(opts: BuildOptions = {}): Promise<Runtim
   // ── 5. educationSlugToTriggers ────────────────────────────────────────────
   //
   // Rule (mirrors old build):
-  //   - Only cdsa.domain.* triggers
+  //   - Only cga.domain.* triggers
   //   - Not inapplicable
   //   - Has educationSlug
   //   - Has ≥1 verified video
   //
-  // NOTE: The old build also included cdss.* and cdsa.triage.* triggers in
+  // NOTE: The old build also included cdss.* and cga.triage.* triggers in
   // educationSlugToTriggers if they had ≥1 verified video. We replicate
-  // the same logic without restricting to cdsa.domain.* only.
+  // the same logic without restricting to cga.domain.* only.
 
   const educationSlugToTriggers: Record<string, string[]> = {};
   for (const [k, t] of Object.entries(triggers)) {
@@ -217,12 +217,12 @@ export async function buildContentIndex(opts: BuildOptions = {}): Promise<Runtim
 
   // ── 6. recommendations ────────────────────────────────────────────────────
   //
-  // Key: `${severity}::${domain}::${age}`
+  // Key: `${severity}::${top}.${sub}::${cfs}`
   // Value: Array<{source:'internal', slug, title?, summary?}>
   //
-  // Derived from content-relevance.triggers for cdsa.domain.* entries only.
+  // Derived from content-relevance.triggers for cga.domain.* entries only.
   // Each article with an EXPLICIT, non-empty severities array → push slug into
-  // recommendations[`${sev}::${domain}::${age}`] for each listed severity.
+  // recommendations[`${sev}::${top}.${sub}::${cfs}`] for each listed severity.
   //
   // Articles with NO severities (browse-only / matrix-only) are intentionally
   // skipped — they must NOT appear in recommendations. No default fallback.
@@ -237,21 +237,21 @@ export async function buildContentIndex(opts: BuildOptions = {}): Promise<Runtim
   const allEducationSlugs = new Set<string>();
 
   for (const entry of contentRelevance.triggers) {
-    // Only cdsa.domain triggers contribute to recommendations
+    // Only cga.domain triggers contribute to recommendations
     const domainMatch = entry.trigger.match(
-      /^cdsa\.domain\.([^.]+)\.anomaly\.([^.]+)$/,
+      /^cga\.domain\.([^.]+)\.([^.]+)\.anomaly\.([^.]+)$/,
     );
     if (!domainMatch) continue;
 
-    const [, domain, age] = domainMatch;
+    const [, top, sub, cfs] = domainMatch;
 
     for (const article of entry.articles) {
       allEducationSlugs.add(article.slug);
 
       // Skip browse-only / matrix-only articles that have no explicit severities.
       // These were never part of default.json recommendations; adding a default
-      // would cause parity violations (e.g. language-stimulation leaking into
-      // monitor::language::13-24m where pre-refactor no article was recommended).
+      // would cause parity violations (e.g. an article leaking into
+      // monitor::functional.adl::cfs5 where pre-refactor no article was recommended).
       if (!article.severities || article.severities.length === 0) continue;
 
       const severities = article.severities;
@@ -260,7 +260,7 @@ export async function buildContentIndex(opts: BuildOptions = {}): Promise<Runtim
       const fm = await readFrontmatter(article.slug, cwd);
 
       for (const sev of severities) {
-        const key = `${sev}::${domain}::${age}`;
+        const key = `${sev}::${top}.${sub}::${cfs}`;
         const list = (recommendations[key] ??= []);
         if (!list.some(r => r.slug === article.slug)) {
           const item: { source: 'internal'; slug: string; title?: string; summary?: string } = {

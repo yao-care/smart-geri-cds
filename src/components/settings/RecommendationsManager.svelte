@@ -17,18 +17,16 @@
   } from '../../lib/db/schema';
   import { getCustomEducation } from '../../lib/db/custom-education';
   import { loadVideoIndex } from '../../lib/education/index-loader';
-  import { AGE_GROUPS_CDSA } from '../../lib/utils/age-groups';
+  import { CFS_LEVELS } from '../../lib/utils/cfs-levels';
+  import { domainLabel } from '../../lib/domain/domain-tree';
 
-  const DOMAIN_LABELS: Record<string, string> = {
-    behavior: '生活行為',
-    gross_motor: '粗動作',
-    fine_motor: '精細動作',
-    language: '語言',
-    language_comprehension: '語言理解',
-    language_expression: '語言表達',
-    cognition: '認知',
-    social_emotional: '社會情緒',
-  };
+  // `top.sub` key → 中文標籤（單一源於 domain-tree）。
+  const DOMAIN_LABELS: Record<string, string> = Object.fromEntries(
+    DOMAINS.map((d) => {
+      const [top, sub] = d.split('.');
+      return [d, domainLabel(top, sub)];
+    }),
+  );
 
   const CATEGORY_LABELS: Record<RecommendationCategory, string> = {
     normal: '正常',
@@ -104,12 +102,12 @@
     if (!cell) return;
     cell.expanded = true;
     if (!cell.hasOverlay) {
-      // Seed editor with the union of default items across all ages (deduped by slug)
+      // Seed editor with the union of default items across all CFS levels (deduped by slug)
       // so the user can tweak instead of starting blank.
       const seen = new Set<string>();
       const seed: RecommendationItem[] = [];
-      for (const age of AGE_GROUPS_CDSA) {
-        const items = await getDefaultRecommendations(activeCategory, domain, age);
+      for (const cfs of CFS_LEVELS) {
+        const items = await getDefaultRecommendations(activeCategory, domain, cfs);
         for (const item of items) {
           const k = item.slug ?? item.url ?? item.customId ?? '';
           if (!seen.has(k)) {
@@ -249,7 +247,7 @@
               {#if cell?.hasOverlay}
                 <span class="badge badge-override">已自訂</span>
               {:else}
-                <span class="badge badge-default">系統預設（依年齡）</span>
+                <span class="badge badge-default">系統預設（依 CFS）</span>
               {/if}
               {#if cell?.hasOverlay}
                 <span class="row-count">{overlayItems.length} 項（覆蓋）</span>
@@ -262,7 +260,7 @@
                   {/if}
                 </span>
               {:else}
-                <span class="row-preview"><em>（依評估年齡自動選取）</em></span>
+                <span class="row-preview"><em>（依 CFS 等級自動選取）</em></span>
               {/if}
             </button>
             {#if cell?.hasOverlay}

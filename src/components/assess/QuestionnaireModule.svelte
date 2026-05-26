@@ -1,42 +1,50 @@
 <script lang="ts">
   import { assessmentStore } from '../../lib/stores/assessment.svelte';
   import { recordEvent } from '../../lib/db/assessment-events';
-  import questionsData from '../../data/questionnaire/questions.json';
-  import expectedDomainsMap from '../../lib/data/expected-questionnaire-domains.generated.json';
-  import type { AgeGroupCDSA } from '../../lib/utils/age-groups';
+  import { domainLabel } from '../../lib/domain/domain-tree';
+  import type { ScaleDef, ScaleItem } from '../../lib/scales/scale';
 
-  // ---- Types ----
-  interface QuestionOption {
-    value: string;
-    label: string;
-    score: number;
+  interface Props {
+    scales?: ScaleDef[];
   }
 
-  interface Question {
-    id: string;
-    domain: string;
+  let { scales = [] }: Props = $props();
+
+  // ---- Flattened question shape (one per scale item) ----
+  interface FlatQuestion {
+    scaleId: string;
+    top: string;
+    sub: string;
     domainLabel: string;
-    ageGroups: string[];
-    text: string;
-    options: QuestionOption[];
-    clinicallyReviewed?: boolean;
-    source?: string;
+    clinicallyReviewed: boolean;
+    item: ScaleItem;
   }
 
   // ---- Derived state ----
-  const ageGroup = $derived(assessmentStore.ageGroup);
+  const cfsLevel = $derived(assessmentStore.cfsLevel);
 
-  const questions = $derived<Question[]>(
-    ageGroup
-      ? (questionsData.questions as Question[]).filter(q =>
-          q.ageGroups.includes(ageGroup as string)
-        )
-      : []
+  /** Scales applicable to the assessment's CFS level. */
+  const applicableScales = $derived<ScaleDef[]>(
+    cfsLevel ? scales.filter(s => s.applicableCfs.includes(cfsLevel)) : [],
+  );
+
+  /** Flatten applicable scales into a single question sequence. */
+  const questions = $derived<FlatQuestion[]>(
+    applicableScales.flatMap(s =>
+      s.items.map(item => ({
+        scaleId: s.id,
+        top: s.domain.top,
+        sub: s.domain.sub,
+        domainLabel: domainLabel(s.domain.top, s.domain.sub),
+        clinicallyReviewed: s.clinicallyReviewed,
+        item,
+      })),
+    ),
   );
 
   // ---- Module state ----
   let currentIndex = $state(0);
-  let answers = $state<Record<string, { value: string; score: number; domainLabel: string; domain: string }>>({});
+  let answers = $state<Record<string, { score: number; scaleId: string }>>({});
   let lastAnswerLabel = $state<string | null>(null);
   let phase = $state<'asking' | 'summary'>('asking');
   let isSaving = $state(false);
@@ -47,51 +55,44 @@
   const answeredCount = $derived(Object.keys(answers).length);
   const progressPct = $derived(totalQuestions > 0 ? Math.round((answeredCount / totalQuestions) * 100) : 0);
 
-  // ---- Domain summary ----
-  const domainSummary = $derived.by(() => {
-    const domains: Record<string, { label: string; score: number; max: number }> = {};
-    for (const q of questions) {
-      if (!domains[q.domain]) {
-        domains[q.domain] = { label: q.domainLabel, score: 0, max: 0 };
-      }
-      // Math.max(0, ...) 保護空 options（Math.max(...[]) === -Infinity）
-      domains[q.domain].max += Math.max(0, ...q.options.map(o => o.score));
-      if (answers[q.id]) {
-        domains[q.domain].score += answers[q.id].score;
-      }
-    }
-    return Object.entries(domains).map(([domain, data]) => ({
-      domain,
-      label: data.label,
-      score: data.score,
-      max: data.max,
-      pct: data.max > 0 ? Math.round((data.score / data.max) * 100) : 0,
-    }));
+  // ---- Per-scale summary ----
+  const scaleSummary = $derived.by(() => {
+    return applicableScales.map(s => {
+      const itemIds = s.items.map(i => i.id);
+      const answered = itemIds.filter(id => answers[id] !== undefined).length;
+      const score = itemIds.reduce((sum, id) => sum + (answers[id]?.score ?? 0), 0);
+      const pct = s.maxScore > 0 ? Math.round((score / s.maxScore) * 100) : 0;
+      return {
+        scaleId: s.id,
+        label: domainLabel(s.domain.top, s.domain.sub),
+        score,
+        max: s.maxScore,
+        answered,
+        total: itemIds.length,
+        pct,
+      };
+    });
   });
 
   // ---- Answer handler ----
-  async function handleAnswer(option: QuestionOption) {
+  async function handleAnswer(option: { label: string; score: number }) {
     if (!currentQuestion) return;
     if (isSaving) return;
 
     isSaving = true;
     lastAnswerLabel = option.label;
 
-    // Record in local state
     answers = {
       ...answers,
-      [currentQuestion.id]: {
-        value: option.value,
-        score: option.score,
-        domainLabel: currentQuestion.domainLabel,
-        domain: currentQuestion.domain,
-      },
+      [currentQuestion.item.id]: { score: option.score, scaleId: currentQuestion.scaleId },
     };
 
-    // Persist event to IndexedDB
+    // Persist event to IndexedDB (one row per item). maxScore is the item's
+    // own max option score so analyzer accumulation matches the scale maxScore.
     const assessment = assessmentStore.assessment;
     const child = assessmentStore.child;
     if (assessment && child) {
+      const itemMax = Math.max(0, ...currentQuestion.item.options.map(o => o.score));
       await recordEvent({
         assessmentId: assessment.id,
         childId: child.id,
@@ -99,74 +100,50 @@
         eventType: 'questionnaire_answer',
         timestamp: new Date(),
         data: {
-          questionId: currentQuestion.id,
-          domain: currentQuestion.domain,
-          domainLabel: currentQuestion.domainLabel,
-          questionText: currentQuestion.text,
-          answerValue: option.value,
+          scaleId: currentQuestion.scaleId,
+          top: currentQuestion.top,
+          sub: currentQuestion.sub,
+          questionId: currentQuestion.item.id,
+          questionText: currentQuestion.item.text,
           answerLabel: option.label,
           score: option.score,
-          ageGroup: ageGroup,
+          maxScore: itemMax,
+          cfsLevel,
         },
-        qualityFlags: {
-          isComplete: true,
-          isAnomaly: false,
-        },
+        qualityFlags: { isComplete: true, isAnomaly: false },
       });
     }
 
     isSaving = false;
 
-    // Brief feedback then advance
     await new Promise(r => setTimeout(r, 520));
     lastAnswerLabel = null;
 
     if (currentIndex < totalQuestions - 1) {
       currentIndex++;
     } else {
-      // Persist scores into the store immediately on the last answer so a
-      // distracted user / Playwright run that never reaches the summary
-      // "完成問卷" button still feeds the triage engine. The summary screen
-      // remains as a confirmation surface; pressing 完成問卷 only advances.
       persistScoresToStore();
       phase = 'summary';
     }
   }
 
   function persistScoresToStore(): void {
+    // Keyed by scaleId so ResultView can map back to a ScaleDef and run scoreScale.
     const scores: Record<string, number> = {};
     const maxScores: Record<string, number> = {};
-    for (const s of domainSummary) {
-      scores[s.domain] = s.score;
-      maxScores[s.domain] = s.max;
+    for (const s of scaleSummary) {
+      scores[s.scaleId] = s.score;
+      maxScores[s.scaleId] = s.max;
     }
-
-    if (import.meta.env.DEV && ageGroup) {
-      const expected = (expectedDomainsMap as Record<string, string[]>)[ageGroup as string] ?? [];
-      for (const d of expected) {
-        if (!(d in scores)) {
-          console.warn(`[Questionnaire] Missing domain '${d}' for ageGroup '${ageGroup as string}'.`);
-        }
-      }
-    }
-
     assessmentStore.addAnalysis({
       questionnaireScores: scores,
       questionnaireMaxScores: maxScores,
     });
   }
 
-  // ---- Finish ----
   async function handleFinish() {
-    // Re-write in case the user changed an earlier answer via back-nav;
-    // the call above already covered the happy path.
     persistScoresToStore();
     await assessmentStore.nextStep();
-  }
-
-  async function handleForceFullEval() {
-    await assessmentStore.setForceFullAssessment(true);
-    await handleFinish();
   }
 </script>
 
@@ -186,11 +163,11 @@
 
     <!-- Question text -->
     <h2 class="question-text">
-      {currentQuestion.text}
-      {#if currentQuestion && currentQuestion.clinicallyReviewed !== true}
+      {currentQuestion.item.text}
+      {#if currentQuestion.clinicallyReviewed !== true}
         <span
           class="badge-unreviewed"
-          aria-label="本題尚未經臨床顧問審查"
+          aria-label="本量表尚未經臨床顧問審查"
         >未審</span>
       {/if}
     </h2>
@@ -202,10 +179,10 @@
 
     <!-- Options -->
     <div class="options-list">
-      {#each currentQuestion.options as option (option.value)}
+      {#each currentQuestion.item.options as option (option.label)}
         <button
           class="option-btn"
-          class:selected={answers[currentQuestion.id]?.value === option.value}
+          class:selected={answers[currentQuestion.item.id]?.score === option.score}
           disabled={isSaving}
           data-score={option.score}
           onclick={() => handleAnswer(option)}
@@ -225,10 +202,10 @@
         </svg>
       </div>
       <h2 class="summary-title">問卷完成！</h2>
-      <p class="summary-desc">以下是各發展領域的作答摘要</p>
+      <p class="summary-desc">以下是各評估面向的作答摘要</p>
 
       <div class="domain-bars">
-        {#each domainSummary as d (d.domain)}
+        {#each scaleSummary as d (d.scaleId)}
           <div class="domain-row">
             <span class="domain-name">{d.label}</span>
             <div class="bar-track">
@@ -246,30 +223,18 @@
       </div>
 
       <div class="recommendation">
-        <h3>依您的作答結果，建議完成：</h3>
-        <ul>
-          <li>✓ 互動遊戲（量「行為」面向）</li>
-          <li class:skipped={assessmentStore.skippedModules.has('video')}>
-            {assessmentStore.skippedModules.has('video') ? '✗ 影片錄製（粗動作滿分，已跳過）' : '✓ 影片錄製（粗動作）'}
-          </li>
-          <li class:skipped={assessmentStore.skippedModules.has('drawing')}>
-            {assessmentStore.skippedModules.has('drawing') ? '✗ 繪圖（細動作滿分，已跳過）' : '✓ 繪圖（細動作）'}
-          </li>
-          <li class:skipped={assessmentStore.skippedModules.has('voice')}>
-            {assessmentStore.skippedModules.has('voice') ? '✗ 語音（語言滿分，已跳過）' : '✓ 語音（語言）'}
-          </li>
-        </ul>
+        <h3>下一步</h3>
+        <p>送出後將依各量表的驗證切分點計分，彙整為周全性評估結果與衛教建議。</p>
         <div class="actions">
-          <button class="btn-finish" onclick={handleFinish}>依建議繼續</button>
-          <button class="btn-finish secondary" onclick={handleForceFullEval}>跑完整評估</button>
+          <button class="btn-finish" onclick={handleFinish}>查看評估結果</button>
         </div>
       </div>
     </div>
 
   {:else}
-    <!-- No questions for this age group (should not happen) -->
+    <!-- No applicable scales for this CFS level -->
     <div class="empty-state">
-      <p>此年齡層目前沒有適用的問卷題目。</p>
+      <p>目前此衰弱等級沒有可施測的量表。</p>
       <button class="btn-finish" onclick={handleFinish}>繼續下一步</button>
     </div>
   {/if}
@@ -499,9 +464,6 @@
   /* ---- Recommendation section ---- */
   .recommendation { margin-top: var(--space-4); }
   .recommendation h3 { font-size: var(--text-base); font-weight: var(--font-medium); margin-bottom: var(--space-3); }
-  .recommendation ul { list-style: none; padding: 0; }
-  .recommendation li { padding: var(--space-2) 0; font-size: var(--text-base); }
-  .recommendation li.skipped { color: var(--text); opacity: 0.5; text-decoration: line-through; }
+  .recommendation p { font-size: var(--text-base); line-height: var(--lh-base); color: color-mix(in srgb, var(--text), var(--bg) 25%); }
   .recommendation .actions { display: flex; gap: var(--space-3); margin-top: var(--space-4); }
-  .recommendation .actions button.secondary { background: transparent; border: 1px solid var(--line); color: var(--text); }
 </style>

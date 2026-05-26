@@ -1,11 +1,13 @@
 import type { CustomVideo, RuntimeIndex, RuntimeVideo } from './schemas';
-import { AGE_GROUPS_CDSA, type AgeGroupCDSA } from '../utils/age-groups';
+import { CFS_LEVELS, type CfsLevel } from '../utils/cfs-levels';
 import { mergeCustomVideos } from './merge-custom-videos';
-import { CDSA_FALLBACK_CHAIN } from './age-fallback';
+import { CFS_FALLBACK_CHAIN } from './cfs-fallback';
 import { loadVideoIndex } from './index-loader';
 
-const CDSA_TRIGGER_REGEX = new RegExp(
-  `^(cdsa\\.(?:triage|domain)\\..+)\\.(${AGE_GROUPS_CDSA.join('|')})$`,
+// Matches both cga.triage.<cat>.<cfs> and cga.domain.<top>.<sub>.anomaly.<cfs>.
+// Captures everything up to (but not including) the trailing CFS level.
+const CGA_TRIGGER_REGEX = new RegExp(
+  `^(cga\\.(?:triage|domain)\\..+)\\.(${CFS_LEVELS.join('|')})$`,
 );
 
 // Re-export for callers that imported loadIndex via video-lookup (none currently, but kept for safety)
@@ -13,16 +15,16 @@ export { loadVideoIndex as loadIndex };
 
 export interface VideoLookupOptions {
   maxResults?: number;
-  ageGroupFallback?: boolean;
+  cfsFallback?: boolean;
 }
 
-export function tryAgeGroupFallback(trigger: string, idx: RuntimeIndex): string[] {
-  const m = trigger.match(CDSA_TRIGGER_REGEX);
+export function tryCfsFallback(trigger: string, idx: RuntimeIndex): string[] {
+  const m = trigger.match(CGA_TRIGGER_REGEX);
   if (!m) return [];
-  const [, prefix, currentAge] = m;
-  const chain = CDSA_FALLBACK_CHAIN[currentAge as AgeGroupCDSA] ?? [];
-  for (const altAge of chain) {
-    const altTrigger = `${prefix}.${altAge}`;
+  const [, prefix, currentCfs] = m;
+  const chain = CFS_FALLBACK_CHAIN[currentCfs as CfsLevel] ?? [];
+  for (const altCfs of chain) {
+    const altTrigger = `${prefix}.${altCfs}`;
     const altEntry = idx.triggers[altTrigger];
     if (!altEntry || altEntry.inapplicable) continue;
     if (altEntry.videoIds.length === 0) continue;
@@ -41,10 +43,10 @@ export async function getVideosForTrigger(
 
   if (entry?.inapplicable) return [];
 
-  const opts = { maxResults: 3, ageGroupFallback: false, ...options };
+  const opts = { maxResults: 3, cfsFallback: false, ...options };
   let ids = entry?.videoIds ?? [];
-  if (ids.length === 0 && opts.ageGroupFallback) {
-    ids = tryAgeGroupFallback(trigger, idx);
+  if (ids.length === 0 && opts.cfsFallback) {
+    ids = tryCfsFallback(trigger, idx);
   }
 
   const staticVideos = ids

@@ -3,18 +3,17 @@ import Base from '../layouts/Base.astro';
 import Header from '../components/blocks/Header.astro';
 import AssessmentShell from '../components/assess/AssessmentShell.svelte';
 import { getCollection } from 'astro:content';
+import { toScaleDefs } from '../lib/scales/load-scales';
 
-const cardEntries = await getCollection('cards');
-const approvedCards = cardEntries
-  .filter((e) => e.data.reviewStatus === 'approved')
-  .map((e) => ({ id: e.id, ...e.data }));
+const scaleEntries = await getCollection('scales');
+const scales = toScaleDefs(scaleEntries);
 ---
 
-<Base title="開始評估" description="兒童發展遲緩智慧分流評估">
+<Base title="開始評估" description="高齡周全性評估（CGA）智慧分流">
   <div class="app-layout">
     <Header />
     <main id="main-content" class="app-main" data-pagefind-body>
-      <AssessmentShell client:load cards={approvedCards} />
+      <AssessmentShell client:load {scales} />
     </main>
   </div>
 </Base>

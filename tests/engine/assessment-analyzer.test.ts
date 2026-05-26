@@ -4,144 +4,73 @@ import { recordEvents } from '../../src/lib/db/assessment-events';
 import { db } from '../../src/lib/db/schema';
 
 /**
- * Integration test for `analyzeAssessment`. Uses fake-indexeddb (set up
- * in tests/setup.ts) to seed real events, then asserts the full pipeline
- * — analyzeBehavior + analyzeVoiceFromEvents + analyzeDrawing + computeTriage —
- * runs to completion without media files.
- *
- * Media-blob paths (analyzeVoiceFull, analyzeGrossMotor) are NOT exercised
- * here because they require AudioContext / MediaPipe / OffscreenCanvas which
- * jsdom does not provide. Skipping them is deliberate: no media in the DB
- * means the analyzer correctly falls back to event-only voice analysis and
- * leaves grossMotorResult null.
+ * Integration test for `analyzeAssessment` (questionnaire-only, post-sensor-removal).
+ * Uses fake-indexeddb (set up in tests/setup.ts) to seed questionnaire events,
+ * then asserts the pipeline questionnaire events → ScaleResult[] → computeTriage
+ * runs to completion. No sensor modules remain.
  */
-describe('analyzeAssessment integration', () => {
+describe('analyzeAssessment (questionnaire-only)', () => {
   const assessmentId = 'test-assess-001';
   const childId = 'test-child-001';
 
   beforeEach(async () => {
     await db.assessmentEvents.clear();
-    await db.mediaFiles.clear();
   });
 
-  it('runs end-to-end on an empty assessment (no events) without throwing', async () => {
-    const result = await analyzeAssessment(assessmentId, '25-36m');
-
+  it('runs end-to-end on an empty assessment (no events) → incomplete', async () => {
+    const result = await analyzeAssessment(assessmentId, 'cfs5');
     expect(result.triageResult).toBeDefined();
-    expect(result.triageResult.category).toMatch(/^(normal|monitor|refer)$/);
-    expect(result.behaviorMetrics).toBeDefined();
-    expect(result.voiceMetrics).toBeDefined();
-    expect(result.drawingResult).toBeDefined();
-    expect(result.grossMotorResult).toBeNull();
+    expect(result.triageResult.category).toBe('incomplete');
+    expect(result.triageResult.details).toEqual([]);
     expect(result.analyzedAt).toBeInstanceOf(Date);
   });
 
-  it('aggregates voice events into voiceMetrics via event-only fallback', async () => {
-    await recordEvents([
-      {
-        assessmentId, childId, moduleType: 'voice',
-        eventType: 'voice_end', timestamp: new Date(),
-        data: { duration: 2.5 },
-      },
-      {
-        assessmentId, childId, moduleType: 'voice',
-        eventType: 'voice_end', timestamp: new Date(),
-        data: { duration: 1.5 },
-      },
-      {
-        assessmentId, childId, moduleType: 'voice',
-        eventType: 'voice_skip', timestamp: new Date(),
-        data: {},
-      },
-    ]);
-
-    const result = await analyzeAssessment(assessmentId, '25-36m');
-
-    expect(result.voiceMetrics.voiceDurationTotal).toBeCloseTo(4.0, 5);
-    expect(result.voiceMetrics.fluencyPauseCount).toBe(1);
-    // Event-only fallback returns null for audio-derived fields
-    expect(result.voiceMetrics.pitchMean).toBeNull();
-    expect(result.voiceMetrics.mfccMean).toBeNull();
-  });
-
-  it('only considers drawing_complete events for drawing analysis', async () => {
-    const completeStroke = [
-      [
-        { x: 0,   y: 0,   t: 0   },
-        { x: 100, y: 0,   t: 100 },
-        { x: 100, y: 100, t: 200 },
-        { x: 0,   y: 100, t: 300 },
-        { x: 0,   y: 0,   t: 400 },
-      ],
-    ];
-
-    await recordEvents([
-      {
-        assessmentId, childId, moduleType: 'drawing',
-        eventType: 'drawing_start', timestamp: new Date(),
-        data: { shapeId: 'square' }, // ignored — wrong eventType
-      },
-      {
-        assessmentId, childId, moduleType: 'drawing',
-        eventType: 'drawing_complete', timestamp: new Date(),
-        data: { shapeId: 'square', strokes: completeStroke },
-      },
-    ]);
-
-    const result = await analyzeAssessment(assessmentId, '25-36m');
-    expect(result.drawingResult.shapes).toHaveLength(1);
-    expect(result.drawingResult.shapes[0].shapeId).toBe('square');
-    expect(result.drawingResult.overallScore).toBeGreaterThan(0);
-  });
-
-  it('aggregates questionnaire scores per domain into triage input', async () => {
+  it('aggregates questionnaire scores per top.sub scale into ScaleResult[]', async () => {
     await recordEvents([
       {
         assessmentId, childId, moduleType: 'questionnaire',
-        eventType: 'answer', timestamp: new Date(),
-        data: { domain: 'language_expression', score: 2 },
+        eventType: 'questionnaire_answer', timestamp: new Date(),
+        data: { scaleId: 'gds-15', top: 'psychological', sub: 'mood', score: 2, maxScore: 15 },
       },
       {
         assessmentId, childId, moduleType: 'questionnaire',
-        eventType: 'answer', timestamp: new Date(),
-        data: { domain: 'language_expression', score: 1 },
+        eventType: 'questionnaire_answer', timestamp: new Date(),
+        data: { scaleId: 'gds-15', top: 'psychological', sub: 'mood', score: 1, maxScore: 0 },
       },
       {
         assessmentId, childId, moduleType: 'questionnaire',
-        eventType: 'answer', timestamp: new Date(),
-        data: { domain: 'social_emotional', score: 0 },
+        eventType: 'questionnaire_answer', timestamp: new Date(),
+        data: { scaleId: 'barthel', top: 'functional', sub: 'adl', score: 80, maxScore: 100 },
       },
     ]);
 
-    const result = await analyzeAssessment(assessmentId, '25-36m');
-    // Triage result should reference the questionnaire domains
-    expect(result.triageResult).toBeDefined();
-    expect(result.triageResult.summary).toBeTruthy();
+    const result = await analyzeAssessment(assessmentId, 'cfs5');
+    expect(result.triageResult.details).toHaveLength(2);
+    const mood = result.triageResult.details.find(d => d.scaleId === 'gds-15');
+    expect(mood?.domain).toEqual({ top: 'psychological', sub: 'mood' });
+    expect(mood?.rawScore).toBe(3); // 2 + 1
+    expect(mood?.maxScore).toBe(15); // 15 + 0
   });
 
-  it('returns grossMotorResult: null when no video media exists', async () => {
-    const result = await analyzeAssessment(assessmentId, '25-36m');
-    expect(result.grossMotorResult).toBeNull();
-  });
-
-  it('isolates results by assessmentId (no cross-talk between assessments)', async () => {
+  it('isolates results by assessmentId (no cross-talk)', async () => {
     await recordEvents([
       {
-        assessmentId: 'A', childId, moduleType: 'voice',
-        eventType: 'voice_end', timestamp: new Date(),
-        data: { duration: 3.0 },
+        assessmentId: 'A', childId, moduleType: 'questionnaire',
+        eventType: 'questionnaire_answer', timestamp: new Date(),
+        data: { scaleId: 'gds-15', top: 'psychological', sub: 'mood', score: 3, maxScore: 15 },
       },
       {
-        assessmentId: 'B', childId, moduleType: 'voice',
-        eventType: 'voice_end', timestamp: new Date(),
-        data: { duration: 7.0 },
+        assessmentId: 'B', childId, moduleType: 'questionnaire',
+        eventType: 'questionnaire_answer', timestamp: new Date(),
+        data: { scaleId: 'barthel', top: 'functional', sub: 'adl', score: 50, maxScore: 100 },
       },
     ]);
 
-    const a = await analyzeAssessment('A', '25-36m');
-    const b = await analyzeAssessment('B', '25-36m');
-
-    expect(a.voiceMetrics.voiceDurationTotal).toBeCloseTo(3.0, 5);
-    expect(b.voiceMetrics.voiceDurationTotal).toBeCloseTo(7.0, 5);
+    const a = await analyzeAssessment('A', 'cfs5');
+    const b = await analyzeAssessment('B', 'cfs5');
+    expect(a.triageResult.details).toHaveLength(1);
+    expect(a.triageResult.details[0].scaleId).toBe('gds-15');
+    expect(b.triageResult.details).toHaveLength(1);
+    expect(b.triageResult.details[0].scaleId).toBe('barthel');
   });
 });

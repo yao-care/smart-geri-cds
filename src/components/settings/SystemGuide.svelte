@@ -29,8 +29,8 @@
     <h3>多租戶機制</h3>
     <p>
       系統用<strong>連線中的 FHIR base URL</strong> 作為 tenant 識別碼。
-      `tenantSettings`、`customEducation`、`recommendationOverlays`、
-      `normThresholds` 全部以此 ID 做 partition。
+      `tenantSettings`、`customEducation`、`recommendationOverlays`
+      全部以此 ID 做 partition。
     </p>
     <p>
       醫院 A 跟醫院 B 即使共用同一台裝置（瀏覽器）開啟，切換 FHIR Server 後設定不會混淆。
@@ -39,36 +39,28 @@
   </section>
 
   <section>
-    <h3>評分邏輯（CDSA 分流）</h3>
+    <h3>評分邏輯（CGA 分流）</h3>
     <ol>
       <li>
-        <strong>各 metric 偵測</strong>：
-        遊戲行為（反應延遲、完成率、操作一致性、互動節奏）→ z-score；
-        繪圖 / 語音 → z-score；
-        問卷 → 得分 ÷ 上限；
-        姿態分析 → 二元分類。
+        <strong>分層軸（CFS）</strong>：進入評估時由臨床／照護者判定臨床衰弱量表
+        CFS 1–9，gate 後續適用的領域子項與建議，但 <strong>不參與計分</strong>。
       </li>
       <li>
-        <strong>異常判定</strong>：z-score ≤ -1.5（反向 metric ≥ +1.5）視為偏離；
-        問卷得分比 &lt; 50% 視為偏離。
+        <strong>逐量表計分</strong>：各 CGA 量表（GDS-15、Barthel、MNA-SF、SPMSQ…）
+        各有驗證過的固定切分點（cutoff）。將原始分對照量表分段（band），
+        得到該領域的 severity（normal／monitor／refer）。作答不全者標為 incomplete。
       </li>
       <li>
-        <strong>三類分流</strong>：
+        <strong>整體分流（取最嚴重領域）</strong>：
         <ul>
-          <li><strong>refer（建議轉介）</strong>：≥ 3 個異常 metric 且異常分布在 ≥ 2 個 domain</li>
-          <li><strong>monitor（追蹤觀察）</strong>：≥ 1 個異常 metric（未達轉介門檻）</li>
-          <li><strong>normal（正常）</strong>：無任何異常 metric</li>
+          <li><strong>refer（建議轉介）</strong>：任一領域為 refer</li>
+          <li><strong>monitor（追蹤觀察）</strong>：無 refer 但有 monitor</li>
+          <li><strong>normal（正常）</strong>：所有領域皆 normal</li>
+          <li><strong>incomplete（未完成）</strong>：所有領域皆未完成</li>
         </ul>
-      </li>
-      <li>
-        <strong>信心度</strong>：refer 用 <code>min(0.95, 0.7 + 0.04×count + 0.05×domains)</code>，
-        monitor 用 <code>min(0.90, 0.6 + 0.08×count + 0.04×domains)</code>，
-        normal 固定 0.85。
+        incomplete 領域排除於彙整與推薦查詢，但於結果頁明確標示，不假裝正常。
       </li>
     </ol>
-    <p class="caveat">
-      常模目前為系統內建預設值。建議部署時到「常模管理」tab 改成醫院本地常模，分流結果才能反映真實族群。
-    </p>
   </section>
 
   <section>
@@ -93,10 +85,7 @@
       <dd>醫院自上傳的衛教內容（文章 / 影片），會出現在 <code>/education/</code> 列表與評估後推薦。</dd>
 
       <dt>評估推薦</dt>
-      <dd>per category × domain 自訂評估後給家長看的衛教清單。可選「合併系統預設」或「完全取代」。</dd>
-
-      <dt>常模管理</dt>
-      <dd>per ageGroup × metric 編輯 mean / std，分流引擎優先採用，缺值回退到系統預設。建議部署時逐項評估後填入。</dd>
+      <dd>per severity × 領域（top.sub）自訂評估後給個案／照護者看的衛教清單。可選「合併系統預設」或「完全取代」。</dd>
 
       <dt>系統說明</dt>
       <dd>本頁。</dd>
@@ -120,14 +109,14 @@
       <li>建議 HTTPS + custom domain。SMART on FHIR 通常要求 HTTPS redirect_uri。</li>
       <li><code>scripts/base.mjs</code> 控制 base path；部署於子目錄需改 <code>BASE_PATH</code>。</li>
       <li>無 server 端日誌；錯誤回報可考慮接 Sentry / 自家 Webhook。</li>
-      <li>常模 / 規則 / 衛教 / 推薦 都存在使用者裝置的 IndexedDB — 建議搭配 export / import 功能（未來迭代）做備援。</li>
+      <li>規則 / 衛教 / 推薦 都存在使用者裝置的 IndexedDB — 建議搭配 export / import 功能（未來迭代）做備援。</li>
     </ul>
   </section>
 
   <section>
     <h3>已知限制 / 未來工作</h3>
     <ul>
-      <li>常模沒有 UI 匯入 CSV / JSON，目前只能逐項手動填。</li>
+      <li>量表完整題目 / cutoff 待臨床審核（clinicallyReviewed 控管）後落地。</li>
       <li>多 child 切換、家庭模式尚未實作。</li>
       <li>FHIR 端的 DiagnosticReport 反查不含原始事件 timeline。</li>
       <li>i18n 目前只支援 zh-TW。</li>
@@ -219,16 +208,6 @@
     margin: 0;
     color: color-mix(in srgb, var(--text), var(--bg) 30%);
     padding-left: 0;
-  }
-
-  .caveat {
-    padding: var(--space-3);
-    background: color-mix(in srgb, var(--warn) 12%, var(--bg));
-    border-left: 3px solid var(--warn);
-    border-radius: var(--radius-sm);
-    color: var(--text);
-    font-size: var(--text-sm);
-    margin: var(--space-3) 0 0;
   }
 
   .footer-note {

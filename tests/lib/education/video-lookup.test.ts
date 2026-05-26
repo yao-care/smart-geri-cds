@@ -13,11 +13,14 @@ const mockIndex: RuntimeIndex = {
     v3: mockVideo('v3', 0.5),
   },
   triggers: {
-    'cdsa.triage.refer.13-24m': { videoIds: ['v1', 'v2'], inapplicable: false },
-    'cdsa.domain.fine_motor.anomaly.2-6m': { videoIds: [], inapplicable: true },
-    'cdsa.domain.fine_motor.anomaly.7-12m': { videoIds: ['v3'], inapplicable: false },
-    'cdsa.domain.fine_motor.anomaly.13-24m': { videoIds: [], inapplicable: false },
+    'cga.triage.refer.cfs5': { videoIds: ['v1', 'v2'], inapplicable: false },
+    'cga.domain.functional.adl.anomaly.cfs1': { videoIds: [], inapplicable: true },
+    'cga.domain.functional.adl.anomaly.cfs2': { videoIds: ['v3'], inapplicable: false },
+    'cga.domain.functional.adl.anomaly.cfs3': { videoIds: [], inapplicable: false },
   },
+  educationSlugToTriggers: {},
+  recommendations: {},
+  clinicalEducation: {},
 };
 
 beforeEach(() => {
@@ -31,29 +34,31 @@ beforeEach(() => {
 describe('video-lookup', () => {
   it('returns sorted videos for matched trigger', async () => {
     const { getVideosForTrigger } = await import('../../../src/lib/education/video-lookup');
-    const videos = await getVideosForTrigger('cdsa.triage.refer.13-24m');
+    const videos = await getVideosForTrigger('cga.triage.refer.cfs5');
     expect(videos.map(v => v.videoId)).toEqual(['v1', 'v2']);
   });
 
   it('returns empty for inapplicable trigger (custom ignored)', async () => {
     const { getVideosForTrigger } = await import('../../../src/lib/education/video-lookup');
     const custom = [{ ...mockVideo('vCustom', 1.0), triggers: '*' as const }];
-    const videos = await getVideosForTrigger('cdsa.domain.fine_motor.anomaly.2-6m', custom);
+    const videos = await getVideosForTrigger('cga.domain.functional.adl.anomaly.cfs1', custom);
     expect(videos).toEqual([]);
   });
 
-  it('ageGroupFallback returns videos from 7-12m when 13-24m empty', async () => {
+  it('cfsFallback returns videos from cfs2 when cfs3 empty', async () => {
     const { getVideosForTrigger } = await import('../../../src/lib/education/video-lookup');
-    const videos = await getVideosForTrigger('cdsa.domain.fine_motor.anomaly.13-24m', [], {
-      ageGroupFallback: true,
+    const videos = await getVideosForTrigger('cga.domain.functional.adl.anomaly.cfs3', [], {
+      cfsFallback: true,
     });
     expect(videos.map(v => v.videoId)).toEqual(['v3']);
   });
 
-  it('ageGroupFallback skips inapplicable chain entries', async () => {
+  it('cfsFallback skips inapplicable chain entries', async () => {
     const { getVideosForTrigger } = await import('../../../src/lib/education/video-lookup');
-    const videos = await getVideosForTrigger('cdsa.domain.fine_motor.anomaly.7-12m', [], {
-      ageGroupFallback: true,
+    // cfs2 has v3; cfs2's chain neighbours include cfs1 (inapplicable) and cfs3 (empty).
+    // Direct cfs2 lookup returns its own videos (no fallback needed).
+    const videos = await getVideosForTrigger('cga.domain.functional.adl.anomaly.cfs2', [], {
+      cfsFallback: true,
     });
     expect(videos.map(v => v.videoId)).toEqual(['v3']);
   });
@@ -67,14 +72,23 @@ describe('video-lookup', () => {
     });
 
     const { getVideosForTrigger } = await import('../../../src/lib/education/video-lookup');
-    await expect(getVideosForTrigger('cdsa.triage.refer.13-24m')).rejects.toThrow();
-    const videos = await getVideosForTrigger('cdsa.triage.refer.13-24m');
+    await expect(getVideosForTrigger('cga.triage.refer.cfs5')).rejects.toThrow();
+    const videos = await getVideosForTrigger('cga.triage.refer.cfs5');
     expect(videos).toHaveLength(2);
   });
 
-  it('regex correctly parses cdsa.domain.<dom>.anomaly.<age>', async () => {
-    const { tryAgeGroupFallback } = await import('../../../src/lib/education/video-lookup');
-    const ids = tryAgeGroupFallback('cdsa.domain.fine_motor.anomaly.13-24m', mockIndex);
+  it('regex correctly parses cga.domain.<top>.<sub>.anomaly.<cfs>', async () => {
+    const { tryCfsFallback } = await import('../../../src/lib/education/video-lookup');
+    // cfs3 empty → chain to cfs2 (v3); cfs4 absent.
+    const ids = tryCfsFallback('cga.domain.functional.adl.anomaly.cfs3', mockIndex);
     expect(ids).toEqual(['v3']);
+  });
+
+  it('regex correctly parses cga.triage.<cat>.<cfs>', async () => {
+    const { tryCfsFallback } = await import('../../../src/lib/education/video-lookup');
+    // refer.cfs5 has its own videos but tryCfsFallback only looks at chain neighbours;
+    // cfs5's neighbours (cfs4/cfs6) are absent → []. The regex must still MATCH (no throw).
+    const ids = tryCfsFallback('cga.triage.refer.cfs5', mockIndex);
+    expect(ids).toEqual([]);
   });
 });

@@ -219,11 +219,6 @@ describe('design system enforcement', () => {
       // <meta name="theme-color"> requires literal hex; HTML meta attributes
       // do not resolve CSS variables. Sync with --accent hex manually.
       '/src/layouts/Base.astro',
-      // Canvas 2D API (ctx.fillStyle / ctx.strokeStyle) requires string
-      // literals. Refactor to getComputedStyle resolution is dark-mode work,
-      // out of v1 scope.
-      '/src/components/assess/GameModule.svelte',
-      '/src/components/assess/DrawingModule.svelte',
     ]);
     const offenders: string[] = [];
     for (const { path, source } of COMPONENTS) {
