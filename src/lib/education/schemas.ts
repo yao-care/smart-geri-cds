@@ -122,6 +122,7 @@ const articleRefSchema = z.object({
   slug: z.string(),
   // 只有 cdsa.domain 格的文章需要；省略時投影端預設視為 [monitor, refer]
   severities: z.array(z.enum(SEVERITY_NAMES)).optional(),
+  browse: z.boolean().optional(),   // true = this is the cell's matrix/browse article (was the old educationSlug)
 });
 
 export const triggerRelevanceSchema = z.object({

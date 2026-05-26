@@ -75,6 +75,7 @@ triggers:
         severities:
           - monitor
           - refer
+        browse: true
       - slug: when-to-seek-help
         severities:
           - refer
@@ -85,6 +86,7 @@ triggers:
         severities:
           - monitor
           - refer
+        browse: true
       - slug: when-to-seek-help
         severities:
           - refer
@@ -95,6 +97,7 @@ triggers:
         severities:
           - monitor
           - refer
+        browse: true
       - slug: when-to-seek-help
         severities:
           - refer
@@ -105,6 +108,7 @@ triggers:
         severities:
           - monitor
           - refer
+        browse: true
       - slug: when-to-seek-help
         severities:
           - refer
@@ -115,6 +119,7 @@ triggers:
         severities:
           - monitor
           - refer
+        browse: true
       - slug: when-to-seek-help
         severities:
           - refer
@@ -125,6 +130,7 @@ triggers:
         severities:
           - monitor
           - refer
+        browse: true
       - slug: when-to-seek-help
         severities:
           - refer
@@ -135,6 +141,7 @@ triggers:
         severities:
           - monitor
           - refer
+        browse: true
       - slug: when-to-seek-help
         severities:
           - refer
@@ -145,6 +152,7 @@ triggers:
         severities:
           - monitor
           - refer
+        browse: true
       - slug: when-to-seek-help
         severities:
           - refer
@@ -155,6 +163,7 @@ triggers:
         severities:
           - monitor
           - refer
+        browse: true
       - slug: when-to-seek-help
         severities:
           - refer
@@ -165,6 +174,7 @@ triggers:
         severities:
           - monitor
           - refer
+        browse: true
       - slug: when-to-seek-help
         severities:
           - refer
@@ -175,6 +185,7 @@ triggers:
         severities:
           - monitor
           - refer
+        browse: true
       - slug: when-to-seek-help
         severities:
           - refer
@@ -189,6 +200,7 @@ triggers:
         severities:
           - monitor
           - refer
+        browse: true
       - slug: when-to-seek-help
         severities:
           - refer
@@ -203,6 +215,7 @@ triggers:
         severities:
           - monitor
           - refer
+        browse: true
       - slug: when-to-seek-help
         severities:
           - refer
@@ -217,6 +230,7 @@ triggers:
         severities:
           - monitor
           - refer
+        browse: true
       - slug: when-to-seek-help
         severities:
           - refer
@@ -231,6 +245,7 @@ triggers:
         severities:
           - monitor
           - refer
+        browse: true
       - slug: when-to-seek-help
         severities:
           - refer
@@ -245,6 +260,7 @@ triggers:
         severities:
           - monitor
           - refer
+        browse: true
       - slug: when-to-seek-help
         severities:
           - refer
@@ -259,6 +275,7 @@ triggers:
         severities:
           - monitor
           - refer
+        browse: true
       - slug: when-to-seek-help
         severities:
           - refer
@@ -273,6 +290,7 @@ triggers:
         severities:
           - monitor
           - refer
+        browse: true
       - slug: when-to-seek-help
         severities:
           - refer
@@ -283,6 +301,7 @@ triggers:
       - G7COjy4hpqA
     articles:
       - slug: language-stimulation
+        browse: true
   - trigger: cdsa.domain.language_comprehension.anomaly.13-24m
     videoIds: []
     articles:
@@ -400,6 +419,7 @@ triggers:
         severities:
           - monitor
           - refer
+        browse: true
       - slug: when-to-seek-help
         severities:
           - refer
@@ -410,6 +430,7 @@ triggers:
         severities:
           - monitor
           - refer
+        browse: true
       - slug: when-to-seek-help
         severities:
           - refer
@@ -420,6 +441,7 @@ triggers:
         severities:
           - monitor
           - refer
+        browse: true
       - slug: when-to-seek-help
         severities:
           - refer
@@ -430,6 +452,7 @@ triggers:
         severities:
           - monitor
           - refer
+        browse: true
       - slug: when-to-seek-help
         severities:
           - refer
@@ -440,6 +463,7 @@ triggers:
         severities:
           - monitor
           - refer
+        browse: true
       - slug: when-to-seek-help
         severities:
           - refer
@@ -450,6 +474,7 @@ triggers:
         severities:
           - monitor
           - refer
+        browse: true
       - slug: when-to-seek-help
         severities:
           - refer

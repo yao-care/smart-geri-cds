@@ -42,6 +42,7 @@ interface DefaultJson {
 interface ArticleRef {
   slug: string;
   severities?: string[];
+  browse?: boolean;
 }
 
 interface TriggerRelevance {
@@ -54,6 +55,7 @@ interface TriggerRelevance {
 interface TriggerRecord {
   videoIds: string[];
   articles: Map<string, Set<string>>; // slug -> severity set
+  browseSlugs: Set<string>;           // slugs that originated from Rule B (curated matrix/browse)
 }
 
 // ---------- constants ----------
@@ -86,7 +88,7 @@ const CDSA_DEV_DOMAINS = new Set([
 
 function ensureTrigger(map: Map<string, TriggerRecord>, trigger: string): TriggerRecord {
   if (!map.has(trigger)) {
-    map.set(trigger, { videoIds: [], articles: new Map() });
+    map.set(trigger, { videoIds: [], articles: new Map(), browseSlugs: new Set() });
   }
   return map.get(trigger)!;
 }
@@ -95,6 +97,7 @@ function addArticle(
   rec: TriggerRecord,
   slug: string,
   severities: string[],
+  browse = false,
 ): void {
   if (!rec.articles.has(slug)) {
     rec.articles.set(slug, new Set(severities));
@@ -102,6 +105,8 @@ function addArticle(
     const existing = rec.articles.get(slug)!;
     for (const s of severities) existing.add(s);
   }
+  // browse flag wins: once marked browse, always browse
+  if (browse) rec.browseSlugs.add(slug);
 }
 
 // ---------- main ----------
@@ -159,9 +164,11 @@ async function main(): Promise<void> {
         if (!rec.videoIds.includes(id)) rec.videoIds.push(id);
       }
 
-      // If there's an educationSlug, add as article (no severities for triage/cdss)
+      // If there's an educationSlug, add as article (browse = true for cdsa.domain entries)
+      // browse marks this as the curated matrix/browse article (the old educationSlug)
       if (entry.educationSlug) {
-        addArticle(rec, entry.educationSlug, []);
+        const isBrowse = entry.trigger.startsWith('cdsa.domain.');
+        addArticle(rec, entry.educationSlug, [], isBrowse);
       }
     }
   }
@@ -241,15 +248,16 @@ async function main(): Promise<void> {
 
     const articles: ArticleRef[] = sortedSlugs.map(slug => {
       const severitySet = rec.articles.get(slug)!;
+      const isBrowse = rec.browseSlugs.has(slug);
 
       // Only cdsa.domain.* cells get severities
       if (triggerKey.startsWith('cdsa.domain.')) {
         const sortedSeverities = SEVERITY_ORDER.filter(s => severitySet.has(s));
-        if (sortedSeverities.length > 0) {
-          return { slug, severities: sortedSeverities };
-        }
-        // Empty severities on cdsa.domain cell → OMIT severities field
-        return { slug };
+        const result: ArticleRef = sortedSeverities.length > 0
+          ? { slug, severities: sortedSeverities }
+          : { slug };
+        if (isBrowse) result.browse = true;
+        return result;
       }
       // triage / cdss articles: never set severities
       return { slug };

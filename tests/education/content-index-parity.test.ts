@@ -177,3 +177,31 @@ describe('clinicalEducation', () => {
     expect(typeof neu.clinicalEducation).toBe('object');
   });
 });
+
+// ---------------------------------------------------------------------------
+// 6. matrix educationSlug per cdsa.domain cell — exact parity lock
+// ---------------------------------------------------------------------------
+describe('matrix educationSlug parity', () => {
+  it('matrix educationSlug per cdsa.domain cell matches before (exact)', () => {
+    const beforeTriggers = before.triggers as Record<
+      string,
+      { videoIds: string[]; inapplicable: boolean; educationSlug?: string }
+    >;
+    const neuTriggers = (neu.triggers ?? {}) as typeof beforeTriggers;
+
+    for (const [k, b] of Object.entries(beforeTriggers)) {
+      if (!k.startsWith('cdsa.domain.')) continue;
+      const n = neuTriggers[k] ?? {};
+      expect((n as { educationSlug?: string }).educationSlug ?? null, k).toBe(
+        (b as { educationSlug?: string }).educationSlug ?? null,
+      );
+    }
+    // no NEW cdsa.domain cell may introduce an educationSlug absent before
+    for (const [k, n] of Object.entries(neuTriggers)) {
+      if (!k.startsWith('cdsa.domain.')) continue;
+      if (!(k in beforeTriggers) && (n as { educationSlug?: string }).educationSlug != null) {
+        throw new Error(`new cell ${k} introduced educationSlug ${(n as { educationSlug?: string }).educationSlug}`);
+      }
+    }
+  });
+});

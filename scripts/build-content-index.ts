@@ -133,11 +133,17 @@ export async function buildContentIndex(opts: BuildOptions = {}): Promise<Runtim
       continue;
     }
     const verifiedVideoIds = entry.videoIds.filter(id => verifiedCatalog[id] != null);
-    const firstArticleSlug = entry.articles[0]?.slug;
+    // Use the article marked browse:true as the matrix/browse educationSlug.
+    // Fall back to first article only for non-cdsa.domain triggers (triage/cdss)
+    // which never have browse markers but may still have an educationSlug.
+    const browseArticle = entry.articles.find(a => a.browse === true);
+    const educationSlugSource = browseArticle
+      ? browseArticle.slug
+      : (entry.trigger.startsWith('cdsa.domain.') ? undefined : entry.articles[0]?.slug);
     triggers[entry.trigger] = {
       videoIds: verifiedVideoIds,
       inapplicable: false,
-      ...(firstArticleSlug ? { educationSlug: firstArticleSlug } : {}),
+      ...(educationSlugSource ? { educationSlug: educationSlugSource } : {}),
     };
   }
 

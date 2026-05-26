@@ -1051,7 +1051,6 @@
   },
   "triggers": {
     "cdsa.domain.behavior.anomaly.13-24m": {
-      "educationSlug": "sleep-hygiene",
       "inapplicable": false,
       "videoIds": []
     },
@@ -1060,22 +1059,18 @@
       "videoIds": []
     },
     "cdsa.domain.behavior.anomaly.25-36m": {
-      "educationSlug": "sleep-hygiene",
       "inapplicable": false,
       "videoIds": []
     },
     "cdsa.domain.behavior.anomaly.37-48m": {
-      "educationSlug": "sleep-hygiene",
       "inapplicable": false,
       "videoIds": []
     },
     "cdsa.domain.behavior.anomaly.49-60m": {
-      "educationSlug": "sleep-hygiene",
       "inapplicable": false,
       "videoIds": []
     },
     "cdsa.domain.behavior.anomaly.61-72m": {
-      "educationSlug": "sleep-hygiene",
       "inapplicable": false,
       "videoIds": []
     },
@@ -1151,37 +1146,37 @@
       "videoIds": []
     },
     "cdsa.domain.gross_motor.anomaly.13-24m": {
-      "educationSlug": "exercise-guide",
+      "educationSlug": "gross-motor-activities",
       "inapplicable": false,
       "videoIds": []
     },
     "cdsa.domain.gross_motor.anomaly.2-6m": {
-      "educationSlug": "exercise-guide",
+      "educationSlug": "gross-motor-activities",
       "inapplicable": false,
       "videoIds": []
     },
     "cdsa.domain.gross_motor.anomaly.25-36m": {
-      "educationSlug": "exercise-guide",
+      "educationSlug": "gross-motor-activities",
       "inapplicable": false,
       "videoIds": []
     },
     "cdsa.domain.gross_motor.anomaly.37-48m": {
-      "educationSlug": "exercise-guide",
+      "educationSlug": "gross-motor-activities",
       "inapplicable": false,
       "videoIds": []
     },
     "cdsa.domain.gross_motor.anomaly.49-60m": {
-      "educationSlug": "exercise-guide",
+      "educationSlug": "gross-motor-activities",
       "inapplicable": false,
       "videoIds": []
     },
     "cdsa.domain.gross_motor.anomaly.61-72m": {
-      "educationSlug": "exercise-guide",
+      "educationSlug": "gross-motor-activities",
       "inapplicable": false,
       "videoIds": []
     },
     "cdsa.domain.gross_motor.anomaly.7-12m": {
-      "educationSlug": "exercise-guide",
+      "educationSlug": "gross-motor-activities",
       "inapplicable": false,
       "videoIds": []
     },
@@ -1199,7 +1194,6 @@
       "videoIds": []
     },
     "cdsa.domain.language_comprehension.anomaly.13-24m": {
-      "educationSlug": "language-stimulation",
       "inapplicable": false,
       "videoIds": []
     },
@@ -1208,32 +1202,26 @@
       "videoIds": []
     },
     "cdsa.domain.language_comprehension.anomaly.25-36m": {
-      "educationSlug": "language-stimulation",
       "inapplicable": false,
       "videoIds": []
     },
     "cdsa.domain.language_comprehension.anomaly.37-48m": {
-      "educationSlug": "language-stimulation",
       "inapplicable": false,
       "videoIds": []
     },
     "cdsa.domain.language_comprehension.anomaly.49-60m": {
-      "educationSlug": "language-stimulation",
       "inapplicable": false,
       "videoIds": []
     },
     "cdsa.domain.language_comprehension.anomaly.61-72m": {
-      "educationSlug": "language-stimulation",
       "inapplicable": false,
       "videoIds": []
     },
     "cdsa.domain.language_comprehension.anomaly.7-12m": {
-      "educationSlug": "language-stimulation",
       "inapplicable": false,
       "videoIds": []
     },
     "cdsa.domain.language_expression.anomaly.13-24m": {
-      "educationSlug": "language-stimulation",
       "inapplicable": false,
       "videoIds": []
     },
@@ -1242,22 +1230,18 @@
       "videoIds": []
     },
     "cdsa.domain.language_expression.anomaly.25-36m": {
-      "educationSlug": "language-stimulation",
       "inapplicable": false,
       "videoIds": []
     },
     "cdsa.domain.language_expression.anomaly.37-48m": {
-      "educationSlug": "language-stimulation",
       "inapplicable": false,
       "videoIds": []
     },
     "cdsa.domain.language_expression.anomaly.49-60m": {
-      "educationSlug": "language-stimulation",
       "inapplicable": false,
       "videoIds": []
     },
     "cdsa.domain.language_expression.anomaly.61-72m": {
-      "educationSlug": "language-stimulation",
       "inapplicable": false,
       "videoIds": []
     },
