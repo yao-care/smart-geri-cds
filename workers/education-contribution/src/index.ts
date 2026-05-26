@@ -12,20 +12,31 @@ interface Env {
 }
 
 const VALID_TYPES = new Set(['youtube', 'article', 'external-link', 'edit-article', 'delete-article', 'delete-video']);
-const VALID_DOMAINS = new Set([
-  'behavior', 'gross_motor', 'fine_motor', 'language',
-  'language_comprehension', 'language_expression', 'cognition', 'social_emotional',
+
+// CGA 二層域：top → 合法 sub 集合（與 src/lib/domain/domain-tree.ts 對應）。
+const DOMAIN_TREE: Record<string, string[]> = {
+  physical: ['comorbidity', 'polypharmacy', 'nutrition', 'continence', 'sensory'],
+  psychological: ['cognition', 'mood', 'delirium'],
+  functional: ['adl', 'iadl', 'mobility', 'falls'],
+  social: ['social_support', 'caregiver', 'financial'],
+  environmental: ['home_safety', 'accessibility'],
+  future_wishes: ['advance_care_planning', 'treatment_preferences'],
+};
+
+const VALID_CFS = new Set([
+  'cfs1', 'cfs2', 'cfs3', 'cfs4', 'cfs5', 'cfs6', 'cfs7', 'cfs8', 'cfs9',
 ]);
-const VALID_AGES = new Set([
-  '2-6m', '7-12m', '13-24m', '25-36m', '37-48m', '49-60m', '61-72m',
-]);
+
+function isValidDomain(top: string, sub: string): boolean {
+  return top in DOMAIN_TREE && DOMAIN_TREE[top].includes(sub);
+}
 
 function validate(body: unknown): string | ContributionPayload {
   if (!body || typeof body !== 'object') return '請求格式錯誤';
   const b = body as Record<string, unknown>;
   if (!VALID_TYPES.has(b.type as string)) return `type 無效: ${b.type}`;
-  if (!VALID_DOMAINS.has(b.domain as string)) return `domain 無效: ${b.domain}`;
-  if (!VALID_AGES.has(b.ageGroup as string)) return `ageGroup 無效: ${b.ageGroup}`;
+  if (!isValidDomain(b.top as string, b.sub as string)) return `領域無效: ${b.top}.${b.sub}`;
+  if (!VALID_CFS.has(b.cfsLevel as string)) return `cfsLevel 無效: ${b.cfsLevel}`;
   // type-specific required fields
   if ((b.type === 'youtube' || b.type === 'external-link') && !(b.url as string | undefined)?.trim()) {
     return 'YouTube / 外部連結類型必須填寫 url';
@@ -98,7 +109,7 @@ export default {
             Accept: 'application/vnd.github+json',
             'Content-Type': 'application/json',
             'X-GitHub-Api-Version': '2022-11-28',
-            'User-Agent': 'yao-care-smart-pedi-cds/1.0',
+            'User-Agent': 'yao-care-smart-geri-cds/1.0',
           },
           body: JSON.stringify({
             title: formatIssueTitle(payload),

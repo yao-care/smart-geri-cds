@@ -1,7 +1,10 @@
 export type ContributionPayload = {
   type: 'youtube' | 'article' | 'external-link' | 'edit-article' | 'delete-article' | 'delete-video';
-  domain: string;
-  ageGroup: string;
+  /** CGA two-level domain: top + sub. */
+  top: string;
+  sub: string;
+  /** Clinical Frailty Scale level (cfs1..cfs9). */
+  cfsLevel: string;
   url?: string;
   title?: string;
   summary?: string;
@@ -13,20 +16,34 @@ export type ContributionPayload = {
   videoTitle?: string;
 };
 
-const DOMAIN_ZH: Record<string, string> = {
-  behavior: '行為', gross_motor: '粗動作', fine_motor: '細動作',
-  language: '語言', language_comprehension: '語言理解',
-  language_expression: '語言表達', cognition: '認知', social_emotional: '社交情緒',
+// CGA 二層域子項 → 中文標籤（與 src/lib/domain/domain-tree.ts 對應）。
+const SUB_ZH: Record<string, string> = {
+  comorbidity: '多重共病', polypharmacy: '多重用藥', nutrition: '營養', continence: '失禁', sensory: '感官(視/聽)',
+  cognition: '認知', mood: '情緒', delirium: '譫妄',
+  adl: '基本日常', iadl: '工具性日常', mobility: '行動步態', falls: '平衡跌倒',
+  social_support: '社會支持', caregiver: '照顧者負荷', financial: '經濟',
+  home_safety: '居家安全', accessibility: '可及性/輔具',
+  advance_care_planning: '預立照護諮商', treatment_preferences: '治療偏好',
 };
 
-const AGE_ZH: Record<string, string> = {
-  '2-6m': '2-6 個月', '7-12m': '7-12 個月', '13-24m': '1-2 歲',
-  '25-36m': '2-3 歲', '37-48m': '3-4 歲', '49-60m': '4-5 歲', '61-72m': '5-6 歲',
+const CFS_ZH: Record<string, string> = {
+  cfs1: '非常健壯', cfs2: '健壯', cfs3: '大致良好',
+  cfs4: '極輕度衰弱', cfs5: '輕度衰弱', cfs6: '中度衰弱',
+  cfs7: '重度衰弱', cfs8: '極重度衰弱', cfs9: '末期',
 };
 
 const TYPE_ZH: Record<string, string> = {
   youtube: 'YouTube 影片', article: 'Markdown 文章', 'external-link': '外部連結',
 };
+
+function domainLabel(top: string, sub: string): string {
+  return SUB_ZH[sub] ?? `${top}.${sub}`;
+}
+
+function cfsLabel(cfs: string): string {
+  const n = cfs.replace('cfs', '');
+  return CFS_ZH[cfs] ? `CFS ${n} ${CFS_ZH[cfs]}` : cfs;
+}
 
 function extractVideoId(url: string): string {
   const m = url.match(/(?:v=|youtu\.be\/|shorts\/)([A-Za-z0-9_-]{11})/);
@@ -34,27 +51,27 @@ function extractVideoId(url: string): string {
 }
 
 export function formatIssueTitle(p: ContributionPayload): string {
-  const domain = DOMAIN_ZH[p.domain] ?? p.domain;
-  const age    = AGE_ZH[p.ageGroup] ?? p.ageGroup;
+  const domain = domainLabel(p.top, p.sub);
+  const cfs    = cfsLabel(p.cfsLevel);
 
   if (p.type === 'edit-article') {
-    return `[衛教修改] ${domain} × ${age}｜${p.targetSlug ?? '（未填 slug）'}`;
+    return `[衛教修改] ${domain} × ${cfs}｜${p.targetSlug ?? '（未填 slug）'}`;
   }
   if (p.type === 'delete-article') {
-    return `[衛教刪除文章] ${domain} × ${age}｜${p.targetSlug ?? '（未填 slug）'}`;
+    return `[衛教刪除文章] ${domain} × ${cfs}｜${p.targetSlug ?? '（未填 slug）'}`;
   }
   if (p.type === 'delete-video') {
-    return `[衛教刪除影片] ${domain} × ${age}｜${p.videoTitle ?? p.targetVideoId ?? '（未填）'}`;
+    return `[衛教刪除影片] ${domain} × ${cfs}｜${p.videoTitle ?? p.targetVideoId ?? '（未填）'}`;
   }
 
   const type  = TYPE_ZH[p.type];
   const label = p.title ?? p.url ?? '（無標題）';
-  return `[衛教貢獻] ${domain} × ${age}｜${type}｜${label}`;
+  return `[衛教貢獻] ${domain} × ${cfs}｜${type}｜${label}`;
 }
 
 export function formatIssueBody(p: ContributionPayload): string {
-  const domain = DOMAIN_ZH[p.domain] ?? p.domain;
-  const age    = AGE_ZH[p.ageGroup] ?? p.ageGroup;
+  const domain = domainLabel(p.top, p.sub);
+  const cfs    = cfsLabel(p.cfsLevel);
   const now    = new Date().toISOString();
 
   // ── edit-article ─────────────────────────────────────────────────────────
@@ -66,8 +83,8 @@ export function formatIssueBody(p: ContributionPayload): string {
     return `## 衛教文章修改申請
 
 **目標文章 slug**: \`${p.targetSlug ?? '（未填）'}\`
-**年齡段**: ${age} (${p.ageGroup})
-**發展領域**: ${domain} (${p.domain})
+**衰弱等級**: ${cfs} (${p.cfsLevel})
+**評估領域**: ${domain} (${p.top}.${p.sub})
 
 ### 建議修改內容
 
@@ -93,8 +110,8 @@ export function formatIssueBody(p: ContributionPayload): string {
     return `## 衛教文章刪除申請
 
 **目標文章 slug**: \`${p.targetSlug ?? '（未填）'}\`
-**年齡段**: ${age} (${p.ageGroup})
-**發展領域**: ${domain} (${p.domain})
+**衰弱等級**: ${cfs} (${p.cfsLevel})
+**評估領域**: ${domain} (${p.top}.${p.sub})
 
 ### 刪除原因
 
@@ -118,8 +135,8 @@ export function formatIssueBody(p: ContributionPayload): string {
     return `## 衛教影片刪除申請
 
 **目標影片 ID**: \`${videoLabel}\`
-**年齡段**: ${age} (${p.ageGroup})
-**發展領域**: ${domain} (${p.domain})
+**衰弱等級**: ${cfs} (${p.cfsLevel})
+**評估領域**: ${domain} (${p.top}.${p.sub})
 
 ### 刪除原因
 
@@ -151,14 +168,14 @@ export function formatIssueBody(p: ContributionPayload): string {
   }
 
   const yamlHint = p.type === 'youtube'
-    ? `\`\`\`yaml\n# src/data/education-videos/cdsa-domains.yaml\n# 找到對應 trigger，將 videoId 加入 videoIds 清單：\n# - trigger: cdsa.domain.${p.domain}.anomaly.${p.ageGroup}\n#   videoIds:\n#     - ${extractVideoId(p.url ?? '')}   # 11 碼\n\`\`\``
-    : `（文章/連結請依 README 建立對應的 .md 或 YAML entry）`;
+    ? `\`\`\`yaml\n# src/data/education/content-relevance.yaml\n# 找到對應 trigger，將 videoId 加入 videoIds 清單：\n# - trigger: cga.domain.${p.top}.${p.sub}.anomaly.${p.cfsLevel}\n#   videoIds:\n#     - ${extractVideoId(p.url ?? '')}   # 11 碼\n\`\`\``
+    : `（文章/連結請依 README 在 src/data/education/content-relevance.yaml 建立對應的 .md 或 YAML entry）`;
 
   return `## 衛教貢獻申請
 
 **類型**: ${type}
-**年齡段**: ${age} (${p.ageGroup})
-**發展領域**: ${domain} (${p.domain})
+**衰弱等級**: ${cfs} (${p.cfsLevel})
+**評估領域**: ${domain} (${p.top}.${p.sub})
 
 ### 資源資訊
 
