@@ -145,12 +145,13 @@
     </section>
   {/if}
 
-  {#if triageResult && (anomalyDomains.length > 0 || triageResult.category !== 'normal')}
+  {#if triageResult && assessmentStore.ageGroup && (anomalyDomains.length > 0 || triageResult.category !== 'normal')}
     <section class="education-section" aria-label="衛教建議">
       <h3>建議閱讀</h3>
       <EducationMatch
         category={triageResult.category}
         domains={anomalyDomains.length > 0 ? [...new Set(anomalyDomains)] : ['behavior']}
+        ageGroup={assessmentStore.ageGroup}
       />
     </section>
   {/if}

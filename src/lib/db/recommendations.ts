@@ -1,17 +1,10 @@
 import { db, type RecommendationOverlay, type RecommendationItem, type RecommendationCategory } from './schema';
-import defaultRecsData from '../../data/recommendations/default.json';
 import { getCustomEducation } from './custom-education';
+import { loadVideoIndex } from '../education/index-loader';
+import { CDSA_DOMAIN_NAMES } from '../education/schemas';
+import type { AgeGroupCDSA } from '../utils/age-groups';
 
-interface DefaultMatrix {
-  [category: string]: { [domain: string]: RecommendationItem[] };
-}
-
-const defaults = defaultRecsData.matrix as DefaultMatrix;
-
-export const DOMAINS = [
-  'gross_motor', 'fine_motor', 'language_comp', 'language_expr',
-  'cognition', 'social_emotional', 'behavior', 'diet',
-] as const;
+export const DOMAINS = CDSA_DOMAIN_NAMES;
 
 export const CATEGORIES: RecommendationCategory[] = ['normal', 'monitor', 'refer'];
 
@@ -22,19 +15,24 @@ function buildId(tenantId: string, category: RecommendationCategory, domain: str
 }
 
 /**
- * Get the default recommendation list for one cell (category × domain).
+ * Get the default recommendation list for one cell (category × domain × ageGroup).
+ * Reads from the unified video-index.json (age-aware).
  * Returns empty array if no default is defined.
  */
-export function getDefaultRecommendations(
+export async function getDefaultRecommendations(
   category: RecommendationCategory,
   domain: string,
-): RecommendationItem[] {
-  return defaults[category]?.[domain] ?? [];
+  ageGroup: AgeGroupCDSA,
+): Promise<RecommendationItem[]> {
+  const idx = await loadVideoIndex();
+  const key = `${category}::${domain}::${ageGroup}`;
+  return (idx.recommendations[key] ?? []) as RecommendationItem[];
 }
 
 /**
  * Load the tenant overlay for one cell, if any.
  * Returns null when the tenant has not customised that cell.
+ * Key is 3-part (tenant::category::domain) — age-independent.
  */
 export async function getOverlay(
   tenantId: string,
@@ -47,6 +45,7 @@ export async function getOverlay(
 
 /**
  * Save (upsert) a tenant overlay.
+ * Key remains 3-part (age-independent) — no IndexedDB migration required.
  */
 export async function saveOverlay(
   tenantId: string,
@@ -86,8 +85,8 @@ export async function getAllOverlays(tenantId: string): Promise<RecommendationOv
 }
 
 /**
- * Merge default + tenant overlay for one cell.
- * - No overlay → default items.
+ * Merge default + tenant overlay for one cell (age-aware defaults, age-independent overlay).
+ * - No overlay → default items (age-specific from index).
  * - Overlay with mergeWithDefault=true → default items + overlay items (deduped by source-key).
  * - Overlay with mergeWithDefault=false → overlay items only (full replace).
  */
@@ -95,9 +94,10 @@ export async function mergeRecommendations(
   tenantId: string,
   category: RecommendationCategory,
   domain: string,
+  ageGroup: AgeGroupCDSA,
 ): Promise<RecommendationItem[]> {
   const overlay = await getOverlay(tenantId, category, domain);
-  const defaults = getDefaultRecommendations(category, domain);
+  const defaults = await getDefaultRecommendations(category, domain, ageGroup);
 
   if (!overlay) return defaults;
 
@@ -122,18 +122,19 @@ export async function mergeRecommendations(
 
 /**
  * Merge across multiple domains for a single category — used by ResultView
- * (called once per assessment with the anomaly-domain list).
+ * (called once per assessment with the anomaly-domain list and the child's ageGroup).
  * Items are deduped across domains by the same composite key.
  */
-export async function mergeRecommendationsForDomains(
+export async function mergeRecommendationsForContext(
   tenantId: string,
   category: RecommendationCategory,
   domains: string[],
+  ageGroup: AgeGroupCDSA,
 ): Promise<RecommendationItem[]> {
   const seen = new Set<string>();
   const out: RecommendationItem[] = [];
   for (const domain of domains) {
-    const items = await mergeRecommendations(tenantId, category, domain);
+    const items = await mergeRecommendations(tenantId, category, domain, ageGroup);
     for (const item of items) {
       const key = itemKey(item);
       if (!seen.has(key)) {
@@ -145,7 +146,7 @@ export async function mergeRecommendationsForDomains(
   return out;
 }
 
-function itemKey(item: RecommendationItem): string {
+export function itemKey(item: RecommendationItem): string {
   switch (item.source) {
     case 'internal': return `internal::${item.slug ?? ''}`;
     case 'custom': return `custom::${item.customId ?? ''}`;

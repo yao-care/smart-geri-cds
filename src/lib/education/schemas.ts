@@ -112,6 +112,7 @@ export const runtimeIndexSchema = z.object({
     summary: z.string().optional(),
   }))),
   clinicalEducation: z.record(z.string(), z.array(z.string())),
+  articleSlugs: z.array(z.string()).optional(),
 });
 
 // --- Content-relevance schema（單一源）---

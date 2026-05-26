@@ -81,6 +81,8 @@
     triageResult?.details?.filter((d) => d.isAnomaly).map((d) => d.domain) ?? [],
   );
 
+  const ageGroup = $derived(child?.birthDate ? ageGroupCDSA(child.birthDate) : null);
+
   const videoTriggers = $derived.by(() => {
     if (!triageResult || !child?.birthDate) return [];
     const ageGroup = ageGroupCDSA(child.birthDate);
@@ -134,12 +136,13 @@
       </section>
     {/if}
 
-    {#if anomalyDomains.length > 0 || triageResult.category !== 'normal'}
+    {#if ageGroup && (anomalyDomains.length > 0 || triageResult.category !== 'normal')}
       <section class="education-section" aria-label="衛教建議">
         <h3>建議閱讀</h3>
         <EducationMatch
           category={triageResult.category}
           domains={anomalyDomains.length > 0 ? [...new Set(anomalyDomains)] : ['behavior']}
+          ageGroup={ageGroup}
         />
       </section>
     {/if}

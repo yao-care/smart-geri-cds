@@ -2,17 +2,19 @@
   import { authStore } from '../../lib/stores/auth.svelte';
   import { getTenantId } from '../../lib/utils/tenant';
   import {
-    mergeRecommendationsForDomains,
+    mergeRecommendationsForContext,
     resolveItemDisplay,
   } from '../../lib/db/recommendations';
   import type { RecommendationCategory } from '../../lib/db/schema';
+  import type { AgeGroupCDSA } from '../../lib/utils/age-groups';
 
   interface Props {
     category: RecommendationCategory;
     domains: string[];
+    ageGroup: AgeGroupCDSA;
   }
 
-  let { category, domains }: Props = $props();
+  let { category, domains, ageGroup }: Props = $props();
 
   const tenantId = $derived(getTenantId(authStore.fhirBaseUrl));
 
@@ -31,9 +33,10 @@
     const cat = category;
     const ds = domains;
     const tid = tenantId;
+    const ag = ageGroup;
     loading = true;
     (async () => {
-      const items = await mergeRecommendationsForDomains(tid, cat, ds);
+      const items = await mergeRecommendationsForContext(tid, cat, ds, ag);
       const display = await Promise.all(items.map((i) => resolveItemDisplay(i, tid)));
       resolved = display;
       loading = false;

@@ -16,16 +16,18 @@
     type CustomEducation,
   } from '../../lib/db/schema';
   import { getCustomEducation } from '../../lib/db/custom-education';
+  import { loadVideoIndex } from '../../lib/education/index-loader';
+  import { AGE_GROUPS_CDSA } from '../../lib/utils/age-groups';
 
   const DOMAIN_LABELS: Record<string, string> = {
+    behavior: '生活行為',
     gross_motor: '粗動作',
     fine_motor: '精細動作',
-    language_comp: '語言理解',
-    language_expr: '語言表達',
+    language: '語言',
+    language_comprehension: '語言理解',
+    language_expression: '語言表達',
     cognition: '認知',
     social_emotional: '社會情緒',
-    behavior: '生活行為',
-    diet: '飲食',
   };
 
   const CATEGORY_LABELS: Record<RecommendationCategory, string> = {
@@ -40,14 +42,20 @@
     external: '外部連結',
   };
 
-  // Known system-internal slugs (kept as a flat list for the dropdown)
-  const INTERNAL_SLUGS = [
-    'gross-motor-activities', 'exercise-guide', 'fine-motor-activities',
-    'language-stimulation', 'cognitive-play', 'social-emotional-guide',
-    'sleep-hygiene', 'diet-control', 'when-to-seek-help',
-    'nutrition-grow-tall', 'nutrition-calcium-tofu', 'nutrition-vitamin-d-mushroom',
-    'nutrition-garlic-tip', 'nutrition-okra-cooking', 'respiratory-care',
-  ];
+  // Internal article slugs loaded from the index (replaces hardcoded list).
+  let internalSlugs = $state<string[]>([]);
+
+  // Load slug list once on mount
+  $effect(() => {
+    (async () => {
+      try {
+        const idx = await loadVideoIndex();
+        internalSlugs = idx.articleSlugs ?? [];
+      } catch {
+        internalSlugs = [];
+      }
+    })();
+  });
 
   const tenantId = $derived(getTenantId(authStore.fhirBaseUrl));
   const tenantDisplay = $derived(getTenantDisplayName(authStore.fhirBaseUrl));
@@ -91,15 +99,26 @@
     })();
   });
 
-  function startEdit(domain: string): void {
+  async function startEdit(domain: string): Promise<void> {
     const cell = cells[domain];
     if (!cell) return;
     cell.expanded = true;
     if (!cell.hasOverlay) {
-      // Seed editor with the default items so the user can tweak instead of starting blank.
-      cell.items = JSON.parse(
-        JSON.stringify(getDefaultRecommendations(activeCategory, domain)),
-      ) as RecommendationItem[];
+      // Seed editor with the union of default items across all ages (deduped by slug)
+      // so the user can tweak instead of starting blank.
+      const seen = new Set<string>();
+      const seed: RecommendationItem[] = [];
+      for (const age of AGE_GROUPS_CDSA) {
+        const items = await getDefaultRecommendations(activeCategory, domain, age);
+        for (const item of items) {
+          const k = item.slug ?? item.url ?? item.customId ?? '';
+          if (!seen.has(k)) {
+            seen.add(k);
+            seed.push(item);
+          }
+        }
+      }
+      cell.items = JSON.parse(JSON.stringify(seed)) as RecommendationItem[];
       cell.dirty = false;
     }
     cells = { ...cells };
@@ -108,7 +127,7 @@
   function addItem(domain: string): void {
     const cell = cells[domain];
     if (!cell) return;
-    cell.items = [...cell.items, { source: 'internal', slug: INTERNAL_SLUGS[0] }];
+    cell.items = [...cell.items, { source: 'internal', slug: internalSlugs[0] ?? '' }];
     cell.dirty = true;
     cells = { ...cells };
   }
@@ -125,7 +144,7 @@
     const cell = cells[domain];
     if (!cell) return;
     const next: RecommendationItem = { source };
-    if (source === 'internal') next.slug = INTERNAL_SLUGS[0];
+    if (source === 'internal') next.slug = internalSlugs[0] ?? '';
     if (source === 'custom') next.customId = customEducation[0]?.id;
     if (source === 'external') next.url = '';
     cell.items[index] = next;
@@ -215,10 +234,7 @@
   <ul class="domain-tree">
     {#each DOMAINS as domain}
       {@const cell = cells[domain]}
-      {@const defaults = getDefaultRecommendations(activeCategory, domain)}
-      {@const effectiveItems = cell?.hasOverlay && !cell.mergeWithDefault
-        ? cell.items
-        : [...defaults, ...(cell?.hasOverlay && cell.mergeWithDefault ? cell.items : [])]}
+      {@const overlayItems = cell?.items ?? []}
       <li class="domain-row" class:has-overlay={cell?.hasOverlay} class:expanded={cell?.expanded}>
         {#if !cell || (cell && !cell.expanded)}
           <div class="row-header">
@@ -229,21 +245,25 @@
               aria-expanded="false"
             >
               <span class="row-caret" aria-hidden="true">▸</span>
-              <span class="row-title">{DOMAIN_LABELS[domain]}</span>
+              <span class="row-title">{DOMAIN_LABELS[domain] ?? domain}</span>
               {#if cell?.hasOverlay}
                 <span class="badge badge-override">已自訂</span>
               {:else}
-                <span class="badge badge-default">系統預設</span>
+                <span class="badge badge-default">系統預設（依年齡）</span>
               {/if}
-              <span class="row-count">{effectiveItems.length} 項</span>
-              <span class="row-preview">
-                {#if effectiveItems.length === 0}
-                  <em>（無項目）</em>
-                {:else}
-                  {effectiveItems.slice(0, 3).map((i) => i.title ?? i.slug ?? i.url ?? '?').join('、')}
-                  {effectiveItems.length > 3 ? `…` : ''}
-                {/if}
-              </span>
+              {#if cell?.hasOverlay}
+                <span class="row-count">{overlayItems.length} 項（覆蓋）</span>
+                <span class="row-preview">
+                  {#if overlayItems.length === 0}
+                    <em>（無覆蓋項目）</em>
+                  {:else}
+                    {overlayItems.slice(0, 3).map((i) => i.title ?? i.slug ?? i.url ?? '?').join('、')}
+                    {overlayItems.length > 3 ? `…` : ''}
+                  {/if}
+                </span>
+              {:else}
+                <span class="row-preview"><em>（依評估年齡自動選取）</em></span>
+              {/if}
             </button>
             {#if cell?.hasOverlay}
               <button type="button" class="btn-link danger" onclick={() => reset(domain)} disabled={cell.saving}>
@@ -281,9 +301,12 @@
                       value={item.slug}
                       onchange={(e) => patchItem(domain, i, { slug: (e.currentTarget as HTMLSelectElement).value })}
                     >
-                      {#each INTERNAL_SLUGS as slug}
+                      {#each internalSlugs as slug}
                         <option value={slug}>{slug}</option>
                       {/each}
+                      {#if internalSlugs.length === 0}
+                        <option value="">（載入中…）</option>
+                      {/if}
                     </select>
                   {:else if item.source === 'custom'}
                     {#if customEducation.length > 0}

@@ -2,27 +2,14 @@ import type { CustomVideo, RuntimeIndex, RuntimeVideo } from './schemas';
 import { AGE_GROUPS_CDSA, type AgeGroupCDSA } from '../utils/age-groups';
 import { mergeCustomVideos } from './merge-custom-videos';
 import { CDSA_FALLBACK_CHAIN } from './age-fallback';
+import { loadVideoIndex } from './index-loader';
 
 const CDSA_TRIGGER_REGEX = new RegExp(
   `^(cdsa\\.(?:triage|domain)\\..+)\\.(${AGE_GROUPS_CDSA.join('|')})$`,
 );
 
-let indexPromise: Promise<RuntimeIndex> | null = null;
-
-function loadIndex(): Promise<RuntimeIndex> {
-  if (!indexPromise) {
-    indexPromise = fetch(`${import.meta.env.BASE_URL}data/video-index.json`)
-      .then(r => {
-        if (!r.ok) throw new Error(`video-index.json fetch failed: ${r.status}`);
-        return r.json() as Promise<RuntimeIndex>;
-      })
-      .catch(err => {
-        indexPromise = null;
-        throw err;
-      });
-  }
-  return indexPromise;
-}
+// Re-export for callers that imported loadIndex via video-lookup (none currently, but kept for safety)
+export { loadVideoIndex as loadIndex };
 
 export interface VideoLookupOptions {
   maxResults?: number;
@@ -49,7 +36,7 @@ export async function getVideosForTrigger(
   customVideos: CustomVideo[] = [],
   options: VideoLookupOptions = {},
 ): Promise<RuntimeVideo[]> {
-  const idx = await loadIndex();
+  const idx = await loadVideoIndex();
   const entry = idx.triggers[trigger];
 
   if (entry?.inapplicable) return [];

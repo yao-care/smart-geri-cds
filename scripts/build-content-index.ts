@@ -25,6 +25,55 @@ import {
 } from '../src/lib/education/schemas.js';
 
 // ---------------------------------------------------------------------------
+// Frontmatter helper — reads title/summary from education markdown files
+// ---------------------------------------------------------------------------
+
+/** Cache: slug → { title, summary } */
+const frontmatterCache = new Map<string, { title?: string; summary?: string }>();
+
+async function readFrontmatter(
+  slug: string,
+  cwd: string,
+): Promise<{ title?: string; summary?: string }> {
+  if (frontmatterCache.has(slug)) return frontmatterCache.get(slug)!;
+
+  const candidates = [
+    path.join(cwd, 'src/data/education', `${slug}.md`),
+    path.join(cwd, 'src/data/education/milestones', `${slug}.md`),
+  ];
+
+  for (const filePath of candidates) {
+    let raw: string;
+    try {
+      raw = await fs.readFile(filePath, 'utf8');
+    } catch {
+      continue;
+    }
+
+    // Parse --- frontmatter ---
+    const match = raw.match(/^---\n([\s\S]*?)\n---/);
+    if (!match) break;
+
+    let parsed: Record<string, unknown>;
+    try {
+      parsed = yaml.load(match[1]) as Record<string, unknown>;
+    } catch {
+      break;
+    }
+
+    const result = {
+      title: typeof parsed.title === 'string' ? parsed.title : undefined,
+      summary: typeof parsed.summary === 'string' ? parsed.summary : undefined,
+    };
+    frontmatterCache.set(slug, result);
+    return result;
+  }
+
+  frontmatterCache.set(slug, {});
+  return {};
+}
+
+// ---------------------------------------------------------------------------
 // Helpers
 // ---------------------------------------------------------------------------
 
@@ -169,13 +218,20 @@ export async function buildContentIndex(opts: BuildOptions = {}): Promise<Runtim
   // ── 6. recommendations ────────────────────────────────────────────────────
   //
   // Key: `${severity}::${domain}::${age}`
-  // Value: Array<{source:'internal', slug}>
+  // Value: Array<{source:'internal', slug, title?, summary?}>
   //
   // Derived from content-relevance.triggers for cdsa.domain.* entries only.
   // Each article with severities S → push slug into recommendations[`${sev}::${domain}::${age}`].
   // Default severities when omitted: ['monitor', 'refer']
+  // title/summary are read from src/data/education/<slug>.md frontmatter.
 
-  const recommendations: Record<string, Array<{ source: 'internal'; slug: string }>> = {};
+  const recommendations: Record<
+    string,
+    Array<{ source: 'internal'; slug: string; title?: string; summary?: string }>
+  > = {};
+
+  // Collect all education slugs while building recommendations
+  const allEducationSlugs = new Set<string>();
 
   for (const entry of contentRelevance.triggers) {
     // Only cdsa.domain triggers contribute to recommendations
@@ -187,20 +243,48 @@ export async function buildContentIndex(opts: BuildOptions = {}): Promise<Runtim
     const [, domain, age] = domainMatch;
 
     for (const article of entry.articles) {
+      allEducationSlugs.add(article.slug);
+
       const severities =
         article.severities && article.severities.length > 0
           ? article.severities
           : ['monitor', 'refer'];
 
+      // Read title/summary from frontmatter (cached)
+      const fm = await readFrontmatter(article.slug, cwd);
+
       for (const sev of severities) {
         const key = `${sev}::${domain}::${age}`;
         const list = (recommendations[key] ??= []);
         if (!list.some(r => r.slug === article.slug)) {
-          list.push({ source: 'internal', slug: article.slug });
+          const item: { source: 'internal'; slug: string; title?: string; summary?: string } = {
+            source: 'internal',
+            slug: article.slug,
+          };
+          if (fm.title) item.title = fm.title;
+          if (fm.summary) item.summary = fm.summary;
+          list.push(item);
         }
       }
     }
   }
+
+  // ── 6b. articleSlugs — all .md slugs in src/data/education (excl. README) ─
+  //
+  // Used by RecommendationsManager at runtime to populate the internal-article
+  // picker without needing a filesystem glob in the browser.
+
+  const mdFiles = await fg('src/data/education/**/*.md', { cwd });
+  const articleSlugs = mdFiles
+    .map(f => {
+      // Convert path → slug: strip prefix, optional subdir, .md extension
+      const rel = f
+        .replace(/^src\/data\/education\//, '')
+        .replace(/\.md$/, '');
+      return rel;
+    })
+    .filter(s => !s.toLowerCase().includes('readme'))
+    .sort();
 
   // ── 7. clinicalEducation ──────────────────────────────────────────────────
   //
@@ -222,6 +306,7 @@ export async function buildContentIndex(opts: BuildOptions = {}): Promise<Runtim
     educationSlugToTriggers,
     recommendations,
     clinicalEducation,
+    articleSlugs,
   };
 
   runtimeIndexSchema.parse(runtime);
@@ -241,6 +326,7 @@ export async function buildContentIndex(opts: BuildOptions = {}): Promise<Runtim
     console.log(
       `  clinicalEducation: ${Object.keys(clinicalEducation).length} indicators`,
     );
+    console.log(`  articleSlugs: ${articleSlugs.length} slugs`);
 
     // ── Generate CLINICAL_EDUCATION constant for closed-loop engine ──────────
     //
