@@ -139,7 +139,52 @@ describe('recommendations', () => {
 });
 
 // ---------------------------------------------------------------------------
-// 5. clinicalEducation exists
+// 5. recommendations — content lock for representative cells
+//
+// Snapshot locked from current video-index.json (2026-05-26).
+// A regression swapping article slugs across cells would silently pass the
+// structural tests above; this test catches that by fixing the ACTUAL slug
+// sets for a representative cross-section of category × domain × ageGroup.
+// Order-independent (Set comparison). Each item must also have a non-empty title.
+// ---------------------------------------------------------------------------
+describe('recommendations content lock — representative cells', () => {
+  type RecItem = { slug: string; title: string; source: string; summary?: string };
+  type Recs = Record<string, RecItem[]>;
+
+  const EXPECTED_SLUGS: Record<string, Set<string>> = {
+    'monitor::gross_motor::13-24m': new Set(['exercise-guide', 'gross-motor-activities']),
+    'refer::gross_motor::13-24m': new Set(['exercise-guide', 'gross-motor-activities', 'when-to-seek-help']),
+    'monitor::language::13-24m': new Set(['language-stimulation']),
+    'monitor::cognition::13-24m': new Set(['cognitive-play']),
+    'refer::social_emotional::13-24m': new Set(['social-emotional-guide', 'when-to-seek-help']),
+  };
+
+  it('locked cells contain exactly the expected slug sets', () => {
+    const recs = neu.recommendations as Recs;
+    for (const [key, expectedSlugs] of Object.entries(EXPECTED_SLUGS)) {
+      const items = recs[key];
+      expect(items, `recommendations["${key}"] should exist`).toBeDefined();
+      const actualSlugs = new Set(items.map((item) => item.slug));
+      expect(actualSlugs, `recommendations["${key}"] slug set mismatch`).toEqual(expectedSlugs);
+    }
+  });
+
+  it('all items in locked cells have a non-empty title', () => {
+    const recs = neu.recommendations as Recs;
+    for (const key of Object.keys(EXPECTED_SLUGS)) {
+      const items = recs[key] ?? [];
+      for (const item of items) {
+        expect(
+          item.title,
+          `recommendations["${key}"] item slug="${item.slug}" has empty title`,
+        ).toBeTruthy();
+      }
+    }
+  });
+});
+
+// ---------------------------------------------------------------------------
+// 6. clinicalEducation exists
 // ---------------------------------------------------------------------------
 describe('clinicalEducation', () => {
   it('exists and is an object', () => {

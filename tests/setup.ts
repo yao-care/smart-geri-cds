@@ -7,6 +7,7 @@ import type { RuntimeIndex } from '../src/lib/education/schemas';
 // Global fetch stub — returns a minimal video-index.json for any URL that
 // ends with /data/video-index.json, preventing ERR_INVALID_URL in jsdom.
 // Individual test files may override fetch with vi.stubGlobal() + vi.resetModules().
+// WARNING: returns an EMPTY index. Tests needing real index data must vi.resetModules() + vi.stubGlobal('fetch', ...) themselves (see recommendations-age.test.ts).
 // ---------------------------------------------------------------------------
 
 const EMPTY_INDEX: RuntimeIndex = {
