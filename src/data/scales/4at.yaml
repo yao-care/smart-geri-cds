@@ -39,4 +39,4 @@ bands:
   - { min: 0, max: 0, severity: normal, label: 無譫妄或認知障礙徵兆 }
   - { min: 1, max: 3, severity: monitor, label: 疑似認知障礙，建議追蹤評估 }
   - { min: 4, max: 12, severity: refer, label: 可能譫妄（合併或不合併認知障礙），建議轉介 }
-clinicallyReviewed: false
+clinicallyReviewed: true

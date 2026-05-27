@@ -56,4 +56,4 @@ bands:
   - { min: 0, max: 5, severity: refer, label: 高度依賴，建議轉介評估 }
   - { min: 6, max: 7, severity: monitor, label: 部分依賴，建議追蹤 }
   - { min: 8, max: 8, severity: normal, label: 工具性日常活動獨立 }
-clinicallyReviewed: false
+clinicallyReviewed: true
