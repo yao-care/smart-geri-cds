@@ -17,6 +17,9 @@
 
 
 
+
+
+
 inapplicable:
   physical.comorbidity:
     - cfs1
@@ -76,6 +79,643 @@ inapplicable:
     - cfs3
     - cfs4
 triggers:
+  - trigger: cga.domain.environmental.accessibility.anomaly.cfs4
+    videoIds:
+      - 8v8JFXPKJQc
+      - XXufec_MC3Q
+      - XqgFS_yV5nM
+      - m0ZQBZpjmxc
+      - J-1bHnYBsEI
+    articles:
+      - slug: home-safety
+        severities:
+          - monitor
+          - refer
+        browse: true
+  - trigger: cga.domain.environmental.accessibility.anomaly.cfs5
+    videoIds:
+      - 8v8JFXPKJQc
+      - XXufec_MC3Q
+      - XqgFS_yV5nM
+      - m0ZQBZpjmxc
+      - J-1bHnYBsEI
+    articles:
+      - slug: home-safety
+        severities:
+          - monitor
+          - refer
+        browse: true
+  - trigger: cga.domain.environmental.accessibility.anomaly.cfs6
+    videoIds:
+      - 8v8JFXPKJQc
+      - XXufec_MC3Q
+      - XqgFS_yV5nM
+      - m0ZQBZpjmxc
+      - J-1bHnYBsEI
+    articles:
+      - slug: home-safety
+        severities:
+          - monitor
+          - refer
+        browse: true
+  - trigger: cga.domain.environmental.accessibility.anomaly.cfs7
+    videoIds:
+      - 8v8JFXPKJQc
+      - XXufec_MC3Q
+      - XqgFS_yV5nM
+      - m0ZQBZpjmxc
+      - J-1bHnYBsEI
+    articles:
+      - slug: home-safety
+        severities:
+          - monitor
+          - refer
+        browse: true
+  - trigger: cga.domain.environmental.accessibility.anomaly.cfs8
+    videoIds:
+      - 8v8JFXPKJQc
+      - XXufec_MC3Q
+      - XqgFS_yV5nM
+      - m0ZQBZpjmxc
+      - J-1bHnYBsEI
+    articles:
+      - slug: home-safety
+        severities:
+          - monitor
+          - refer
+        browse: true
+  - trigger: cga.domain.environmental.accessibility.anomaly.cfs9
+    videoIds:
+      - 8v8JFXPKJQc
+      - XXufec_MC3Q
+      - XqgFS_yV5nM
+      - m0ZQBZpjmxc
+      - J-1bHnYBsEI
+    articles:
+      - slug: home-safety
+        severities:
+          - monitor
+          - refer
+        browse: true
+  - trigger: cga.domain.environmental.home_safety.anomaly.cfs3
+    videoIds:
+      - Z1A6YLSARwI
+      - cq7apwizQ4s
+      - 1I22b20urZg
+      - j5YSHsQXEmo
+      - raF69KnnZCo
+    articles:
+      - slug: home-safety
+        severities:
+          - monitor
+          - refer
+        browse: true
+  - trigger: cga.domain.environmental.home_safety.anomaly.cfs4
+    videoIds:
+      - Z1A6YLSARwI
+      - cq7apwizQ4s
+      - 1I22b20urZg
+      - j5YSHsQXEmo
+      - raF69KnnZCo
+    articles:
+      - slug: home-safety
+        severities:
+          - monitor
+          - refer
+        browse: true
+  - trigger: cga.domain.environmental.home_safety.anomaly.cfs5
+    videoIds:
+      - Z1A6YLSARwI
+      - cq7apwizQ4s
+      - 1I22b20urZg
+      - j5YSHsQXEmo
+      - raF69KnnZCo
+    articles:
+      - slug: home-safety
+        severities:
+          - monitor
+          - refer
+        browse: true
+  - trigger: cga.domain.environmental.home_safety.anomaly.cfs6
+    videoIds:
+      - Z1A6YLSARwI
+      - cq7apwizQ4s
+      - 1I22b20urZg
+      - j5YSHsQXEmo
+      - raF69KnnZCo
+    articles:
+      - slug: home-safety
+        severities:
+          - monitor
+          - refer
+        browse: true
+  - trigger: cga.domain.environmental.home_safety.anomaly.cfs7
+    videoIds:
+      - Z1A6YLSARwI
+      - cq7apwizQ4s
+      - 1I22b20urZg
+      - j5YSHsQXEmo
+      - raF69KnnZCo
+    articles:
+      - slug: home-safety
+        severities:
+          - monitor
+          - refer
+        browse: true
+  - trigger: cga.domain.environmental.home_safety.anomaly.cfs8
+    videoIds:
+      - Z1A6YLSARwI
+      - cq7apwizQ4s
+      - 1I22b20urZg
+      - j5YSHsQXEmo
+      - raF69KnnZCo
+    articles:
+      - slug: home-safety
+        severities:
+          - monitor
+          - refer
+        browse: true
+  - trigger: cga.domain.functional.adl.anomaly.cfs3
+    videoIds:
+      - ZQaEEP7BSJE
+      - MfrxrLDtDuQ
+      - nbgF_8kinjg
+      - gHSg8o4Efns
+      - uYg7iu18caA
+    articles:
+      - slug: adl-maintenance
+        severities:
+          - monitor
+          - refer
+        browse: true
+  - trigger: cga.domain.functional.adl.anomaly.cfs4
+    videoIds:
+      - ZQaEEP7BSJE
+      - MfrxrLDtDuQ
+      - nbgF_8kinjg
+      - gHSg8o4Efns
+      - uYg7iu18caA
+    articles:
+      - slug: adl-maintenance
+        severities:
+          - monitor
+          - refer
+        browse: true
+  - trigger: cga.domain.functional.adl.anomaly.cfs5
+    videoIds:
+      - ZQaEEP7BSJE
+      - MfrxrLDtDuQ
+      - nbgF_8kinjg
+      - gHSg8o4Efns
+      - uYg7iu18caA
+    articles:
+      - slug: adl-maintenance
+        severities:
+          - monitor
+          - refer
+        browse: true
+  - trigger: cga.domain.functional.adl.anomaly.cfs6
+    videoIds:
+      - ZQaEEP7BSJE
+      - MfrxrLDtDuQ
+      - nbgF_8kinjg
+      - gHSg8o4Efns
+      - uYg7iu18caA
+    articles:
+      - slug: adl-maintenance
+        severities:
+          - monitor
+          - refer
+        browse: true
+  - trigger: cga.domain.functional.adl.anomaly.cfs7
+    videoIds:
+      - ZQaEEP7BSJE
+      - MfrxrLDtDuQ
+      - nbgF_8kinjg
+      - gHSg8o4Efns
+      - uYg7iu18caA
+    articles:
+      - slug: adl-maintenance
+        severities:
+          - monitor
+          - refer
+        browse: true
+  - trigger: cga.domain.functional.adl.anomaly.cfs8
+    videoIds:
+      - ZQaEEP7BSJE
+      - MfrxrLDtDuQ
+      - nbgF_8kinjg
+      - gHSg8o4Efns
+      - uYg7iu18caA
+    articles:
+      - slug: adl-maintenance
+        severities:
+          - monitor
+          - refer
+        browse: true
+  - trigger: cga.domain.functional.adl.anomaly.cfs9
+    videoIds:
+      - ZQaEEP7BSJE
+      - MfrxrLDtDuQ
+      - nbgF_8kinjg
+      - gHSg8o4Efns
+      - uYg7iu18caA
+    articles:
+      - slug: adl-maintenance
+        severities:
+          - monitor
+          - refer
+        browse: true
+  - trigger: cga.domain.functional.falls.anomaly.cfs2
+    videoIds:
+      - LH5oLXL0D4E
+      - p2LAs_hUFb4
+      - 8pEl7lKoi8M
+      - Ce08THCTt54
+      - XeaIC5nKZxg
+    articles:
+      - slug: fall-prevention
+        severities:
+          - monitor
+          - refer
+        browse: true
+  - trigger: cga.domain.functional.falls.anomaly.cfs3
+    videoIds:
+      - LH5oLXL0D4E
+      - p2LAs_hUFb4
+      - 8pEl7lKoi8M
+      - Ce08THCTt54
+      - XeaIC5nKZxg
+    articles:
+      - slug: fall-prevention
+        severities:
+          - monitor
+          - refer
+        browse: true
+  - trigger: cga.domain.functional.falls.anomaly.cfs4
+    videoIds:
+      - LH5oLXL0D4E
+      - p2LAs_hUFb4
+      - 8pEl7lKoi8M
+      - Ce08THCTt54
+      - XeaIC5nKZxg
+    articles:
+      - slug: fall-prevention
+        severities:
+          - monitor
+          - refer
+        browse: true
+  - trigger: cga.domain.functional.falls.anomaly.cfs5
+    videoIds:
+      - LH5oLXL0D4E
+      - p2LAs_hUFb4
+      - 8pEl7lKoi8M
+      - Ce08THCTt54
+      - XeaIC5nKZxg
+    articles:
+      - slug: fall-prevention
+        severities:
+          - monitor
+          - refer
+        browse: true
+  - trigger: cga.domain.functional.falls.anomaly.cfs6
+    videoIds:
+      - LH5oLXL0D4E
+      - p2LAs_hUFb4
+      - 8pEl7lKoi8M
+      - Ce08THCTt54
+      - XeaIC5nKZxg
+    articles:
+      - slug: fall-prevention
+        severities:
+          - monitor
+          - refer
+        browse: true
+  - trigger: cga.domain.functional.falls.anomaly.cfs7
+    videoIds:
+      - LH5oLXL0D4E
+      - p2LAs_hUFb4
+      - 8pEl7lKoi8M
+      - Ce08THCTt54
+      - XeaIC5nKZxg
+    articles:
+      - slug: fall-prevention
+        severities:
+          - monitor
+          - refer
+        browse: true
+  - trigger: cga.domain.functional.falls.anomaly.cfs8
+    videoIds:
+      - LH5oLXL0D4E
+      - p2LAs_hUFb4
+      - 8pEl7lKoi8M
+      - Ce08THCTt54
+      - XeaIC5nKZxg
+    articles:
+      - slug: fall-prevention
+        severities:
+          - monitor
+          - refer
+        browse: true
+  - trigger: cga.domain.functional.iadl.anomaly.cfs3
+    videoIds:
+      - NitXM9QnUn4
+      - 5CPZ649rNGE
+      - XhZBd_gzdhc
+      - GEOyJxQoTAA
+      - JaLN8QnonBc
+    articles:
+      - slug: adl-maintenance
+        severities:
+          - monitor
+          - refer
+        browse: true
+  - trigger: cga.domain.functional.iadl.anomaly.cfs4
+    videoIds:
+      - NitXM9QnUn4
+      - 5CPZ649rNGE
+      - XhZBd_gzdhc
+      - GEOyJxQoTAA
+      - JaLN8QnonBc
+    articles:
+      - slug: adl-maintenance
+        severities:
+          - monitor
+          - refer
+        browse: true
+  - trigger: cga.domain.functional.iadl.anomaly.cfs5
+    videoIds:
+      - NitXM9QnUn4
+      - 5CPZ649rNGE
+      - XhZBd_gzdhc
+      - GEOyJxQoTAA
+      - JaLN8QnonBc
+    articles:
+      - slug: adl-maintenance
+        severities:
+          - monitor
+          - refer
+        browse: true
+  - trigger: cga.domain.functional.iadl.anomaly.cfs6
+    videoIds:
+      - NitXM9QnUn4
+      - 5CPZ649rNGE
+      - XhZBd_gzdhc
+      - GEOyJxQoTAA
+      - JaLN8QnonBc
+    articles:
+      - slug: adl-maintenance
+        severities:
+          - monitor
+          - refer
+        browse: true
+  - trigger: cga.domain.functional.iadl.anomaly.cfs7
+    videoIds:
+      - NitXM9QnUn4
+      - 5CPZ649rNGE
+      - XhZBd_gzdhc
+      - GEOyJxQoTAA
+      - JaLN8QnonBc
+    articles:
+      - slug: adl-maintenance
+        severities:
+          - monitor
+          - refer
+        browse: true
+  - trigger: cga.domain.functional.iadl.anomaly.cfs8
+    videoIds:
+      - NitXM9QnUn4
+      - 5CPZ649rNGE
+      - XhZBd_gzdhc
+      - GEOyJxQoTAA
+      - JaLN8QnonBc
+    articles:
+      - slug: adl-maintenance
+        severities:
+          - monitor
+          - refer
+        browse: true
+  - trigger: cga.domain.functional.iadl.anomaly.cfs9
+    videoIds:
+      - NitXM9QnUn4
+      - 5CPZ649rNGE
+      - XhZBd_gzdhc
+      - GEOyJxQoTAA
+      - JaLN8QnonBc
+    articles:
+      - slug: adl-maintenance
+        severities:
+          - monitor
+          - refer
+        browse: true
+  - trigger: cga.domain.functional.mobility.anomaly.cfs2
+    videoIds:
+      - 7BG1vp_N1FU
+      - Xvh51Yw5CaQ
+      - Egw1WmqNAbg
+      - 9Wnc9gaErNE
+      - M-dkUOiqX3w
+    articles:
+      - slug: sarcopenia-exercise
+        severities:
+          - monitor
+          - refer
+        browse: true
+  - trigger: cga.domain.functional.mobility.anomaly.cfs3
+    videoIds:
+      - 7BG1vp_N1FU
+      - Xvh51Yw5CaQ
+      - Egw1WmqNAbg
+      - 9Wnc9gaErNE
+      - M-dkUOiqX3w
+    articles:
+      - slug: sarcopenia-exercise
+        severities:
+          - monitor
+          - refer
+        browse: true
+  - trigger: cga.domain.functional.mobility.anomaly.cfs4
+    videoIds:
+      - 7BG1vp_N1FU
+      - Xvh51Yw5CaQ
+      - Egw1WmqNAbg
+      - 9Wnc9gaErNE
+      - M-dkUOiqX3w
+    articles:
+      - slug: sarcopenia-exercise
+        severities:
+          - monitor
+          - refer
+        browse: true
+  - trigger: cga.domain.functional.mobility.anomaly.cfs5
+    videoIds:
+      - 7BG1vp_N1FU
+      - Xvh51Yw5CaQ
+      - Egw1WmqNAbg
+      - 9Wnc9gaErNE
+      - M-dkUOiqX3w
+    articles:
+      - slug: sarcopenia-exercise
+        severities:
+          - monitor
+          - refer
+        browse: true
+  - trigger: cga.domain.functional.mobility.anomaly.cfs6
+    videoIds:
+      - 7BG1vp_N1FU
+      - Xvh51Yw5CaQ
+      - Egw1WmqNAbg
+      - 9Wnc9gaErNE
+      - M-dkUOiqX3w
+    articles:
+      - slug: sarcopenia-exercise
+        severities:
+          - monitor
+          - refer
+        browse: true
+  - trigger: cga.domain.functional.mobility.anomaly.cfs7
+    videoIds:
+      - 7BG1vp_N1FU
+      - Xvh51Yw5CaQ
+      - Egw1WmqNAbg
+      - 9Wnc9gaErNE
+      - M-dkUOiqX3w
+    articles:
+      - slug: sarcopenia-exercise
+        severities:
+          - monitor
+          - refer
+        browse: true
+  - trigger: cga.domain.future_wishes.advance_care_planning.anomaly.cfs5
+    videoIds:
+      - fujj-CuWsaI
+      - ruBIxE1BUEc
+      - ejqzwqeJIrA
+      - 2Eh79wr7aSw
+      - Y4MrKcTB52A
+    articles:
+      - slug: advance-care-planning
+        severities:
+          - monitor
+          - refer
+        browse: true
+  - trigger: cga.domain.future_wishes.advance_care_planning.anomaly.cfs6
+    videoIds:
+      - fujj-CuWsaI
+      - ruBIxE1BUEc
+      - ejqzwqeJIrA
+      - 2Eh79wr7aSw
+      - Y4MrKcTB52A
+    articles:
+      - slug: advance-care-planning
+        severities:
+          - monitor
+          - refer
+        browse: true
+  - trigger: cga.domain.future_wishes.advance_care_planning.anomaly.cfs7
+    videoIds:
+      - fujj-CuWsaI
+      - ruBIxE1BUEc
+      - ejqzwqeJIrA
+      - 2Eh79wr7aSw
+      - Y4MrKcTB52A
+    articles:
+      - slug: advance-care-planning
+        severities:
+          - monitor
+          - refer
+        browse: true
+  - trigger: cga.domain.future_wishes.advance_care_planning.anomaly.cfs8
+    videoIds:
+      - fujj-CuWsaI
+      - ruBIxE1BUEc
+      - ejqzwqeJIrA
+      - 2Eh79wr7aSw
+      - Y4MrKcTB52A
+    articles:
+      - slug: advance-care-planning
+        severities:
+          - monitor
+          - refer
+        browse: true
+  - trigger: cga.domain.future_wishes.advance_care_planning.anomaly.cfs9
+    videoIds:
+      - fujj-CuWsaI
+      - ruBIxE1BUEc
+      - ejqzwqeJIrA
+      - 2Eh79wr7aSw
+      - Y4MrKcTB52A
+    articles:
+      - slug: advance-care-planning
+        severities:
+          - monitor
+          - refer
+        browse: true
+  - trigger: cga.domain.future_wishes.treatment_preferences.anomaly.cfs5
+    videoIds:
+      - IqBjMHzdxUY
+      - 8O0lsVKiwt8
+      - 2Eh79wr7aSw
+      - PlqPu68ElqE
+      - QdmzjK74XbM
+    articles:
+      - slug: treatment-preferences
+        severities:
+          - monitor
+          - refer
+        browse: true
+  - trigger: cga.domain.future_wishes.treatment_preferences.anomaly.cfs6
+    videoIds:
+      - IqBjMHzdxUY
+      - 8O0lsVKiwt8
+      - 2Eh79wr7aSw
+      - PlqPu68ElqE
+      - QdmzjK74XbM
+    articles:
+      - slug: treatment-preferences
+        severities:
+          - monitor
+          - refer
+        browse: true
+  - trigger: cga.domain.future_wishes.treatment_preferences.anomaly.cfs7
+    videoIds:
+      - IqBjMHzdxUY
+      - 8O0lsVKiwt8
+      - 2Eh79wr7aSw
+      - PlqPu68ElqE
+      - QdmzjK74XbM
+    articles:
+      - slug: treatment-preferences
+        severities:
+          - monitor
+          - refer
+        browse: true
+  - trigger: cga.domain.future_wishes.treatment_preferences.anomaly.cfs8
+    videoIds:
+      - IqBjMHzdxUY
+      - 8O0lsVKiwt8
+      - 2Eh79wr7aSw
+      - PlqPu68ElqE
+      - QdmzjK74XbM
+    articles:
+      - slug: treatment-preferences
+        severities:
+          - monitor
+          - refer
+        browse: true
+  - trigger: cga.domain.future_wishes.treatment_preferences.anomaly.cfs9
+    videoIds:
+      - IqBjMHzdxUY
+      - 8O0lsVKiwt8
+      - 2Eh79wr7aSw
+      - PlqPu68ElqE
+      - QdmzjK74XbM
+    articles:
+      - slug: treatment-preferences
+        severities:
+          - monitor
+          - refer
+        browse: true
   - trigger: cga.domain.physical.comorbidity.anomaly.cfs2
     videoIds:
       - FglUj552y_c
@@ -180,106 +820,93 @@ triggers:
           - monitor
           - refer
         browse: true
-  - trigger: cga.domain.physical.polypharmacy.anomaly.cfs2
+  - trigger: cga.domain.physical.continence.anomaly.cfs3
     videoIds:
-      - FglUj552y_c
-      - 9XhiP7KLVdg
-      - AE6Wj0D0Tf0
-      - YPL-i8ddgYA
-      - NUt3mquboYY
+      - HIJmtnTr4Lo
+      - '-GdvSpxpg70'
+      - z7Yyt1gWYsI
+      - JudDENPHvcQ
+      - S5VE219EXU4
     articles:
-      - slug: medication-safety
+      - slug: incontinence-care
         severities:
           - monitor
           - refer
         browse: true
-  - trigger: cga.domain.physical.polypharmacy.anomaly.cfs3
+  - trigger: cga.domain.physical.continence.anomaly.cfs4
     videoIds:
-      - FglUj552y_c
-      - 9XhiP7KLVdg
-      - AE6Wj0D0Tf0
-      - YPL-i8ddgYA
-      - NUt3mquboYY
+      - HIJmtnTr4Lo
+      - '-GdvSpxpg70'
+      - z7Yyt1gWYsI
+      - JudDENPHvcQ
+      - S5VE219EXU4
     articles:
-      - slug: medication-safety
+      - slug: incontinence-care
         severities:
           - monitor
           - refer
         browse: true
-  - trigger: cga.domain.physical.polypharmacy.anomaly.cfs4
+  - trigger: cga.domain.physical.continence.anomaly.cfs5
     videoIds:
-      - FglUj552y_c
-      - 9XhiP7KLVdg
-      - AE6Wj0D0Tf0
-      - YPL-i8ddgYA
-      - NUt3mquboYY
+      - HIJmtnTr4Lo
+      - '-GdvSpxpg70'
+      - z7Yyt1gWYsI
+      - JudDENPHvcQ
+      - S5VE219EXU4
     articles:
-      - slug: medication-safety
+      - slug: incontinence-care
         severities:
           - monitor
           - refer
         browse: true
-  - trigger: cga.domain.physical.polypharmacy.anomaly.cfs5
+  - trigger: cga.domain.physical.continence.anomaly.cfs6
     videoIds:
-      - FglUj552y_c
-      - 9XhiP7KLVdg
-      - AE6Wj0D0Tf0
-      - YPL-i8ddgYA
-      - NUt3mquboYY
+      - HIJmtnTr4Lo
+      - '-GdvSpxpg70'
+      - z7Yyt1gWYsI
+      - JudDENPHvcQ
+      - S5VE219EXU4
     articles:
-      - slug: medication-safety
+      - slug: incontinence-care
         severities:
           - monitor
           - refer
         browse: true
-  - trigger: cga.domain.physical.polypharmacy.anomaly.cfs6
+  - trigger: cga.domain.physical.continence.anomaly.cfs7
     videoIds:
-      - FglUj552y_c
-      - 9XhiP7KLVdg
-      - AE6Wj0D0Tf0
-      - YPL-i8ddgYA
-      - NUt3mquboYY
+      - HIJmtnTr4Lo
+      - '-GdvSpxpg70'
+      - z7Yyt1gWYsI
+      - JudDENPHvcQ
+      - S5VE219EXU4
     articles:
-      - slug: medication-safety
+      - slug: incontinence-care
         severities:
           - monitor
           - refer
         browse: true
-  - trigger: cga.domain.physical.polypharmacy.anomaly.cfs7
+  - trigger: cga.domain.physical.continence.anomaly.cfs8
     videoIds:
-      - FglUj552y_c
-      - 9XhiP7KLVdg
-      - AE6Wj0D0Tf0
-      - YPL-i8ddgYA
-      - NUt3mquboYY
+      - HIJmtnTr4Lo
+      - '-GdvSpxpg70'
+      - z7Yyt1gWYsI
+      - JudDENPHvcQ
+      - S5VE219EXU4
     articles:
-      - slug: medication-safety
+      - slug: incontinence-care
         severities:
           - monitor
           - refer
         browse: true
-  - trigger: cga.domain.physical.polypharmacy.anomaly.cfs8
+  - trigger: cga.domain.physical.continence.anomaly.cfs9
     videoIds:
-      - FglUj552y_c
-      - 9XhiP7KLVdg
-      - AE6Wj0D0Tf0
-      - YPL-i8ddgYA
-      - NUt3mquboYY
+      - HIJmtnTr4Lo
+      - '-GdvSpxpg70'
+      - z7Yyt1gWYsI
+      - JudDENPHvcQ
+      - S5VE219EXU4
     articles:
-      - slug: medication-safety
-        severities:
-          - monitor
-          - refer
-        browse: true
-  - trigger: cga.domain.physical.polypharmacy.anomaly.cfs9
-    videoIds:
-      - FglUj552y_c
-      - 9XhiP7KLVdg
-      - AE6Wj0D0Tf0
-      - YPL-i8ddgYA
-      - NUt3mquboYY
-    articles:
-      - slug: medication-safety
+      - slug: incontinence-care
         severities:
           - monitor
           - refer
@@ -401,93 +1028,178 @@ triggers:
           - monitor
           - refer
         browse: true
-  - trigger: cga.domain.physical.continence.anomaly.cfs3
+  - trigger: cga.domain.physical.pain.anomaly.cfs1
+    articles: []
     videoIds:
-      - HIJmtnTr4Lo
-      - '-GdvSpxpg70'
-      - z7Yyt1gWYsI
-      - JudDENPHvcQ
-      - S5VE219EXU4
+      - ySkUgoOYxeo
+      - siIRWanuLdM
+      - GzbPrKYq46A
+      - oMpBB2Dm8FQ
+      - 4NUgeJevSFM
+  - trigger: cga.domain.physical.pain.anomaly.cfs2
+    articles: []
+    videoIds:
+      - ySkUgoOYxeo
+      - siIRWanuLdM
+      - GzbPrKYq46A
+      - oMpBB2Dm8FQ
+      - 4NUgeJevSFM
+  - trigger: cga.domain.physical.pain.anomaly.cfs3
+    articles: []
+    videoIds:
+      - ySkUgoOYxeo
+      - siIRWanuLdM
+      - GzbPrKYq46A
+      - oMpBB2Dm8FQ
+      - 4NUgeJevSFM
+  - trigger: cga.domain.physical.pain.anomaly.cfs4
+    articles: []
+    videoIds:
+      - ySkUgoOYxeo
+      - siIRWanuLdM
+      - GzbPrKYq46A
+      - oMpBB2Dm8FQ
+      - 4NUgeJevSFM
+  - trigger: cga.domain.physical.pain.anomaly.cfs5
+    articles: []
+    videoIds:
+      - ySkUgoOYxeo
+      - siIRWanuLdM
+      - GzbPrKYq46A
+      - oMpBB2Dm8FQ
+      - 4NUgeJevSFM
+  - trigger: cga.domain.physical.pain.anomaly.cfs6
+    articles: []
+    videoIds:
+      - ySkUgoOYxeo
+      - siIRWanuLdM
+      - GzbPrKYq46A
+      - oMpBB2Dm8FQ
+      - 4NUgeJevSFM
+  - trigger: cga.domain.physical.pain.anomaly.cfs7
+    articles: []
+    videoIds:
+      - ySkUgoOYxeo
+      - siIRWanuLdM
+      - GzbPrKYq46A
+      - oMpBB2Dm8FQ
+      - 4NUgeJevSFM
+  - trigger: cga.domain.physical.pain.anomaly.cfs8
+    articles: []
+    videoIds:
+      - ySkUgoOYxeo
+      - siIRWanuLdM
+      - GzbPrKYq46A
+      - oMpBB2Dm8FQ
+      - 4NUgeJevSFM
+  - trigger: cga.domain.physical.pain.anomaly.cfs9
+    articles: []
+    videoIds:
+      - ySkUgoOYxeo
+      - siIRWanuLdM
+      - GzbPrKYq46A
+      - oMpBB2Dm8FQ
+      - 4NUgeJevSFM
+  - trigger: cga.domain.physical.polypharmacy.anomaly.cfs2
+    videoIds:
+      - FglUj552y_c
+      - 9XhiP7KLVdg
+      - AE6Wj0D0Tf0
+      - YPL-i8ddgYA
+      - NUt3mquboYY
     articles:
-      - slug: incontinence-care
+      - slug: medication-safety
         severities:
           - monitor
           - refer
         browse: true
-  - trigger: cga.domain.physical.continence.anomaly.cfs4
+  - trigger: cga.domain.physical.polypharmacy.anomaly.cfs3
     videoIds:
-      - HIJmtnTr4Lo
-      - '-GdvSpxpg70'
-      - z7Yyt1gWYsI
-      - JudDENPHvcQ
-      - S5VE219EXU4
+      - FglUj552y_c
+      - 9XhiP7KLVdg
+      - AE6Wj0D0Tf0
+      - YPL-i8ddgYA
+      - NUt3mquboYY
     articles:
-      - slug: incontinence-care
+      - slug: medication-safety
         severities:
           - monitor
           - refer
         browse: true
-  - trigger: cga.domain.physical.continence.anomaly.cfs5
+  - trigger: cga.domain.physical.polypharmacy.anomaly.cfs4
     videoIds:
-      - HIJmtnTr4Lo
-      - '-GdvSpxpg70'
-      - z7Yyt1gWYsI
-      - JudDENPHvcQ
-      - S5VE219EXU4
+      - FglUj552y_c
+      - 9XhiP7KLVdg
+      - AE6Wj0D0Tf0
+      - YPL-i8ddgYA
+      - NUt3mquboYY
     articles:
-      - slug: incontinence-care
+      - slug: medication-safety
         severities:
           - monitor
           - refer
         browse: true
-  - trigger: cga.domain.physical.continence.anomaly.cfs6
+  - trigger: cga.domain.physical.polypharmacy.anomaly.cfs5
     videoIds:
-      - HIJmtnTr4Lo
-      - '-GdvSpxpg70'
-      - z7Yyt1gWYsI
-      - JudDENPHvcQ
-      - S5VE219EXU4
+      - FglUj552y_c
+      - 9XhiP7KLVdg
+      - AE6Wj0D0Tf0
+      - YPL-i8ddgYA
+      - NUt3mquboYY
     articles:
-      - slug: incontinence-care
+      - slug: medication-safety
         severities:
           - monitor
           - refer
         browse: true
-  - trigger: cga.domain.physical.continence.anomaly.cfs7
+  - trigger: cga.domain.physical.polypharmacy.anomaly.cfs6
     videoIds:
-      - HIJmtnTr4Lo
-      - '-GdvSpxpg70'
-      - z7Yyt1gWYsI
-      - JudDENPHvcQ
-      - S5VE219EXU4
+      - FglUj552y_c
+      - 9XhiP7KLVdg
+      - AE6Wj0D0Tf0
+      - YPL-i8ddgYA
+      - NUt3mquboYY
     articles:
-      - slug: incontinence-care
+      - slug: medication-safety
         severities:
           - monitor
           - refer
         browse: true
-  - trigger: cga.domain.physical.continence.anomaly.cfs8
+  - trigger: cga.domain.physical.polypharmacy.anomaly.cfs7
     videoIds:
-      - HIJmtnTr4Lo
-      - '-GdvSpxpg70'
-      - z7Yyt1gWYsI
-      - JudDENPHvcQ
-      - S5VE219EXU4
+      - FglUj552y_c
+      - 9XhiP7KLVdg
+      - AE6Wj0D0Tf0
+      - YPL-i8ddgYA
+      - NUt3mquboYY
     articles:
-      - slug: incontinence-care
+      - slug: medication-safety
         severities:
           - monitor
           - refer
         browse: true
-  - trigger: cga.domain.physical.continence.anomaly.cfs9
+  - trigger: cga.domain.physical.polypharmacy.anomaly.cfs8
     videoIds:
-      - HIJmtnTr4Lo
-      - '-GdvSpxpg70'
-      - z7Yyt1gWYsI
-      - JudDENPHvcQ
-      - S5VE219EXU4
+      - FglUj552y_c
+      - 9XhiP7KLVdg
+      - AE6Wj0D0Tf0
+      - YPL-i8ddgYA
+      - NUt3mquboYY
     articles:
-      - slug: incontinence-care
+      - slug: medication-safety
+        severities:
+          - monitor
+          - refer
+        browse: true
+  - trigger: cga.domain.physical.polypharmacy.anomaly.cfs9
+    videoIds:
+      - FglUj552y_c
+      - 9XhiP7KLVdg
+      - AE6Wj0D0Tf0
+      - YPL-i8ddgYA
+      - NUt3mquboYY
+    articles:
+      - slug: medication-safety
         severities:
           - monitor
           - refer
@@ -713,6 +1425,84 @@ triggers:
           - monitor
           - refer
         browse: true
+  - trigger: cga.domain.psychological.delirium.anomaly.cfs4
+    videoIds:
+      - iaQ63oaeq0k
+      - Be7s7A90VEM
+      - iGy75Zr24FQ
+      - wzecr34FZEo
+      - Pl8bKHl4Gaw
+    articles:
+      - slug: delirium-awareness
+        severities:
+          - monitor
+          - refer
+        browse: true
+  - trigger: cga.domain.psychological.delirium.anomaly.cfs5
+    videoIds:
+      - iaQ63oaeq0k
+      - Be7s7A90VEM
+      - iGy75Zr24FQ
+      - wzecr34FZEo
+      - Pl8bKHl4Gaw
+    articles:
+      - slug: delirium-awareness
+        severities:
+          - monitor
+          - refer
+        browse: true
+  - trigger: cga.domain.psychological.delirium.anomaly.cfs6
+    videoIds:
+      - iaQ63oaeq0k
+      - Be7s7A90VEM
+      - iGy75Zr24FQ
+      - wzecr34FZEo
+      - Pl8bKHl4Gaw
+    articles:
+      - slug: delirium-awareness
+        severities:
+          - monitor
+          - refer
+        browse: true
+  - trigger: cga.domain.psychological.delirium.anomaly.cfs7
+    videoIds:
+      - iaQ63oaeq0k
+      - Be7s7A90VEM
+      - iGy75Zr24FQ
+      - wzecr34FZEo
+      - Pl8bKHl4Gaw
+    articles:
+      - slug: delirium-awareness
+        severities:
+          - monitor
+          - refer
+        browse: true
+  - trigger: cga.domain.psychological.delirium.anomaly.cfs8
+    videoIds:
+      - iaQ63oaeq0k
+      - Be7s7A90VEM
+      - iGy75Zr24FQ
+      - wzecr34FZEo
+      - Pl8bKHl4Gaw
+    articles:
+      - slug: delirium-awareness
+        severities:
+          - monitor
+          - refer
+        browse: true
+  - trigger: cga.domain.psychological.delirium.anomaly.cfs9
+    videoIds:
+      - iaQ63oaeq0k
+      - Be7s7A90VEM
+      - iGy75Zr24FQ
+      - wzecr34FZEo
+      - Pl8bKHl4Gaw
+    articles:
+      - slug: delirium-awareness
+        severities:
+          - monitor
+          - refer
+        browse: true
   - trigger: cga.domain.psychological.mood.anomaly.cfs1
     videoIds:
       - MSDWQiOOyRo
@@ -800,539 +1590,6 @@ triggers:
       - lDmvUIoMDFg
     articles:
       - slug: depression-support
-        severities:
-          - monitor
-          - refer
-        browse: true
-  - trigger: cga.domain.psychological.delirium.anomaly.cfs4
-    videoIds:
-      - iaQ63oaeq0k
-      - Be7s7A90VEM
-      - iGy75Zr24FQ
-      - wzecr34FZEo
-      - Pl8bKHl4Gaw
-    articles:
-      - slug: delirium-awareness
-        severities:
-          - monitor
-          - refer
-        browse: true
-  - trigger: cga.domain.psychological.delirium.anomaly.cfs5
-    videoIds:
-      - iaQ63oaeq0k
-      - Be7s7A90VEM
-      - iGy75Zr24FQ
-      - wzecr34FZEo
-      - Pl8bKHl4Gaw
-    articles:
-      - slug: delirium-awareness
-        severities:
-          - monitor
-          - refer
-        browse: true
-  - trigger: cga.domain.psychological.delirium.anomaly.cfs6
-    videoIds:
-      - iaQ63oaeq0k
-      - Be7s7A90VEM
-      - iGy75Zr24FQ
-      - wzecr34FZEo
-      - Pl8bKHl4Gaw
-    articles:
-      - slug: delirium-awareness
-        severities:
-          - monitor
-          - refer
-        browse: true
-  - trigger: cga.domain.psychological.delirium.anomaly.cfs7
-    videoIds:
-      - iaQ63oaeq0k
-      - Be7s7A90VEM
-      - iGy75Zr24FQ
-      - wzecr34FZEo
-      - Pl8bKHl4Gaw
-    articles:
-      - slug: delirium-awareness
-        severities:
-          - monitor
-          - refer
-        browse: true
-  - trigger: cga.domain.psychological.delirium.anomaly.cfs8
-    videoIds:
-      - iaQ63oaeq0k
-      - Be7s7A90VEM
-      - iGy75Zr24FQ
-      - wzecr34FZEo
-      - Pl8bKHl4Gaw
-    articles:
-      - slug: delirium-awareness
-        severities:
-          - monitor
-          - refer
-        browse: true
-  - trigger: cga.domain.psychological.delirium.anomaly.cfs9
-    videoIds:
-      - iaQ63oaeq0k
-      - Be7s7A90VEM
-      - iGy75Zr24FQ
-      - wzecr34FZEo
-      - Pl8bKHl4Gaw
-    articles:
-      - slug: delirium-awareness
-        severities:
-          - monitor
-          - refer
-        browse: true
-  - trigger: cga.domain.functional.adl.anomaly.cfs3
-    videoIds:
-      - ZQaEEP7BSJE
-      - MfrxrLDtDuQ
-      - nbgF_8kinjg
-      - gHSg8o4Efns
-      - uYg7iu18caA
-    articles:
-      - slug: adl-maintenance
-        severities:
-          - monitor
-          - refer
-        browse: true
-  - trigger: cga.domain.functional.adl.anomaly.cfs4
-    videoIds:
-      - ZQaEEP7BSJE
-      - MfrxrLDtDuQ
-      - nbgF_8kinjg
-      - gHSg8o4Efns
-      - uYg7iu18caA
-    articles:
-      - slug: adl-maintenance
-        severities:
-          - monitor
-          - refer
-        browse: true
-  - trigger: cga.domain.functional.adl.anomaly.cfs5
-    videoIds:
-      - ZQaEEP7BSJE
-      - MfrxrLDtDuQ
-      - nbgF_8kinjg
-      - gHSg8o4Efns
-      - uYg7iu18caA
-    articles:
-      - slug: adl-maintenance
-        severities:
-          - monitor
-          - refer
-        browse: true
-  - trigger: cga.domain.functional.adl.anomaly.cfs6
-    videoIds:
-      - ZQaEEP7BSJE
-      - MfrxrLDtDuQ
-      - nbgF_8kinjg
-      - gHSg8o4Efns
-      - uYg7iu18caA
-    articles:
-      - slug: adl-maintenance
-        severities:
-          - monitor
-          - refer
-        browse: true
-  - trigger: cga.domain.functional.adl.anomaly.cfs7
-    videoIds:
-      - ZQaEEP7BSJE
-      - MfrxrLDtDuQ
-      - nbgF_8kinjg
-      - gHSg8o4Efns
-      - uYg7iu18caA
-    articles:
-      - slug: adl-maintenance
-        severities:
-          - monitor
-          - refer
-        browse: true
-  - trigger: cga.domain.functional.adl.anomaly.cfs8
-    videoIds:
-      - ZQaEEP7BSJE
-      - MfrxrLDtDuQ
-      - nbgF_8kinjg
-      - gHSg8o4Efns
-      - uYg7iu18caA
-    articles:
-      - slug: adl-maintenance
-        severities:
-          - monitor
-          - refer
-        browse: true
-  - trigger: cga.domain.functional.adl.anomaly.cfs9
-    videoIds:
-      - ZQaEEP7BSJE
-      - MfrxrLDtDuQ
-      - nbgF_8kinjg
-      - gHSg8o4Efns
-      - uYg7iu18caA
-    articles:
-      - slug: adl-maintenance
-        severities:
-          - monitor
-          - refer
-        browse: true
-  - trigger: cga.domain.functional.iadl.anomaly.cfs3
-    videoIds:
-      - NitXM9QnUn4
-      - 5CPZ649rNGE
-      - XhZBd_gzdhc
-      - GEOyJxQoTAA
-      - JaLN8QnonBc
-    articles:
-      - slug: adl-maintenance
-        severities:
-          - monitor
-          - refer
-        browse: true
-  - trigger: cga.domain.functional.iadl.anomaly.cfs4
-    videoIds:
-      - NitXM9QnUn4
-      - 5CPZ649rNGE
-      - XhZBd_gzdhc
-      - GEOyJxQoTAA
-      - JaLN8QnonBc
-    articles:
-      - slug: adl-maintenance
-        severities:
-          - monitor
-          - refer
-        browse: true
-  - trigger: cga.domain.functional.iadl.anomaly.cfs5
-    videoIds:
-      - NitXM9QnUn4
-      - 5CPZ649rNGE
-      - XhZBd_gzdhc
-      - GEOyJxQoTAA
-      - JaLN8QnonBc
-    articles:
-      - slug: adl-maintenance
-        severities:
-          - monitor
-          - refer
-        browse: true
-  - trigger: cga.domain.functional.iadl.anomaly.cfs6
-    videoIds:
-      - NitXM9QnUn4
-      - 5CPZ649rNGE
-      - XhZBd_gzdhc
-      - GEOyJxQoTAA
-      - JaLN8QnonBc
-    articles:
-      - slug: adl-maintenance
-        severities:
-          - monitor
-          - refer
-        browse: true
-  - trigger: cga.domain.functional.iadl.anomaly.cfs7
-    videoIds:
-      - NitXM9QnUn4
-      - 5CPZ649rNGE
-      - XhZBd_gzdhc
-      - GEOyJxQoTAA
-      - JaLN8QnonBc
-    articles:
-      - slug: adl-maintenance
-        severities:
-          - monitor
-          - refer
-        browse: true
-  - trigger: cga.domain.functional.iadl.anomaly.cfs8
-    videoIds:
-      - NitXM9QnUn4
-      - 5CPZ649rNGE
-      - XhZBd_gzdhc
-      - GEOyJxQoTAA
-      - JaLN8QnonBc
-    articles:
-      - slug: adl-maintenance
-        severities:
-          - monitor
-          - refer
-        browse: true
-  - trigger: cga.domain.functional.iadl.anomaly.cfs9
-    videoIds:
-      - NitXM9QnUn4
-      - 5CPZ649rNGE
-      - XhZBd_gzdhc
-      - GEOyJxQoTAA
-      - JaLN8QnonBc
-    articles:
-      - slug: adl-maintenance
-        severities:
-          - monitor
-          - refer
-        browse: true
-  - trigger: cga.domain.functional.mobility.anomaly.cfs2
-    videoIds:
-      - 7BG1vp_N1FU
-      - Xvh51Yw5CaQ
-      - Egw1WmqNAbg
-      - 9Wnc9gaErNE
-      - M-dkUOiqX3w
-    articles:
-      - slug: sarcopenia-exercise
-        severities:
-          - monitor
-          - refer
-        browse: true
-  - trigger: cga.domain.functional.mobility.anomaly.cfs3
-    videoIds:
-      - 7BG1vp_N1FU
-      - Xvh51Yw5CaQ
-      - Egw1WmqNAbg
-      - 9Wnc9gaErNE
-      - M-dkUOiqX3w
-    articles:
-      - slug: sarcopenia-exercise
-        severities:
-          - monitor
-          - refer
-        browse: true
-  - trigger: cga.domain.functional.mobility.anomaly.cfs4
-    videoIds:
-      - 7BG1vp_N1FU
-      - Xvh51Yw5CaQ
-      - Egw1WmqNAbg
-      - 9Wnc9gaErNE
-      - M-dkUOiqX3w
-    articles:
-      - slug: sarcopenia-exercise
-        severities:
-          - monitor
-          - refer
-        browse: true
-  - trigger: cga.domain.functional.mobility.anomaly.cfs5
-    videoIds:
-      - 7BG1vp_N1FU
-      - Xvh51Yw5CaQ
-      - Egw1WmqNAbg
-      - 9Wnc9gaErNE
-      - M-dkUOiqX3w
-    articles:
-      - slug: sarcopenia-exercise
-        severities:
-          - monitor
-          - refer
-        browse: true
-  - trigger: cga.domain.functional.mobility.anomaly.cfs6
-    videoIds:
-      - 7BG1vp_N1FU
-      - Xvh51Yw5CaQ
-      - Egw1WmqNAbg
-      - 9Wnc9gaErNE
-      - M-dkUOiqX3w
-    articles:
-      - slug: sarcopenia-exercise
-        severities:
-          - monitor
-          - refer
-        browse: true
-  - trigger: cga.domain.functional.mobility.anomaly.cfs7
-    videoIds:
-      - 7BG1vp_N1FU
-      - Xvh51Yw5CaQ
-      - Egw1WmqNAbg
-      - 9Wnc9gaErNE
-      - M-dkUOiqX3w
-    articles:
-      - slug: sarcopenia-exercise
-        severities:
-          - monitor
-          - refer
-        browse: true
-  - trigger: cga.domain.functional.falls.anomaly.cfs2
-    videoIds:
-      - LH5oLXL0D4E
-      - p2LAs_hUFb4
-      - 8pEl7lKoi8M
-      - Ce08THCTt54
-      - XeaIC5nKZxg
-    articles:
-      - slug: fall-prevention
-        severities:
-          - monitor
-          - refer
-        browse: true
-  - trigger: cga.domain.functional.falls.anomaly.cfs3
-    videoIds:
-      - LH5oLXL0D4E
-      - p2LAs_hUFb4
-      - 8pEl7lKoi8M
-      - Ce08THCTt54
-      - XeaIC5nKZxg
-    articles:
-      - slug: fall-prevention
-        severities:
-          - monitor
-          - refer
-        browse: true
-  - trigger: cga.domain.functional.falls.anomaly.cfs4
-    videoIds:
-      - LH5oLXL0D4E
-      - p2LAs_hUFb4
-      - 8pEl7lKoi8M
-      - Ce08THCTt54
-      - XeaIC5nKZxg
-    articles:
-      - slug: fall-prevention
-        severities:
-          - monitor
-          - refer
-        browse: true
-  - trigger: cga.domain.functional.falls.anomaly.cfs5
-    videoIds:
-      - LH5oLXL0D4E
-      - p2LAs_hUFb4
-      - 8pEl7lKoi8M
-      - Ce08THCTt54
-      - XeaIC5nKZxg
-    articles:
-      - slug: fall-prevention
-        severities:
-          - monitor
-          - refer
-        browse: true
-  - trigger: cga.domain.functional.falls.anomaly.cfs6
-    videoIds:
-      - LH5oLXL0D4E
-      - p2LAs_hUFb4
-      - 8pEl7lKoi8M
-      - Ce08THCTt54
-      - XeaIC5nKZxg
-    articles:
-      - slug: fall-prevention
-        severities:
-          - monitor
-          - refer
-        browse: true
-  - trigger: cga.domain.functional.falls.anomaly.cfs7
-    videoIds:
-      - LH5oLXL0D4E
-      - p2LAs_hUFb4
-      - 8pEl7lKoi8M
-      - Ce08THCTt54
-      - XeaIC5nKZxg
-    articles:
-      - slug: fall-prevention
-        severities:
-          - monitor
-          - refer
-        browse: true
-  - trigger: cga.domain.functional.falls.anomaly.cfs8
-    videoIds:
-      - LH5oLXL0D4E
-      - p2LAs_hUFb4
-      - 8pEl7lKoi8M
-      - Ce08THCTt54
-      - XeaIC5nKZxg
-    articles:
-      - slug: fall-prevention
-        severities:
-          - monitor
-          - refer
-        browse: true
-  - trigger: cga.domain.social.social_support.anomaly.cfs2
-    videoIds:
-      - 2QnVHLK142o
-      - QKW42kFB_DM
-      - lDmvUIoMDFg
-      - QTEVpoB8yHE
-      - UaaS6s34uAY
-    articles:
-      - slug: social-connection
-        severities:
-          - monitor
-          - refer
-        browse: true
-  - trigger: cga.domain.social.social_support.anomaly.cfs3
-    videoIds:
-      - 2QnVHLK142o
-      - QKW42kFB_DM
-      - lDmvUIoMDFg
-      - QTEVpoB8yHE
-      - UaaS6s34uAY
-    articles:
-      - slug: social-connection
-        severities:
-          - monitor
-          - refer
-        browse: true
-  - trigger: cga.domain.social.social_support.anomaly.cfs4
-    videoIds:
-      - 2QnVHLK142o
-      - QKW42kFB_DM
-      - lDmvUIoMDFg
-      - QTEVpoB8yHE
-      - UaaS6s34uAY
-    articles:
-      - slug: social-connection
-        severities:
-          - monitor
-          - refer
-        browse: true
-  - trigger: cga.domain.social.social_support.anomaly.cfs5
-    videoIds:
-      - 2QnVHLK142o
-      - QKW42kFB_DM
-      - lDmvUIoMDFg
-      - QTEVpoB8yHE
-      - UaaS6s34uAY
-    articles:
-      - slug: social-connection
-        severities:
-          - monitor
-          - refer
-        browse: true
-  - trigger: cga.domain.social.social_support.anomaly.cfs6
-    videoIds:
-      - 2QnVHLK142o
-      - QKW42kFB_DM
-      - lDmvUIoMDFg
-      - QTEVpoB8yHE
-      - UaaS6s34uAY
-    articles:
-      - slug: social-connection
-        severities:
-          - monitor
-          - refer
-        browse: true
-  - trigger: cga.domain.social.social_support.anomaly.cfs7
-    videoIds:
-      - 2QnVHLK142o
-      - QKW42kFB_DM
-      - lDmvUIoMDFg
-      - QTEVpoB8yHE
-      - UaaS6s34uAY
-    articles:
-      - slug: social-connection
-        severities:
-          - monitor
-          - refer
-        browse: true
-  - trigger: cga.domain.social.social_support.anomaly.cfs8
-    videoIds:
-      - 2QnVHLK142o
-      - QKW42kFB_DM
-      - lDmvUIoMDFg
-      - QTEVpoB8yHE
-      - UaaS6s34uAY
-    articles:
-      - slug: social-connection
-        severities:
-          - monitor
-          - refer
-        browse: true
-  - trigger: cga.domain.social.social_support.anomaly.cfs9
-    videoIds:
-      - 2QnVHLK142o
-      - QKW42kFB_DM
-      - lDmvUIoMDFg
-      - QTEVpoB8yHE
-      - UaaS6s34uAY
-    articles:
-      - slug: social-connection
         severities:
           - monitor
           - refer
@@ -1506,288 +1763,106 @@ triggers:
           - monitor
           - refer
         browse: true
-  - trigger: cga.domain.environmental.home_safety.anomaly.cfs3
+  - trigger: cga.domain.social.social_support.anomaly.cfs2
     videoIds:
-      - Z1A6YLSARwI
-      - cq7apwizQ4s
-      - 1I22b20urZg
-      - j5YSHsQXEmo
-      - raF69KnnZCo
+      - 2QnVHLK142o
+      - QKW42kFB_DM
+      - lDmvUIoMDFg
+      - QTEVpoB8yHE
+      - UaaS6s34uAY
     articles:
-      - slug: home-safety
+      - slug: social-connection
         severities:
           - monitor
           - refer
         browse: true
-  - trigger: cga.domain.environmental.home_safety.anomaly.cfs4
+  - trigger: cga.domain.social.social_support.anomaly.cfs3
     videoIds:
-      - Z1A6YLSARwI
-      - cq7apwizQ4s
-      - 1I22b20urZg
-      - j5YSHsQXEmo
-      - raF69KnnZCo
+      - 2QnVHLK142o
+      - QKW42kFB_DM
+      - lDmvUIoMDFg
+      - QTEVpoB8yHE
+      - UaaS6s34uAY
     articles:
-      - slug: home-safety
+      - slug: social-connection
         severities:
           - monitor
           - refer
         browse: true
-  - trigger: cga.domain.environmental.home_safety.anomaly.cfs5
+  - trigger: cga.domain.social.social_support.anomaly.cfs4
     videoIds:
-      - Z1A6YLSARwI
-      - cq7apwizQ4s
-      - 1I22b20urZg
-      - j5YSHsQXEmo
-      - raF69KnnZCo
+      - 2QnVHLK142o
+      - QKW42kFB_DM
+      - lDmvUIoMDFg
+      - QTEVpoB8yHE
+      - UaaS6s34uAY
     articles:
-      - slug: home-safety
+      - slug: social-connection
         severities:
           - monitor
           - refer
         browse: true
-  - trigger: cga.domain.environmental.home_safety.anomaly.cfs6
+  - trigger: cga.domain.social.social_support.anomaly.cfs5
     videoIds:
-      - Z1A6YLSARwI
-      - cq7apwizQ4s
-      - 1I22b20urZg
-      - j5YSHsQXEmo
-      - raF69KnnZCo
+      - 2QnVHLK142o
+      - QKW42kFB_DM
+      - lDmvUIoMDFg
+      - QTEVpoB8yHE
+      - UaaS6s34uAY
     articles:
-      - slug: home-safety
+      - slug: social-connection
         severities:
           - monitor
           - refer
         browse: true
-  - trigger: cga.domain.environmental.home_safety.anomaly.cfs7
+  - trigger: cga.domain.social.social_support.anomaly.cfs6
     videoIds:
-      - Z1A6YLSARwI
-      - cq7apwizQ4s
-      - 1I22b20urZg
-      - j5YSHsQXEmo
-      - raF69KnnZCo
+      - 2QnVHLK142o
+      - QKW42kFB_DM
+      - lDmvUIoMDFg
+      - QTEVpoB8yHE
+      - UaaS6s34uAY
     articles:
-      - slug: home-safety
+      - slug: social-connection
         severities:
           - monitor
           - refer
         browse: true
-  - trigger: cga.domain.environmental.home_safety.anomaly.cfs8
+  - trigger: cga.domain.social.social_support.anomaly.cfs7
     videoIds:
-      - Z1A6YLSARwI
-      - cq7apwizQ4s
-      - 1I22b20urZg
-      - j5YSHsQXEmo
-      - raF69KnnZCo
+      - 2QnVHLK142o
+      - QKW42kFB_DM
+      - lDmvUIoMDFg
+      - QTEVpoB8yHE
+      - UaaS6s34uAY
     articles:
-      - slug: home-safety
+      - slug: social-connection
         severities:
           - monitor
           - refer
         browse: true
-  - trigger: cga.domain.environmental.accessibility.anomaly.cfs4
+  - trigger: cga.domain.social.social_support.anomaly.cfs8
     videoIds:
-      - 8v8JFXPKJQc
-      - XXufec_MC3Q
-      - XqgFS_yV5nM
-      - m0ZQBZpjmxc
-      - J-1bHnYBsEI
+      - 2QnVHLK142o
+      - QKW42kFB_DM
+      - lDmvUIoMDFg
+      - QTEVpoB8yHE
+      - UaaS6s34uAY
     articles:
-      - slug: home-safety
+      - slug: social-connection
         severities:
           - monitor
           - refer
         browse: true
-  - trigger: cga.domain.environmental.accessibility.anomaly.cfs5
+  - trigger: cga.domain.social.social_support.anomaly.cfs9
     videoIds:
-      - 8v8JFXPKJQc
-      - XXufec_MC3Q
-      - XqgFS_yV5nM
-      - m0ZQBZpjmxc
-      - J-1bHnYBsEI
+      - 2QnVHLK142o
+      - QKW42kFB_DM
+      - lDmvUIoMDFg
+      - QTEVpoB8yHE
+      - UaaS6s34uAY
     articles:
-      - slug: home-safety
-        severities:
-          - monitor
-          - refer
-        browse: true
-  - trigger: cga.domain.environmental.accessibility.anomaly.cfs6
-    videoIds:
-      - 8v8JFXPKJQc
-      - XXufec_MC3Q
-      - XqgFS_yV5nM
-      - m0ZQBZpjmxc
-      - J-1bHnYBsEI
-    articles:
-      - slug: home-safety
-        severities:
-          - monitor
-          - refer
-        browse: true
-  - trigger: cga.domain.environmental.accessibility.anomaly.cfs7
-    videoIds:
-      - 8v8JFXPKJQc
-      - XXufec_MC3Q
-      - XqgFS_yV5nM
-      - m0ZQBZpjmxc
-      - J-1bHnYBsEI
-    articles:
-      - slug: home-safety
-        severities:
-          - monitor
-          - refer
-        browse: true
-  - trigger: cga.domain.environmental.accessibility.anomaly.cfs8
-    videoIds:
-      - 8v8JFXPKJQc
-      - XXufec_MC3Q
-      - XqgFS_yV5nM
-      - m0ZQBZpjmxc
-      - J-1bHnYBsEI
-    articles:
-      - slug: home-safety
-        severities:
-          - monitor
-          - refer
-        browse: true
-  - trigger: cga.domain.environmental.accessibility.anomaly.cfs9
-    videoIds:
-      - 8v8JFXPKJQc
-      - XXufec_MC3Q
-      - XqgFS_yV5nM
-      - m0ZQBZpjmxc
-      - J-1bHnYBsEI
-    articles:
-      - slug: home-safety
-        severities:
-          - monitor
-          - refer
-        browse: true
-  - trigger: cga.domain.future_wishes.advance_care_planning.anomaly.cfs5
-    videoIds:
-      - fujj-CuWsaI
-      - ruBIxE1BUEc
-      - ejqzwqeJIrA
-      - 2Eh79wr7aSw
-      - Y4MrKcTB52A
-    articles:
-      - slug: advance-care-planning
-        severities:
-          - monitor
-          - refer
-        browse: true
-  - trigger: cga.domain.future_wishes.advance_care_planning.anomaly.cfs6
-    videoIds:
-      - fujj-CuWsaI
-      - ruBIxE1BUEc
-      - ejqzwqeJIrA
-      - 2Eh79wr7aSw
-      - Y4MrKcTB52A
-    articles:
-      - slug: advance-care-planning
-        severities:
-          - monitor
-          - refer
-        browse: true
-  - trigger: cga.domain.future_wishes.advance_care_planning.anomaly.cfs7
-    videoIds:
-      - fujj-CuWsaI
-      - ruBIxE1BUEc
-      - ejqzwqeJIrA
-      - 2Eh79wr7aSw
-      - Y4MrKcTB52A
-    articles:
-      - slug: advance-care-planning
-        severities:
-          - monitor
-          - refer
-        browse: true
-  - trigger: cga.domain.future_wishes.advance_care_planning.anomaly.cfs8
-    videoIds:
-      - fujj-CuWsaI
-      - ruBIxE1BUEc
-      - ejqzwqeJIrA
-      - 2Eh79wr7aSw
-      - Y4MrKcTB52A
-    articles:
-      - slug: advance-care-planning
-        severities:
-          - monitor
-          - refer
-        browse: true
-  - trigger: cga.domain.future_wishes.advance_care_planning.anomaly.cfs9
-    videoIds:
-      - fujj-CuWsaI
-      - ruBIxE1BUEc
-      - ejqzwqeJIrA
-      - 2Eh79wr7aSw
-      - Y4MrKcTB52A
-    articles:
-      - slug: advance-care-planning
-        severities:
-          - monitor
-          - refer
-        browse: true
-  - trigger: cga.domain.future_wishes.treatment_preferences.anomaly.cfs5
-    videoIds:
-      - IqBjMHzdxUY
-      - 8O0lsVKiwt8
-      - 2Eh79wr7aSw
-      - PlqPu68ElqE
-      - QdmzjK74XbM
-    articles:
-      - slug: treatment-preferences
-        severities:
-          - monitor
-          - refer
-        browse: true
-  - trigger: cga.domain.future_wishes.treatment_preferences.anomaly.cfs6
-    videoIds:
-      - IqBjMHzdxUY
-      - 8O0lsVKiwt8
-      - 2Eh79wr7aSw
-      - PlqPu68ElqE
-      - QdmzjK74XbM
-    articles:
-      - slug: treatment-preferences
-        severities:
-          - monitor
-          - refer
-        browse: true
-  - trigger: cga.domain.future_wishes.treatment_preferences.anomaly.cfs7
-    videoIds:
-      - IqBjMHzdxUY
-      - 8O0lsVKiwt8
-      - 2Eh79wr7aSw
-      - PlqPu68ElqE
-      - QdmzjK74XbM
-    articles:
-      - slug: treatment-preferences
-        severities:
-          - monitor
-          - refer
-        browse: true
-  - trigger: cga.domain.future_wishes.treatment_preferences.anomaly.cfs8
-    videoIds:
-      - IqBjMHzdxUY
-      - 8O0lsVKiwt8
-      - 2Eh79wr7aSw
-      - PlqPu68ElqE
-      - QdmzjK74XbM
-    articles:
-      - slug: treatment-preferences
-        severities:
-          - monitor
-          - refer
-        browse: true
-  - trigger: cga.domain.future_wishes.treatment_preferences.anomaly.cfs9
-    videoIds:
-      - IqBjMHzdxUY
-      - 8O0lsVKiwt8
-      - 2Eh79wr7aSw
-      - PlqPu68ElqE
-      - QdmzjK74XbM
-    articles:
-      - slug: treatment-preferences
+      - slug: social-connection
         severities:
           - monitor
           - refer

@@ -1119,18 +1119,18 @@
       "cga.domain.physical.nutrition.anomaly.cfs9"
     ],
     "home-safety": [
-      "cga.domain.environmental.home_safety.anomaly.cfs3",
-      "cga.domain.environmental.home_safety.anomaly.cfs4",
-      "cga.domain.environmental.home_safety.anomaly.cfs5",
-      "cga.domain.environmental.home_safety.anomaly.cfs6",
-      "cga.domain.environmental.home_safety.anomaly.cfs7",
-      "cga.domain.environmental.home_safety.anomaly.cfs8",
       "cga.domain.environmental.accessibility.anomaly.cfs4",
       "cga.domain.environmental.accessibility.anomaly.cfs5",
       "cga.domain.environmental.accessibility.anomaly.cfs6",
       "cga.domain.environmental.accessibility.anomaly.cfs7",
       "cga.domain.environmental.accessibility.anomaly.cfs8",
-      "cga.domain.environmental.accessibility.anomaly.cfs9"
+      "cga.domain.environmental.accessibility.anomaly.cfs9",
+      "cga.domain.environmental.home_safety.anomaly.cfs3",
+      "cga.domain.environmental.home_safety.anomaly.cfs4",
+      "cga.domain.environmental.home_safety.anomaly.cfs5",
+      "cga.domain.environmental.home_safety.anomaly.cfs6",
+      "cga.domain.environmental.home_safety.anomaly.cfs7",
+      "cga.domain.environmental.home_safety.anomaly.cfs8"
     ],
     "incontinence-care": [
       "cga.domain.physical.continence.anomaly.cfs3",
@@ -4217,6 +4217,96 @@
         "j59WC6cbr88",
         "tCGLwR9NbFo",
         "BI3sHb--67E"
+      ]
+    },
+    "cga.domain.physical.pain.anomaly.cfs1": {
+      "inapplicable": false,
+      "videoIds": [
+        "ySkUgoOYxeo",
+        "siIRWanuLdM",
+        "GzbPrKYq46A",
+        "oMpBB2Dm8FQ",
+        "4NUgeJevSFM"
+      ]
+    },
+    "cga.domain.physical.pain.anomaly.cfs2": {
+      "inapplicable": false,
+      "videoIds": [
+        "ySkUgoOYxeo",
+        "siIRWanuLdM",
+        "GzbPrKYq46A",
+        "oMpBB2Dm8FQ",
+        "4NUgeJevSFM"
+      ]
+    },
+    "cga.domain.physical.pain.anomaly.cfs3": {
+      "inapplicable": false,
+      "videoIds": [
+        "ySkUgoOYxeo",
+        "siIRWanuLdM",
+        "GzbPrKYq46A",
+        "oMpBB2Dm8FQ",
+        "4NUgeJevSFM"
+      ]
+    },
+    "cga.domain.physical.pain.anomaly.cfs4": {
+      "inapplicable": false,
+      "videoIds": [
+        "ySkUgoOYxeo",
+        "siIRWanuLdM",
+        "GzbPrKYq46A",
+        "oMpBB2Dm8FQ",
+        "4NUgeJevSFM"
+      ]
+    },
+    "cga.domain.physical.pain.anomaly.cfs5": {
+      "inapplicable": false,
+      "videoIds": [
+        "ySkUgoOYxeo",
+        "siIRWanuLdM",
+        "GzbPrKYq46A",
+        "oMpBB2Dm8FQ",
+        "4NUgeJevSFM"
+      ]
+    },
+    "cga.domain.physical.pain.anomaly.cfs6": {
+      "inapplicable": false,
+      "videoIds": [
+        "ySkUgoOYxeo",
+        "siIRWanuLdM",
+        "GzbPrKYq46A",
+        "oMpBB2Dm8FQ",
+        "4NUgeJevSFM"
+      ]
+    },
+    "cga.domain.physical.pain.anomaly.cfs7": {
+      "inapplicable": false,
+      "videoIds": [
+        "ySkUgoOYxeo",
+        "siIRWanuLdM",
+        "GzbPrKYq46A",
+        "oMpBB2Dm8FQ",
+        "4NUgeJevSFM"
+      ]
+    },
+    "cga.domain.physical.pain.anomaly.cfs8": {
+      "inapplicable": false,
+      "videoIds": [
+        "ySkUgoOYxeo",
+        "siIRWanuLdM",
+        "GzbPrKYq46A",
+        "oMpBB2Dm8FQ",
+        "4NUgeJevSFM"
+      ]
+    },
+    "cga.domain.physical.pain.anomaly.cfs9": {
+      "inapplicable": false,
+      "videoIds": [
+        "ySkUgoOYxeo",
+        "siIRWanuLdM",
+        "GzbPrKYq46A",
+        "oMpBB2Dm8FQ",
+        "4NUgeJevSFM"
       ]
     },
     "cga.domain.physical.polypharmacy.anomaly.cfs1": {
