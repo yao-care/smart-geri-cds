@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { selectScreenScales, expandedFullScales } from '$lib/scales/tiering';
+import { selectScreenScales, expandedFullScales, resolveCognitionScreen } from '$lib/scales/tiering';
 import type { ScaleDef, ScaleResult } from '$lib/scales/scale';
 
 // --- Fixture ScaleDef objects ---
@@ -208,5 +208,128 @@ describe('expandedFullScales', () => {
     expect(ids).toContain('spmsq');
     expect(ids).toContain('gds-15');
     expect(result).toHaveLength(2);
+  });
+});
+
+// --- resolveCognitionScreen (C-M2 no-informant fallback) ---
+//
+// Real-id fixtures: AD8 screen requires an informant; when there is no
+// informant (operator self / nurse), cognition must instead use Mini-Cog
+// (objective, requiresPatient). Both expand to SPMSQ.
+
+const ad8Screen: ScaleDef = {
+  id: 'cognition-screen',
+  domain: { top: 'psychological', sub: 'cognition' },
+  tier: 'screen',
+  expandsTo: 'spmsq',
+  applicableCfs: ['cfs1', 'cfs2', 'cfs3', 'cfs4', 'cfs5', 'cfs6', 'cfs7', 'cfs8'],
+  scoring: 'sum',
+  inputType: 'option',
+  requiresInformant: true,
+  maxScore: 8,
+  items: [],
+  bands: [],
+  clinicallyReviewed: false,
+};
+
+const miniCog: ScaleDef = {
+  id: 'mini-cog',
+  domain: { top: 'psychological', sub: 'cognition' },
+  tier: 'full',
+  expandsTo: 'spmsq',
+  applicableCfs: ['cfs1', 'cfs2', 'cfs3', 'cfs4', 'cfs5', 'cfs6', 'cfs7', 'cfs8'],
+  scoring: 'sum',
+  inputType: 'option',
+  requiresPatient: true,
+  maxScore: 5,
+  items: [],
+  bands: [],
+  clinicallyReviewed: false,
+};
+
+const moodScreenReal: ScaleDef = {
+  id: 'mood-screen',
+  domain: { top: 'psychological', sub: 'mood' },
+  tier: 'screen',
+  expandsTo: 'gds-15',
+  applicableCfs: ['cfs3', 'cfs4', 'cfs5'],
+  scoring: 'sum',
+  inputType: 'option',
+  maxScore: 2,
+  items: [],
+  bands: [],
+  clinicallyReviewed: false,
+};
+
+const cognitionAll: ScaleDef[] = [ad8Screen, miniCog, moodScreenReal, spmsq];
+
+describe('resolveCognitionScreen', () => {
+  it('keeps AD8 (cognition-screen) when an informant is present (operator=family)', () => {
+    const screens = [ad8Screen, moodScreenReal];
+    const out = resolveCognitionScreen(screens, 'family');
+    const ids = out.map(s => s.id);
+    expect(ids).toContain('cognition-screen');
+    expect(ids).not.toContain('mini-cog');
+    expect(ids).toContain('mood-screen');
+  });
+
+  it('replaces AD8 with Mini-Cog when no informant (operator=self)', () => {
+    const screens = [ad8Screen, moodScreenReal];
+    const out = resolveCognitionScreen(screens, 'self', cognitionAll);
+    const ids = out.map(s => s.id);
+    expect(ids).not.toContain('cognition-screen');
+    expect(ids).toContain('mini-cog');
+    expect(ids).toContain('mood-screen');
+  });
+
+  it('replaces AD8 with Mini-Cog when no informant (operator=nurse)', () => {
+    const screens = [ad8Screen, moodScreenReal];
+    const out = resolveCognitionScreen(screens, 'nurse', cognitionAll);
+    const ids = out.map(s => s.id);
+    expect(ids).not.toContain('cognition-screen');
+    expect(ids).toContain('mini-cog');
+  });
+
+  it('substituted Mini-Cog still expandsTo spmsq', () => {
+    const out = resolveCognitionScreen([ad8Screen], 'self', cognitionAll);
+    const cog = out.find(s => s.domain.sub === 'cognition');
+    expect(cog?.id).toBe('mini-cog');
+    expect(cog?.expandsTo).toBe('spmsq');
+  });
+
+  it('leaves screens untouched when there is no cognition screen', () => {
+    const out = resolveCognitionScreen([moodScreenReal], 'self', cognitionAll);
+    expect(out.map(s => s.id)).toEqual(['mood-screen']);
+  });
+});
+
+describe('selectScreenScales — operator-aware cognition fallback', () => {
+  it('operator=family → cognition screen is AD8 (cognition-screen)', () => {
+    const out = selectScreenScales(cognitionAll, 'cfs5', 'family');
+    const cog = out.find(s => s.domain.sub === 'cognition');
+    expect(cog?.id).toBe('cognition-screen');
+  });
+
+  it('operator=self → cognition screen is Mini-Cog', () => {
+    const out = selectScreenScales(cognitionAll, 'cfs5', 'self');
+    const cog = out.find(s => s.domain.sub === 'cognition');
+    expect(cog?.id).toBe('mini-cog');
+  });
+
+  it('operator=nurse → cognition screen is Mini-Cog', () => {
+    const out = selectScreenScales(cognitionAll, 'cfs5', 'nurse');
+    const cog = out.find(s => s.domain.sub === 'cognition');
+    expect(cog?.id).toBe('mini-cog');
+  });
+
+  it('no operator passed → cognition screen unchanged (AD8)', () => {
+    const out = selectScreenScales(cognitionAll, 'cfs5');
+    const cog = out.find(s => s.domain.sub === 'cognition');
+    expect(cog?.id).toBe('cognition-screen');
+  });
+
+  it('substituted Mini-Cog passes the applicableCfs filter (cfs5 in range)', () => {
+    const out = selectScreenScales(cognitionAll, 'cfs5', 'self');
+    expect(out.map(s => s.id)).toContain('mini-cog');
   });
 });

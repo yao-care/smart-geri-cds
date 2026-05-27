@@ -33,9 +33,12 @@
   const cfsLevel = $derived(assessmentStore.cfsLevel);
   const operator = $derived(assessmentStore.operator);
 
-  /** Tier-1 screen scales for this CFS level (always run first). */
+  /** Tier-1 screen scales for this CFS level (always run first).
+   *  Operator-aware: with no informant present (operator self/nurse) the
+   *  cognition screen falls back from AD8 to Mini-Cog (C-M2). When operator is
+   *  not yet known (null) we omit it so legacy AD8 selection is used. */
   const screenScales = $derived<ScaleDef[]>(
-    cfsLevel ? selectScreenScales(scales, cfsLevel) : [],
+    cfsLevel ? selectScreenScales(scales, cfsLevel, operator ?? undefined) : [],
   );
 
   /** Tier-2 full scales, computed after the screens are scored (only flagged
