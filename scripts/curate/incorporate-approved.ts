@@ -16,11 +16,18 @@
  */
 import fs from 'node:fs/promises';
 import path from 'node:path';
+import { parseArgs } from 'node:util';
 import yaml from 'js-yaml';
 import fg from 'fast-glob';
 import { fetchMetadata } from './lib/yt-dlp.js';
 
 const TODAY = new Date().toISOString().slice(0, 10);
+
+// --verified-by：標記本次新納入影片的驗證來源。預設 manual（人工審核流程）；
+// 自動策劃補片用 claude-code（未臨床審核、待抽查）。既存影片 idempotent skip、不受影響。
+const { values: cliArgs } = parseArgs({ options: { 'verified-by': { type: 'string' } } });
+const VERIFIED_BY: 'manual' | 'claude-code' =
+  cliArgs['verified-by'] === 'claude-code' ? 'claude-code' : 'manual';
 const REPORTS_DIR = 'scripts/curate/reports';
 const CATALOG_DIR = 'src/data/video-catalog';
 const RELEVANCE = 'src/data/education/content-relevance.yaml';
@@ -40,7 +47,8 @@ interface CatalogEntry {
   duration: number; publishedAt: string; language: 'zh-Hant' | 'en';
   subtitleType: 'human' | 'auto' | 'none'; sourceTier: string;
   viewCount: number; curatedAt: string; lastValidatedAt: string;
-  verifiedBy: 'manual'; verificationStatus: 'verified'; score: number;
+  verifiedBy: 'manual' | 'claude-code'; verificationStatus: 'verified'; score: number;
+  notes?: string;
 }
 
 function parseReport(text: string): Candidate[] {
@@ -109,7 +117,8 @@ async function main(): Promise<void> {
         duration: m.duration || c.duration, publishedAt: ymd(m.upload_date),
         language, subtitleType: c.subtitleType, sourceTier: c.tier,
         viewCount: m.view_count ?? 0, curatedAt: TODAY, lastValidatedAt: TODAY,
-        verifiedBy: 'manual', verificationStatus: 'verified', score: c.score,
+        verifiedBy: VERIFIED_BY, verificationStatus: 'verified', score: c.score,
+        ...(VERIFIED_BY === 'claude-code' ? { notes: `auto-curated ${TODAY}；未臨床審核，待抽查` } : {}),
       });
       fetched++;
       console.log(`✓ ${videoId} ${c.title.slice(0, 30)} (ch ${m.channel_id})`);
