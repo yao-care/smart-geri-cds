@@ -155,7 +155,7 @@ const scalesCollection = defineCollection({
     }),
     applicableCfs: z.array(z.enum(CFS_LEVELS)),
     scoring: z.enum(['sum', 'weighted', 'error-count', 'measured-value']),
-    inputType: z.enum(['option', 'numeric']),
+    inputType: z.enum(['option', 'numeric', 'timed-task']),
     maxScore: z.number(),
     items: z.array(scaleItemSchema),
     bands: z.array(scaleBandSchema),

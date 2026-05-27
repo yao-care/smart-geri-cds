@@ -12,7 +12,7 @@ export interface ScaleDef {
   domain: { top: DomainTop; sub: DomainSub };
   applicableCfs: CfsLevel[];
   scoring: 'sum' | 'weighted' | 'error-count' | 'measured-value';
-  inputType: 'option' | 'numeric';
+  inputType: 'option' | 'numeric' | 'timed-task';
   maxScore: number;
   items: ScaleItem[];
   bands: ScaleBand[];
@@ -38,6 +38,17 @@ export function scoreScale(def: ScaleDef, rawScore: number | null): ScaleResult 
     return { scaleId: def.id, domain: def.domain, rawScore, maxScore: def.maxScore, severity: 'incomplete', bandLabel: '無對應分段' };
   }
   return { scaleId: def.id, domain: def.domain, rawScore, maxScore: def.maxScore, severity: band.severity, bandLabel: band.label };
+}
+
+/**
+ * Resolve an elapsed-seconds measurement for a `timed-task` scale (e.g. FTSTS)
+ * to a severity using its second-based bands. Higher seconds = worse, encoded
+ * directly in the band min/max. null/NaN → 'incomplete' (could not complete).
+ * Thin wrapper over scoreScale so the timed-task UI can preview severity live
+ * without building a full ScaleResult.
+ */
+export function elapsedSecondsToSeverity(def: ScaleDef, seconds: number | null): Severity {
+  return scoreScale(def, seconds).severity;
 }
 
 const ORDER: Record<Severity, number> = { normal: 0, monitor: 1, refer: 2, incomplete: -1 };
