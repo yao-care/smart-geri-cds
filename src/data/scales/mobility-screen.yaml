@@ -2,11 +2,17 @@
 # 來源：自述題組（非標準命名量表），以實證合理題目組成，用於初步辨識行走、
 # 起身、樓梯與輔具相關之行動困難。每題 0–2（無/輕度/明顯困難），4 題總分 0–8。
 # clinicallyReviewed: false → 題目、適用 CFS、切分點待臨床最終簽核。
+#
+# 角色（2026-05 起）：functional.mobility 在 cfs2–cfs6 改由 sit-to-stand.yaml（五次
+#   坐立自測計時）擔任主量表；本自述題組僅保留給 cfs7（重度衰弱者難以可靠完成 5 次
+#   坐立，改以自述較合適），避免同一 CFS 同時有兩個 functional.mobility 量表而重複渲染。
+# 注意：相同的題目與分段同時複製於 src/data/mobility-fallback.ts，供 cfs2–cfs6 在
+#   「無相機 / 拒絕錄影」時的 fallback 計分使用（兩處內容需保持一致）。
 id: mobility-screen
 domain:
   top: functional
   sub: mobility
-applicableCfs: [cfs2, cfs3, cfs4, cfs5, cfs6, cfs7]
+applicableCfs: [cfs7]
 scoring: sum
 inputType: option
 maxScore: 8
