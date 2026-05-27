@@ -141,7 +141,7 @@ const scaleItemSchema = z.object({
   id: z.string(),
   text: z.string().optional(),
   prompt: z.string().optional(),
-  mode: z.enum(['ask-patient', 'observe', 'ask-informant', 'measure']).optional(),
+  mode: z.enum(['patient', 'observe', 'ask-either', 'ask-informant', 'measure']).optional(),
   subquestions: z.array(z.string()).optional(),
   options: z.array(z.object({ label: z.string(), score: z.number() })),
   redFlag: z.literal('self-harm').optional(),

@@ -1,7 +1,6 @@
 import type { Assessment, Child, PartialAnalysis } from '../db/schema';
 import * as assessmentDao from '../db/assessments';
 import type { CfsLevel } from '../utils/cfs-levels';
-import type { Operator } from '../scales/scale';
 import type { TriageResult } from '../../engine/cdsa/triage';
 
 // 純問卷版三步驟流程（感測模組移除，無可跳模組）。
@@ -29,9 +28,14 @@ class AssessmentStore {
   /** 分層軸：CFS 等級（入口 gate 判定，取代年齡帶 ageGroup）。 */
   cfsLevel = $state<CfsLevel | null>(null);
 
-  /** 本次評估的操作者身分（護理師/家屬/長者本人）。供操作者效度閘門（C-M6）
-   *  及 ask-informant 題的「無法取得」判定。startNew 寫入、resume 還原。 */
-  operator = $state<Operator | null>(null);
+  /** SOP 真相：是否有熟悉受測者日常的家屬／照顧者可提供資訊。
+   *  gate ask-informant 量表（無→incomplete）、決定認知用 AD8（有）或 Mini-Cog（無）。
+   *  startNew 寫入、resume 還原（pre-v5 缺欄 → 保守預設 true）。 */
+  informantAvailable = $state<boolean | null>(null);
+
+  /** SOP 真相：受測者本人能否參與作答/受測。
+   *  否則 requiresPatient（認知/情緒）量表標 incomplete。startNew 寫入、resume 還原。 */
+  patientAble = $state<boolean | null>(null);
 
   /** 各模組即時累積的分析結果 */
   partialAnalysis = $state<PartialAnalysis>({});
@@ -78,7 +82,7 @@ class AssessmentStore {
   async startNew(
     childData: Omit<Child, 'id' | 'createdAt'>,
     cfsLevel: CfsLevel,
-    operator: Operator,
+    availability: { informantAvailable: boolean; patientAble: boolean },
   ): Promise<void> {
     this.isLoading = true;
     this.error = null;
@@ -91,8 +95,9 @@ class AssessmentStore {
       await assessmentDao.createChild(child);
       this.child = child;
       this.cfsLevel = cfsLevel;
-      this.operator = operator;
-      const assessment = await assessmentDao.createAssessment(child.id, cfsLevel, operator);
+      this.informantAvailable = availability.informantAvailable;
+      this.patientAble = availability.patientAble;
+      const assessment = await assessmentDao.createAssessment(child.id, cfsLevel, availability);
       this.assessment = assessment;
       this.currentStepIndex = 1;
     } catch (e) {
@@ -113,8 +118,11 @@ class AssessmentStore {
       this.assessment = assessment;
       this.child = child;
       this.cfsLevel = assessment.cfsLevel;
-      // 還原操作者身分（pre-v4 紀錄缺欄 → null）。供 resume 後續評時的效度閘門。
-      this.operator = assessment.operator ?? null;
+      // 還原在場/可參與事實。pre-v5 紀錄缺欄 → 保守預設（informantAvailable=true 保留
+      // AD8/知情者題；patientAble=true 不誤標病人受測題 incomplete），供 resume 後續評
+      // 時的效度閘門與認知 AD8↔Mini-Cog 切換。
+      this.informantAvailable = assessment.informantAvailable ?? true;
+      this.patientAble = assessment.patientAble ?? true;
       this.currentStepIndex = assessment.currentStep;
       // 還原問卷作答進度快照（per-scale 分數 + 計時任務 ScaleResult）。
       // 計時任務的 mobilityRecordings Blob 另存於 IndexedDB（keyed by assessmentId）；
@@ -166,7 +174,8 @@ class AssessmentStore {
     this.child = null;
     this.assessment = null;
     this.cfsLevel = null;
-    this.operator = null;
+    this.informantAvailable = null;
+    this.patientAble = null;
     this.currentStepIndex = 0;
     this.error = null;
     this.partialAnalysis = {};
