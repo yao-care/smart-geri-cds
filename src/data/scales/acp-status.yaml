@@ -7,6 +7,7 @@ id: acp-status
 domain:
   top: future_wishes
   sub: advance_care_planning
+tier: screen
 applicableCfs: [cfs5, cfs6, cfs7, cfs8, cfs9]
 scoring: sum
 inputType: option
@@ -14,16 +15,22 @@ maxScore: 3
 items:
   - id: acp_ad
     text: 您是否已簽署預立醫療決定（AD）或預立安寧緩和醫療意願書？
+    mode: ask-patient
+    prompt: 請向受測者或家屬詢問是否已簽署 AD 或預立安寧緩和醫療意願書。
     options:
       - { label: 已簽署, score: 0 }
       - { label: 尚未簽署, score: 1 }
   - id: acp_agent
     text: 您是否已指定醫療委任代理人（在您無法表達時代您做醫療決定）？
+    mode: ask-patient
+    prompt: 請向受測者或家屬詢問是否已指定醫療委任代理人。
     options:
       - { label: 已指定, score: 0 }
       - { label: 尚未指定, score: 1 }
   - id: acp_discussed
     text: 您是否曾與家人或醫療團隊討論過自己的醫療照護意願？
+    mode: ask-patient
+    prompt: 請向受測者或家屬詢問是否曾與家人或醫療團隊討論醫療照護意願。
     options:
       - { label: 已討論, score: 0 }
       - { label: 尚未討論, score: 1 }

@@ -16,6 +16,7 @@ id: sit-to-stand
 domain:
   top: functional
   sub: mobility
+tier: full
 applicableCfs: [cfs2, cfs3, cfs4, cfs5, cfs6]
 scoring: measured-value
 inputType: timed-task

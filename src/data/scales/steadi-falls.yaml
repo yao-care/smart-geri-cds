@@ -1,35 +1,51 @@
 # STEADI 跌倒風險關鍵問題 — CDC STEADI "Stay Independent" key questions
 # 來源：美國 CDC STEADI 公開工具的三大關鍵篩檢問題（過去一年是否跌倒、
-# 是否感到站立或行走不穩、是否擔心跌倒）。任一陽性即提示跌倒風險，
-# 三題皆為跌倒風險判定核心，任一陽性即建議進一步評估。
-# 每題是=1/否=0，3 題總分 0–3。clinicallyReviewed: false → 題目、適用 CFS、
-# 切分點待臨床最終簽核，尚不可用於正式臨床決策。
+# 是否感到站立或行走不穩、是否擔心跌倒）。
+# clinicallyReviewed: false → 題目、適用 CFS、切分點待臨床最終簽核。
+#
+# 角色（2026-05 起）：falls 領域之 Tier-1 短篩（tier: screen），一律施測。
+# C-M5 切分點修正（務必）：跌倒史或不穩任一「是」→ refer（at-risk，原版 1 題=monitor
+#   低估了跌倒史的風險）；僅「擔心跌倒」陽性 → monitor。
+#   為在 sum/weighted 計分下精準切分（避免「擔心」與「跌倒史」同分混淆），
+#   採加權計分：跌倒史=4、不穩=4、擔心=1，maxScore=9。
+#     - 0 分 → normal（皆否）
+#     - 1–3 分 → monitor（僅擔心跌倒）
+#     - ≥4 分 → refer（跌倒史或不穩任一陽性）
+# expandsTo: sit-to-stand — 陽性（refer/monitor）觸發 mobility 步態/坐立計時深評。
 id: steadi-falls
 domain:
   top: functional
   sub: falls
+tier: screen
+expandsTo: sit-to-stand
 applicableCfs: [cfs2, cfs3, cfs4, cfs5, cfs6, cfs7, cfs8]
-scoring: sum
+scoring: weighted
 inputType: option
-maxScore: 3
+maxScore: 9
 items:
   - id: steadi_fell
+    mode: ask-patient
+    prompt: 請唸給受測者並記錄回答：過去一年內，您是否曾經跌倒？
     text: 過去一年內，您是否曾經跌倒？
     options:
       - { label: 否, score: 0 }
-      - { label: 是, score: 1 }
+      - { label: 是, score: 4 }
   - id: steadi_unsteady
+    mode: ask-patient
+    prompt: 請唸給受測者並記錄回答：您站立或行走時是否感到不穩？
     text: 您站立或行走時是否感到不穩？
     options:
       - { label: 否, score: 0 }
-      - { label: 是, score: 1 }
+      - { label: 是, score: 4 }
   - id: steadi_worry
+    mode: ask-patient
+    prompt: 請唸給受測者並記錄回答：您是否擔心自己會跌倒？
     text: 您是否擔心自己會跌倒？
     options:
       - { label: 否, score: 0 }
       - { label: 是, score: 1 }
 bands:
   - { min: 0, max: 0, severity: normal, label: 無明顯跌倒風險徵兆 }
-  - { min: 1, max: 1, severity: monitor, label: 具跌倒風險因子，建議追蹤與居家檢視 }
-  - { min: 2, max: 3, severity: refer, label: 高跌倒風險，建議轉介步態平衡評估 }
+  - { min: 1, max: 3, severity: monitor, label: 僅擔心跌倒，建議追蹤與居家檢視 }
+  - { min: 4, max: 9, severity: refer, label: 有跌倒史或站立/行走不穩，高跌倒風險，建議轉介步態平衡評估 }
 clinicallyReviewed: false

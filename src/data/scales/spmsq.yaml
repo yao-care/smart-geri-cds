@@ -2,67 +2,95 @@
 # 來源：公開標準量表，10 題錯誤計數法（error-count，錯越多越差）。
 # 中文題目為暫譯，切分點（錯誤數）依公開版本；clinicallyReviewed: false →
 # 中譯、適用 CFS、切分點待臨床最終簽核，尚不可用於正式臨床決策。
+#
+# 角色（2026-05 起）：cognition 領域之 Tier-2 深評（tier: full），由
+#   cognition 短篩（AD8 知情者 / Mini-Cog）亮燈後展開。
+#
+# C-M4 強制計分規則（務必落實）：
+#   ①教育校正——Pfeiffer 原始規則：國小以下（教育程度低）允許多錯 1 題、
+#     高中以上（教育程度高）需少錯 1 題。本檔 bands 採標準切分，操作者於施測時
+#     依教育程度調整：低教育者切分上移 +1、高教育者下移 −1（報告層標示），
+#     否則低教育假陽性、高教育假陰性。各 prompt 已標註此校正。
+#   ②serial-7s／「20 連續減 3」需全程（20、17、14、11、8、5、2）正確才算對，
+#     任一步錯即整題記錯。
+#   ③現任/前任總統、母親姓名等題需操作者掌握正解才能判分；prompt 給操作者提示。
+# C-M6 效度閘門：屬需病人本人作答之認知測驗 → requiresPatient: true、mode ask-patient，
+#   家屬代答時引擎標記效度存疑（不靜默計分）。
 id: spmsq
 domain:
   top: psychological
   sub: cognition
+tier: full
 applicableCfs: [cfs1, cfs2, cfs3, cfs4, cfs5, cfs6, cfs7, cfs8]
 scoring: error-count
 inputType: option
+requiresPatient: true
 maxScore: 10
 items:
   - id: spmsq1
-    text: 今天是幾年幾月幾日？（年、月、日全對才算對）
+    mode: ask-patient
+    prompt: 請唸給受測者並記錄回答：今天是幾年幾月幾日？（年、月、日全對才算對）
     options:
       - { label: 答對, score: 0 }
       - { label: 答錯, score: 1 }
   - id: spmsq2
-    text: 今天是星期幾？
+    mode: ask-patient
+    prompt: 請唸給受測者並記錄回答：今天是星期幾？
     options:
       - { label: 答對, score: 0 }
       - { label: 答錯, score: 1 }
   - id: spmsq3
-    text: 這裡是什麼地方？（地點名稱）
+    mode: ask-patient
+    prompt: 請唸給受測者並記錄回答：這裡是什麼地方？（地點名稱；機構/建築/科別任一正確即算對）
     options:
       - { label: 答對, score: 0 }
       - { label: 答錯, score: 1 }
   - id: spmsq4
-    text: 您的電話號碼是幾號？（若無電話，問現在的住址）
+    mode: ask-patient
+    prompt: 請唸給受測者並記錄回答：您的電話號碼是幾號？（若無電話，改問現在的住址；操作者需事先掌握正解才能判分）
     options:
       - { label: 答對, score: 0 }
       - { label: 答錯, score: 1 }
   - id: spmsq5
-    text: 您今年幾歲？
+    mode: ask-patient
+    prompt: 請唸給受測者並記錄回答：您今年幾歲？（與出生年月日相符即算對）
     options:
       - { label: 答對, score: 0 }
       - { label: 答錯, score: 1 }
   - id: spmsq6
-    text: 您是什麼時候出生的？（年、月、日）
+    mode: ask-patient
+    prompt: 請唸給受測者並記錄回答：您是什麼時候出生的？（年、月、日）
     options:
       - { label: 答對, score: 0 }
       - { label: 答錯, score: 1 }
   - id: spmsq7
-    text: 現任的總統是誰？
+    mode: ask-patient
+    prompt: 請唸給受測者並記錄回答：現任的總統是誰？（操作者需事先確認當下正解才能判分）
     options:
       - { label: 答對, score: 0 }
       - { label: 答錯, score: 1 }
   - id: spmsq8
-    text: 前一任的總統是誰？
+    mode: ask-patient
+    prompt: 請唸給受測者並記錄回答：前一任的總統是誰？（操作者需事先確認正解才能判分）
     options:
       - { label: 答對, score: 0 }
       - { label: 答錯, score: 1 }
   - id: spmsq9
-    text: 您母親的姓名是什麼？
+    mode: ask-patient
+    prompt: 請唸給受測者並記錄回答：您母親的姓名是什麼？（操作者需向家屬核對正解才能判分）
     options:
       - { label: 答對, score: 0 }
       - { label: 答錯, score: 1 }
   - id: spmsq10
-    text: 從 20 開始，每次減 3 一直減下去（20、17、14…）。
+    mode: ask-patient
+    prompt: 請受測者從 20 開始，每次減 3 一直減下去（20、17、14、11、8、5、2）。需全程正確才算對，任一步錯即記錯。
     options:
-      - { label: 答對, score: 0 }
-      - { label: 答錯, score: 1 }
+      - { label: 答對（全程正確）, score: 0 }
+      - { label: 答錯（任一步錯）, score: 1 }
 bands:
-  - { min: 0, max: 2, severity: normal, label: 心智功能完整（錯誤 0–2） }
+  # 教育校正：以下為標準教育程度切分；低教育（國小以下）切分上移 +1、
+  # 高教育（高中以上）下移 −1，由操作者依教育程度於報告層標示調整。
+  - { min: 0, max: 2, severity: normal, label: 心智功能完整（錯誤 0–2；教育校正後判讀） }
   - { min: 3, max: 4, severity: monitor, label: 輕度心智功能障礙，建議追蹤（錯誤 3–4） }
   - { min: 5, max: 10, severity: refer, label: 中重度心智功能障礙，建議轉介（錯誤 ≥5） }
 clinicallyReviewed: false

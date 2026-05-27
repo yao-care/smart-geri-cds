@@ -7,6 +7,7 @@ id: sensory-screen
 domain:
   top: physical
   sub: sensory
+tier: screen
 applicableCfs: [cfs1, cfs2, cfs3, cfs4, cfs5, cfs6, cfs7, cfs8, cfs9]
 scoring: sum
 inputType: option
@@ -14,12 +15,16 @@ maxScore: 4
 items:
   - id: sens_vision
     text: 即使戴上眼鏡，您是否在看電視、閱讀或辨識他人時感到視力困難？
+    mode: ask-patient
+    prompt: 請唸給受測者並記錄回答：即使戴上眼鏡，看電視、閱讀或辨識他人時是否感到視力困難？
     options:
       - { label: 沒有困難, score: 0 }
       - { label: 有些困難, score: 1 }
       - { label: 嚴重困難或看不清楚, score: 2 }
   - id: sens_hearing
     text: 即使戴上助聽器，您是否在安靜環境中與他人交談時感到聽力困難？
+    mode: ask-patient
+    prompt: 請唸給受測者並記錄回答：即使戴上助聽器，安靜環境中與他人交談時是否感到聽力困難？
     options:
       - { label: 沒有困難, score: 0 }
       - { label: 有些困難, score: 1 }

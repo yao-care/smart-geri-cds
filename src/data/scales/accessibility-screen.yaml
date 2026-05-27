@@ -6,6 +6,7 @@ id: accessibility-screen
 domain:
   top: environmental
   sub: accessibility
+tier: screen
 applicableCfs: [cfs4, cfs5, cfs6, cfs7, cfs8, cfs9]
 scoring: sum
 inputType: option
@@ -13,12 +14,16 @@ maxScore: 4
 items:
   - id: acc_device
     text: 您目前是否有需要但尚未取得或不合適的輔具（如助行器、輪椅、助聽器、特製座椅）？
+    mode: ask-patient
+    prompt: 請向受測者或家屬詢問是否有需要但尚未取得或不合適的輔具。
     options:
       - { label: 沒有需求或需求已滿足, score: 0 }
       - { label: 有需求但部分未滿足, score: 1 }
       - { label: 有明顯需求且未滿足, score: 2 }
   - id: acc_environment
     text: 您的住家或社區環境（門檻、樓梯、電梯、通道）是否妨礙您安全進出與移動？
+    mode: ask-patient
+    prompt: 請向受測者或家屬詢問住家/社區環境是否妨礙安全進出與移動。
     options:
       - { label: 無障礙, score: 0 }
       - { label: 部分不便, score: 1 }
