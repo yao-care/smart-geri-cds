@@ -102,4 +102,4 @@ bands:
   - { min: 0, max: 0, severity: normal, label: 無顯著共病負擔 }
   - { min: 1, max: 2, severity: monitor, label: 輕度共病負擔，建議追蹤 }
   - { min: 3, max: 33, severity: refer, label: 顯著共病負擔，建議整合性照護評估 }
-clinicallyReviewed: true
+clinicallyReviewed: false

@@ -65,4 +65,4 @@ bands:
   - { min: 0, max: 2, severity: normal, label: 心智功能完整（錯誤 0–2） }
   - { min: 3, max: 4, severity: monitor, label: 輕度心智功能障礙，建議追蹤（錯誤 3–4） }
   - { min: 5, max: 10, severity: refer, label: 中重度心智功能障礙，建議轉介（錯誤 ≥5） }
-clinicallyReviewed: true
+clinicallyReviewed: false

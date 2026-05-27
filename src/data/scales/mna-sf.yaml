@@ -54,4 +54,4 @@ bands:
   - { min: 0, max: 7, severity: refer, label: 營養不良，建議轉介營養評估與介入 }
   - { min: 8, max: 11, severity: monitor, label: 有營養不良風險，建議追蹤 }
   - { min: 12, max: 14, severity: normal, label: 營養狀況正常 }
-clinicallyReviewed: true
+clinicallyReviewed: false
