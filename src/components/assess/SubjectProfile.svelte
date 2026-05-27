@@ -7,12 +7,21 @@
     CFS_DESCRIPTIONS,
     type CfsLevel,
   } from '../../lib/utils/cfs-levels';
+  import type { Operator } from '../../lib/scales/scale';
 
   let birthDate = $state('');
   let gender = $state<'male' | 'female' | 'other'>('male');
   let nickName = $state('');
   let cfsLevel = $state<CfsLevel | null>(null);
+  let operator = $state<Operator | null>(null);
   let validationError = $state<string | null>(null);
+
+  /** 操作者身分選項（C-M6 效度閘門 + ask-informant「無法取得」判定的依據）。 */
+  const OPERATOR_OPTIONS: { value: Operator; label: string; desc: string }[] = [
+    { value: 'nurse', label: '護理師', desc: '由護理師唸題給受測者並記錄回答（可施測認知/情緒測驗）。' },
+    { value: 'family', label: '家屬', desc: '由家屬/照顧者協助；需病人本人作答的認知/情緒測驗將標示效度存疑。' },
+    { value: 'self', label: '長者本人', desc: '由長者本人自行填答；需照顧者作答的負荷量表將標示效度存疑。' },
+  ];
 
   // DOB is optional (record-only). Show months + an under-65 notice when given,
   // but never block on age — the CFS selector is the only submit gate.
@@ -26,10 +35,15 @@
       validationError = '請先由臨床或照護者判定臨床衰弱量表 (CFS) 等級';
       return;
     }
+    if (!operator) {
+      validationError = '請先選擇本次由誰協助填寫（護理師／家屬／長者本人）';
+      return;
+    }
 
     await assessmentStore.startNew(
       { birthDate, gender, nickName: nickName || undefined },
       cfsLevel,
+      operator,
     );
   }
 </script>
@@ -94,6 +108,20 @@
     </div>
   </fieldset>
 
+  <fieldset class="field operator-field">
+    <legend>本次由誰協助填寫 <span class="required">*</span></legend>
+    <p class="cfs-hint">操作者身分決定施測方式與計分效度（必填，未選不得開始評估）。</p>
+    <div class="operator-list" role="radiogroup" aria-label="本次由誰協助填寫">
+      {#each OPERATOR_OPTIONS as opt (opt.value)}
+        <label class="operator-option" class:selected={operator === opt.value}>
+          <input type="radio" name="operator" value={opt.value} bind:group={operator} />
+          <span class="operator-name">{opt.label}</span>
+          <span class="operator-desc">{opt.desc}</span>
+        </label>
+      {/each}
+    </div>
+  </fieldset>
+
   {#if validationError}
     <p class="error" role="alert">{validationError}</p>
   {/if}
@@ -101,7 +129,7 @@
     <p class="error" role="alert">{assessmentStore.error}</p>
   {/if}
 
-  <button type="submit" class="btn-start" disabled={assessmentStore.isLoading || !cfsLevel}>
+  <button type="submit" class="btn-start" disabled={assessmentStore.isLoading || !cfsLevel || !operator}>
     {assessmentStore.isLoading ? '準備中…' : '開始評估'}
   </button>
 </form>
@@ -281,6 +309,54 @@
   }
 
   .cfs-desc {
+    display: block;
+    margin-top: var(--space-1);
+    font-size: var(--text-sm);
+    color: color-mix(in srgb, var(--text), var(--bg) 25%);
+    line-height: var(--lh-base);
+  }
+
+  /* ---- Operator selector (本次由誰協助填寫) ---- */
+  .operator-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .operator-option {
+    display: block;
+    padding: var(--space-3) var(--space-4);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    min-height: 44px;
+    transition: border-color 0.15s, background 0.15s;
+    margin-bottom: 0;
+  }
+
+  .operator-option:hover {
+    border-color: var(--accent);
+  }
+
+  .operator-option.selected {
+    border-color: var(--accent);
+    background: color-mix(in srgb, var(--accent) 10%, var(--bg));
+  }
+
+  .operator-option input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  .operator-name {
+    font-size: var(--text-base);
+    font-weight: var(--font-medium);
+    color: var(--text);
+  }
+
+  .operator-desc {
     display: block;
     margin-top: var(--space-1);
     font-size: var(--text-sm);

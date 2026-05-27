@@ -1,6 +1,7 @@
 import type { Assessment, Child, PartialAnalysis } from '../db/schema';
 import * as assessmentDao from '../db/assessments';
 import type { CfsLevel } from '../utils/cfs-levels';
+import type { Operator } from '../scales/scale';
 import type { TriageResult } from '../../engine/cdsa/triage';
 
 // 純問卷版三步驟流程（感測模組移除，無可跳模組）。
@@ -27,6 +28,10 @@ class AssessmentStore {
 
   /** 分層軸：CFS 等級（入口 gate 判定，取代年齡帶 ageGroup）。 */
   cfsLevel = $state<CfsLevel | null>(null);
+
+  /** 本次評估的操作者身分（護理師/家屬/長者本人）。供操作者效度閘門（C-M6）
+   *  及 ask-informant 題的「無法取得」判定。startNew 寫入、resume 還原。 */
+  operator = $state<Operator | null>(null);
 
   /** 各模組即時累積的分析結果 */
   partialAnalysis = $state<PartialAnalysis>({});
@@ -70,7 +75,11 @@ class AssessmentStore {
     }
   }
 
-  async startNew(childData: Omit<Child, 'id' | 'createdAt'>, cfsLevel: CfsLevel): Promise<void> {
+  async startNew(
+    childData: Omit<Child, 'id' | 'createdAt'>,
+    cfsLevel: CfsLevel,
+    operator: Operator,
+  ): Promise<void> {
     this.isLoading = true;
     this.error = null;
     try {
@@ -82,7 +91,8 @@ class AssessmentStore {
       await assessmentDao.createChild(child);
       this.child = child;
       this.cfsLevel = cfsLevel;
-      const assessment = await assessmentDao.createAssessment(child.id, cfsLevel);
+      this.operator = operator;
+      const assessment = await assessmentDao.createAssessment(child.id, cfsLevel, operator);
       this.assessment = assessment;
       this.currentStepIndex = 1;
     } catch (e) {
@@ -103,6 +113,8 @@ class AssessmentStore {
       this.assessment = assessment;
       this.child = child;
       this.cfsLevel = assessment.cfsLevel;
+      // 還原操作者身分（pre-v4 紀錄缺欄 → null）。供 resume 後續評時的效度閘門。
+      this.operator = assessment.operator ?? null;
       this.currentStepIndex = assessment.currentStep;
       // 還原問卷作答進度快照（per-scale 分數 + 計時任務 ScaleResult）。
       // 計時任務的 mobilityRecordings Blob 另存於 IndexedDB（keyed by assessmentId）；
@@ -154,6 +166,7 @@ class AssessmentStore {
     this.child = null;
     this.assessment = null;
     this.cfsLevel = null;
+    this.operator = null;
     this.currentStepIndex = 0;
     this.error = null;
     this.partialAnalysis = {};

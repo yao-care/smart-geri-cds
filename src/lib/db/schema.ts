@@ -1,7 +1,7 @@
 import Dexie, { type Table } from 'dexie';
 import type { RiskLevel } from '../utils/risk-levels';
 import type { CfsLevel } from '../utils/cfs-levels';
-import type { ScaleResult } from '../scales/scale';
+import type { ScaleResult, Operator } from '../scales/scale';
 
 export type { RiskLevel };
 export type AlertStatus = 'open' | 'acknowledged' | 'false_positive' | 'resolved';
@@ -128,6 +128,9 @@ export interface Assessment {
   childId: string;
   /** 分層軸：入口 gate 判定的 CFS 等級（取代兒科 ageGroup）。 */
   cfsLevel: CfsLevel;
+  /** 本次評估的操作者身分（護理師/家屬/長者本人）。供操作者效度閘門（C-M6）與報告標示。
+   *  舊紀錄（pre-v4）可能缺欄 → resume 時退回 null。 */
+  operator?: Operator;
   status: AssessmentStatus;
   language: string;
   currentStep: number;
@@ -309,6 +312,9 @@ export class CdssDatabase extends Dexie {
     // v3：assessments 新增非索引欄 partialAnalysis（問卷作答進度快照，供 resume 還原）。
     //   非索引欄不需改 stores()；以空 .stores({}) 標記版本，向後相容（舊紀錄缺欄→undefined）。
     this.version(3).stores({});
+    // v4：assessments 新增非索引欄 operator（操作者身分，供操作者效度閘門 C-M6 與報告標示）。
+    //   非索引欄不需改 stores()；以空 .stores({}) 標記版本，向後相容（舊紀錄缺欄→undefined）。
+    this.version(4).stores({});
   }
 }
 

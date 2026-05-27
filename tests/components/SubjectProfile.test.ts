@@ -22,14 +22,36 @@ describe('SubjectProfile', () => {
     expect(screen.getByText(/規律運動/)).toBeInTheDocument();
   });
 
-  it('keeps the submit button disabled until a CFS level is selected (gate)', async () => {
+  it('renders the operator selector (本次由誰協助填寫)', () => {
+    render(SubjectProfile);
+    expect(screen.getByRole('radiogroup', { name: /本次由誰協助填寫/ })).toBeInTheDocument();
+    expect(screen.getByDisplayValue('nurse')).toBeInTheDocument();
+    expect(screen.getByDisplayValue('family')).toBeInTheDocument();
+    expect(screen.getByDisplayValue('self')).toBeInTheDocument();
+  });
+
+  it('keeps submit disabled until BOTH a CFS level AND an operator are selected (gate)', async () => {
     render(SubjectProfile);
     const submit = screen.getByRole('button', { name: /開始評估/ }) as HTMLButtonElement;
     expect(submit.disabled).toBe(true);
 
+    // CFS alone is not enough — operator still required.
     const cfs5 = screen.getByDisplayValue('cfs5') as HTMLInputElement;
     await fireEvent.click(cfs5);
+    expect(submit.disabled).toBe(true);
+
+    // Operator alone (after clearing CFS would be re-set) — pick operator too.
+    const nurse = screen.getByDisplayValue('nurse') as HTMLInputElement;
+    await fireEvent.click(nurse);
     expect(submit.disabled).toBe(false);
+  });
+
+  it('keeps submit disabled when only the operator (not CFS) is selected', async () => {
+    render(SubjectProfile);
+    const submit = screen.getByRole('button', { name: /開始評估/ }) as HTMLButtonElement;
+    const family = screen.getByDisplayValue('family') as HTMLInputElement;
+    await fireEvent.click(family);
+    expect(submit.disabled).toBe(true);
   });
 
   it('treats DOB as optional (no required attribute, no age block)', () => {

@@ -1,5 +1,6 @@
 import { db, type Assessment, type AssessmentStatus, type Child, type PartialAnalysis } from './schema';
 import type { CfsLevel } from '../utils/cfs-levels';
+import type { Operator } from '../scales/scale';
 
 // ---- Child DAO ----
 export async function createChild(child: Child): Promise<string> {
@@ -19,6 +20,7 @@ export async function getAllChildren(): Promise<Child[]> {
 export async function createAssessment(
   childId: string,
   cfsLevel: CfsLevel,
+  operator: Operator,
   language = 'zh-TW',
 ): Promise<Assessment> {
   const now = new Date();
@@ -26,6 +28,7 @@ export async function createAssessment(
     id: crypto.randomUUID(),
     childId,
     cfsLevel,
+    operator,
     status: 'started',
     language,
     currentStep: 0,
