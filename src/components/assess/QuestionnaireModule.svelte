@@ -2,7 +2,9 @@
   import { assessmentStore } from '../../lib/stores/assessment.svelte';
   import { recordEvent } from '../../lib/db/assessment-events';
   import { domainLabel } from '../../lib/domain/domain-tree';
-  import type { ScaleDef, ScaleItem } from '../../lib/scales/scale';
+  import type { ScaleDef, ScaleItem, ScaleResult } from '../../lib/scales/scale';
+  import MobilityTaskModule from './MobilityTaskModule.svelte';
+  import { MOBILITY_FALLBACK_SCALE } from '../../data/mobility-fallback';
 
   interface Props {
     scales?: ScaleDef[];
@@ -28,9 +30,18 @@
     cfsLevel ? scales.filter(s => s.applicableCfs.includes(cfsLevel)) : [],
   );
 
-  /** Flatten applicable scales into a single question sequence. */
+  /** Timed-task scales (e.g. sit-to-stand) are rendered by a dedicated module,
+   *  not as option questions. Option scales keep the flattened-question path. */
+  const timedScales = $derived<ScaleDef[]>(
+    applicableScales.filter(s => s.inputType === 'timed-task'),
+  );
+  const optionScales = $derived<ScaleDef[]>(
+    applicableScales.filter(s => s.inputType !== 'timed-task'),
+  );
+
+  /** Flatten option scales into a single question sequence. */
   const questions = $derived<FlatQuestion[]>(
-    applicableScales.flatMap(s =>
+    optionScales.flatMap(s =>
       s.items.map(item => ({
         scaleId: s.id,
         top: s.domain.top,
@@ -46,8 +57,40 @@
   let currentIndex = $state(0);
   let answers = $state<Record<string, { score: number; scaleId: string }>>({});
   let lastAnswerLabel = $state<string | null>(null);
-  let phase = $state<'asking' | 'summary'>('asking');
+  // 'timed' runs the timed-task module(s) first; then 'asking' for option
+  // questions; then 'summary'. Initialised by an $effect once scales resolve.
+  let phase = $state<'timed' | 'asking' | 'summary'>('asking');
+  let timedIndex = $state(0);
+  let phaseInitialised = $state(false);
   let isSaving = $state(false);
+
+  const currentTimedScale = $derived<ScaleDef | null>(timedScales[timedIndex] ?? null);
+
+  // Decide the entry phase once scales/cfs resolve: timed tasks first if any.
+  $effect(() => {
+    if (phaseInitialised) return;
+    if (!cfsLevel) return;
+    if (applicableScales.length === 0) return;
+    phase = timedScales.length > 0 ? 'timed' : 'asking';
+    phaseInitialised = true;
+  });
+
+  /** A timed-task module produced its uniform ScaleResult. Store it as a
+   *  pre-computed result (ResultView prefers these over re-scoring), then
+   *  advance to the next timed task or the option questions. */
+  function handleTimedResult(result: ScaleResult): void {
+    assessmentStore.addAnalysis({
+      scaleResults: { ...(assessmentStore.partialAnalysis.scaleResults ?? {}), [result.scaleId]: result },
+    });
+    if (timedIndex < timedScales.length - 1) {
+      timedIndex++;
+    } else if (questions.length > 0) {
+      phase = 'asking';
+    } else {
+      persistScoresToStore();
+      phase = 'summary';
+    }
+  }
 
   // ---- Progress ----
   const currentQuestion = $derived(questions[currentIndex] ?? null);
@@ -55,9 +98,9 @@
   const answeredCount = $derived(Object.keys(answers).length);
   const progressPct = $derived(totalQuestions > 0 ? Math.round((answeredCount / totalQuestions) * 100) : 0);
 
-  // ---- Per-scale summary ----
+  // ---- Per-scale summary (option scales only; timed tasks have no per-item score) ----
   const scaleSummary = $derived.by(() => {
-    return applicableScales.map(s => {
+    return optionScales.map(s => {
       const itemIds = s.items.map(i => i.id);
       const answered = itemIds.filter(id => answers[id] !== undefined).length;
       const score = itemIds.reduce((sum, id) => sum + (answers[id]?.score ?? 0), 0);
@@ -149,7 +192,19 @@
 
 <div class="questionnaire">
 
-  {#if phase === 'asking' && currentQuestion}
+  {#if phase === 'timed' && currentTimedScale}
+    <!-- Timed-task module (e.g. five-times sit-to-stand). Emits a uniform
+         ScaleResult via onResult; falls back to self-report when no camera. -->
+    {#key timedIndex}
+      <MobilityTaskModule
+        scale={currentTimedScale}
+        fallbackScale={MOBILITY_FALLBACK_SCALE}
+        assessmentId={assessmentStore.assessment?.id}
+        onResult={handleTimedResult}
+      />
+    {/key}
+
+  {:else if phase === 'asking' && currentQuestion}
     <!-- Progress bar -->
     <div class="progress-bar-wrap" role="progressbar" aria-valuenow={progressPct} aria-valuemin={0} aria-valuemax={100}>
       <div class="progress-bar-track">

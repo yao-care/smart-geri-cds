@@ -2,6 +2,7 @@ import type { Assessment, Child } from '../db/schema';
 import * as assessmentDao from '../db/assessments';
 import type { CfsLevel } from '../utils/cfs-levels';
 import type { TriageResult } from '../../engine/cdsa/triage';
+import type { ScaleResult } from '../scales/scale';
 
 // 純問卷版三步驟流程（感測模組移除，無可跳模組）。
 const STEPS = ['profile', 'questionnaire', 'result'] as const;
@@ -19,6 +20,10 @@ export interface PartialAnalysis {
   questionnaireScores?: Record<string, number>;
   /** 同 key 的最大可能分，供正規化。 */
   questionnaireMaxScores?: Record<string, number>;
+  /** 已完整計分的 ScaleResult（如計時任務 / 其 fallback），keyed by 量表 id。
+   *  ResultView 對這些 id 直接採用此結果，不再以 questionnaireScores 重算
+   *  （因 fallback / 無法完成 等情境的 rawScore↔severity 對應無法用單一量表的 bands 重建）。 */
+  scaleResults?: Record<string, ScaleResult>;
 }
 
 class AssessmentStore {

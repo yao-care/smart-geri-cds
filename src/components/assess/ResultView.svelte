@@ -49,10 +49,16 @@
    *  using each scale's validated cutoff bands (scoreScale). */
   function buildScaleResults(): ScaleResult[] {
     const raw = assessmentStore.partialAnalysis.questionnaireScores ?? {};
+    const precomputed = assessmentStore.partialAnalysis.scaleResults ?? {};
     const cfsLevel = assessmentStore.cfsLevel;
     if (!cfsLevel) return [];
     const applicable = scales.filter(s => s.applicableCfs.includes(cfsLevel));
     return applicable.map(def => {
+      // Timed tasks (and their self-report fallback) emit a fully-scored
+      // ScaleResult that cannot be reconstructed by re-scoring a single raw
+      // value against this scale's bands (fallback uses a different scale's
+      // bands; "cannot complete" forces refer with null raw). Prefer it.
+      if (def.id in precomputed) return precomputed[def.id];
       const rawScore = def.id in raw ? raw[def.id] : null;
       return scoreScale(def, rawScore);
     });
