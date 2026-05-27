@@ -1,0 +1,33 @@
+# 照顧者負荷短篩 — Caregiver burden screen
+# 來源：自述之單題短篩（非標準命名量表，取 Zarit 整體負荷單題之精神），
+# 由主要照顧者就整體照顧負荷作答。clinicallyReviewed: false → 題目、適用 CFS、
+# 切分點待臨床最終簽核。
+#
+# 角色（2026-05 起）：caregiver 領域之 Tier-1 短篩（tier: screen）。亮燈後展開 Zarit-12 深評。
+# C-M6 效度閘門：須由主要照顧者本人填答 → requiresInformant: true、mode ask-informant；
+#   長者本人（self）作答時引擎標記效度存疑。無照顧者時可標記為無法取得（incomplete）。
+id: caregiver-screen
+domain:
+  top: social
+  sub: caregiver
+tier: screen
+expandsTo: zarit-12
+applicableCfs: [cfs4, cfs5, cfs6, cfs7, cfs8, cfs9]
+scoring: sum
+inputType: option
+requiresInformant: true
+maxScore: 2
+items:
+  - id: cg_burden
+    mode: ask-informant
+    prompt: 請詢問主要照顧者：整體而言，您覺得照顧家人對您造成多大的負擔？
+    text: 整體照顧負荷程度
+    options:
+      - { label: 沒有或輕微負擔, score: 0 }
+      - { label: 中度負擔, score: 1 }
+      - { label: 沉重負擔, score: 2 }
+bands:
+  - { min: 0, max: 0, severity: normal, label: 無或輕度照顧負荷 }
+  - { min: 1, max: 1, severity: monitor, label: 中度照顧負荷，建議追蹤與支持 }
+  - { min: 2, max: 2, severity: refer, label: 重度照顧負荷，建議轉介喘息或支持服務 }
+clinicallyReviewed: false

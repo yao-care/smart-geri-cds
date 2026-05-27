@@ -1,0 +1,29 @@
+# 多重共病短篩 — Comorbidity count screen
+# 來源：自述/家屬詢問/病歷核對之單題短篩（非標準命名量表），以慢性病種數
+# 初步辨識共病負擔。clinicallyReviewed: false → 題目、適用 CFS、切分點待臨床最終簽核。
+#
+# 角色（2026-05 起）：comorbidity 領域之 Tier-1 短篩（tier: screen）。亮燈後展開 CCI 深評。
+id: comorbidity-screen
+domain:
+  top: physical
+  sub: comorbidity
+tier: screen
+expandsTo: cci
+applicableCfs: [cfs2, cfs3, cfs4, cfs5, cfs6, cfs7, cfs8, cfs9]
+scoring: sum
+inputType: option
+maxScore: 2
+items:
+  - id: comorb_count
+    mode: ask-patient
+    prompt: 請向受測者或家屬詢問（或核對病歷）：目前長期治療或追蹤的慢性疾病共有幾種（如高血壓、糖尿病、心臟病、腎臟病、中風、癌症等）？
+    text: 目前長期治療/追蹤的慢性疾病種數
+    options:
+      - { label: 0–1 種, score: 0 }
+      - { label: 2–3 種, score: 1 }
+      - { label: 4 種以上, score: 2 }
+bands:
+  - { min: 0, max: 0, severity: normal, label: 無明顯共病負擔 }
+  - { min: 1, max: 1, severity: monitor, label: 中度共病負擔，建議進一步評估 }
+  - { min: 2, max: 2, severity: refer, label: 顯著共病負擔，建議整合性照護評估 }
+clinicallyReviewed: false

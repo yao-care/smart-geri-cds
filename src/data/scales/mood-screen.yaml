@@ -1,0 +1,45 @@
+# PHQ-2 — Patient Health Questionnaire 2 題憂鬱短篩（Kroenke et al. 2003）
+# 來源：公開標準量表。2 題，過去兩週每題 0–3（完全沒有/幾天/超過一半天數/
+# 幾乎每天），總分 0–6。標準切分：≥3 提示憂鬱陽性，建議進一步評估。
+# 中文題目為暫譯；clinicallyReviewed: false → 中譯、適用 CFS、切分點待臨床最終簽核。
+#
+# 角色（2026-05 起）：mood 領域之 Tier-1 短篩（tier: screen）。亮燈後展開 GDS-15 深評。
+# C-M6 效度閘門：屬需病人本人作答之情緒測驗 → requiresPatient: true、mode ask-patient。
+# C-S2 自傷/絕望紅旗：第 2 題觸及情緒低落/絕望 → redFlag: self-harm，
+#   陽性作答時 UI 立即顯示安全提示與轉介路徑（不只計入總分）。
+id: mood-screen
+domain:
+  top: psychological
+  sub: mood
+tier: screen
+expandsTo: gds-15
+applicableCfs: [cfs1, cfs2, cfs3, cfs4, cfs5, cfs6, cfs7]
+scoring: sum
+inputType: option
+requiresPatient: true
+maxScore: 6
+items:
+  - id: phq2_anhedonia
+    mode: ask-patient
+    prompt: 請唸給受測者並記錄回答：過去兩週，您有多少時候做事情提不起勁或沒有興趣？
+    text: 過去兩週，做事情提不起勁或沒有興趣的頻率
+    options:
+      - { label: 完全沒有, score: 0 }
+      - { label: 有幾天, score: 1 }
+      - { label: 超過一半的天數, score: 2 }
+      - { label: 幾乎每天, score: 3 }
+  - id: phq2_depressed
+    mode: ask-patient
+    prompt: 請唸給受測者並記錄回答：過去兩週，您有多少時候感到心情低落、沮喪或絕望？（若受測者表達絕望或不想活，請依安全提示處理）
+    text: 過去兩週，感到心情低落、沮喪或絕望的頻率
+    redFlag: self-harm
+    options:
+      - { label: 完全沒有, score: 0 }
+      - { label: 有幾天, score: 1 }
+      - { label: 超過一半的天數, score: 2 }
+      - { label: 幾乎每天, score: 3 }
+bands:
+  - { min: 0, max: 2, severity: normal, label: 無明顯憂鬱徵兆（0–2） }
+  - { min: 3, max: 4, severity: monitor, label: 疑似憂鬱，建議追蹤（3–4） }
+  - { min: 5, max: 6, severity: refer, label: 高度疑似憂鬱，建議進一步評估（5–6） }
+clinicallyReviewed: false

@@ -1,0 +1,65 @@
+# PAINAD — Pain Assessment in Advanced Dementia（Warden et al. 2003）
+# 來源：公開標準觀察型疼痛量表，供無法自述疼痛的認知障礙/晚期失智者使用。
+# 5 項觀察（呼吸、負向發聲、臉部表情、肢體語言、可安撫程度），每項 0–2，
+# 總分 0–10，higher = worse。1–3 輕度／4–6 中度／7–10 重度疼痛。
+# 中文題目為暫譯；clinicallyReviewed: false → 中譯、適用 CFS、切分點待臨床最終簽核。
+#
+# 角色（2026-05 起，C-S1）：pain 領域之深評工具——當受測者因認知障礙無法可靠
+#   以 NRS/臉譜自述疼痛時，改由操作者觀察計分。為 pain 短篩 expandsTo 的對象。
+# 全部為操作者觀察（mode observe），不需病人本人作答 → requiresPatient: false。
+id: painad
+domain:
+  top: physical
+  sub: pain
+tier: full
+applicableCfs: [cfs5, cfs6, cfs7, cfs8, cfs9]
+scoring: sum
+inputType: option
+requiresPatient: false
+maxScore: 10
+items:
+  - id: painad_breathing
+    mode: observe
+    prompt: 請觀察受測者（非發聲時）的呼吸型態。
+    text: 呼吸（獨立於發聲之外）
+    options:
+      - { label: 正常, score: 0 }
+      - { label: 偶爾費力呼吸／短時間過度換氣, score: 1 }
+      - { label: 吵雜費力呼吸／長時間過度換氣／陳施氏呼吸, score: 2 }
+  - id: painad_vocal
+    mode: observe
+    prompt: 請觀察受測者的負向發聲。
+    text: 負向發聲
+    options:
+      - { label: 無, score: 0 }
+      - { label: 偶有呻吟或低聲抱怨／負向語氣, score: 1 }
+      - { label: 反覆叫喊／大聲呻吟／哭泣, score: 2 }
+  - id: painad_face
+    mode: observe
+    prompt: 請觀察受測者的臉部表情。
+    text: 臉部表情
+    options:
+      - { label: 微笑或無表情, score: 0 }
+      - { label: 難過／恐懼／皺眉, score: 1 }
+      - { label: 扮鬼臉（痛苦表情）, score: 2 }
+  - id: painad_body
+    mode: observe
+    prompt: 請觀察受測者的肢體語言。
+    text: 肢體語言
+    options:
+      - { label: 放鬆, score: 0 }
+      - { label: 緊張／來回踱步／坐立不安, score: 1 }
+      - { label: 僵直／拳頭緊握／膝蓋蜷縮／推拉抗拒／攻擊, score: 2 }
+  - id: painad_console
+    mode: observe
+    prompt: 請評估受測者的可安撫程度。
+    text: 可安撫程度
+    options:
+      - { label: 無需安撫, score: 0 }
+      - { label: 經言語或觸摸可分散注意或安撫, score: 1 }
+      - { label: 無法以安撫、分散注意或撫慰使其平靜, score: 2 }
+bands:
+  - { min: 0, max: 0, severity: normal, label: 無明顯疼痛徵兆 }
+  - { min: 1, max: 3, severity: monitor, label: 輕度疼痛徵兆，建議追蹤與處置 }
+  - { min: 4, max: 10, severity: refer, label: 中重度疼痛徵兆，建議轉介疼痛評估與處置 }
+clinicallyReviewed: false

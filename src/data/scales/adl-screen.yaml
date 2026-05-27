@@ -1,0 +1,31 @@
+# 基本日常活動（ADL）自我照顧短篩 — ADL self-care screen
+# 來源：自述/家屬詢問之單題短篩（非標準命名量表），辨識基本自我照顧
+# （進食、洗澡、穿衣、如廁、移位）是否需要他人協助。
+# clinicallyReviewed: false → 題目、適用 CFS、切分點待臨床最終簽核。
+#
+# 角色（2026-05 起）：adl 領域之 Tier-1 短篩（tier: screen）。亮燈後展開 Barthel 深評。
+# ADL 可由家屬代評/觀察，故不設 requiresPatient（非認知/情緒測驗）。
+id: adl-screen
+domain:
+  top: functional
+  sub: adl
+tier: screen
+expandsTo: barthel
+applicableCfs: [cfs3, cfs4, cfs5, cfs6, cfs7, cfs8, cfs9]
+scoring: sum
+inputType: option
+maxScore: 2
+items:
+  - id: adl_help
+    mode: ask-informant
+    prompt: 請向受測者或家屬詢問：日常的自我照顧（進食、洗澡、穿衣、如廁、由床到椅移位）是否需要他人協助？
+    text: 基本自我照顧是否需要他人協助？
+    options:
+      - { label: 完全不需協助（皆可獨立）, score: 0 }
+      - { label: 部分項目需協助, score: 1 }
+      - { label: 多數或全部需協助, score: 2 }
+bands:
+  - { min: 0, max: 0, severity: normal, label: 基本日常活動大致獨立 }
+  - { min: 1, max: 1, severity: monitor, label: 部分自我照顧需協助，建議進一步評估 }
+  - { min: 2, max: 2, severity: refer, label: 多數自我照顧需協助，建議轉介評估照護需求 }
+clinicallyReviewed: false
