@@ -6,9 +6,13 @@ import type { CfsLevel } from '../utils/cfs-levels';
 interface ScaleEntryData {
   id: string;
   domain: { top: string; sub: string };
+  tier: 'screen' | 'full';
+  expandsTo?: string;
   applicableCfs: string[];
   scoring: ScaleDef['scoring'];
   inputType: ScaleDef['inputType'];
+  requiresPatient?: boolean;
+  requiresInformant?: boolean;
   maxScore: number;
   items: ScaleDef['items'];
   bands: ScaleDef['bands'];
@@ -24,9 +28,13 @@ export function toScaleDefs(entries: { data: ScaleEntryData }[]): ScaleDef[] {
   return entries.map(({ data }) => ({
     id: data.id,
     domain: { top: data.domain.top as DomainTop, sub: data.domain.sub as DomainSub },
+    tier: data.tier,
+    expandsTo: data.expandsTo,
     applicableCfs: data.applicableCfs as CfsLevel[],
     scoring: data.scoring,
     inputType: data.inputType,
+    requiresPatient: data.requiresPatient,
+    requiresInformant: data.requiresInformant,
     maxScore: data.maxScore,
     items: data.items,
     bands: data.bands,

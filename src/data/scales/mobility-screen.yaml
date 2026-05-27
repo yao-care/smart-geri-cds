@@ -12,6 +12,8 @@ id: mobility-screen
 domain:
   top: functional
   sub: mobility
+tier: screen
+expandsTo: sit-to-stand
 applicableCfs: [cfs7]
 scoring: sum
 inputType: option
@@ -19,24 +21,32 @@ maxScore: 8
 items:
   - id: mob_walk
     text: 過去一週，您在平地行走是否感到困難？
+    mode: ask-patient
+    prompt: 請向受測者或家屬詢問過去一週平地行走是否困難。
     options:
       - { label: 沒有困難, score: 0 }
       - { label: 有點困難, score: 1 }
       - { label: 明顯困難或無法獨立行走, score: 2 }
   - id: mob_chair
     text: 您從椅子上站起來是否感到困難（未扶手）？
+    mode: ask-patient
+    prompt: 請向受測者或家屬詢問從椅子站起（未扶手）是否困難。
     options:
       - { label: 沒有困難, score: 0 }
       - { label: 需用手撐才能站起, score: 1 }
       - { label: 需他人協助才能站起, score: 2 }
   - id: mob_stairs
     text: 您上下一層樓梯是否感到困難？
+    mode: ask-patient
+    prompt: 請向受測者或家屬詢問上下一層樓梯是否困難。
     options:
       - { label: 沒有困難, score: 0 }
       - { label: 需扶扶手或休息, score: 1 }
       - { label: 無法自行上下樓梯, score: 2 }
   - id: mob_aid
     text: 您行走時是否需要使用輔具（拐杖、助行器、輪椅）？
+    mode: ask-patient
+    prompt: 請向受測者或家屬詢問行走時是否需使用輔具。
     options:
       - { label: 不需要, score: 0 }
       - { label: 偶爾或室外需要, score: 1 }

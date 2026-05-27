@@ -3,13 +3,20 @@
 # 切分點 0–4 正常／5–9 疑似／10–15 高度疑似為公開版本常用值。
 # 中文題目為暫譯；clinicallyReviewed: false → 中譯、適用 CFS、切分點待臨床
 # 最終簽核，尚不可用於正式臨床決策。
+#
+# 角色（2026-05 起）：mood 領域之 Tier-2 深評（tier: full），由 PHQ-2 短篩亮燈後展開。
+# C-M6 效度閘門：屬需病人本人作答之情緒測驗 → requiresPatient: true、mode ask-patient。
+# C-S2 自傷/絕望紅旗：觸及無價值感/絕望/不願再活之題標 redFlag: self-harm，
+#   陽性作答時 UI 立即顯示安全提示與轉介路徑（不只計入總分）。
 id: gds-15
 domain:
   top: psychological
   sub: mood
+tier: full
 applicableCfs: [cfs1, cfs2, cfs3, cfs4, cfs5, cfs6, cfs7]
 scoring: sum
 inputType: option
+requiresPatient: true
 maxScore: 15
 items:
   - id: gds1
@@ -64,11 +71,13 @@ items:
       - { label: 否, score: 0 }
   - id: gds11
     text: 您是否覺得現在還能活著是很好的事？
+    redFlag: self-harm
     options:
       - { label: 是, score: 0 }
       - { label: 否, score: 1 }
   - id: gds12
     text: 您是否覺得自己現在這樣活著沒有什麼價值？
+    redFlag: self-harm
     options:
       - { label: 是, score: 1 }
       - { label: 否, score: 0 }
@@ -79,6 +88,7 @@ items:
       - { label: 否, score: 1 }
   - id: gds14
     text: 您是否覺得自己的處境沒有希望？
+    redFlag: self-harm
     options:
       - { label: 是, score: 1 }
       - { label: 否, score: 0 }

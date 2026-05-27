@@ -3,16 +3,43 @@ import type { DomainTop, DomainSub } from '$lib/domain/domain-tree';
 
 export type Severity = 'normal' | 'monitor' | 'refer' | 'incomplete';
 
+/** Who performs or answers this item. Default: 'ask-patient'. */
+export type ItemMode = 'ask-patient' | 'observe' | 'ask-informant' | 'measure';
+
+/** Who is operating the assessment session. */
+export type Operator = 'nurse' | 'family' | 'self';
+
 export interface ScaleBand {
   min?: number; max?: number; severity: Exclude<Severity, 'incomplete'>; label: string;
 }
-export interface ScaleItem { id: string; text: string; options: { label: string; score: number }[]; }
+export interface ScaleItem {
+  id: string;
+  /** Patient-facing question text (self-fill). Optional when operator-only prompt is sufficient. */
+  text?: string;
+  /** Operator instruction: what to say/observe/ask informant/measure. */
+  prompt?: string;
+  /** Who performs this item. Defaults to 'ask-patient'. */
+  mode?: ItemMode;
+  /** Ordered sub-question stems (e.g. AMT4 four orientation items). */
+  subquestions?: string[];
+  options: { label: string; score: number }[];
+  /** Triggers a safety alert when a positive answer is selected. */
+  redFlag?: 'self-harm';
+}
 export interface ScaleDef {
   id: string;
   domain: { top: DomainTop; sub: DomainSub };
+  /** 'screen' = first-tier brief screen; 'full' = expanded deep assessment. */
+  tier: 'screen' | 'full';
+  /** ID of the full-scale to expand into when this screen flags (severity ≥ monitor). */
+  expandsTo?: string;
   applicableCfs: CfsLevel[];
-  scoring: 'sum' | 'weighted' | 'error-count' | 'measured-value';
+  scoring: 'sum' | 'weighted' | 'error-count' | 'measured-value' | 'timed-task';
   inputType: 'option' | 'numeric' | 'timed-task';
+  /** True when the scale must be answered by the patient themselves (cognitive/emotional). */
+  requiresPatient?: boolean;
+  /** True when the scale must be answered by a caregiver/informant (e.g. Zarit). */
+  requiresInformant?: boolean;
   maxScore: number;
   items: ScaleItem[];
   bands: ScaleBand[];

@@ -1,0 +1,85 @@
+# AD8 — Eight-item Informant Interview to Differentiate Aging and Dementia
+# （Galvin et al. 2005）。來源：公開標準知情者問卷。8 題，知情者就「與過去
+# 相比」的改變回答「是（有改變）＝1／否或不知道＝0」，總分 0–8。
+# 標準切分：≥2 提示認知功能可能受損（陽性）。
+# 中文題目為暫譯；clinicallyReviewed: false → 中譯、適用 CFS、切分點待臨床最終簽核。
+#
+# 角色（2026-05 起，C-M2）：cognition 領域之 Tier-1 短篩。採「知情者」問卷
+#   而非病人主觀自評，避免無病識感失智者穿透短篩。無知情者時改用 mini-cog
+#   客觀測驗（fallback 選擇於 Phase C tiering 處理）。亮燈後展開 SPMSQ 深評。
+# mode：全部向家屬/照顧者詢問（ask-informant）。requiresInformant: true——
+#   需知情者作答；但 C-S6 註記：cognition/delirium 不可因「無家屬→incomplete」
+#   靜默跳過最危險個案，故無知情者時務必走 mini-cog fallback（Phase C）。
+id: cognition-screen
+domain:
+  top: psychological
+  sub: cognition
+tier: screen
+expandsTo: spmsq
+applicableCfs: [cfs1, cfs2, cfs3, cfs4, cfs5, cfs6, cfs7, cfs8]
+scoring: sum
+inputType: option
+requiresInformant: true
+maxScore: 8
+items:
+  - id: ad8_judgment
+    mode: ask-informant
+    prompt: 請詢問家屬/照顧者（與過去相比）：是否出現判斷力的問題（如易受詐騙、做出不當財務決定）？
+    text: 判斷力出現問題
+    options:
+      - { label: 否或不知道, score: 0 }
+      - { label: 是，有改變, score: 1 }
+  - id: ad8_interest
+    mode: ask-informant
+    prompt: 請詢問家屬/照顧者：對興趣、嗜好或活動的參與是否減少？
+    text: 對活動/嗜好的興趣減少
+    options:
+      - { label: 否或不知道, score: 0 }
+      - { label: 是，有改變, score: 1 }
+  - id: ad8_repeat
+    mode: ask-informant
+    prompt: 請詢問家屬/照顧者：是否會重複相同的問題、故事或敘述？
+    text: 重複相同問題或敘述
+    options:
+      - { label: 否或不知道, score: 0 }
+      - { label: 是，有改變, score: 1 }
+  - id: ad8_learn
+    mode: ask-informant
+    prompt: 請詢問家屬/照顧者：學習使用工具、家電或新事物（如遙控器、手機）是否變得困難？
+    text: 學習使用工具/新事物困難
+    options:
+      - { label: 否或不知道, score: 0 }
+      - { label: 是，有改變, score: 1 }
+  - id: ad8_date
+    mode: ask-informant
+    prompt: 請詢問家屬/照顧者：是否會忘記正確的年份或月份？
+    text: 忘記年份或月份
+    options:
+      - { label: 否或不知道, score: 0 }
+      - { label: 是，有改變, score: 1 }
+  - id: ad8_finance
+    mode: ask-informant
+    prompt: 請詢問家屬/照顧者：處理複雜財務（如報稅、繳費）是否變得困難？
+    text: 處理複雜財務困難
+    options:
+      - { label: 否或不知道, score: 0 }
+      - { label: 是，有改變, score: 1 }
+  - id: ad8_appointment
+    mode: ask-informant
+    prompt: 請詢問家屬/照顧者：是否會忘記約定或預定的事項？
+    text: 忘記約定或預定事項
+    options:
+      - { label: 否或不知道, score: 0 }
+      - { label: 是，有改變, score: 1 }
+  - id: ad8_memory
+    mode: ask-informant
+    prompt: 請詢問家屬/照顧者：每天都有持續性的思考或記憶問題嗎？
+    text: 每日持續的思考/記憶問題
+    options:
+      - { label: 否或不知道, score: 0 }
+      - { label: 是，有改變, score: 1 }
+bands:
+  - { min: 0, max: 1, severity: normal, label: 無明顯認知改變徵兆（0–1） }
+  - { min: 2, max: 3, severity: monitor, label: 疑似認知改變，建議追蹤（2–3） }
+  - { min: 4, max: 8, severity: refer, label: 高度疑似認知功能受損，建議進一步評估（≥4） }
+clinicallyReviewed: false

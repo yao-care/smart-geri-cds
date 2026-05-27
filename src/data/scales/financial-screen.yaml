@@ -6,6 +6,7 @@ id: financial-screen
 domain:
   top: social
   sub: financial
+tier: screen
 applicableCfs: [cfs3, cfs4, cfs5, cfs6, cfs7, cfs8, cfs9]
 scoring: sum
 inputType: option
@@ -13,12 +14,16 @@ maxScore: 4
 items:
   - id: fin_meet
     text: 您目前的收入或積蓄是否足以支應日常生活所需（飲食、居住、水電）？
+    mode: ask-patient
+    prompt: 請向受測者或家屬詢問目前收入/積蓄是否足以支應日常生活所需。
     options:
       - { label: 足夠, score: 0 }
       - { label: 勉強夠用, score: 1 }
       - { label: 經常不夠用, score: 2 }
   - id: fin_care
     text: 過去一年，您是否曾因經濟因素而延後就醫、減少用藥或無法負擔照護費用？
+    mode: ask-patient
+    prompt: 請向受測者或家屬詢問過去一年是否曾因經濟因素延後就醫、減藥或無法負擔照護。
     options:
       - { label: 沒有, score: 0 }
       - { label: 偶爾, score: 1 }

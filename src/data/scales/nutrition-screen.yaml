@@ -1,0 +1,38 @@
+# 營養短篩 — Nutrition screen（食量／體重）
+# 來源：自述/家屬詢問之題組（取自 MNA-SF 前兩題之精神：近 3 月食量減少、
+# 體重下降），用於初步辨識營養不良風險。每題 0–2，2 題總分 0–4，higher = worse。
+# clinicallyReviewed: false → 題目、適用 CFS、切分點待臨床最終簽核。
+#
+# 角色（2026-05 起）：nutrition 領域之 Tier-1 短篩（tier: screen）。亮燈後展開 MNA-SF 深評。
+id: nutrition-screen
+domain:
+  top: physical
+  sub: nutrition
+tier: screen
+expandsTo: mna-sf
+applicableCfs: [cfs1, cfs2, cfs3, cfs4, cfs5, cfs6, cfs7, cfs8, cfs9]
+scoring: sum
+inputType: option
+maxScore: 4
+items:
+  - id: nutr_intake
+    mode: ask-patient
+    prompt: 請向受測者或家屬詢問：過去三個月，是否因食慾不振、消化、咀嚼或吞嚥困難而減少進食量？
+    text: 過去三個月進食量是否減少？
+    options:
+      - { label: 食量無減少, score: 0 }
+      - { label: 食量中度減少, score: 1 }
+      - { label: 食量大幅減少, score: 2 }
+  - id: nutr_weight
+    mode: ask-patient
+    prompt: 請向受測者或家屬詢問（或查閱）：過去三個月體重是否下降？
+    text: 過去三個月體重是否下降？
+    options:
+      - { label: 體重無減輕, score: 0 }
+      - { label: 體重減輕 1–3 公斤或不清楚, score: 1 }
+      - { label: 體重減輕超過 3 公斤, score: 2 }
+bands:
+  - { min: 0, max: 0, severity: normal, label: 無營養不良徵兆 }
+  - { min: 1, max: 2, severity: monitor, label: 有營養不良風險，建議進一步評估 }
+  - { min: 3, max: 4, severity: refer, label: 高度營養不良風險，建議轉介營養評估 }
+clinicallyReviewed: false

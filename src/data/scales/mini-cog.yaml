@@ -1,0 +1,43 @@
+# Mini-Cog — 簡短認知篩檢（Borson et al. 2000）
+# 來源：公開標準量表。三詞記憶（延遲回憶 0–3）＋ 畫鐘測驗（正常 2／異常 0），
+# 總分 0–5，higher = better。標準切分：總分 ≤ 2 提示認知障礙陽性。
+# 中文題目為暫譯；clinicallyReviewed: false → 中譯、適用 CFS、切分點待臨床最終簽核。
+#
+# 角色（2026-05 起，C-M2）：cognition 領域之「無知情者」客觀 fallback——
+#   當無知情者可作 AD8 時，改用 Mini-Cog 客觀測驗（非病人主觀自評），
+#   避免無病識感失智者穿透短篩。fallback 的選擇邏輯於 Phase C tiering 處理。
+#   亮燈後與 AD8 一樣可展開 SPMSQ 深評（expandsTo）。
+# C-M6 效度閘門：屬需病人本人作答之認知測驗 → requiresPatient: true、mode ask-patient。
+id: mini-cog
+domain:
+  top: psychological
+  sub: cognition
+tier: full
+expandsTo: spmsq
+applicableCfs: [cfs1, cfs2, cfs3, cfs4, cfs5, cfs6, cfs7, cfs8]
+scoring: sum
+inputType: option
+requiresPatient: true
+maxScore: 5
+items:
+  - id: mc_recall
+    mode: ask-patient
+    prompt: 先唸三個不相關的詞語（例如「香蕉、日出、椅子」）請受測者複述；完成畫鐘後，請受測者回憶這三個詞，記錄正確回憶的詞數。
+    text: 三詞延遲回憶：正確回憶的詞數
+    options:
+      - { label: 回憶 0 個詞, score: 0 }
+      - { label: 回憶 1 個詞, score: 1 }
+      - { label: 回憶 2 個詞, score: 2 }
+      - { label: 回憶 3 個詞, score: 3 }
+  - id: mc_clock
+    mode: observe
+    prompt: 請受測者在紙上畫一個時鐘，填上所有數字，並將指針指向某個指定時間（如 11 點 10 分）。請操作者依數字位置正確且指針正確判定為正常或異常。
+    text: 畫鐘測驗結果
+    options:
+      - { label: 異常（數字或指針錯誤）, score: 0 }
+      - { label: 正常（數字位置與指針皆正確）, score: 2 }
+bands:
+  - { min: 0, max: 2, severity: refer, label: 認知篩檢陽性（≤2），建議進一步認知評估 }
+  - { min: 3, max: 3, severity: monitor, label: 邊緣（3 分），建議追蹤 }
+  - { min: 4, max: 5, severity: normal, label: 認知篩檢陰性（4–5） }
+clinicallyReviewed: false

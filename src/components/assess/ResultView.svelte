@@ -45,23 +45,34 @@
     incomplete: 'var(--surface)',
   };
 
-  /** Build ScaleResult[] from the questionnaire raw scores (keyed by scaleId)
-   *  using each scale's validated cutoff bands (scoreScale). */
+  /** Build ScaleResult[] for the scales that actually ran in the tiered flow.
+   *  A scale "ran" if it has a precomputed result (operator-gated option scales
+   *  + timed tasks + 「無法取得」 incompletes) or a raw questionnaire score.
+   *  Full scales whose screen did NOT flag are intentionally absent (not run)
+   *  and must NOT appear as spurious 'incomplete' spokes. */
   function buildScaleResults(): ScaleResult[] {
     const raw = assessmentStore.partialAnalysis.questionnaireScores ?? {};
     const precomputed = assessmentStore.partialAnalysis.scaleResults ?? {};
     const cfsLevel = assessmentStore.cfsLevel;
     if (!cfsLevel) return [];
     const applicable = scales.filter(s => s.applicableCfs.includes(cfsLevel));
-    return applicable.map(def => {
+    const results: ScaleResult[] = [];
+    for (const def of applicable) {
       // Timed tasks (and their self-report fallback) emit a fully-scored
       // ScaleResult that cannot be reconstructed by re-scoring a single raw
       // value against this scale's bands (fallback uses a different scale's
-      // bands; "cannot complete" forces refer with null raw). Prefer it.
-      if (def.id in precomputed) return precomputed[def.id];
-      const rawScore = def.id in raw ? raw[def.id] : null;
-      return scoreScale(def, rawScore);
-    });
+      // bands; "cannot complete" forces refer with null raw). The questionnaire
+      // module also pre-gates option scales (operator validity / 無法取得) —
+      // always prefer the precomputed result when present.
+      if (def.id in precomputed) {
+        results.push(precomputed[def.id]);
+      } else if (def.id in raw) {
+        // Re-score raw value (legacy / non-gated path). Scales that never ran
+        // (a non-flagged screen's full scale) have no raw score → skipped.
+        results.push(scoreScale(def, raw[def.id]));
+      }
+    }
+    return results;
   }
 
   // 進入結果頁時，從 partialAnalysis 即時計算分流（<1 秒）

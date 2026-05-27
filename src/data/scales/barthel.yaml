@@ -3,10 +3,16 @@
 # 分數越高表示越獨立（higher = better）。≥91 大致獨立／61–90 部分依賴／
 # ≤60 高度依賴。中文題目為暫譯；clinicallyReviewed: false → 中譯、適用 CFS、
 # 切分點待臨床最終簽核，尚不可用於正式臨床決策。
+#
+# 角色（2026-05 起）：adl 領域之 Tier-2 深評（tier: full），由 adl 短篩亮燈後展開。
+# C-S4 per-item mode：移位/行走/上下樓 → observe（操作者直接觀察較可靠）；
+#   其餘自我照顧項可向受測者或家屬詢問（ask-patient/ask-informant）。
+#   ADL 可由他人代評/觀察，故不設 requiresPatient（非認知/情緒測驗）。
 id: barthel
 domain:
   top: functional
   sub: adl
+tier: full
 applicableCfs: [cfs3, cfs4, cfs5, cfs6, cfs7, cfs8, cfs9]
 scoring: sum
 inputType: option
@@ -14,46 +20,62 @@ maxScore: 100
 items:
   - id: bi_feeding
     text: 進食
+    mode: ask-informant
+    prompt: 請向受測者或家屬詢問（或觀察）進食的協助需求。
     options:
       - { label: 無法自行進食, score: 0 }
       - { label: 需部分協助（如切割食物）, score: 5 }
       - { label: 可自行進食, score: 10 }
   - id: bi_bathing
     text: 洗澡
+    mode: ask-informant
+    prompt: 請向受測者或家屬詢問洗澡的協助需求。
     options:
       - { label: 需協助, score: 0 }
       - { label: 可獨立完成, score: 5 }
   - id: bi_grooming
     text: 個人衛生（洗臉、刷牙、刮鬍、梳頭）
+    mode: ask-informant
+    prompt: 請向受測者或家屬詢問個人衛生的協助需求。
     options:
       - { label: 需協助, score: 0 }
       - { label: 可獨立完成, score: 5 }
   - id: bi_dressing
     text: 穿脫衣物（含扣釦、拉鍊、鞋帶）
+    mode: ask-informant
+    prompt: 請向受測者或家屬詢問穿脫衣物的協助需求。
     options:
       - { label: 完全依賴, score: 0 }
       - { label: 需部分協助, score: 5 }
       - { label: 可獨立完成, score: 10 }
   - id: bi_bowels
     text: 大便控制
+    mode: ask-informant
+    prompt: 請向受測者或家屬詢問大便控制狀況。
     options:
       - { label: 失禁或需灌腸, score: 0 }
       - { label: 偶爾失禁（每週 <1 次）, score: 5 }
       - { label: 完全自制, score: 10 }
   - id: bi_bladder
     text: 小便控制
+    mode: ask-informant
+    prompt: 請向受測者或家屬詢問小便控制狀況。
     options:
       - { label: 失禁或需他人導尿, score: 0 }
       - { label: 偶爾失禁（每日 <1 次）, score: 5 }
       - { label: 完全自制, score: 10 }
   - id: bi_toilet
     text: 如廁（移位、清潔、穿脫衣褲）
+    mode: ask-informant
+    prompt: 請向受測者或家屬詢問（或觀察）如廁的協助需求。
     options:
       - { label: 完全依賴, score: 0 }
       - { label: 需部分協助, score: 5 }
       - { label: 可獨立完成, score: 10 }
   - id: bi_transfer
     text: 移位（由床到椅及返回）
+    mode: observe
+    prompt: 請操作者觀察受測者由床到椅及返回的移位能力與所需協助。
     options:
       - { label: 完全依賴或無法坐起, score: 0 }
       - { label: 需大量協助（1–2 人）, score: 5 }
@@ -61,6 +83,8 @@ items:
       - { label: 可獨立完成, score: 15 }
   - id: bi_mobility
     text: 平地行走
+    mode: observe
+    prompt: 請操作者觀察受測者平地行走能力與所需協助/輔具。
     options:
       - { label: 無法行走, score: 0 }
       - { label: 需輪椅但可自行操作 >50 公尺, score: 5 }
@@ -68,6 +92,8 @@ items:
       - { label: 可獨立行走（可用輔具）>50 公尺, score: 15 }
   - id: bi_stairs
     text: 上下樓梯
+    mode: observe
+    prompt: 請操作者觀察受測者上下樓梯能力與所需協助。
     options:
       - { label: 無法上下樓梯, score: 0 }
       - { label: 需協助或監督, score: 5 }
