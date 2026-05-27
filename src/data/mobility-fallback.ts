@@ -17,6 +17,7 @@ import type { ScaleDef } from '../lib/scales/scale';
 export const MOBILITY_FALLBACK_SCALE: ScaleDef = {
   id: 'mobility-screen',
   domain: { top: 'functional', sub: 'mobility' },
+  tier: 'screen',
   // applicableCfs 在 fallback 情境不參與篩選（元件僅在 sit-to-stand 無法執行時使用），
   // 列出與 sit-to-stand 一致的 cfs2–cfs6 以表意。
   applicableCfs: ['cfs2', 'cfs3', 'cfs4', 'cfs5', 'cfs6'],

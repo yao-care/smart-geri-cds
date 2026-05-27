@@ -139,8 +139,12 @@ const scaleBandSchema = z.object({
 
 const scaleItemSchema = z.object({
   id: z.string(),
-  text: z.string(),
+  text: z.string().optional(),
+  prompt: z.string().optional(),
+  mode: z.enum(['ask-patient', 'observe', 'ask-informant', 'measure']).optional(),
+  subquestions: z.array(z.string()).optional(),
   options: z.array(z.object({ label: z.string(), score: z.number() })),
+  redFlag: z.literal('self-harm').optional(),
 });
 
 const scalesCollection = defineCollection({
@@ -153,9 +157,14 @@ const scalesCollection = defineCollection({
     }).refine(d => isValidDomain(d.top, d.sub), {
       message: 'domain.top/domain.sub 不是合法的二層域組合',
     }),
+    /** Default 'screen' so existing YAMLs (which lack `tier`) still parse. */
+    tier: z.enum(['screen', 'full']).default('screen'),
+    expandsTo: z.string().optional(),
     applicableCfs: z.array(z.enum(CFS_LEVELS)),
-    scoring: z.enum(['sum', 'weighted', 'error-count', 'measured-value']),
+    scoring: z.enum(['sum', 'weighted', 'error-count', 'measured-value', 'timed-task']),
     inputType: z.enum(['option', 'numeric', 'timed-task']),
+    requiresPatient: z.boolean().optional(),
+    requiresInformant: z.boolean().optional(),
     maxScore: z.number(),
     items: z.array(scaleItemSchema),
     bands: z.array(scaleBandSchema),
