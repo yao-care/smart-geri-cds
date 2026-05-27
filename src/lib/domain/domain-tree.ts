@@ -1,5 +1,5 @@
 export const DOMAIN_TREE = {
-  physical: ['comorbidity','polypharmacy','nutrition','continence','sensory'],
+  physical: ['comorbidity','polypharmacy','nutrition','continence','sensory','pain'],
   psychological: ['cognition','mood','delirium'],
   functional: ['adl','iadl','mobility','falls'],
   social: ['social_support','caregiver','financial'],
@@ -21,7 +21,7 @@ export const DOMAIN_TOP_LABELS: Record<DomainTop, string> = {
   social: '社會', environmental: '環境', future_wishes: '預立醫療',
 };
 const SUB_LABELS: Record<string, string> = {
-  comorbidity:'多重共病', polypharmacy:'多重用藥', nutrition:'營養', continence:'失禁', sensory:'感官(視/聽)',
+  comorbidity:'多重共病', polypharmacy:'多重用藥', nutrition:'營養', continence:'失禁', sensory:'感官(視/聽)', pain:'疼痛',
   cognition:'認知', mood:'情緒', delirium:'譫妄',
   adl:'基本日常', iadl:'工具性日常', mobility:'行動步態', falls:'平衡跌倒',
   social_support:'社會支持', caregiver:'照顧者負荷', financial:'經濟',
