@@ -1,8 +1,7 @@
-import type { Assessment, Child } from '../db/schema';
+import type { Assessment, Child, PartialAnalysis } from '../db/schema';
 import * as assessmentDao from '../db/assessments';
 import type { CfsLevel } from '../utils/cfs-levels';
 import type { TriageResult } from '../../engine/cdsa/triage';
-import type { ScaleResult } from '../scales/scale';
 
 // 純問卷版三步驟流程（感測模組移除，無可跳模組）。
 const STEPS = ['profile', 'questionnaire', 'result'] as const;
@@ -14,17 +13,10 @@ export const STEP_LABELS: Record<AssessmentStep, string> = {
   result: '評估結果',
 };
 
-/** 各模組即時產出的分析結果（純問卷版只有問卷分數）。 */
-export interface PartialAnalysis {
-  /** scaleId / top.sub → 累計原始分。 */
-  questionnaireScores?: Record<string, number>;
-  /** 同 key 的最大可能分，供正規化。 */
-  questionnaireMaxScores?: Record<string, number>;
-  /** 已完整計分的 ScaleResult（如計時任務 / 其 fallback），keyed by 量表 id。
-   *  ResultView 對這些 id 直接採用此結果，不再以 questionnaireScores 重算
-   *  （因 fallback / 無法完成 等情境的 rawScore↔severity 對應無法用單一量表的 bands 重建）。 */
-  scaleResults?: Record<string, ScaleResult>;
-}
+/** 各模組即時產出的分析結果（持久化於 Assessment，供 resume 還原）。
+ *  ResultView 對 scaleResults 的 id 直接採用其結果，不再以 questionnaireScores 重算
+ *  （因 fallback / 無法完成 等情境的 rawScore↔severity 對應無法用單一量表的 bands 重建）。 */
+export type { PartialAnalysis };
 
 class AssessmentStore {
   child = $state<Child | null>(null);
@@ -64,6 +56,18 @@ class AssessmentStore {
       }
     }
     this.partialAnalysis = { ...this.partialAnalysis, ...partial };
+
+    // 持久化作答進度快照，供 resume 還原（避免重答）。非阻塞、失敗不影響流程。
+    // 此處讀回合併後的完整快照（含先前領域），而非僅 partial，確保 DB 與記憶體一致。
+    // 用 $state.snapshot 去除 runes proxy，否則無法通過 structured clone 寫入 IndexedDB。
+    if (this.assessment) {
+      const snapshot = $state.snapshot(this.partialAnalysis) as PartialAnalysis;
+      void assessmentDao
+        .updateAssessmentPartialAnalysis(this.assessment.id, snapshot)
+        .catch(() => {
+          // 本機快照寫入失敗不可阻斷評估；resume 時退回從頭作答。
+        });
+    }
   }
 
   async startNew(childData: Omit<Child, 'id' | 'createdAt'>, cfsLevel: CfsLevel): Promise<void> {
@@ -100,6 +104,10 @@ class AssessmentStore {
       this.child = child;
       this.cfsLevel = assessment.cfsLevel;
       this.currentStepIndex = assessment.currentStep;
+      // 還原問卷作答進度快照（per-scale 分數 + 計時任務 ScaleResult）。
+      // 計時任務的 mobilityRecordings Blob 另存於 IndexedDB（keyed by assessmentId）；
+      // 此處還原其 scaleResult，使其結果不因 resume 遺失。舊紀錄缺欄 → 退回空物件。
+      this.partialAnalysis = assessment.partialAnalysis ?? {};
       await assessmentDao.updateAssessmentStatus(assessmentId, 'resumed');
     } catch (e) {
       this.error = e instanceof Error ? e.message : 'Failed to resume assessment';
@@ -126,8 +134,12 @@ class AssessmentStore {
 
   async pause(): Promise<void> {
     if (this.assessment) {
+      // 暫停時再寫一次作答進度快照（防 addAnalysis 的非阻塞寫入尚未落地）。
+      // $state.snapshot 去除 proxy，確保可通過 structured clone 寫入 IndexedDB。
+      const snapshot = $state.snapshot(this.partialAnalysis) as PartialAnalysis;
+      await assessmentDao.updateAssessmentPartialAnalysis(this.assessment.id, snapshot);
       await assessmentDao.updateAssessmentStatus(this.assessment.id, 'paused');
-      this.assessment = { ...this.assessment, status: 'paused' };
+      this.assessment = { ...this.assessment, status: 'paused', partialAnalysis: snapshot };
     }
   }
 

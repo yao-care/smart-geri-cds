@@ -1,6 +1,6 @@
 <script lang="ts">
   import { assessmentStore } from '../../lib/stores/assessment.svelte';
-  import { recordEvent } from '../../lib/db/assessment-events';
+  import { recordEvent, getEventsByModule } from '../../lib/db/assessment-events';
   import { domainLabel } from '../../lib/domain/domain-tree';
   import type { ScaleDef, ScaleItem, ScaleResult } from '../../lib/scales/scale';
   import MobilityTaskModule from './MobilityTaskModule.svelte';
@@ -63,17 +63,75 @@
   let timedIndex = $state(0);
   let phaseInitialised = $state(false);
   let isSaving = $state(false);
+  // Set on teardown so the answer-feedback setTimeout continuation doesn't touch
+  // reactive $derived (scaleSummary) after the component's effect root is gone.
+  let destroyed = false;
+  $effect(() => () => { destroyed = true; });
 
   const currentTimedScale = $derived<ScaleDef | null>(timedScales[timedIndex] ?? null);
 
   // Decide the entry phase once scales/cfs resolve: timed tasks first if any.
+  // On resume, restore prior answers/progress first so the user doesn't re-answer.
   $effect(() => {
     if (phaseInitialised) return;
     if (!cfsLevel) return;
     if (applicableScales.length === 0) return;
-    phase = timedScales.length > 0 ? 'timed' : 'asking';
     phaseInitialised = true;
+    void initPhase();
   });
+
+  /** Resolve entry phase, restoring prior progress when resuming. */
+  async function initPhase(): Promise<void> {
+    await restoreAnswers();
+
+    // Skip timed tasks that already produced a ScaleResult (kept across resume;
+    // their recording Blob lives separately in IndexedDB by assessmentId+scaleId).
+    const doneResults = assessmentStore.partialAnalysis.scaleResults ?? {};
+    while (timedIndex < timedScales.length && doneResults[timedScales[timedIndex].id]) {
+      timedIndex++;
+    }
+
+    // First unanswered option question = resume point.
+    const firstUnanswered = questions.findIndex(q => answers[q.item.id] === undefined);
+    currentIndex = firstUnanswered === -1 ? Math.max(0, questions.length - 1) : firstUnanswered;
+
+    const timedRemaining = timedIndex < timedScales.length;
+    const allAnswered = questions.length > 0 && firstUnanswered === -1;
+
+    if (timedRemaining) {
+      phase = 'timed';
+    } else if (questions.length === 0 || allAnswered) {
+      // No option questions, or every one already answered → go straight to summary.
+      phase = 'summary';
+    } else {
+      phase = 'asking';
+    }
+  }
+
+  /** Rebuild the per-item answers map from persisted questionnaire events
+   *  (one row per answered item). Last answer per question wins (re-answers).
+   *  No-op for a fresh assessment (no events). */
+  async function restoreAnswers(): Promise<void> {
+    const assessment = assessmentStore.assessment;
+    if (!assessment) return;
+    let events;
+    try {
+      events = await getEventsByModule(assessment.id, 'questionnaire');
+    } catch {
+      return; // restore is best-effort; fall back to starting fresh
+    }
+    if (events.length === 0) return;
+    const restored: Record<string, { score: number; scaleId: string }> = {};
+    for (const ev of events) {
+      const questionId = ev.data.questionId as string | undefined;
+      const score = ev.data.score as number | undefined;
+      const scaleId = ev.data.scaleId as string | undefined;
+      if (typeof questionId === 'string' && typeof score === 'number' && typeof scaleId === 'string') {
+        restored[questionId] = { score, scaleId };
+      }
+    }
+    answers = restored;
+  }
 
   /** A timed-task module produced its uniform ScaleResult. Store it as a
    *  pre-computed result (ResultView prefers these over re-scoring), then
@@ -160,6 +218,7 @@
     isSaving = false;
 
     await new Promise(r => setTimeout(r, 520));
+    if (destroyed) return; // component unmounted during feedback delay
     lastAnswerLabel = null;
 
     if (currentIndex < totalQuestions - 1) {

@@ -1,4 +1,4 @@
-import { db, type Assessment, type AssessmentStatus, type Child } from './schema';
+import { db, type Assessment, type AssessmentStatus, type Child, type PartialAnalysis } from './schema';
 import type { CfsLevel } from '../utils/cfs-levels';
 
 // ---- Child DAO ----
@@ -55,6 +55,14 @@ export async function updateAssessmentStatus(id: string, status: AssessmentStatu
 
 export async function updateAssessmentStep(id: string, step: number): Promise<void> {
   await db.assessments.update(id, { currentStep: step, updatedAt: new Date() });
+}
+
+/** 持久化問卷作答進度快照，供 resume 還原（避免重答）。 */
+export async function updateAssessmentPartialAnalysis(
+  id: string,
+  partialAnalysis: PartialAnalysis,
+): Promise<void> {
+  await db.assessments.update(id, { partialAnalysis, updatedAt: new Date() });
 }
 
 export async function setTriageResult(id: string, result: Assessment['triageResult']): Promise<void> {

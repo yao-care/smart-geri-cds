@@ -18,9 +18,56 @@ interface FhirClient {
   request(query: string): Promise<unknown>;
 }
 
+/** Minimal FHIR shapes — only the fields this parser reads. */
+interface FhirCoding {
+  system?: string;
+  code?: string;
+}
+
+interface FhirCodeableConcept {
+  coding?: FhirCoding[];
+}
+
+interface FhirIdentifier {
+  system?: string;
+  value?: string;
+}
+
+interface FhirPeriod {
+  start?: string;
+  end?: string;
+}
+
+interface FhirReference {
+  reference?: string;
+}
+
+/** Observation resource — we only read its CFS code + value. */
+interface FhirObservation {
+  resourceType?: string;
+  code?: FhirCodeableConcept;
+  valueQuantity?: { value?: number };
+}
+
+/** DiagnosticReport resource — the CGA assessment carrier. */
+interface FhirDiagnosticReport {
+  resourceType?: string;
+  id?: string;
+  status?: string;
+  identifier?: FhirIdentifier[];
+  conclusion?: string;
+  conclusionCode?: FhirCodeableConcept[];
+  subject?: FhirReference;
+  effectivePeriod?: FhirPeriod;
+  effectiveDateTime?: string;
+}
+
+/** Any resource we may encounter in a bundle entry. */
+type FhirResource = (FhirObservation | FhirDiagnosticReport) & { resourceType?: string };
+
 /** Lightweight Bundle entry shape we rely on. */
 interface BundleEntry {
-  resource: Record<string, unknown>;
+  resource: FhirResource;
 }
 
 interface Bundle {
@@ -49,12 +96,12 @@ function stripLegacyConclusionPrefix(conclusion: string): string {
  * Read the CFS level from a CFS Observation (local code system) in the bundle.
  * Falls back to cfs1 when no CFS Observation is present (legacy / partial data).
  */
-function readCfsLevel(observations: Record<string, any>[]): CfsLevel {
+function readCfsLevel(observations: FhirObservation[]): CfsLevel {
   for (const obs of observations) {
-    const coding = obs.code?.coding as Array<{ system?: string; code?: string }> | undefined;
+    const coding = obs.code?.coding;
     const isCfs = coding?.some(c => c.system === CODE_SYSTEM && c.code === CFS_CODE);
     if (isCfs) {
-      const value = obs.valueQuantity?.value as number | undefined;
+      const value = obs.valueQuantity?.value;
       if (typeof value === 'number') return cfsFromScore(value);
     }
   }
@@ -67,24 +114,24 @@ function readCfsLevel(observations: Record<string, any>[]): CfsLevel {
  * record is not in IndexedDB.
  */
 export function bundleToAssessment(
-  report: Record<string, any>,
-  observations: Record<string, any>[],
+  report: FhirDiagnosticReport,
+  observations: FhirObservation[],
 ): Assessment {
-  const identifiers = (report.identifier as Array<{ system?: string; value?: string }>) ?? [];
+  const identifiers = report.identifier ?? [];
   const idVal = identifiers.find((i) => i.system === ID_SYSTEM)?.value ?? report.id;
 
-  const conclusionCode = report.conclusionCode?.[0]?.coding?.[0]?.code as string | undefined;
+  const conclusionCode = report.conclusionCode?.[0]?.coding?.[0]?.code;
   const category = snomedToCategory(conclusionCode);
 
-  const period = report.effectivePeriod as { start?: string; end?: string } | undefined;
+  const period = report.effectivePeriod;
   const startedAtStr = period?.start ?? report.effectiveDateTime;
   const startedAt = startedAtStr ? new Date(startedAtStr) : new Date(0);
   const completedAt = period?.end ? new Date(period.end) : undefined;
 
-  const conclusion = (report.conclusion as string | undefined) ?? '';
+  const conclusion = report.conclusion ?? '';
   const summary = stripLegacyConclusionPrefix(conclusion);
 
-  const subjectRef = (report.subject as { reference?: string } | undefined)?.reference ?? '';
+  const subjectRef = report.subject?.reference ?? '';
   const childId = subjectRef.replace(/^Patient\//, '');
 
   const cfsLevel = readCfsLevel(observations);
@@ -129,8 +176,8 @@ export async function fetchAssessmentFromFhir(
   if (!reportEntry) return null;
   const observations = entries
     .filter((e) => e.resource.resourceType === 'Observation')
-    .map((e) => e.resource as Record<string, any>);
-  return bundleToAssessment(reportEntry.resource as Record<string, any>, observations);
+    .map((e) => e.resource as FhirObservation);
+  return bundleToAssessment(reportEntry.resource as FhirDiagnosticReport, observations);
 }
 
 /**
@@ -152,20 +199,20 @@ export async function listAssessmentsFromFhir(
       `&_sort=-date`,
   )) as Bundle;
   return (bundle.entry ?? []).map((e) => {
-    const r = e.resource as Record<string, any>;
-    const identifiers = (r.identifier as Array<{ system?: string; value?: string }>) ?? [];
-    const idVal = identifiers.find((i) => i.system === ID_SYSTEM)?.value ?? (r.id as string);
-    const period = r.effectivePeriod as { start?: string } | undefined;
-    const dateStr = period?.start ?? (r.effectiveDateTime as string | undefined);
-    const conclusionCode = r.conclusionCode?.[0]?.coding?.[0]?.code as string | undefined;
-    const patientRef = (r.subject as { reference?: string } | undefined)?.reference ?? '';
+    const r = e.resource as FhirDiagnosticReport;
+    const identifiers = r.identifier ?? [];
+    const idVal = identifiers.find((i) => i.system === ID_SYSTEM)?.value ?? r.id ?? '';
+    const period = r.effectivePeriod;
+    const dateStr = period?.start ?? r.effectiveDateTime;
+    const conclusionCode = r.conclusionCode?.[0]?.coding?.[0]?.code;
+    const patientRef = r.subject?.reference ?? '';
     return {
       id: idVal,
-      fhirReportId: r.id as string,
+      fhirReportId: r.id ?? '',
       patientRef,
       date: new Date(dateStr ?? 0),
       category: snomedToCategory(conclusionCode),
-      summary: stripLegacyConclusionPrefix((r.conclusion as string) ?? ''),
+      summary: stripLegacyConclusionPrefix(r.conclusion ?? ''),
     };
   });
 }

@@ -1,4 +1,3 @@
-import type { TenantSettings } from '../db/schema';
 import { getTenantSettings, saveTenantSettings } from '../db/tenant-settings';
 import { getTenantId } from '../utils/tenant';
 
