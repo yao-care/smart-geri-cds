@@ -1,144 +1,354 @@
 {
   "cga.domain.functional.falls.anomaly.cfs3": {
-    "primary": ["跌倒預防 長者 衛教", "老人 跌倒 風險評估 預防", "高齡 跌倒 居家安全"],
-    "secondary": ["fall prevention older adults", "elderly fall risk assessment"],
+    "primary": [
+      "跌倒預防 長者 衛教",
+      "老人 跌倒 風險評估 預防",
+      "高齡 跌倒 居家安全"
+    ],
+    "secondary": [
+      "fall prevention older adults",
+      "elderly fall risk assessment"
+    ],
     "educationSlug": "fall-prevention",
     "minDuration": 120,
     "maxDuration": 1800,
     "timeSensitive": false
   },
   "cga.domain.functional.falls.anomaly.cfs5": {
-    "primary": ["跌倒預防 衛教 復健", "長者 平衡訓練 跌倒預防", "跌倒後 復原 照護"],
-    "secondary": ["fall prevention rehabilitation elderly", "balance training older adults"],
+    "primary": [
+      "跌倒預防 衛教 復健",
+      "長者 平衡訓練 跌倒預防",
+      "跌倒後 復原 照護"
+    ],
+    "secondary": [
+      "fall prevention rehabilitation elderly",
+      "balance training older adults"
+    ],
     "educationSlug": "fall-prevention",
     "minDuration": 120,
     "maxDuration": 1800,
     "timeSensitive": false
   },
   "cga.domain.physical.nutrition.anomaly.cfs3": {
-    "primary": ["長者 營養 飲食衛教", "高齡 MNA 營養評估", "老人 營養不良 預防"],
-    "secondary": ["elderly nutrition assessment MNA", "older adults malnutrition prevention"],
+    "primary": [
+      "長者 營養 飲食衛教",
+      "高齡 MNA 營養評估",
+      "老人 營養不良 預防"
+    ],
+    "secondary": [
+      "elderly nutrition assessment MNA",
+      "older adults malnutrition prevention"
+    ],
     "educationSlug": "elderly-nutrition",
     "minDuration": 120,
     "maxDuration": 1800,
     "timeSensitive": false
   },
   "cga.domain.physical.nutrition.anomaly.cfs6": {
-    "primary": ["臥床老人 營養 衛教", "高齡 管灌 營養支持", "長期照護 長者 營養"],
-    "secondary": ["tube feeding elderly nutrition", "long-term care older adults nutrition"],
+    "primary": [
+      "臥床老人 營養 衛教",
+      "高齡 管灌 營養支持",
+      "長期照護 長者 營養"
+    ],
+    "secondary": [
+      "tube feeding elderly nutrition",
+      "long-term care older adults nutrition"
+    ],
     "educationSlug": "elderly-nutrition",
     "minDuration": 120,
     "maxDuration": 1800,
     "timeSensitive": false
   },
   "cga.domain.psychological.cognition.anomaly.cfs3": {
-    "primary": ["失智症 早期症狀 衛教", "認知退化 長者 評估", "老人 記憶力 減退 保健"],
-    "secondary": ["dementia early signs elderly", "cognitive decline assessment older adults"],
+    "primary": [
+      "失智症 早期症狀 衛教",
+      "認知退化 長者 評估",
+      "老人 記憶力 減退 保健"
+    ],
+    "secondary": [
+      "dementia early signs elderly",
+      "cognitive decline assessment older adults"
+    ],
     "educationSlug": "cognitive-enhancement",
     "minDuration": 120,
     "maxDuration": 1800,
     "timeSensitive": false
   },
   "cga.domain.psychological.cognition.anomaly.cfs5": {
-    "primary": ["失智症 照護 家屬 衛教", "認知症 日常照護 技巧", "失智 中重度 照護"],
-    "secondary": ["dementia caregiving strategies", "cognitive impairment moderate care"],
+    "primary": [
+      "失智症 照護 家屬 衛教",
+      "認知症 日常照護 技巧",
+      "失智 中重度 照護"
+    ],
+    "secondary": [
+      "dementia caregiving strategies",
+      "cognitive impairment moderate care"
+    ],
     "educationSlug": "cognitive-enhancement",
     "minDuration": 120,
     "maxDuration": 1800,
     "timeSensitive": false
   },
   "cga.domain.psychological.mood.anomaly.cfs3": {
-    "primary": ["長者 憂鬱 衛教 預防", "高齡 情緒 心理健康", "老人 憂鬱症 識別 就醫"],
-    "secondary": ["depression elderly prevention", "older adults mental health depression"],
+    "primary": [
+      "長者 憂鬱 衛教 預防",
+      "高齡 情緒 心理健康",
+      "老人 憂鬱症 識別 就醫"
+    ],
+    "secondary": [
+      "depression elderly prevention",
+      "older adults mental health depression"
+    ],
     "educationSlug": "depression-support",
     "minDuration": 120,
     "maxDuration": 1800,
     "timeSensitive": false
   },
   "cga.domain.psychological.delirium.anomaly.cfs4": {
-    "primary": ["譫妄 長者 識別 衛教", "老人 急性混亂 譫妄 預防", "住院 高齡 譫妄 照護"],
-    "secondary": ["delirium elderly recognition prevention", "hospital delirium older adults"],
+    "primary": [
+      "譫妄 長者 識別 衛教",
+      "老人 急性混亂 譫妄 預防",
+      "住院 高齡 譫妄 照護"
+    ],
+    "secondary": [
+      "delirium elderly recognition prevention",
+      "hospital delirium older adults"
+    ],
     "educationSlug": "delirium-awareness",
     "minDuration": 120,
     "maxDuration": 1800,
     "timeSensitive": true
   },
   "cga.domain.physical.polypharmacy.anomaly.cfs2": {
-    "primary": ["老人 多重用藥 安全 衛教", "高齡 用藥安全 Beers準則", "長者 藥物 副作用 注意"],
-    "secondary": ["polypharmacy elderly safety", "Beers criteria older adults medication"],
+    "primary": [
+      "老人 多重用藥 安全 衛教",
+      "高齡 用藥安全 Beers準則",
+      "長者 藥物 副作用 注意"
+    ],
+    "secondary": [
+      "polypharmacy elderly safety",
+      "Beers criteria older adults medication"
+    ],
     "educationSlug": "polypharmacy-safety",
     "minDuration": 120,
     "maxDuration": 1800,
     "timeSensitive": false
   },
   "cga.domain.physical.polypharmacy.anomaly.cfs5": {
-    "primary": ["臥床 老人 用藥 安全", "長照 高齡 用藥 管理", "多重慢性病 用藥 衛教"],
-    "secondary": ["elderly bedridden medication safety", "long-term care medication management"],
+    "primary": [
+      "臥床 老人 用藥 安全",
+      "長照 高齡 用藥 管理",
+      "多重慢性病 用藥 衛教"
+    ],
+    "secondary": [
+      "elderly bedridden medication safety",
+      "long-term care medication management"
+    ],
     "educationSlug": "polypharmacy-safety",
     "minDuration": 120,
     "maxDuration": 1800,
     "timeSensitive": false
   },
   "cga.domain.functional.adl.anomaly.cfs4": {
-    "primary": ["日常生活功能 長者 復健 衛教", "ADL 老人 生活自立 訓練", "高齡 日常活動 失能 照護"],
-    "secondary": ["ADL rehabilitation elderly", "activities daily living older adults training"],
+    "primary": [
+      "日常生活功能 長者 復健 衛教",
+      "ADL 老人 生活自立 訓練",
+      "高齡 日常活動 失能 照護"
+    ],
+    "secondary": [
+      "ADL rehabilitation elderly",
+      "activities daily living older adults training"
+    ],
     "educationSlug": "fall-prevention",
     "minDuration": 120,
     "maxDuration": 1800,
     "timeSensitive": false
   },
   "cga.domain.functional.mobility.anomaly.cfs3": {
-    "primary": ["肌少症 長者 運動 衛教", "高齡 肌力訓練 行動力", "老人 步態 平衡 訓練"],
-    "secondary": ["sarcopenia elderly exercise", "gait balance training older adults"],
+    "primary": [
+      "肌少症 長者 運動 衛教",
+      "高齡 肌力訓練 行動力",
+      "老人 步態 平衡 訓練"
+    ],
+    "secondary": [
+      "sarcopenia elderly exercise",
+      "gait balance training older adults"
+    ],
     "educationSlug": "sarcopenia-exercise",
     "minDuration": 120,
     "maxDuration": 1800,
     "timeSensitive": false
   },
   "cga.domain.physical.continence.anomaly.cfs3": {
-    "primary": ["尿失禁 長者 衛教 照護", "老人 膀胱訓練 失禁 改善", "高齡 尿失禁 就醫 處置"],
-    "secondary": ["urinary incontinence elderly care", "bladder training older adults"],
+    "primary": [
+      "尿失禁 長者 衛教 照護",
+      "老人 膀胱訓練 失禁 改善",
+      "高齡 尿失禁 就醫 處置"
+    ],
+    "secondary": [
+      "urinary incontinence elderly care",
+      "bladder training older adults"
+    ],
     "educationSlug": "incontinence-care",
     "minDuration": 120,
     "maxDuration": 1800,
     "timeSensitive": false
   },
   "cga.domain.social.social_support.anomaly.cfs3": {
-    "primary": ["長者 社會孤立 衛教 預防", "高齡 社會參與 健康促進", "老人 孤獨 社交 支持"],
-    "secondary": ["social isolation elderly prevention", "older adults social participation"],
+    "primary": [
+      "長者 社會孤立 衛教 預防",
+      "高齡 社會參與 健康促進",
+      "老人 孤獨 社交 支持"
+    ],
+    "secondary": [
+      "social isolation elderly prevention",
+      "older adults social participation"
+    ],
     "educationSlug": "social-participation",
     "minDuration": 120,
     "maxDuration": 1800,
     "timeSensitive": false
   },
   "cga.domain.social.caregiver.anomaly.cfs4": {
-    "primary": ["照顧者 壓力 支持 衛教", "家屬 長照 喘息 資源", "照顧者 身心 健康 維護"],
-    "secondary": ["caregiver burden support resources", "family caregiver respite care"],
+    "primary": [
+      "照顧者 壓力 支持 衛教",
+      "家屬 長照 喘息 資源",
+      "照顧者 身心 健康 維護"
+    ],
+    "secondary": [
+      "caregiver burden support resources",
+      "family caregiver respite care"
+    ],
     "educationSlug": "caregiver-support",
     "minDuration": 120,
     "maxDuration": 1800,
     "timeSensitive": false
   },
   "cga.domain.environmental.home_safety.anomaly.cfs3": {
-    "primary": ["居家安全 長者 改造 衛教", "高齡 居家跌倒 預防 環境", "老人 居家 無障礙 改善"],
-    "secondary": ["home safety modification elderly", "fall prevention home environment older adults"],
+    "primary": [
+      "居家安全 長者 改造 衛教",
+      "高齡 居家跌倒 預防 環境",
+      "老人 居家 無障礙 改善"
+    ],
+    "secondary": [
+      "home safety modification elderly",
+      "fall prevention home environment older adults"
+    ],
     "educationSlug": "home-safety",
     "minDuration": 120,
     "maxDuration": 1800,
     "timeSensitive": false
   },
   "cga.domain.future_wishes.advance_care_planning.anomaly.cfs5": {
-    "primary": ["預立醫療 ACP 衛教 長者", "預立醫療照護諮商 說明", "善終 自主 醫療決定 長者"],
-    "secondary": ["advance care planning ACP elderly", "end of life planning older adults"],
+    "primary": [
+      "預立醫療 ACP 衛教 長者",
+      "預立醫療照護諮商 說明",
+      "善終 自主 醫療決定 長者"
+    ],
+    "secondary": [
+      "advance care planning ACP elderly",
+      "end of life planning older adults"
+    ],
     "educationSlug": "advance-care-planning",
     "minDuration": 120,
     "maxDuration": 1800,
     "timeSensitive": false
   },
   "cga.domain.physical.sensory.anomaly.cfs2": {
-    "primary": ["長者 視力 聽力 退化 衛教", "高齡 感官障礙 照護 應對", "老人 視聽障礙 輔具 資源"],
-    "secondary": ["sensory impairment elderly vision hearing", "older adults hearing aids glasses"],
+    "primary": [
+      "長者 視力 聽力 退化 衛教",
+      "高齡 感官障礙 照護 應對",
+      "老人 視聽障礙 輔具 資源"
+    ],
+    "secondary": [
+      "sensory impairment elderly vision hearing",
+      "older adults hearing aids glasses"
+    ],
     "educationSlug": "sensory-impairment",
+    "minDuration": 120,
+    "maxDuration": 1800,
+    "timeSensitive": false
+  },
+  "cga.domain.physical.comorbidity.anomaly.cfs3": {
+    "primary": [
+      "多重慢性病 長者 衛教",
+      "高齡 共病 自我管理",
+      "老年 慢性病 整合照護"
+    ],
+    "secondary": [
+      "multimorbidity older adults management",
+      "chronic disease self management elderly"
+    ],
+    "minDuration": 120,
+    "maxDuration": 1800,
+    "timeSensitive": false
+  },
+  "cga.domain.physical.pain.anomaly.cfs4": {
+    "primary": [
+      "老年 慢性疼痛 衛教",
+      "長者 疼痛 評估 處理",
+      "高齡 疼痛管理 非藥物"
+    ],
+    "secondary": [
+      "chronic pain management older adults",
+      "geriatric pain assessment"
+    ],
+    "minDuration": 120,
+    "maxDuration": 1800,
+    "timeSensitive": false
+  },
+  "cga.domain.functional.iadl.anomaly.cfs4": {
+    "primary": [
+      "長者 獨立生活能力 衛教",
+      "高齡 工具性日常活動 維持",
+      "老人 居家自我照顧 能力"
+    ],
+    "secondary": [
+      "instrumental activities daily living elderly",
+      "IADL older adults independence"
+    ],
+    "minDuration": 120,
+    "maxDuration": 1800,
+    "timeSensitive": false
+  },
+  "cga.domain.social.financial.anomaly.cfs3": {
+    "primary": [
+      "長者 經濟安全 社會福利",
+      "高齡 財務詐騙 預防",
+      "老人 福利補助 申請"
+    ],
+    "secondary": [
+      "financial security older adults",
+      "elder financial abuse prevention"
+    ],
+    "minDuration": 120,
+    "maxDuration": 1800,
+    "timeSensitive": false
+  },
+  "cga.domain.environmental.accessibility.anomaly.cfs4": {
+    "primary": [
+      "長者 就醫 交通協助",
+      "高齡 無障礙 居家環境",
+      "老人 醫療可近性 社區資源"
+    ],
+    "secondary": [
+      "accessibility older adults healthcare",
+      "age friendly environment mobility"
+    ],
+    "minDuration": 120,
+    "maxDuration": 1800,
+    "timeSensitive": false
+  },
+  "cga.domain.future_wishes.treatment_preferences.anomaly.cfs5": {
+    "primary": [
+      "病人自主權利法 長者",
+      "預立醫療決定 治療意願",
+      "末期 醫療 安寧 意願"
+    ],
+    "secondary": [
+      "treatment preferences advance directive",
+      "patient autonomy end of life"
+    ],
     "minDuration": 120,
     "maxDuration": 1800,
     "timeSensitive": false
