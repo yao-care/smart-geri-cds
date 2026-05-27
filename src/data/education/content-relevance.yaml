@@ -38,660 +38,792 @@ triggers:
     articles:
       - slug: comorbidity-management
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.physical.comorbidity.anomaly.cfs3
     videoIds: []
     articles:
       - slug: comorbidity-management
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.physical.comorbidity.anomaly.cfs4
     videoIds: []
     articles:
       - slug: comorbidity-management
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.physical.comorbidity.anomaly.cfs5
     videoIds: []
     articles:
       - slug: comorbidity-management
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.physical.comorbidity.anomaly.cfs6
     videoIds: []
     articles:
       - slug: comorbidity-management
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.physical.comorbidity.anomaly.cfs7
     videoIds: []
     articles:
       - slug: comorbidity-management
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.physical.comorbidity.anomaly.cfs8
     videoIds: []
     articles:
       - slug: comorbidity-management
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.physical.comorbidity.anomaly.cfs9
     videoIds: []
     articles:
       - slug: comorbidity-management
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.physical.polypharmacy.anomaly.cfs2
     videoIds: []
     articles:
       - slug: medication-safety
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.physical.polypharmacy.anomaly.cfs3
     videoIds: []
     articles:
       - slug: medication-safety
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.physical.polypharmacy.anomaly.cfs4
     videoIds: []
     articles:
       - slug: medication-safety
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.physical.polypharmacy.anomaly.cfs5
     videoIds: []
     articles:
       - slug: medication-safety
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.physical.polypharmacy.anomaly.cfs6
     videoIds: []
     articles:
       - slug: medication-safety
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.physical.polypharmacy.anomaly.cfs7
     videoIds: []
     articles:
       - slug: medication-safety
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.physical.polypharmacy.anomaly.cfs8
     videoIds: []
     articles:
       - slug: medication-safety
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.physical.polypharmacy.anomaly.cfs9
     videoIds: []
     articles:
       - slug: medication-safety
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.physical.nutrition.anomaly.cfs1
     videoIds: []
     articles:
       - slug: geriatric-nutrition
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.physical.nutrition.anomaly.cfs2
     videoIds: []
     articles:
       - slug: geriatric-nutrition
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.physical.nutrition.anomaly.cfs3
     videoIds: []
     articles:
       - slug: geriatric-nutrition
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.physical.nutrition.anomaly.cfs4
     videoIds: []
     articles:
       - slug: geriatric-nutrition
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.physical.nutrition.anomaly.cfs5
     videoIds: []
     articles:
       - slug: geriatric-nutrition
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.physical.nutrition.anomaly.cfs6
     videoIds: []
     articles:
       - slug: geriatric-nutrition
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.physical.nutrition.anomaly.cfs7
     videoIds: []
     articles:
       - slug: geriatric-nutrition
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.physical.nutrition.anomaly.cfs8
     videoIds: []
     articles:
       - slug: geriatric-nutrition
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.physical.nutrition.anomaly.cfs9
     videoIds: []
     articles:
       - slug: geriatric-nutrition
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.physical.continence.anomaly.cfs3
     videoIds: []
     articles:
       - slug: incontinence-care
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.physical.continence.anomaly.cfs4
     videoIds: []
     articles:
       - slug: incontinence-care
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.physical.continence.anomaly.cfs5
     videoIds: []
     articles:
       - slug: incontinence-care
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.physical.continence.anomaly.cfs6
     videoIds: []
     articles:
       - slug: incontinence-care
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.physical.continence.anomaly.cfs7
     videoIds: []
     articles:
       - slug: incontinence-care
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.physical.continence.anomaly.cfs8
     videoIds: []
     articles:
       - slug: incontinence-care
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.physical.continence.anomaly.cfs9
     videoIds: []
     articles:
       - slug: incontinence-care
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.physical.sensory.anomaly.cfs1
     videoIds: []
     articles:
       - slug: sensory-impairment
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.physical.sensory.anomaly.cfs2
     videoIds: []
     articles:
       - slug: sensory-impairment
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.physical.sensory.anomaly.cfs3
     videoIds: []
     articles:
       - slug: sensory-impairment
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.physical.sensory.anomaly.cfs4
     videoIds: []
     articles:
       - slug: sensory-impairment
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.physical.sensory.anomaly.cfs5
     videoIds: []
     articles:
       - slug: sensory-impairment
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.physical.sensory.anomaly.cfs6
     videoIds: []
     articles:
       - slug: sensory-impairment
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.physical.sensory.anomaly.cfs7
     videoIds: []
     articles:
       - slug: sensory-impairment
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.physical.sensory.anomaly.cfs8
     videoIds: []
     articles:
       - slug: sensory-impairment
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.physical.sensory.anomaly.cfs9
     videoIds: []
     articles:
       - slug: sensory-impairment
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.psychological.cognition.anomaly.cfs1
     videoIds: []
     articles:
       - slug: cognitive-training
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.psychological.cognition.anomaly.cfs2
     videoIds: []
     articles:
       - slug: cognitive-training
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.psychological.cognition.anomaly.cfs3
     videoIds: []
     articles:
       - slug: cognitive-training
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.psychological.cognition.anomaly.cfs4
     videoIds: []
     articles:
       - slug: cognitive-training
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.psychological.cognition.anomaly.cfs5
     videoIds: []
     articles:
       - slug: cognitive-training
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.psychological.cognition.anomaly.cfs6
     videoIds: []
     articles:
       - slug: cognitive-training
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.psychological.cognition.anomaly.cfs7
     videoIds: []
     articles:
       - slug: cognitive-training
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.psychological.cognition.anomaly.cfs8
     videoIds: []
     articles:
       - slug: cognitive-training
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.psychological.mood.anomaly.cfs1
     videoIds: []
     articles:
       - slug: depression-support
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.psychological.mood.anomaly.cfs2
     videoIds: []
     articles:
       - slug: depression-support
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.psychological.mood.anomaly.cfs3
     videoIds: []
     articles:
       - slug: depression-support
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.psychological.mood.anomaly.cfs4
     videoIds: []
     articles:
       - slug: depression-support
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.psychological.mood.anomaly.cfs5
     videoIds: []
     articles:
       - slug: depression-support
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.psychological.mood.anomaly.cfs6
     videoIds: []
     articles:
       - slug: depression-support
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.psychological.mood.anomaly.cfs7
     videoIds: []
     articles:
       - slug: depression-support
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.psychological.delirium.anomaly.cfs4
     videoIds: []
     articles:
       - slug: delirium-awareness
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.psychological.delirium.anomaly.cfs5
     videoIds: []
     articles:
       - slug: delirium-awareness
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.psychological.delirium.anomaly.cfs6
     videoIds: []
     articles:
       - slug: delirium-awareness
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.psychological.delirium.anomaly.cfs7
     videoIds: []
     articles:
       - slug: delirium-awareness
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.psychological.delirium.anomaly.cfs8
     videoIds: []
     articles:
       - slug: delirium-awareness
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.psychological.delirium.anomaly.cfs9
     videoIds: []
     articles:
       - slug: delirium-awareness
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.functional.adl.anomaly.cfs3
     videoIds: []
     articles:
       - slug: adl-maintenance
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.functional.adl.anomaly.cfs4
     videoIds: []
     articles:
       - slug: adl-maintenance
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.functional.adl.anomaly.cfs5
     videoIds: []
     articles:
       - slug: adl-maintenance
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.functional.adl.anomaly.cfs6
     videoIds: []
     articles:
       - slug: adl-maintenance
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.functional.adl.anomaly.cfs7
     videoIds: []
     articles:
       - slug: adl-maintenance
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.functional.adl.anomaly.cfs8
     videoIds: []
     articles:
       - slug: adl-maintenance
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.functional.adl.anomaly.cfs9
     videoIds: []
     articles:
       - slug: adl-maintenance
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.functional.iadl.anomaly.cfs3
     videoIds: []
     articles:
       - slug: adl-maintenance
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.functional.iadl.anomaly.cfs4
     videoIds: []
     articles:
       - slug: adl-maintenance
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.functional.iadl.anomaly.cfs5
     videoIds: []
     articles:
       - slug: adl-maintenance
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.functional.iadl.anomaly.cfs6
     videoIds: []
     articles:
       - slug: adl-maintenance
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.functional.iadl.anomaly.cfs7
     videoIds: []
     articles:
       - slug: adl-maintenance
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.functional.iadl.anomaly.cfs8
     videoIds: []
     articles:
       - slug: adl-maintenance
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.functional.iadl.anomaly.cfs9
     videoIds: []
     articles:
       - slug: adl-maintenance
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.functional.mobility.anomaly.cfs2
     videoIds: []
     articles:
       - slug: sarcopenia-exercise
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.functional.mobility.anomaly.cfs3
     videoIds: []
     articles:
       - slug: sarcopenia-exercise
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.functional.mobility.anomaly.cfs4
     videoIds: []
     articles:
       - slug: sarcopenia-exercise
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.functional.mobility.anomaly.cfs5
     videoIds: []
     articles:
       - slug: sarcopenia-exercise
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.functional.mobility.anomaly.cfs6
     videoIds: []
     articles:
       - slug: sarcopenia-exercise
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.functional.mobility.anomaly.cfs7
     videoIds: []
     articles:
       - slug: sarcopenia-exercise
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.functional.falls.anomaly.cfs2
     videoIds: []
     articles:
       - slug: fall-prevention
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.functional.falls.anomaly.cfs3
     videoIds: []
     articles:
       - slug: fall-prevention
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.functional.falls.anomaly.cfs4
     videoIds: []
     articles:
       - slug: fall-prevention
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.functional.falls.anomaly.cfs5
     videoIds: []
     articles:
       - slug: fall-prevention
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.functional.falls.anomaly.cfs6
     videoIds: []
     articles:
       - slug: fall-prevention
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.functional.falls.anomaly.cfs7
     videoIds: []
     articles:
       - slug: fall-prevention
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.functional.falls.anomaly.cfs8
     videoIds: []
     articles:
       - slug: fall-prevention
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.social.social_support.anomaly.cfs2
     videoIds: []
     articles:
       - slug: social-connection
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.social.social_support.anomaly.cfs3
     videoIds: []
     articles:
       - slug: social-connection
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.social.social_support.anomaly.cfs4
     videoIds: []
     articles:
       - slug: social-connection
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.social.social_support.anomaly.cfs5
     videoIds: []
     articles:
       - slug: social-connection
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.social.social_support.anomaly.cfs6
     videoIds: []
     articles:
       - slug: social-connection
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.social.social_support.anomaly.cfs7
     videoIds: []
     articles:
       - slug: social-connection
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.social.social_support.anomaly.cfs8
     videoIds: []
     articles:
       - slug: social-connection
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.social.social_support.anomaly.cfs9
     videoIds: []
     articles:
       - slug: social-connection
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.social.caregiver.anomaly.cfs4
     videoIds: []
     articles:
       - slug: caregiver-support
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.social.caregiver.anomaly.cfs5
     videoIds: []
     articles:
       - slug: caregiver-support
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.social.caregiver.anomaly.cfs6
     videoIds: []
     articles:
       - slug: caregiver-support
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.social.caregiver.anomaly.cfs7
     videoIds: []
     articles:
       - slug: caregiver-support
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.social.caregiver.anomaly.cfs8
     videoIds: []
     articles:
       - slug: caregiver-support
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.social.caregiver.anomaly.cfs9
     videoIds: []
     articles:
       - slug: caregiver-support
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.social.financial.anomaly.cfs3
     videoIds: []
     articles:
       - slug: ltc-resources
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.social.financial.anomaly.cfs4
     videoIds: []
     articles:
       - slug: ltc-resources
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.social.financial.anomaly.cfs5
     videoIds: []
     articles:
       - slug: ltc-resources
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.social.financial.anomaly.cfs6
     videoIds: []
     articles:
       - slug: ltc-resources
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.social.financial.anomaly.cfs7
     videoIds: []
     articles:
       - slug: ltc-resources
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.social.financial.anomaly.cfs8
     videoIds: []
     articles:
       - slug: ltc-resources
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.social.financial.anomaly.cfs9
     videoIds: []
     articles:
       - slug: ltc-resources
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.environmental.home_safety.anomaly.cfs3
     videoIds: []
     articles:
       - slug: home-safety
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.environmental.home_safety.anomaly.cfs4
     videoIds: []
     articles:
       - slug: home-safety
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.environmental.home_safety.anomaly.cfs5
     videoIds: []
     articles:
       - slug: home-safety
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.environmental.home_safety.anomaly.cfs6
     videoIds: []
     articles:
       - slug: home-safety
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.environmental.home_safety.anomaly.cfs7
     videoIds: []
     articles:
       - slug: home-safety
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.environmental.home_safety.anomaly.cfs8
     videoIds: []
     articles:
       - slug: home-safety
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.environmental.accessibility.anomaly.cfs4
     videoIds: []
     articles:
       - slug: home-safety
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.environmental.accessibility.anomaly.cfs5
     videoIds: []
     articles:
       - slug: home-safety
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.environmental.accessibility.anomaly.cfs6
     videoIds: []
     articles:
       - slug: home-safety
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.environmental.accessibility.anomaly.cfs7
     videoIds: []
     articles:
       - slug: home-safety
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.environmental.accessibility.anomaly.cfs8
     videoIds: []
     articles:
       - slug: home-safety
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.environmental.accessibility.anomaly.cfs9
     videoIds: []
     articles:
       - slug: home-safety
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.future_wishes.advance_care_planning.anomaly.cfs5
     videoIds: []
     articles:
       - slug: advance-care-planning
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.future_wishes.advance_care_planning.anomaly.cfs6
     videoIds: []
     articles:
       - slug: advance-care-planning
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.future_wishes.advance_care_planning.anomaly.cfs7
     videoIds: []
     articles:
       - slug: advance-care-planning
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.future_wishes.advance_care_planning.anomaly.cfs8
     videoIds: []
     articles:
       - slug: advance-care-planning
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.future_wishes.advance_care_planning.anomaly.cfs9
     videoIds: []
     articles:
       - slug: advance-care-planning
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.future_wishes.treatment_preferences.anomaly.cfs5
     videoIds: []
     articles:
       - slug: treatment-preferences
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.future_wishes.treatment_preferences.anomaly.cfs6
     videoIds: []
     articles:
       - slug: treatment-preferences
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.future_wishes.treatment_preferences.anomaly.cfs7
     videoIds: []
     articles:
       - slug: treatment-preferences
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.future_wishes.treatment_preferences.anomaly.cfs8
     videoIds: []
     articles:
       - slug: treatment-preferences
         severities: [monitor, refer]
+        browse: true
   - trigger: cga.domain.future_wishes.treatment_preferences.anomaly.cfs9
     videoIds: []
     articles:
       - slug: treatment-preferences
         severities: [monitor, refer]
+        browse: true
 
 clinicalAlertEducation: {}

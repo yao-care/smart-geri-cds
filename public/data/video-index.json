@@ -2149,26 +2149,32 @@
       "videoIds": []
     },
     "cga.domain.environmental.accessibility.anomaly.cfs4": {
+      "educationSlug": "home-safety",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.environmental.accessibility.anomaly.cfs5": {
+      "educationSlug": "home-safety",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.environmental.accessibility.anomaly.cfs6": {
+      "educationSlug": "home-safety",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.environmental.accessibility.anomaly.cfs7": {
+      "educationSlug": "home-safety",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.environmental.accessibility.anomaly.cfs8": {
+      "educationSlug": "home-safety",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.environmental.accessibility.anomaly.cfs9": {
+      "educationSlug": "home-safety",
       "inapplicable": false,
       "videoIds": []
     },
@@ -2181,26 +2187,32 @@
       "videoIds": []
     },
     "cga.domain.environmental.home_safety.anomaly.cfs3": {
+      "educationSlug": "home-safety",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.environmental.home_safety.anomaly.cfs4": {
+      "educationSlug": "home-safety",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.environmental.home_safety.anomaly.cfs5": {
+      "educationSlug": "home-safety",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.environmental.home_safety.anomaly.cfs6": {
+      "educationSlug": "home-safety",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.environmental.home_safety.anomaly.cfs7": {
+      "educationSlug": "home-safety",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.environmental.home_safety.anomaly.cfs8": {
+      "educationSlug": "home-safety",
       "inapplicable": false,
       "videoIds": []
     },
@@ -2217,30 +2229,37 @@
       "videoIds": []
     },
     "cga.domain.functional.adl.anomaly.cfs3": {
+      "educationSlug": "adl-maintenance",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.functional.adl.anomaly.cfs4": {
+      "educationSlug": "adl-maintenance",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.functional.adl.anomaly.cfs5": {
+      "educationSlug": "adl-maintenance",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.functional.adl.anomaly.cfs6": {
+      "educationSlug": "adl-maintenance",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.functional.adl.anomaly.cfs7": {
+      "educationSlug": "adl-maintenance",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.functional.adl.anomaly.cfs8": {
+      "educationSlug": "adl-maintenance",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.functional.adl.anomaly.cfs9": {
+      "educationSlug": "adl-maintenance",
       "inapplicable": false,
       "videoIds": []
     },
@@ -2249,30 +2268,37 @@
       "videoIds": []
     },
     "cga.domain.functional.falls.anomaly.cfs2": {
+      "educationSlug": "fall-prevention",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.functional.falls.anomaly.cfs3": {
+      "educationSlug": "fall-prevention",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.functional.falls.anomaly.cfs4": {
+      "educationSlug": "fall-prevention",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.functional.falls.anomaly.cfs5": {
+      "educationSlug": "fall-prevention",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.functional.falls.anomaly.cfs6": {
+      "educationSlug": "fall-prevention",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.functional.falls.anomaly.cfs7": {
+      "educationSlug": "fall-prevention",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.functional.falls.anomaly.cfs8": {
+      "educationSlug": "fall-prevention",
       "inapplicable": false,
       "videoIds": []
     },
@@ -2289,30 +2315,37 @@
       "videoIds": []
     },
     "cga.domain.functional.iadl.anomaly.cfs3": {
+      "educationSlug": "adl-maintenance",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.functional.iadl.anomaly.cfs4": {
+      "educationSlug": "adl-maintenance",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.functional.iadl.anomaly.cfs5": {
+      "educationSlug": "adl-maintenance",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.functional.iadl.anomaly.cfs6": {
+      "educationSlug": "adl-maintenance",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.functional.iadl.anomaly.cfs7": {
+      "educationSlug": "adl-maintenance",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.functional.iadl.anomaly.cfs8": {
+      "educationSlug": "adl-maintenance",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.functional.iadl.anomaly.cfs9": {
+      "educationSlug": "adl-maintenance",
       "inapplicable": false,
       "videoIds": []
     },
@@ -2321,26 +2354,32 @@
       "videoIds": []
     },
     "cga.domain.functional.mobility.anomaly.cfs2": {
+      "educationSlug": "sarcopenia-exercise",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.functional.mobility.anomaly.cfs3": {
+      "educationSlug": "sarcopenia-exercise",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.functional.mobility.anomaly.cfs4": {
+      "educationSlug": "sarcopenia-exercise",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.functional.mobility.anomaly.cfs5": {
+      "educationSlug": "sarcopenia-exercise",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.functional.mobility.anomaly.cfs6": {
+      "educationSlug": "sarcopenia-exercise",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.functional.mobility.anomaly.cfs7": {
+      "educationSlug": "sarcopenia-exercise",
       "inapplicable": false,
       "videoIds": []
     },
@@ -2369,22 +2408,27 @@
       "videoIds": []
     },
     "cga.domain.future_wishes.advance_care_planning.anomaly.cfs5": {
+      "educationSlug": "advance-care-planning",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.future_wishes.advance_care_planning.anomaly.cfs6": {
+      "educationSlug": "advance-care-planning",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.future_wishes.advance_care_planning.anomaly.cfs7": {
+      "educationSlug": "advance-care-planning",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.future_wishes.advance_care_planning.anomaly.cfs8": {
+      "educationSlug": "advance-care-planning",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.future_wishes.advance_care_planning.anomaly.cfs9": {
+      "educationSlug": "advance-care-planning",
       "inapplicable": false,
       "videoIds": []
     },
@@ -2405,22 +2449,27 @@
       "videoIds": []
     },
     "cga.domain.future_wishes.treatment_preferences.anomaly.cfs5": {
+      "educationSlug": "treatment-preferences",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.future_wishes.treatment_preferences.anomaly.cfs6": {
+      "educationSlug": "treatment-preferences",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.future_wishes.treatment_preferences.anomaly.cfs7": {
+      "educationSlug": "treatment-preferences",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.future_wishes.treatment_preferences.anomaly.cfs8": {
+      "educationSlug": "treatment-preferences",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.future_wishes.treatment_preferences.anomaly.cfs9": {
+      "educationSlug": "treatment-preferences",
       "inapplicable": false,
       "videoIds": []
     },
@@ -2429,34 +2478,42 @@
       "videoIds": []
     },
     "cga.domain.physical.comorbidity.anomaly.cfs2": {
+      "educationSlug": "comorbidity-management",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.physical.comorbidity.anomaly.cfs3": {
+      "educationSlug": "comorbidity-management",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.physical.comorbidity.anomaly.cfs4": {
+      "educationSlug": "comorbidity-management",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.physical.comorbidity.anomaly.cfs5": {
+      "educationSlug": "comorbidity-management",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.physical.comorbidity.anomaly.cfs6": {
+      "educationSlug": "comorbidity-management",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.physical.comorbidity.anomaly.cfs7": {
+      "educationSlug": "comorbidity-management",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.physical.comorbidity.anomaly.cfs8": {
+      "educationSlug": "comorbidity-management",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.physical.comorbidity.anomaly.cfs9": {
+      "educationSlug": "comorbidity-management",
       "inapplicable": false,
       "videoIds": []
     },
@@ -2469,66 +2526,82 @@
       "videoIds": []
     },
     "cga.domain.physical.continence.anomaly.cfs3": {
+      "educationSlug": "incontinence-care",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.physical.continence.anomaly.cfs4": {
+      "educationSlug": "incontinence-care",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.physical.continence.anomaly.cfs5": {
+      "educationSlug": "incontinence-care",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.physical.continence.anomaly.cfs6": {
+      "educationSlug": "incontinence-care",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.physical.continence.anomaly.cfs7": {
+      "educationSlug": "incontinence-care",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.physical.continence.anomaly.cfs8": {
+      "educationSlug": "incontinence-care",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.physical.continence.anomaly.cfs9": {
+      "educationSlug": "incontinence-care",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.physical.nutrition.anomaly.cfs1": {
+      "educationSlug": "geriatric-nutrition",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.physical.nutrition.anomaly.cfs2": {
+      "educationSlug": "geriatric-nutrition",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.physical.nutrition.anomaly.cfs3": {
+      "educationSlug": "geriatric-nutrition",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.physical.nutrition.anomaly.cfs4": {
+      "educationSlug": "geriatric-nutrition",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.physical.nutrition.anomaly.cfs5": {
+      "educationSlug": "geriatric-nutrition",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.physical.nutrition.anomaly.cfs6": {
+      "educationSlug": "geriatric-nutrition",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.physical.nutrition.anomaly.cfs7": {
+      "educationSlug": "geriatric-nutrition",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.physical.nutrition.anomaly.cfs8": {
+      "educationSlug": "geriatric-nutrition",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.physical.nutrition.anomaly.cfs9": {
+      "educationSlug": "geriatric-nutrition",
       "inapplicable": false,
       "videoIds": []
     },
@@ -2537,102 +2610,127 @@
       "videoIds": []
     },
     "cga.domain.physical.polypharmacy.anomaly.cfs2": {
+      "educationSlug": "medication-safety",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.physical.polypharmacy.anomaly.cfs3": {
+      "educationSlug": "medication-safety",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.physical.polypharmacy.anomaly.cfs4": {
+      "educationSlug": "medication-safety",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.physical.polypharmacy.anomaly.cfs5": {
+      "educationSlug": "medication-safety",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.physical.polypharmacy.anomaly.cfs6": {
+      "educationSlug": "medication-safety",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.physical.polypharmacy.anomaly.cfs7": {
+      "educationSlug": "medication-safety",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.physical.polypharmacy.anomaly.cfs8": {
+      "educationSlug": "medication-safety",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.physical.polypharmacy.anomaly.cfs9": {
+      "educationSlug": "medication-safety",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.physical.sensory.anomaly.cfs1": {
+      "educationSlug": "sensory-impairment",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.physical.sensory.anomaly.cfs2": {
+      "educationSlug": "sensory-impairment",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.physical.sensory.anomaly.cfs3": {
+      "educationSlug": "sensory-impairment",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.physical.sensory.anomaly.cfs4": {
+      "educationSlug": "sensory-impairment",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.physical.sensory.anomaly.cfs5": {
+      "educationSlug": "sensory-impairment",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.physical.sensory.anomaly.cfs6": {
+      "educationSlug": "sensory-impairment",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.physical.sensory.anomaly.cfs7": {
+      "educationSlug": "sensory-impairment",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.physical.sensory.anomaly.cfs8": {
+      "educationSlug": "sensory-impairment",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.physical.sensory.anomaly.cfs9": {
+      "educationSlug": "sensory-impairment",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.psychological.cognition.anomaly.cfs1": {
+      "educationSlug": "cognitive-training",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.psychological.cognition.anomaly.cfs2": {
+      "educationSlug": "cognitive-training",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.psychological.cognition.anomaly.cfs3": {
+      "educationSlug": "cognitive-training",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.psychological.cognition.anomaly.cfs4": {
+      "educationSlug": "cognitive-training",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.psychological.cognition.anomaly.cfs5": {
+      "educationSlug": "cognitive-training",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.psychological.cognition.anomaly.cfs6": {
+      "educationSlug": "cognitive-training",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.psychological.cognition.anomaly.cfs7": {
+      "educationSlug": "cognitive-training",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.psychological.cognition.anomaly.cfs8": {
+      "educationSlug": "cognitive-training",
       "inapplicable": false,
       "videoIds": []
     },
@@ -2653,54 +2751,67 @@
       "videoIds": []
     },
     "cga.domain.psychological.delirium.anomaly.cfs4": {
+      "educationSlug": "delirium-awareness",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.psychological.delirium.anomaly.cfs5": {
+      "educationSlug": "delirium-awareness",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.psychological.delirium.anomaly.cfs6": {
+      "educationSlug": "delirium-awareness",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.psychological.delirium.anomaly.cfs7": {
+      "educationSlug": "delirium-awareness",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.psychological.delirium.anomaly.cfs8": {
+      "educationSlug": "delirium-awareness",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.psychological.delirium.anomaly.cfs9": {
+      "educationSlug": "delirium-awareness",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.psychological.mood.anomaly.cfs1": {
+      "educationSlug": "depression-support",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.psychological.mood.anomaly.cfs2": {
+      "educationSlug": "depression-support",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.psychological.mood.anomaly.cfs3": {
+      "educationSlug": "depression-support",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.psychological.mood.anomaly.cfs4": {
+      "educationSlug": "depression-support",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.psychological.mood.anomaly.cfs5": {
+      "educationSlug": "depression-support",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.psychological.mood.anomaly.cfs6": {
+      "educationSlug": "depression-support",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.psychological.mood.anomaly.cfs7": {
+      "educationSlug": "depression-support",
       "inapplicable": false,
       "videoIds": []
     },
@@ -2725,26 +2836,32 @@
       "videoIds": []
     },
     "cga.domain.social.caregiver.anomaly.cfs4": {
+      "educationSlug": "caregiver-support",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.social.caregiver.anomaly.cfs5": {
+      "educationSlug": "caregiver-support",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.social.caregiver.anomaly.cfs6": {
+      "educationSlug": "caregiver-support",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.social.caregiver.anomaly.cfs7": {
+      "educationSlug": "caregiver-support",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.social.caregiver.anomaly.cfs8": {
+      "educationSlug": "caregiver-support",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.social.caregiver.anomaly.cfs9": {
+      "educationSlug": "caregiver-support",
       "inapplicable": false,
       "videoIds": []
     },
@@ -2757,30 +2874,37 @@
       "videoIds": []
     },
     "cga.domain.social.financial.anomaly.cfs3": {
+      "educationSlug": "ltc-resources",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.social.financial.anomaly.cfs4": {
+      "educationSlug": "ltc-resources",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.social.financial.anomaly.cfs5": {
+      "educationSlug": "ltc-resources",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.social.financial.anomaly.cfs6": {
+      "educationSlug": "ltc-resources",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.social.financial.anomaly.cfs7": {
+      "educationSlug": "ltc-resources",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.social.financial.anomaly.cfs8": {
+      "educationSlug": "ltc-resources",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.social.financial.anomaly.cfs9": {
+      "educationSlug": "ltc-resources",
       "inapplicable": false,
       "videoIds": []
     },
@@ -2789,34 +2913,42 @@
       "videoIds": []
     },
     "cga.domain.social.social_support.anomaly.cfs2": {
+      "educationSlug": "social-connection",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.social.social_support.anomaly.cfs3": {
+      "educationSlug": "social-connection",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.social.social_support.anomaly.cfs4": {
+      "educationSlug": "social-connection",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.social.social_support.anomaly.cfs5": {
+      "educationSlug": "social-connection",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.social.social_support.anomaly.cfs6": {
+      "educationSlug": "social-connection",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.social.social_support.anomaly.cfs7": {
+      "educationSlug": "social-connection",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.social.social_support.anomaly.cfs8": {
+      "educationSlug": "social-connection",
       "inapplicable": false,
       "videoIds": []
     },
     "cga.domain.social.social_support.anomaly.cfs9": {
+      "educationSlug": "social-connection",
       "inapplicable": false,
       "videoIds": []
     }
