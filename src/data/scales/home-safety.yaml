@@ -15,42 +15,42 @@ maxScore: 6
 items:
   - id: hs_clutter
     text: 走道或地板上是否常有電線、雜物或障礙物？
-    mode: ask-informant
+    mode: ask-either
     prompt: 請向受測者或家屬詢問（或由居家訪視觀察）此項居家跌倒危害。
     options:
       - { label: 否, score: 0 }
       - { label: 是, score: 1 }
   - id: hs_lighting
     text: 室內或走道照明是否不足或有陰暗死角？
-    mode: ask-informant
+    mode: ask-either
     prompt: 請向受測者或家屬詢問（或由居家訪視觀察）此項居家跌倒危害。
     options:
       - { label: 否（照明充足）, score: 0 }
       - { label: 是（照明不足）, score: 1 }
   - id: hs_grabbar
     text: 浴廁或樓梯是否缺少可供扶持的扶手？
-    mode: ask-informant
+    mode: ask-either
     prompt: 請向受測者或家屬詢問（或由居家訪視觀察）此項居家跌倒危害。
     options:
       - { label: 否（有扶手）, score: 0 }
       - { label: 是（缺扶手）, score: 1 }
   - id: hs_rug
     text: 家中是否有未固定、易滑動或捲邊的地毯或踏墊？
-    mode: ask-informant
+    mode: ask-either
     prompt: 請向受測者或家屬詢問（或由居家訪視觀察）此項居家跌倒危害。
     options:
       - { label: 否, score: 0 }
       - { label: 是, score: 1 }
   - id: hs_bathroom
     text: 浴室或廁所地面是否濕滑、缺少防滑墊？
-    mode: ask-informant
+    mode: ask-either
     prompt: 請向受測者或家屬詢問（或由居家訪視觀察）此項居家跌倒危害。
     options:
       - { label: 否（已防滑）, score: 0 }
       - { label: 是（濕滑）, score: 1 }
   - id: hs_nightlight
     text: 夜間從臥室到廁所的路線是否缺乏照明？
-    mode: ask-informant
+    mode: ask-either
     prompt: 請向受測者或家屬詢問（或由居家訪視觀察）此項居家跌倒危害。
     options:
       - { label: 否（有夜燈）, score: 0 }

@@ -6,7 +6,7 @@
 #
 # 角色（2026-05 起）：adl 領域之 Tier-2 深評（tier: full），由 adl 短篩亮燈後展開。
 # C-S4 per-item mode：移位/行走/上下樓 → observe（操作者直接觀察較可靠）；
-#   其餘自我照顧項可向受測者或家屬詢問（ask-patient/ask-informant）。
+#   其餘自我照顧項可向受測者或家屬詢問（mode ask-either）。
 #   ADL 可由他人代評/觀察，故不設 requiresPatient（非認知/情緒測驗）。
 id: barthel
 domain:
@@ -20,7 +20,7 @@ maxScore: 100
 items:
   - id: bi_feeding
     text: 進食
-    mode: ask-informant
+    mode: ask-either
     prompt: 請向受測者或家屬詢問（或觀察）進食的協助需求。
     options:
       - { label: 無法自行進食, score: 0 }
@@ -28,21 +28,21 @@ items:
       - { label: 可自行進食, score: 10 }
   - id: bi_bathing
     text: 洗澡
-    mode: ask-informant
+    mode: ask-either
     prompt: 請向受測者或家屬詢問洗澡的協助需求。
     options:
       - { label: 需協助, score: 0 }
       - { label: 可獨立完成, score: 5 }
   - id: bi_grooming
     text: 個人衛生（洗臉、刷牙、刮鬍、梳頭）
-    mode: ask-informant
+    mode: ask-either
     prompt: 請向受測者或家屬詢問個人衛生的協助需求。
     options:
       - { label: 需協助, score: 0 }
       - { label: 可獨立完成, score: 5 }
   - id: bi_dressing
     text: 穿脫衣物（含扣釦、拉鍊、鞋帶）
-    mode: ask-informant
+    mode: ask-either
     prompt: 請向受測者或家屬詢問穿脫衣物的協助需求。
     options:
       - { label: 完全依賴, score: 0 }
@@ -50,7 +50,7 @@ items:
       - { label: 可獨立完成, score: 10 }
   - id: bi_bowels
     text: 大便控制
-    mode: ask-informant
+    mode: ask-either
     prompt: 請向受測者或家屬詢問大便控制狀況。
     options:
       - { label: 失禁或需灌腸, score: 0 }
@@ -58,7 +58,7 @@ items:
       - { label: 完全自制, score: 10 }
   - id: bi_bladder
     text: 小便控制
-    mode: ask-informant
+    mode: ask-either
     prompt: 請向受測者或家屬詢問小便控制狀況。
     options:
       - { label: 失禁或需他人導尿, score: 0 }
@@ -66,7 +66,7 @@ items:
       - { label: 完全自制, score: 10 }
   - id: bi_toilet
     text: 如廁（移位、清潔、穿脫衣褲）
-    mode: ask-informant
+    mode: ask-either
     prompt: 請向受測者或家屬詢問（或觀察）如廁的協助需求。
     options:
       - { label: 完全依賴, score: 0 }

@@ -4,7 +4,7 @@
 # clinicallyReviewed: false → 題目、適用 CFS、切分點待臨床最終簽核。
 #
 # 角色（2026-05 起，C-S1）：physical.pain 領域之 Tier-1 短篩（tier: screen）。
-#   一般受測者以 NRS/臉譜自述（ask-patient）；當受測者因認知障礙無法可靠自述時，
+#   一般受測者以 NRS/臉譜自述（mode patient）；當受測者因認知障礙無法可靠自述時，
 #   亮燈後展開 PAINAD 觀察型量表（expandsTo: painad，mode observe）。
 # 計分：NRS 分級 0 無痛／1–3 輕度／4–10 中重度。maxScore=10。
 id: pain-screen
@@ -19,7 +19,7 @@ inputType: option
 maxScore: 10
 items:
   - id: pain_nrs
-    mode: ask-patient
+    mode: patient
     prompt: 請受測者就「過去一週最痛的程度」以 0（完全不痛）到 10（能想像的最痛）作答；若不易理解數字，可改用臉譜量表對應。認知障礙無法可靠自述者改用 PAINAD 觀察。
     text: 過去一週疼痛程度（0–10）
     options:

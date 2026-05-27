@@ -14,7 +14,7 @@
 #   ②serial-7s／「20 連續減 3」需全程（20、17、14、11、8、5、2）正確才算對，
 #     任一步錯即整題記錯。
 #   ③現任/前任總統、母親姓名等題需操作者掌握正解才能判分；prompt 給操作者提示。
-# C-M6 效度閘門：屬需病人本人作答之認知測驗 → requiresPatient: true、mode ask-patient，
+# C-M6 效度閘門：屬需病人本人作答之認知測驗 → requiresPatient: true、各題 mode patient（病人受測），
 #   家屬代答時引擎標記效度存疑（不靜默計分）。
 id: spmsq
 domain:
@@ -28,61 +28,61 @@ requiresPatient: true
 maxScore: 10
 items:
   - id: spmsq1
-    mode: ask-patient
+    mode: patient
     prompt: 請唸給受測者並記錄回答：今天是幾年幾月幾日？（年、月、日全對才算對）
     options:
       - { label: 答對, score: 0 }
       - { label: 答錯, score: 1 }
   - id: spmsq2
-    mode: ask-patient
+    mode: patient
     prompt: 請唸給受測者並記錄回答：今天是星期幾？
     options:
       - { label: 答對, score: 0 }
       - { label: 答錯, score: 1 }
   - id: spmsq3
-    mode: ask-patient
+    mode: patient
     prompt: 請唸給受測者並記錄回答：這裡是什麼地方？（地點名稱；機構/建築/科別任一正確即算對）
     options:
       - { label: 答對, score: 0 }
       - { label: 答錯, score: 1 }
   - id: spmsq4
-    mode: ask-patient
+    mode: patient
     prompt: 請唸給受測者並記錄回答：您的電話號碼是幾號？（若無電話，改問現在的住址；操作者需事先掌握正解才能判分）
     options:
       - { label: 答對, score: 0 }
       - { label: 答錯, score: 1 }
   - id: spmsq5
-    mode: ask-patient
+    mode: patient
     prompt: 請唸給受測者並記錄回答：您今年幾歲？（與出生年月日相符即算對）
     options:
       - { label: 答對, score: 0 }
       - { label: 答錯, score: 1 }
   - id: spmsq6
-    mode: ask-patient
+    mode: patient
     prompt: 請唸給受測者並記錄回答：您是什麼時候出生的？（年、月、日）
     options:
       - { label: 答對, score: 0 }
       - { label: 答錯, score: 1 }
   - id: spmsq7
-    mode: ask-patient
+    mode: patient
     prompt: 請唸給受測者並記錄回答：現任的總統是誰？（操作者需事先確認當下正解才能判分）
     options:
       - { label: 答對, score: 0 }
       - { label: 答錯, score: 1 }
   - id: spmsq8
-    mode: ask-patient
+    mode: patient
     prompt: 請唸給受測者並記錄回答：前一任的總統是誰？（操作者需事先確認正解才能判分）
     options:
       - { label: 答對, score: 0 }
       - { label: 答錯, score: 1 }
   - id: spmsq9
-    mode: ask-patient
+    mode: patient
     prompt: 請唸給受測者並記錄回答：您母親的姓名是什麼？（操作者需向家屬核對正解才能判分）
     options:
       - { label: 答對, score: 0 }
       - { label: 答錯, score: 1 }
   - id: spmsq10
-    mode: ask-patient
+    mode: patient
     prompt: 請受測者從 20 開始，每次減 3 一直減下去（20、17、14、11、8、5、2）。需全程正確才算對，任一步錯即記錯。
     options:
       - { label: 答對（全程正確）, score: 0 }

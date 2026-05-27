@@ -31,7 +31,7 @@ items:
       - { label: 輕度嗜睡 < 10 秒後恢復, score: 0 }
       - { label: 明顯異常（嗜睡或躁動）, score: 4 }
   - id: at4_amt4
-    mode: ask-patient
+    mode: patient
     prompt: 請依序詢問下列 4 題並記錄答錯題數。地點題只要回答醫院、建築物名稱或所在城市任一正確即算對。
     subquestions:
       - 您今年幾歲？
@@ -43,7 +43,7 @@ items:
       - { label: 答錯 1 題, score: 1 }
       - { label: 答錯 2 題以上, score: 2 }
   - id: at4_attention
-    mode: ask-patient
+    mode: patient
     prompt: 請受測者從 12 月開始，倒著唸出一年的月份（12、11、10…）。
     options:
       - { label: 正確唸到 7 個月以上, score: 0 }

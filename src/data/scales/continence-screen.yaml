@@ -14,7 +14,7 @@ maxScore: 4
 items:
   - id: cont_urine
     text: 過去一個月，您是否曾有非自主漏尿的情形？
-    mode: ask-patient
+    mode: ask-either
     prompt: 請向受測者或家屬詢問過去一個月是否曾有非自主漏尿。
     options:
       - { label: 從來沒有, score: 0 }
@@ -22,7 +22,7 @@ items:
       - { label: 經常（每週一次以上或需用尿墊）, score: 2 }
   - id: cont_impact
     text: 漏尿或排便失禁是否影響您的日常活動或外出意願？
-    mode: ask-patient
+    mode: ask-either
     prompt: 請向受測者或家屬詢問失禁對日常活動或外出意願的影響。
     options:
       - { label: 沒有影響, score: 0 }

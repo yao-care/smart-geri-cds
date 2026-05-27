@@ -7,7 +7,7 @@
 #   當無知情者可作 AD8 時，改用 Mini-Cog 客觀測驗（非病人主觀自評），
 #   避免無病識感失智者穿透短篩。fallback 的選擇邏輯於 Phase C tiering 處理。
 #   亮燈後與 AD8 一樣可展開 SPMSQ 深評（expandsTo）。
-# C-M6 效度閘門：屬需病人本人作答之認知測驗 → requiresPatient: true、mode ask-patient。
+# C-M6 效度閘門：屬需病人本人作答之認知測驗 → requiresPatient: true、各題 mode patient（病人受測）。
 id: mini-cog
 domain:
   top: psychological
@@ -21,7 +21,7 @@ requiresPatient: true
 maxScore: 5
 items:
   - id: mc_recall
-    mode: ask-patient
+    mode: patient
     prompt: 先唸三個不相關的詞語（例如「香蕉、日出、椅子」）請受測者複述；完成畫鐘後，請受測者回憶這三個詞，記錄正確回憶的詞數。
     text: 三詞延遲回憶：正確回憶的詞數
     options:

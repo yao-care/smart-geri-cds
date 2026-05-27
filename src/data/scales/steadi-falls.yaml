@@ -24,22 +24,22 @@ inputType: option
 maxScore: 9
 items:
   - id: steadi_fell
-    mode: ask-patient
-    prompt: 請唸給受測者並記錄回答：過去一年內，您是否曾經跌倒？
+    mode: ask-either
+    prompt: 請向受測者或家屬詢問：過去一年內是否曾經跌倒？
     text: 過去一年內，您是否曾經跌倒？
     options:
       - { label: 否, score: 0 }
       - { label: 是, score: 4 }
   - id: steadi_unsteady
-    mode: ask-patient
-    prompt: 請唸給受測者並記錄回答：您站立或行走時是否感到不穩？
+    mode: ask-either
+    prompt: 請向受測者或家屬詢問：站立或行走時是否感到不穩？
     text: 您站立或行走時是否感到不穩？
     options:
       - { label: 否, score: 0 }
       - { label: 是, score: 4 }
   - id: steadi_worry
-    mode: ask-patient
-    prompt: 請唸給受測者並記錄回答：您是否擔心自己會跌倒？
+    mode: ask-either
+    prompt: 請向受測者或家屬詢問：是否擔心自己會跌倒？
     text: 您是否擔心自己會跌倒？
     options:
       - { label: 否, score: 0 }

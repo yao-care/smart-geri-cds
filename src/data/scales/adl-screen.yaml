@@ -17,7 +17,7 @@ inputType: option
 maxScore: 2
 items:
   - id: adl_help
-    mode: ask-informant
+    mode: ask-either
     prompt: 請向受測者或家屬詢問：日常的自我照顧（進食、洗澡、穿衣、如廁、由床到椅移位）是否需要他人協助？
     text: 基本自我照顧是否需要他人協助？
     options:

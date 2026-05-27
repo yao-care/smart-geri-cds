@@ -22,7 +22,7 @@ inputType: option
 maxScore: 5
 items:
   - id: poly_count
-    mode: ask-patient
+    mode: ask-either
     prompt: 請向受測者或家屬詢問（可請其數藥盒）：目前每天規律服用的處方藥物共有幾種？
     text: 您目前每天規律服用的處方藥物共有幾種？
     options:

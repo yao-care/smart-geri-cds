@@ -3,11 +3,16 @@ import type { DomainTop, DomainSub } from '$lib/domain/domain-tree';
 
 export type Severity = 'normal' | 'monitor' | 'refer' | 'incomplete';
 
-/** Who performs or answers this item. Default: 'ask-patient'. */
-export type ItemMode = 'ask-patient' | 'observe' | 'ask-informant' | 'measure';
-
-/** Who is operating the assessment session. */
-export type Operator = 'nurse' | 'family' | 'self';
+/**
+ * Per-item answer-source role (SOP truth, not who operates the tool):
+ * - 'patient'       : patient performs / self-reports (operator reads & records).
+ * - 'observe'       : operator observes the patient and records.
+ * - 'ask-either'    : ask the patient AND/OR family/caregiver (may use observation/records).
+ * - 'ask-informant' : only a knowledgeable family member/caregiver can answer.
+ * - 'measure'       : measured value (e.g. BMI, calf circumference).
+ * Default: 'patient'.
+ */
+export type ItemMode = 'patient' | 'observe' | 'ask-either' | 'ask-informant' | 'measure';
 
 export interface ScaleBand {
   min?: number; max?: number; severity: Exclude<Severity, 'incomplete'>; label: string;
@@ -18,7 +23,7 @@ export interface ScaleItem {
   text?: string;
   /** Operator instruction: what to say/observe/ask informant/measure. */
   prompt?: string;
-  /** Who performs this item. Defaults to 'ask-patient'. */
+  /** Answer-source role for this item. Defaults to 'patient'. */
   mode?: ItemMode;
   /** Ordered sub-question stems (e.g. AMT4 four orientation items). */
   subquestions?: string[];

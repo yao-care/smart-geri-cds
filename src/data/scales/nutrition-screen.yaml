@@ -16,7 +16,7 @@ inputType: option
 maxScore: 4
 items:
   - id: nutr_intake
-    mode: ask-patient
+    mode: ask-either
     prompt: 請向受測者或家屬詢問：過去三個月，是否因食慾不振、消化、咀嚼或吞嚥困難而減少進食量？
     text: 過去三個月進食量是否減少？
     options:
@@ -24,7 +24,7 @@ items:
       - { label: 食量中度減少, score: 1 }
       - { label: 食量大幅減少, score: 2 }
   - id: nutr_weight
-    mode: ask-patient
+    mode: ask-either
     prompt: 請向受測者或家屬詢問（或查閱）：過去三個月體重是否下降？
     text: 過去三個月體重是否下降？
     options:

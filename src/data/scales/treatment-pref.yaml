@@ -15,7 +15,7 @@ maxScore: 4
 items:
   - id: tp_dnr
     text: 關於心肺復甦術（CPR/DNR）的意願，您目前的狀態為？
-    mode: ask-patient
+    mode: ask-either
     prompt: 請向受測者或家屬詢問對心肺復甦術（CPR/DNR）意願的表達/記錄狀態。
     options:
       - { label: 已明確表達並有正式記錄, score: 0 }
@@ -23,7 +23,7 @@ items:
       - { label: 尚未思考或表達, score: 2 }
   - id: tp_life
     text: 關於維生醫療（如插管、使用呼吸器、洗腎、人工營養）的意願，您目前的狀態為？
-    mode: ask-patient
+    mode: ask-either
     prompt: 請向受測者或家屬詢問對維生醫療（插管、呼吸器、洗腎、人工營養）意願的表達/記錄狀態。
     options:
       - { label: 已明確表達並有正式記錄, score: 0 }

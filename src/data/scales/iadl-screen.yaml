@@ -17,7 +17,7 @@ inputType: option
 maxScore: 2
 items:
   - id: iadl_help
-    mode: ask-patient
+    mode: ask-either
     prompt: 請向受測者或家屬詢問：工具性日常活動（購物、備餐、家務、理財、用藥、搭乘交通）是否需要他人協助？
     text: 工具性日常活動是否需要他人協助？
     options:

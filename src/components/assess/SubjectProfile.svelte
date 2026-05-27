@@ -7,21 +7,19 @@
     CFS_DESCRIPTIONS,
     type CfsLevel,
   } from '../../lib/utils/cfs-levels';
-  import type { Operator } from '../../lib/scales/scale';
 
   let birthDate = $state('');
   let gender = $state<'male' | 'female' | 'other'>('male');
   let nickName = $state('');
   let cfsLevel = $state<CfsLevel | null>(null);
-  let operator = $state<Operator | null>(null);
+  // SOP 事實（取代 operator 角色）：
+  // - informantAvailable（必填，未預設）：是否有熟悉受測者日常的家屬／照顧者可提供資訊。
+  //   gate ask-informant 量表、決定認知用 AD8（有）或 Mini-Cog（無）。
+  // - patientAble（預設「是」）：受測者本人能否參與作答/受測。否則需病人本人作答的
+  //   認知/情緒測驗標 incomplete「需受測者本人，建議由專業評估」。
+  let informantAvailable = $state<boolean | null>(null);
+  let patientAble = $state<boolean>(true);
   let validationError = $state<string | null>(null);
-
-  /** 操作者身分選項（C-M6 效度閘門 + ask-informant「無法取得」判定的依據）。 */
-  const OPERATOR_OPTIONS: { value: Operator; label: string; desc: string }[] = [
-    { value: 'nurse', label: '護理師', desc: '由護理師唸題給受測者並記錄回答（可施測認知/情緒測驗）。' },
-    { value: 'family', label: '家屬', desc: '由家屬/照顧者協助；需病人本人作答的認知/情緒測驗將標示效度存疑。' },
-    { value: 'self', label: '長者本人', desc: '由長者本人自行填答；需照顧者作答的負荷量表將標示效度存疑。' },
-  ];
 
   // DOB is optional (record-only). Show months + an under-65 notice when given,
   // but never block on age — the CFS selector is the only submit gate.
@@ -35,15 +33,15 @@
       validationError = '請先由臨床或照護者判定臨床衰弱量表 (CFS) 等級';
       return;
     }
-    if (!operator) {
-      validationError = '請先選擇本次由誰協助填寫（護理師／家屬／長者本人）';
+    if (informantAvailable === null) {
+      validationError = '請先回答是否有熟悉受測者日常的家屬／照顧者可提供資訊';
       return;
     }
 
     await assessmentStore.startNew(
       { birthDate, gender, nickName: nickName || undefined },
       cfsLevel,
-      operator,
+      { informantAvailable, patientAble },
     );
   }
 </script>
@@ -108,17 +106,33 @@
     </div>
   </fieldset>
 
-  <fieldset class="field operator-field">
-    <legend>本次由誰協助填寫 <span class="required">*</span></legend>
-    <p class="cfs-hint">操作者身分決定施測方式與計分效度（必填，未選不得開始評估）。</p>
-    <div class="operator-list" role="radiogroup" aria-label="本次由誰協助填寫">
-      {#each OPERATOR_OPTIONS as opt (opt.value)}
-        <label class="operator-option" class:selected={operator === opt.value}>
-          <input type="radio" name="operator" value={opt.value} bind:group={operator} />
-          <span class="operator-name">{opt.label}</span>
-          <span class="operator-desc">{opt.desc}</span>
-        </label>
-      {/each}
+  <fieldset class="field availability-field">
+    <legend>是否有熟悉受測者日常的家屬／照顧者可提供資訊？ <span class="required">*</span></legend>
+    <p class="cfs-hint">用於需向知情者詢問的題目（如 AD8、急性變化、照顧者負荷），並決定認知短篩採 AD8（有）或 Mini-Cog（無）。（必填，未答不得開始評估）</p>
+    <div class="yesno-pills" role="radiogroup" aria-label="是否有可提供資訊的家屬或照顧者">
+      <label class="pill" class:selected={informantAvailable === true}>
+        <input type="radio" name="informantAvailable" value="yes" checked={informantAvailable === true} onchange={() => (informantAvailable = true)} />
+        是
+      </label>
+      <label class="pill" class:selected={informantAvailable === false}>
+        <input type="radio" name="informantAvailable" value="no" checked={informantAvailable === false} onchange={() => (informantAvailable = false)} />
+        否
+      </label>
+    </div>
+  </fieldset>
+
+  <fieldset class="field availability-field">
+    <legend>受測者本人能否參與作答/受測？</legend>
+    <p class="cfs-hint">若否，需受測者本人作答的認知/情緒測驗將標示「需受測者本人，建議由專業評估」。（預設為「是」）</p>
+    <div class="yesno-pills" role="radiogroup" aria-label="受測者本人能否參與作答或受測">
+      <label class="pill" class:selected={patientAble === true}>
+        <input type="radio" name="patientAble" value="yes" checked={patientAble === true} onchange={() => (patientAble = true)} />
+        是
+      </label>
+      <label class="pill" class:selected={patientAble === false}>
+        <input type="radio" name="patientAble" value="no" checked={patientAble === false} onchange={() => (patientAble = false)} />
+        否
+      </label>
     </div>
   </fieldset>
 
@@ -129,7 +143,7 @@
     <p class="error" role="alert">{assessmentStore.error}</p>
   {/if}
 
-  <button type="submit" class="btn-start" disabled={assessmentStore.isLoading || !cfsLevel || !operator}>
+  <button type="submit" class="btn-start" disabled={assessmentStore.isLoading || !cfsLevel || informantAvailable === null}>
     {assessmentStore.isLoading ? '準備中…' : '開始評估'}
   </button>
 </form>
@@ -316,52 +330,10 @@
     line-height: var(--lh-base);
   }
 
-  /* ---- Operator selector (本次由誰協助填寫) ---- */
-  .operator-list {
+  /* ---- Availability (在場/可參與) yes/no pills ---- */
+  .yesno-pills {
     display: flex;
-    flex-direction: column;
-    gap: var(--space-2);
-  }
-
-  .operator-option {
-    display: block;
-    padding: var(--space-3) var(--space-4);
-    border: 1px solid var(--line);
-    border-radius: var(--radius-md);
-    cursor: pointer;
-    min-height: 44px;
-    transition: border-color 0.15s, background 0.15s;
-    margin-bottom: 0;
-  }
-
-  .operator-option:hover {
-    border-color: var(--accent);
-  }
-
-  .operator-option.selected {
-    border-color: var(--accent);
-    background: color-mix(in srgb, var(--accent) 10%, var(--bg));
-  }
-
-  .operator-option input[type="radio"] {
-    position: absolute;
-    opacity: 0;
-    width: 0;
-    height: 0;
-  }
-
-  .operator-name {
-    font-size: var(--text-base);
-    font-weight: var(--font-medium);
-    color: var(--text);
-  }
-
-  .operator-desc {
-    display: block;
-    margin-top: var(--space-1);
-    font-size: var(--text-sm);
-    color: color-mix(in srgb, var(--text), var(--bg) 25%);
-    line-height: var(--lh-base);
+    gap: var(--space-3);
   }
 
   .error {
