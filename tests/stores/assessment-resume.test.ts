@@ -28,7 +28,7 @@ describe('assessmentStore resume restores partialAnalysis', () => {
     await assessmentStore.startNew(
       { nickName: 'resume-test', birthDate: '1950-01-01', gender: 'male' },
       'cfs5',
-      'nurse',
+      { informantAvailable: true, patientAble: true },
     );
     const assessmentId = assessmentStore.assessment!.id;
 
@@ -75,7 +75,7 @@ describe('assessmentStore resume restores partialAnalysis', () => {
     await assessmentStore.startNew(
       { nickName: 'merge-test', birthDate: '1950-01-01', gender: 'female' },
       'cfs5',
-      'nurse',
+      { informantAvailable: true, patientAble: true },
     );
     const assessmentId = assessmentStore.assessment!.id;
 
@@ -97,7 +97,7 @@ describe('assessmentStore resume restores partialAnalysis', () => {
     await assessmentStore.startNew(
       { nickName: 'legacy-test', birthDate: '1950-01-01', gender: 'male' },
       'cfs5',
-      'nurse',
+      { informantAvailable: true, patientAble: true },
     );
     const assessmentId = assessmentStore.assessment!.id;
     // Strip the field to simulate a pre-v3 record.

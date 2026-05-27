@@ -20,8 +20,8 @@ function makeScales(): ScaleDef[] {
       inputType: 'option',
       maxScore: 2,
       items: [
-        { id: 'm1', mode: 'ask-patient', text: '情緒題一？', prompt: '情緒題一？', options: [{ label: '是', score: 1 }, { label: '否', score: 0 }] },
-        { id: 'm2', mode: 'ask-patient', text: '情緒題二？', prompt: '情緒題二？', options: [{ label: '是', score: 1 }, { label: '否', score: 0 }] },
+        { id: 'm1', mode: 'patient', text: '情緒題一？', prompt: '情緒題一？', options: [{ label: '是', score: 1 }, { label: '否', score: 0 }] },
+        { id: 'm2', mode: 'patient', text: '情緒題二？', prompt: '情緒題二？', options: [{ label: '是', score: 1 }, { label: '否', score: 0 }] },
       ],
       bands: [
         { max: 0, severity: 'normal', label: '正常' },
@@ -38,8 +38,8 @@ function makeScales(): ScaleDef[] {
       inputType: 'option',
       maxScore: 2,
       items: [
-        { id: 'a1', mode: 'ask-patient', text: 'ADL 題一？', prompt: 'ADL 題一？', options: [{ label: '可', score: 1 }, { label: '不可', score: 0 }] },
-        { id: 'a2', mode: 'ask-patient', text: 'ADL 題二？', prompt: 'ADL 題二？', options: [{ label: '可', score: 1 }, { label: '不可', score: 0 }] },
+        { id: 'a1', mode: 'patient', text: 'ADL 題一？', prompt: 'ADL 題一？', options: [{ label: '可', score: 1 }, { label: '不可', score: 0 }] },
+        { id: 'a2', mode: 'patient', text: 'ADL 題二？', prompt: 'ADL 題二？', options: [{ label: '可', score: 1 }, { label: '不可', score: 0 }] },
       ],
       bands: [
         { max: 1, severity: 'refer', label: '需協助' },
@@ -70,7 +70,7 @@ describe('QuestionnaireModule flow (CFS-driven, per-scale emission)', () => {
     await assessmentStore.startNew(
       { nickName: 'test', birthDate: '', gender: 'male' },
       'cfs5',
-      'nurse',
+      { informantAvailable: true, patientAble: true },
     );
     assessmentStore.currentStepIndex = 1;
 
@@ -117,7 +117,7 @@ describe('QuestionnaireModule flow (CFS-driven, per-scale emission)', () => {
     await assessmentStore.startNew(
       { nickName: 'test', birthDate: '', gender: 'male' },
       'cfs1',
-      'nurse',
+      { informantAvailable: true, patientAble: true },
     );
     assessmentStore.currentStepIndex = 1;
 

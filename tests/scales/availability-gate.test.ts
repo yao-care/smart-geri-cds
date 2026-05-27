@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { applyOperatorGate } from '$lib/scales/tiering';
+import { applyAvailabilityGate } from '$lib/scales/tiering';
 import type { ScaleResult, ScaleDef } from '$lib/scales/scale';
 
 const baseResult: ScaleResult = {
@@ -26,51 +26,52 @@ const noRequirementsDef = {
   requiresInformant: false,
 } as unknown as ScaleDef;
 
-describe('applyOperatorGate', () => {
-  it('family operator on requiresPatient scale → severity=incomplete, bandLabel 含「代理人」', () => {
-    const result = applyOperatorGate(baseResult, 'family', patientRequiredDef);
-    expect(result.severity).toBe('incomplete');
-    expect(result.bandLabel).toMatch(/代理人/);
+describe('applyAvailabilityGate', () => {
+  // ---- requiresInformant + informant availability ----
+  it('requiresInformant scale + no informant available → incomplete「無知情者，無法取得」', () => {
+    const r = applyAvailabilityGate(baseResult, { informantAvailable: false, patientAble: true }, informantRequiredDef);
+    expect(r.severity).toBe('incomplete');
+    expect(r.bandLabel).toMatch(/無知情者/);
   });
 
-  it('self operator on requiresPatient scale → unchanged (patient answered themselves)', () => {
-    const result = applyOperatorGate(baseResult, 'self', patientRequiredDef);
-    expect(result.severity).toBe('normal');
-    expect(result.bandLabel).toBe('認知功能正常');
+  it('requiresInformant scale + informant available → unchanged', () => {
+    const r = applyAvailabilityGate(baseResult, { informantAvailable: true, patientAble: true }, informantRequiredDef);
+    expect(r.severity).toBe('normal');
+    expect(r.bandLabel).toBe('認知功能正常');
   });
 
-  it('nurse operator on requiresPatient scale → unchanged (nurse reads questions to patient)', () => {
-    const result = applyOperatorGate(baseResult, 'nurse', patientRequiredDef);
-    expect(result.severity).toBe('normal');
+  // ---- requiresPatient + patient ability ----
+  it('requiresPatient scale + patient cannot participate → incomplete「需受測者本人」', () => {
+    const r = applyAvailabilityGate(baseResult, { informantAvailable: true, patientAble: false }, patientRequiredDef);
+    expect(r.severity).toBe('incomplete');
+    expect(r.bandLabel).toMatch(/需受測者本人/);
   });
 
-  it('self operator on requiresInformant scale → severity=incomplete', () => {
-    const result = applyOperatorGate(baseResult, 'self', informantRequiredDef);
-    expect(result.severity).toBe('incomplete');
-    expect(result.bandLabel).toMatch(/代理人/);
+  it('requiresPatient scale + patient able → unchanged (even without informant)', () => {
+    const r = applyAvailabilityGate(baseResult, { informantAvailable: false, patientAble: true }, patientRequiredDef);
+    expect(r.severity).toBe('normal');
+    expect(r.bandLabel).toBe('認知功能正常');
   });
 
-  it('nurse operator on requiresInformant scale → unchanged', () => {
-    const result = applyOperatorGate(baseResult, 'nurse', informantRequiredDef);
-    expect(result.severity).toBe('normal');
+  // ---- no requirements ----
+  it('no requirements → always unchanged regardless of availability', () => {
+    expect(applyAvailabilityGate(baseResult, { informantAvailable: false, patientAble: false }, noRequirementsDef).severity).toBe('normal');
+    expect(applyAvailabilityGate(baseResult, { informantAvailable: true, patientAble: true }, noRequirementsDef).severity).toBe('normal');
   });
 
-  it('family operator on requiresInformant scale → unchanged (family IS the informant)', () => {
-    const result = applyOperatorGate(baseResult, 'family', informantRequiredDef);
-    expect(result.severity).toBe('normal');
+  // ---- informant gate takes precedence over patient gate when both fail ----
+  it('requiresInformant scale + no informant → informant label even if patientAble=false', () => {
+    const r = applyAvailabilityGate(baseResult, { informantAvailable: false, patientAble: false }, informantRequiredDef);
+    expect(r.severity).toBe('incomplete');
+    expect(r.bandLabel).toMatch(/無知情者/);
   });
 
-  it('no requirements → always unchanged regardless of operator', () => {
-    expect(applyOperatorGate(baseResult, 'family', noRequirementsDef).severity).toBe('normal');
-    expect(applyOperatorGate(baseResult, 'self', noRequirementsDef).severity).toBe('normal');
-    expect(applyOperatorGate(baseResult, 'nurse', noRequirementsDef).severity).toBe('normal');
-  });
-
+  // ---- field preservation ----
   it('preserves all other fields when returning incomplete', () => {
-    const result = applyOperatorGate(baseResult, 'family', patientRequiredDef);
-    expect(result.scaleId).toBe('spmsq');
-    expect(result.domain).toEqual({ top: 'psychological', sub: 'cognition' });
-    expect(result.rawScore).toBe(8);
-    expect(result.maxScore).toBe(10);
+    const r = applyAvailabilityGate(baseResult, { informantAvailable: false, patientAble: true }, informantRequiredDef);
+    expect(r.scaleId).toBe('spmsq');
+    expect(r.domain).toEqual({ top: 'psychological', sub: 'cognition' });
+    expect(r.rawScore).toBe(8);
+    expect(r.maxScore).toBe(10);
   });
 });

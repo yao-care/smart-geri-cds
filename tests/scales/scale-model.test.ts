@@ -1,7 +1,6 @@
 import { describe, it, expectTypeOf } from 'vitest';
 import type {
   ItemMode,
-  Operator,
   ScaleItem,
   ScaleDef,
 } from '$lib/scales/scale';
@@ -12,7 +11,7 @@ describe('ScaleItem extended fields', () => {
       id: 'q1',
       text: '您最近兩週是否感到憂鬱？',
       prompt: '請直接問受測者並記錄回答',
-      mode: 'ask-patient',
+      mode: 'patient',
       subquestions: ['子題A', '子題B'],
       options: [{ label: '是', score: 1 }, { label: '否', score: 0 }],
       redFlag: 'self-harm',
@@ -68,13 +67,14 @@ describe('ScaleDef extended fields', () => {
   });
 });
 
-describe('Operator type', () => {
-  it('accepts nurse, family, self', () => {
-    const nurse: Operator = 'nurse';
-    const family: Operator = 'family';
-    const self: Operator = 'self';
-    expectTypeOf(nurse).toEqualTypeOf<Operator>();
-    expectTypeOf(family).toEqualTypeOf<Operator>();
-    expectTypeOf(self).toEqualTypeOf<Operator>();
+describe('ItemMode taxonomy (SOP answer-source roles)', () => {
+  it('accepts patient, observe, ask-either, ask-informant, measure', () => {
+    const modes: ItemMode[] = ['patient', 'observe', 'ask-either', 'ask-informant', 'measure'];
+    modes.forEach(m => expectTypeOf(m).toEqualTypeOf<ItemMode>());
+  });
+
+  it('ask-either is part of the union (new SOP role)', () => {
+    const m: ItemMode = 'ask-either';
+    expectTypeOf(m).toEqualTypeOf<ItemMode>();
   });
 });

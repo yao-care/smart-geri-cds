@@ -4,12 +4,13 @@ import { db } from '../../src/lib/db/schema';
 import { getAssessment } from '../../src/lib/db/assessments';
 
 /**
- * C1 — operator identity is part of the tiered flow:
- * startNew records the operator on the Assessment; resume restores it
- * (alongside cfsLevel + partialAnalysis). The operator drives the
- * operator-validity gate (C-M6) and ask-informant "無法取得" handling.
+ * SOP availability is part of the tiered flow:
+ * startNew records informantAvailable + patientAble on the Assessment; resume
+ * restores them (alongside cfsLevel + partialAnalysis). These drive the
+ * availability-validity gate and the AD8 ↔ Mini-Cog cognition swap — replacing
+ * the old operator (nurse/family/self) mis-model.
  */
-describe('assessmentStore operator + tiered flow', () => {
+describe('assessmentStore availability + tiered flow', () => {
   beforeEach(async () => {
     vi.spyOn(console, 'warn').mockImplementation(() => {});
     await db.assessmentEvents.clear();
@@ -23,24 +24,26 @@ describe('assessmentStore operator + tiered flow', () => {
     assessmentStore.reset();
   });
 
-  it('startNew persists operator and exposes it on the store', async () => {
+  it('startNew persists informantAvailable + patientAble and exposes them on the store', async () => {
     await assessmentStore.startNew(
-      { nickName: 'op-test', birthDate: '1948-03-02', gender: 'female' },
+      { nickName: 'avail-test', birthDate: '1948-03-02', gender: 'female' },
       'cfs5',
-      'family',
+      { informantAvailable: true, patientAble: false },
     );
-    expect(assessmentStore.operator).toBe('family');
+    expect(assessmentStore.informantAvailable).toBe(true);
+    expect(assessmentStore.patientAble).toBe(false);
 
     const persisted = await getAssessment(assessmentStore.assessment!.id);
-    expect(persisted?.operator).toBe('family');
+    expect(persisted?.informantAvailable).toBe(true);
+    expect(persisted?.patientAble).toBe(false);
     expect(persisted?.cfsLevel).toBe('cfs5');
   });
 
-  it('resume restores operator + cfsLevel + partialAnalysis', async () => {
+  it('resume restores informantAvailable + patientAble + cfsLevel + partialAnalysis', async () => {
     await assessmentStore.startNew(
-      { nickName: 'op-resume', birthDate: '1948-03-02', gender: 'male' },
+      { nickName: 'avail-resume', birthDate: '1948-03-02', gender: 'male' },
       'cfs6',
-      'nurse',
+      { informantAvailable: false, patientAble: true },
     );
     const assessmentId = assessmentStore.assessment!.id;
 
@@ -51,27 +54,30 @@ describe('assessmentStore operator + tiered flow', () => {
     await assessmentStore.pause();
 
     assessmentStore.reset();
-    expect(assessmentStore.operator).toBeNull();
+    expect(assessmentStore.informantAvailable).toBeNull();
+    expect(assessmentStore.patientAble).toBeNull();
 
     await assessmentStore.resume(assessmentId);
-    expect(assessmentStore.operator).toBe('nurse');
+    expect(assessmentStore.informantAvailable).toBe(false);
+    expect(assessmentStore.patientAble).toBe(true);
     expect(assessmentStore.cfsLevel).toBe('cfs6');
     expect(assessmentStore.partialAnalysis.questionnaireScores).toEqual({ 'mood-screen': 4 });
   });
 
-  it('resume on a record without operator (pre-v4) falls back to null', async () => {
+  it('resume on a record without the new fields (pre-v5) falls back to conservative defaults (true/true)', async () => {
     await assessmentStore.startNew(
-      { nickName: 'op-legacy', birthDate: '1948-03-02', gender: 'male' },
+      { nickName: 'avail-legacy', birthDate: '1948-03-02', gender: 'male' },
       'cfs5',
-      'self',
+      { informantAvailable: false, patientAble: false },
     );
     const assessmentId = assessmentStore.assessment!.id;
-    await db.assessments.update(assessmentId, { operator: undefined });
+    await db.assessments.update(assessmentId, { informantAvailable: undefined, patientAble: undefined });
 
     assessmentStore.reset();
     await assessmentStore.resume(assessmentId);
 
-    expect(assessmentStore.operator).toBeNull();
+    expect(assessmentStore.informantAvailable).toBe(true);
+    expect(assessmentStore.patientAble).toBe(true);
     expect(assessmentStore.error).toBeNull();
   });
 });

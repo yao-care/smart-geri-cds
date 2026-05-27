@@ -22,35 +22,38 @@ describe('SubjectProfile', () => {
     expect(screen.getByText(/規律運動/)).toBeInTheDocument();
   });
 
-  it('renders the operator selector (本次由誰協助填寫)', () => {
+  it('renders the SOP availability inputs (informantAvailable + patientAble), not an operator role selector', () => {
     render(SubjectProfile);
-    expect(screen.getByRole('radiogroup', { name: /本次由誰協助填寫/ })).toBeInTheDocument();
-    expect(screen.getByDisplayValue('nurse')).toBeInTheDocument();
-    expect(screen.getByDisplayValue('family')).toBeInTheDocument();
-    expect(screen.getByDisplayValue('self')).toBeInTheDocument();
+    expect(screen.getByRole('radiogroup', { name: /是否有可提供資訊的家屬或照顧者/ })).toBeInTheDocument();
+    expect(screen.getByRole('radiogroup', { name: /受測者本人能否參與作答或受測/ })).toBeInTheDocument();
+    // The old operator role selector is gone.
+    expect(screen.queryByRole('radiogroup', { name: /本次由誰協助填寫/ })).not.toBeInTheDocument();
+    expect(screen.queryByDisplayValue('nurse')).not.toBeInTheDocument();
   });
 
-  it('keeps submit disabled until BOTH a CFS level AND an operator are selected (gate)', async () => {
+  it('keeps submit disabled until BOTH a CFS level AND informantAvailable are answered (gate)', async () => {
     render(SubjectProfile);
     const submit = screen.getByRole('button', { name: /開始評估/ }) as HTMLButtonElement;
     expect(submit.disabled).toBe(true);
 
-    // CFS alone is not enough — operator still required.
+    // CFS alone is not enough — informantAvailable must be answered too.
     const cfs5 = screen.getByDisplayValue('cfs5') as HTMLInputElement;
     await fireEvent.click(cfs5);
     expect(submit.disabled).toBe(true);
 
-    // Operator alone (after clearing CFS would be re-set) — pick operator too.
-    const nurse = screen.getByDisplayValue('nurse') as HTMLInputElement;
-    await fireEvent.click(nurse);
+    // Answer informantAvailable → gate opens (patientAble defaults to 是).
+    const informantGroup = screen.getByRole('radiogroup', { name: /是否有可提供資訊的家屬或照顧者/ });
+    const yes = informantGroup.querySelector('input[value="yes"]') as HTMLInputElement;
+    await fireEvent.click(yes);
     expect(submit.disabled).toBe(false);
   });
 
-  it('keeps submit disabled when only the operator (not CFS) is selected', async () => {
+  it('keeps submit disabled when only informantAvailable (not CFS) is answered', async () => {
     render(SubjectProfile);
     const submit = screen.getByRole('button', { name: /開始評估/ }) as HTMLButtonElement;
-    const family = screen.getByDisplayValue('family') as HTMLInputElement;
-    await fireEvent.click(family);
+    const informantGroup = screen.getByRole('radiogroup', { name: /是否有可提供資訊的家屬或照顧者/ });
+    const no = informantGroup.querySelector('input[value="no"]') as HTMLInputElement;
+    await fireEvent.click(no);
     expect(submit.disabled).toBe(true);
   });
 
