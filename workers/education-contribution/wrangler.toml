@@ -2,6 +2,7 @@ name = "education-contribution"
 main = "src/index.ts"
 compatibility_date = "2025-01-01"
 compatibility_flags = ["nodejs_compat"]
+account_id = "9d9e58b5e0d1657b8f74bd2cbfc91ee3"
 
 [vars]
 ALLOWED_ORIGIN = "https://smart-geri-cds.yao.care"
