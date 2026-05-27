@@ -13,6 +13,7 @@
  */
 
 import { describe, it, expect, beforeAll } from 'vitest';
+import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import type { RuntimeIndex } from '$lib/education/schemas';
@@ -56,6 +57,22 @@ describe('recommendations key format (CGA axis)', () => {
         expect(item.source, `${key}: item missing source`).toBe('internal');
         expect(item.slug, `${key}: item missing slug`).toBeTruthy();
       }
+    }
+  });
+
+  it('every recommendation slug resolves to an education markdown file (slug ↔ .md)', () => {
+    const recs = neu.recommendations as Record<string, Array<{ slug?: string }>>;
+    const slugs = new Set<string>();
+    for (const items of Object.values(recs)) {
+      for (const item of items) if (item.slug) slugs.add(item.slug);
+    }
+    for (const slug of slugs) {
+      const candidates = [
+        path.join(ROOT, 'src/data/education', `${slug}.md`),
+        path.join(ROOT, 'src/data/education/milestones', `${slug}.md`),
+      ];
+      const found = candidates.some(p => fs.existsSync(p));
+      expect(found, `recommendation slug "${slug}" has no markdown file`).toBe(true);
     }
   });
 });
