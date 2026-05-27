@@ -104,6 +104,52 @@ describe('QuestionnaireModule', () => {
     );
   });
 
+  it('renders the timed-task module (not option buttons) for a timed-task scale and stores its ScaleResult via the self-report fallback', { timeout: 15000 }, async () => {
+    // jsdom has no getUserMedia → MobilityTaskModule falls back to self-report.
+    const timedScale: ScaleDef = {
+      id: 'sit-to-stand',
+      domain: { top: 'functional', sub: 'mobility' },
+      applicableCfs: ['cfs5'],
+      scoring: 'measured-value',
+      inputType: 'timed-task',
+      maxScore: 30,
+      items: [],
+      bands: [
+        { max: 12, severity: 'normal', label: '順暢完成' },
+        { min: 13, max: 15, severity: 'monitor', label: '略慢，建議追蹤' },
+        { min: 16, severity: 'refer', label: '吃力或需扶，建議評估' },
+      ],
+      clinicallyReviewed: false,
+    };
+
+    assessmentStore.child = makeChild();
+    assessmentStore.assessment = makeAssessment();
+    assessmentStore.cfsLevel = 'cfs5';
+
+    render(QuestionnaireModule, { scales: [timedScale] });
+
+    // The timed-task module's self-report fallback is shown (its title), proving
+    // the timed-task branch rendered MobilityTaskModule rather than option buttons.
+    await waitFor(() => {
+      expect(screen.getByText('行動能力自述')).toBeInTheDocument();
+    });
+
+    // Answer the fallback self-report items (first option each time).
+    for (let i = 0; i < 6; i++) {
+      const btn = screen.queryAllByRole('button').find(b => b.classList.contains('option-btn'));
+      if (!btn) break;
+      await fireEvent.click(btn);
+      await new Promise(r => setTimeout(r, 30));
+    }
+
+    await waitFor(() => {
+      const sr = assessmentStore.partialAnalysis.scaleResults;
+      expect(sr).toBeDefined();
+      expect(sr?.['mobility-screen']).toBeDefined();
+      expect(sr?.['mobility-screen'].domain.sub).toBe('mobility');
+    }, { timeout: 3000 });
+  });
+
   it('persists per-scale scores (keyed by scaleId) after answering all items', { timeout: 15000 }, async () => {
     assessmentStore.child = makeChild();
     assessmentStore.assessment = makeAssessment();

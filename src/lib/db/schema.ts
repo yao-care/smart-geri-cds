@@ -169,6 +169,22 @@ export interface MediaFile {
   createdAt: Date;
 }
 
+/**
+ * Locally-stored recording of a self-administered timed mobility task
+ * (e.g. Five-Times Sit-to-Stand). The Blob lives ONLY in this browser's
+ * IndexedDB for clinician review — it is never uploaded, never placed in the
+ * PDF, and never logged. One row per completed timed-task run.
+ */
+export interface MobilityRecording {
+  id: string;               // local UUID
+  assessmentId: string;
+  scaleId: string;          // e.g. 'sit-to-stand'
+  blob: Blob;               // recorded video (MediaRecorder output)
+  mimeType: string;         // e.g. 'video/webm'
+  durationSec: number;      // elapsed seconds (start→finish click)
+  createdAt: Date;
+}
+
 export interface CustomEducation {
   id: string;
   tenantId: string;         // derived from FHIR base URL
@@ -245,6 +261,7 @@ export class CdssDatabase extends Dexie {
   customEducation!: Table<CustomEducation>;
   tenantSettings!: Table<TenantSettings>;
   recommendationOverlays!: Table<RecommendationOverlay>;
+  mobilityRecordings!: Table<MobilityRecording>;
 
   constructor() {
     // smart-geri-cds 為全新 DB 名（刻意不遷兒科資料），版本鏈重置為乾淨 v1。
@@ -267,6 +284,11 @@ export class CdssDatabase extends Dexie {
       customEducation: 'id, tenantId, category, isActive, [tenantId+isActive]',
       tenantSettings: 'id, tenantId',
       recommendationOverlays: 'id, tenantId, category, domain, [tenantId+category+domain]',
+    });
+    // v2：新增 mobilityRecordings（本機端坐立測試錄影 Blob）。乾淨 DB；index 僅查詢用，
+    //   blob/mimeType/durationSec 為非索引欄。BroadcastChannel/sync 不涉及此表（永不上傳）。
+    this.version(2).stores({
+      mobilityRecordings: 'id, assessmentId, scaleId, createdAt, [assessmentId+scaleId]',
     });
   }
 }

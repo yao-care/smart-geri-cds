@@ -1,0 +1,28 @@
+# 五次坐立測試（自測計時版）— Five-Times Sit-to-Stand (FTSTS), self-administered
+# 來源/依據：Five-Times Sit-to-Stand Test（5×STS / FTSTS），廣泛用於下肢肌力、
+#   功能性活動與跌倒風險的篩檢。標準施測由臨床人員在固定椅、雙手抱胸、計時下完成。
+# ⚠ 本量表為「受測者自行於電腦前、固定鏡頭自測並自行計時」的改造版本：
+#   施測情境（自測、無臨床人員監督、計時起訖由受測者點擊）與原始驗證情境不同，
+#   切分點（≤12s / 13–15s / ≥16s）取自 FTSTS 常見參考區間，但「自測計時」並未經
+#   獨立信效度驗證 → 僅供初步篩檢，不作為診斷依據。clinicallyReviewed: false。
+# 計分：scoring=measured-value、inputType=timed-task。rawScore = 完成 5 次坐立的
+#   總秒數（四捨五入至整數秒）。higher = worse（越慢越差），bands 以秒數定義。
+#   maxScore=30 僅供雷達圖正規化上限（>30s 視同最差端，封頂 100%）。
+# 適用 CFS：cfs2–cfs6（尚能嘗試自行站起者）。cfs7 改走 mobility-screen 自述題組，
+#   不在此量表的 applicableCfs 內，避免同一 CFS 重複佔用 functional.mobility。
+# 無法錄影 / 拒絕 / 無相機 → 元件 fallback 至自述題組（src/data/mobility-fallback.ts）。
+# 無法完成站立 → severity refer（吃力或需扶，建議評估）。
+id: sit-to-stand
+domain:
+  top: functional
+  sub: mobility
+applicableCfs: [cfs2, cfs3, cfs4, cfs5, cfs6]
+scoring: measured-value
+inputType: timed-task
+maxScore: 30
+items: []
+bands:
+  - { max: 12, severity: normal, label: 順暢完成 }
+  - { min: 13, max: 15, severity: monitor, label: 略慢，建議追蹤 }
+  - { min: 16, severity: refer, label: 吃力或需扶，建議評估 }
+clinicallyReviewed: false

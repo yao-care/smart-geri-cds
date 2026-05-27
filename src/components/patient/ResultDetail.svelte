@@ -3,6 +3,8 @@
   import { isAuthorized } from '../../lib/fhir/client';
   import type { Assessment } from '../../lib/db/schema';
   import { db } from '../../lib/db/schema';
+  import { getMobilityRecordingsForAssessment } from '../../lib/db/mobility-recordings';
+  import type { MobilityRecording } from '../../lib/db/schema';
   import { deriveCgaTriggers } from '$lib/education/trigger-derivation';
   import { domainLabel } from '$lib/domain/domain-tree';
   import { CFS_LABELS } from '$lib/utils/cfs-levels';
@@ -66,6 +68,30 @@
 
   const triage = $derived(assessment?.triageResult ?? null);
   const cfsLevel = $derived(assessment?.cfsLevel ?? null);
+
+  // Locally-stored mobility-task recordings (e.g. sit-to-stand). Only present
+  // for local (IDB) records; FHIR-sourced records never carry the blob. Object
+  // URLs are created for playback and revoked on teardown. Never uploaded.
+  interface RecordingView { id: string; url: string; durationSec: number; scaleId: string; }
+  let recordings = $state<RecordingView[]>([]);
+
+  $effect(() => {
+    if (!assessment || source === 'fhir') return;
+    const id = assessment.id;
+    let urls: string[] = [];
+    (async () => {
+      const rows: MobilityRecording[] = await getMobilityRecordingsForAssessment(id);
+      const views = rows
+        .filter(r => r.blob instanceof Blob)
+        .map(r => {
+          const url = URL.createObjectURL(r.blob);
+          urls.push(url);
+          return { id: r.id, url, durationSec: r.durationSec, scaleId: r.scaleId };
+        });
+      recordings = views;
+    })();
+    return () => { urls.forEach(u => URL.revokeObjectURL(u)); };
+  });
 
   const referCount = $derived(triage?.details?.filter((d) => d.severity === 'refer').length ?? 0);
   const monitorCount = $derived(triage?.details?.filter((d) => d.severity === 'monitor').length ?? 0);
@@ -204,6 +230,22 @@
         <p class="muted">此評估未保留量表細節，可能來自舊版或精簡 FHIR 紀錄。</p>
       {/if}
     </section>
+
+    {#if recordings.length > 0}
+      <section aria-label="行動測試錄影">
+        <h3>行動測試錄影</h3>
+        <p class="muted small">
+          以下錄影為受測者自行進行坐立測試時所錄製，僅儲存在本機瀏覽器供臨床檢視，未上傳、未納入 PDF 報告。
+        </p>
+        {#each recordings as rec (rec.id)}
+          <div class="recording">
+            <!-- svelte-ignore a11y_media_has_caption -->
+            <video class="recording-video" src={rec.url} controls playsinline preload="metadata"></video>
+            <p class="muted small">{rec.scaleId} · 完成耗時約 {rec.durationSec} 秒</p>
+          </div>
+        {/each}
+      </section>
+    {/if}
 
     <section aria-label="事件時序">
       <h3>事件時序</h3>
@@ -386,6 +428,18 @@
     border: 1px solid var(--line);
     border-radius: var(--radius-md);
     font: inherit;
+  }
+
+  .recording {
+    margin-top: var(--space-3);
+  }
+
+  .recording-video {
+    width: 100%;
+    max-width: 480px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--line);
+    background: color-mix(in srgb, var(--bg), var(--text) 8%);
   }
 
   .recommended-videos {
