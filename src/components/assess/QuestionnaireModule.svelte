@@ -3,7 +3,7 @@
   import { recordEvent, getEventsByModule } from '../../lib/db/assessment-events';
   import { domainLabel } from '../../lib/domain/domain-tree';
   import { scoreScale, type ScaleDef, type ScaleItem, type ScaleResult } from '../../lib/scales/scale';
-  import { selectScreenScales, expandedFullScales, applyOperatorGate } from '../../lib/scales/tiering';
+  import { selectScreenScales, expandedFullScales, applyAvailabilityGate } from '../../lib/scales/tiering';
   import MobilityTaskModule from './MobilityTaskModule.svelte';
   import { MOBILITY_FALLBACK_SCALE } from '../../data/mobility-fallback';
 
@@ -31,14 +31,16 @@
 
   // ---- Derived state ----
   const cfsLevel = $derived(assessmentStore.cfsLevel);
-  const operator = $derived(assessmentStore.operator);
+  // SOP 真相（取代 operator）：是否有知情者在場、病人能否參與。null = 尚未知（入口前）。
+  const informantAvailable = $derived(assessmentStore.informantAvailable);
+  const patientAble = $derived(assessmentStore.patientAble);
 
   /** Tier-1 screen scales for this CFS level (always run first).
-   *  Operator-aware: with no informant present (operator self/nurse) the
-   *  cognition screen falls back from AD8 to Mini-Cog (C-M2). When operator is
-   *  not yet known (null) we omit it so legacy AD8 selection is used. */
+   *  Informant-aware: with no informant available the cognition screen falls
+   *  back from AD8 to Mini-Cog (C-M2). When availability is not yet known (null)
+   *  we omit it so legacy AD8 selection is used. */
   const screenScales = $derived<ScaleDef[]>(
-    cfsLevel ? selectScreenScales(scales, cfsLevel, operator ?? undefined) : [],
+    cfsLevel ? selectScreenScales(scales, cfsLevel, informantAvailable ?? undefined) : [],
   );
 
   /** Tier-2 full scales, computed after the screens are scored (only flagged
@@ -236,16 +238,26 @@
   const currentScaleDef = $derived<ScaleDef | null>(
     currentQuestion ? activeOptionScales.find(s => s.id === currentQuestion.scaleId) ?? null : null,
   );
-  const currentMode = $derived(currentQuestion?.item.mode ?? 'ask-patient');
+  const currentMode = $derived(currentQuestion?.item.mode ?? 'patient');
 
-  /** Operator-oriented framing copy per施測 mode (D3 / spec UI 改造). */
+  /** Per-item answer-source framing copy (SOP-correct wording; replaces the
+   *  operator-blind「請詢問家屬」 that fired regardless of source role). The
+   *  ask-informant frame degrades when no informant is available — the item is
+   *  marked 無法取得 (cognition auto-swaps to Mini-Cog upstream, §5). */
   const MODE_FRAME: Record<string, { title: string; hint: string }> = {
-    'ask-patient': { title: '請唸給受測者並記錄其回答', hint: '操作者：依下列題目詢問受測者本人，記錄其回答。' },
-    'observe': { title: '請操作者觀察並記錄', hint: '操作者：依下列觀察重點觀察受測者，記錄結果。' },
-    'ask-informant': { title: '請詢問家屬／照顧者', hint: '操作者：向同行的家屬或照顧者詢問並記錄。' },
-    'measure': { title: '請測量並記錄', hint: '操作者：依下列方式量測，記錄數值。' },
+    'patient': { title: '請受測者本人作答（操作者唸題並記錄）', hint: '操作者：請受測者本人作答，唸題並記錄其回答。' },
+    'observe': { title: '請操作者觀察受測者並記錄', hint: '操作者：依下列觀察重點觀察受測者，記錄結果。' },
+    'ask-either': { title: '向受測者本人或家屬／照顧者詢問（可參考觀察與病歷）', hint: '操作者：向受測者本人和／或同行的家屬／照顧者詢問，可參考觀察與病歷後記錄。' },
+    'ask-informant': { title: '向熟悉受測者的家屬／照顧者詢問', hint: '操作者：向熟悉受測者日常的家屬／照顧者詢問並記錄。' },
+    'ask-informant-unavailable': { title: '無知情者，標為無法取得', hint: '本題需熟悉受測者的家屬／照顧者；目前無可詢問之知情者，可標為無法取得（記為未完成）。' },
+    'measure': { title: '請依下列方式量測並記錄', hint: '操作者：依下列方式量測，記錄數值。' },
   };
-  const currentFrame = $derived(MODE_FRAME[currentMode] ?? MODE_FRAME['ask-patient']);
+  const currentFrame = $derived.by(() => {
+    if (currentMode === 'ask-informant' && informantAvailable === false) {
+      return MODE_FRAME['ask-informant-unavailable'];
+    }
+    return MODE_FRAME[currentMode] ?? MODE_FRAME['patient'];
+  });
 
   // ---- Per-scale summary (active option scales only) ----
   const scaleSummary = $derived.by(() => {
@@ -359,7 +371,7 @@
         rawScore: null,
         maxScore: def.maxScore,
         severity: 'incomplete',
-        bandLabel: '無法取得（無可詢問之家屬/照顧者）',
+        bandLabel: '無知情者，無法取得',
       });
     }
     advanceAfterItem();
@@ -444,13 +456,13 @@
     return expanded;
   }
 
-  /** Compute a scale's ScaleResult from current answers + operator gate, or null
-   *  when the scale isn't applicable here. Unavailable scales → incomplete. */
+  /** Compute a scale's ScaleResult from current answers + availability gate, or
+   *  null when the scale isn't applicable here. Unavailable scales → incomplete. */
   function computeGatedResult(def: ScaleDef): ScaleResult | null {
     if (unavailableScales.has(def.id)) {
       return {
         scaleId: def.id, domain: def.domain, rawScore: null, maxScore: def.maxScore,
-        severity: 'incomplete', bandLabel: '無法取得（無可詢問之家屬/照顧者）',
+        severity: 'incomplete', bandLabel: '無知情者，無法取得',
       };
     }
     const itemIds = def.items.map(i => i.id);
@@ -459,7 +471,11 @@
     if (!answered) return null;
     const raw = itemIds.reduce((sum, id) => sum + (answers[id]?.score ?? 0), 0);
     const result = scoreScale(def, raw);
-    return operator ? applyOperatorGate(result, operator, def) : result;
+    // Availability gate: requiresInformant + no informant → incomplete; or
+    // requiresPatient + patient cannot participate → incomplete. Both are
+    // SOP-truth facts captured up front (informantAvailable / patientAble).
+    if (informantAvailable === null || patientAble === null) return result;
+    return applyAvailabilityGate(result, { informantAvailable, patientAble }, def);
   }
 
   /** Finalise a scale's gated result into the store when it becomes complete. */
@@ -634,7 +650,7 @@
 
       <div class="recommendation">
         <h3>下一步</h3>
-        <p>送出後將依各量表的驗證切分點計分（含操作者效度檢核），彙整為周全性評估結果與衛教建議。</p>
+        <p>送出後將依各量表的驗證切分點計分（含知情者／受測者可參與性檢核），彙整為周全性評估結果與衛教建議。</p>
         <div class="actions">
           <button class="btn-finish" onclick={handleFinish}>查看評估結果</button>
         </div>
