@@ -64,6 +64,29 @@ describe('assessmentStore availability + tiered flow', () => {
     expect(assessmentStore.partialAnalysis.questionnaireScores).toEqual({ 'mood-screen': 4 });
   });
 
+  it('startNew persists currentStep=1 so resume returns to the questionnaire (not the profile)', async () => {
+    // Root cause of "繼續 needs to re-do everything": createAssessment defaulted
+    // currentStep:0 and startNew only set currentStepIndex in memory → a mid-
+    // questionnaire assessment had DB currentStep=0 → resume landed on profile →
+    // re-entry started a brand-new assessment, discarding answers.
+    await assessmentStore.startNew(
+      { nickName: 'step-test', birthDate: '1948-03-02', gender: 'female' },
+      'cfs5',
+      { informantAvailable: true, patientAble: true },
+    );
+    const id = assessmentStore.assessment!.id;
+    expect(assessmentStore.currentStep).toBe('questionnaire');
+
+    // Must be PERSISTED so a fresh resume lands on the questionnaire.
+    const persisted = await getAssessment(id);
+    expect(persisted?.currentStep).toBe(1);
+
+    assessmentStore.reset();
+    await assessmentStore.resume(id);
+    expect(assessmentStore.currentStepIndex).toBe(1);
+    expect(assessmentStore.currentStep).toBe('questionnaire');
+  });
+
   it('resume on a record without the new fields (pre-v5) falls back to conservative defaults (true/true)', async () => {
     await assessmentStore.startNew(
       { nickName: 'avail-legacy', birthDate: '1948-03-02', gender: 'male' },

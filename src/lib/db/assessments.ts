@@ -31,7 +31,9 @@ export async function createAssessment(
     patientAble: availability.patientAble,
     status: 'started',
     language,
-    currentStep: 0,
+    // 評估在「基本資料填妥、進入問卷」時才建立（startNew），故起始步驟＝問卷(1)。
+    // 若留 0，resume 會回到基本資料、使用者被迫重填並開新評估、進度全失。
+    currentStep: 1,
     startedAt: now,
     fhirSubmitted: false,
     createdAt: now,
