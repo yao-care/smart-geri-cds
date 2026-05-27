@@ -22,6 +22,11 @@ inapplicable:
   physical.continence:
     - cfs1
     - cfs2
+  # physical.pain（C-S1/D1）：pain-screen（NRS/臉譜，tier:screen）applicableCfs 涵蓋
+  #   cfs1–cfs9（疼痛短篩對所有衰弱等級皆適用），故依「inapplicable = cfs1–9 扣除
+  #   applicableCfs」的不適用 = 空集合。列出空陣列以明示「已納入內容矩陣且全 CFS 適用」，
+  #   而非遺漏。pain 目前無對應衛教文章 → 不在 triggers 段掛文章（parity 允許空）。
+  physical.pain: []
   psychological.cognition:
     - cfs9
   psychological.mood:
