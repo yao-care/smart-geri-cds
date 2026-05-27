@@ -6,19 +6,22 @@ import { assessmentStore } from '../../src/lib/stores/assessment.svelte';
 import { db } from '../../src/lib/db/schema';
 import type { ScaleDef } from '../../src/lib/scales/scale';
 
-/** Synthetic scale set spanning two domains, all applicable at cfs5. */
+/** Synthetic screen scale set spanning two domains, all applicable at cfs5.
+ *  Both are tier:'screen' (with no expandsTo) so they run directly in the
+ *  tiered flow without expansion. */
 function makeScales(): ScaleDef[] {
   return [
     {
-      id: 'gds-15',
+      id: 'mood-screen',
       domain: { top: 'psychological', sub: 'mood' },
+      tier: 'screen',
       applicableCfs: ['cfs5'],
       scoring: 'sum',
       inputType: 'option',
       maxScore: 2,
       items: [
-        { id: 'm1', text: '情緒題一？', options: [{ label: '是', score: 1 }, { label: '否', score: 0 }] },
-        { id: 'm2', text: '情緒題二？', options: [{ label: '是', score: 1 }, { label: '否', score: 0 }] },
+        { id: 'm1', mode: 'ask-patient', text: '情緒題一？', prompt: '情緒題一？', options: [{ label: '是', score: 1 }, { label: '否', score: 0 }] },
+        { id: 'm2', mode: 'ask-patient', text: '情緒題二？', prompt: '情緒題二？', options: [{ label: '是', score: 1 }, { label: '否', score: 0 }] },
       ],
       bands: [
         { max: 0, severity: 'normal', label: '正常' },
@@ -27,15 +30,16 @@ function makeScales(): ScaleDef[] {
       clinicallyReviewed: false,
     },
     {
-      id: 'barthel',
+      id: 'adl-screen',
       domain: { top: 'functional', sub: 'adl' },
+      tier: 'screen',
       applicableCfs: ['cfs5'],
       scoring: 'sum',
       inputType: 'option',
       maxScore: 2,
       items: [
-        { id: 'a1', text: 'ADL 題一？', options: [{ label: '可', score: 1 }, { label: '不可', score: 0 }] },
-        { id: 'a2', text: 'ADL 題二？', options: [{ label: '可', score: 1 }, { label: '不可', score: 0 }] },
+        { id: 'a1', mode: 'ask-patient', text: 'ADL 題一？', prompt: 'ADL 題一？', options: [{ label: '可', score: 1 }, { label: '不可', score: 0 }] },
+        { id: 'a2', mode: 'ask-patient', text: 'ADL 題二？', prompt: 'ADL 題二？', options: [{ label: '可', score: 1 }, { label: '不可', score: 0 }] },
       ],
       bands: [
         { max: 1, severity: 'refer', label: '需協助' },
@@ -66,12 +70,19 @@ describe('QuestionnaireModule flow (CFS-driven, per-scale emission)', () => {
     await assessmentStore.startNew(
       { nickName: 'test', birthDate: '', gender: 'male' },
       'cfs5',
+      'nurse',
     );
     assessmentStore.currentStepIndex = 1;
 
     const scales = makeScales();
     render(QuestionnaireModule, { scales });
-    await tick();
+    // Wait for the async restore (initPhase) to settle into the asking phase
+    // (the module starts in a 'loading' phase) before installing fake timers.
+    let waited = 0;
+    while (!document.querySelector('button.option-btn') && waited++ < 50) {
+      await tick();
+      await new Promise(r => setTimeout(r, 5));
+    }
 
     vi.useFakeTimers();
 
@@ -95,7 +106,7 @@ describe('QuestionnaireModule flow (CFS-driven, per-scale emission)', () => {
     const maxScores = assessmentStore.partialAnalysis.questionnaireMaxScores ?? {};
 
     // Both applicable scales must be scored, keyed by scaleId.
-    for (const scaleId of ['gds-15', 'barthel']) {
+    for (const scaleId of ['mood-screen', 'adl-screen']) {
       expect(Object.keys(scores)).toContain(scaleId);
       expect(maxScores[scaleId]).toBe(2);
       expect(scores[scaleId]).toBeLessThanOrEqual(maxScores[scaleId]);
@@ -106,12 +117,14 @@ describe('QuestionnaireModule flow (CFS-driven, per-scale emission)', () => {
     await assessmentStore.startNew(
       { nickName: 'test', birthDate: '', gender: 'male' },
       'cfs1',
+      'nurse',
     );
     assessmentStore.currentStepIndex = 1;
 
     const scales = makeScales(); // all applicable only at cfs5
     const { container } = render(QuestionnaireModule, { scales });
     await tick();
+    await tick(); // allow initPhase (async restore) to settle into the empty state
 
     // No applicable scale → no option buttons rendered.
     expect(container.querySelector('button.option-btn')).toBeNull();

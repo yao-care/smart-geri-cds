@@ -84,10 +84,12 @@ describe('recommendations DAO + merge (CGA two-level × cfs)', () => {
 
   describe('DOMAINS and CATEGORIES constants', () => {
     it('exposes the full two-level domain set (top.sub keys)', () => {
-      // 19 sub-domains across 6 top domains (domain-tree single source).
-      expect(DOMAINS.length).toBe(19);
+      // 20 sub-domains across 6 top domains (domain-tree single source).
+      // physical.pain added in the tiered redesign (Phase B, C-S1).
+      expect(DOMAINS.length).toBe(20);
       expect(DOMAINS).toContain('functional.mobility');
       expect(DOMAINS).toContain('psychological.cognition');
+      expect(DOMAINS).toContain('physical.pain');
       expect(DOMAINS).toContain('future_wishes.advance_care_planning');
       // No old pediatric domain names.
       expect(DOMAINS).not.toContain('gross_motor');
