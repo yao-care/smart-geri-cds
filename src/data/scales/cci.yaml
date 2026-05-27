@@ -6,7 +6,7 @@
 # clinicallyReviewed: false → 病名對應、適用 CFS、切分點待臨床最終簽核。
 #
 # 角色（2026-05 起）：comorbidity 領域之 Tier-2 深評（tier: full），由 comorbidity 短篩亮燈後展開。
-# 各共病項以向受測者/家屬詢問或核對病歷判定（mode 預設 ask-patient；可依現場改問家屬/查病歷）。
+# 各共病項向受測者或家屬詢問或核對病歷判定（mode ask-either）。
 id: cci
 domain:
   top: physical
@@ -19,86 +19,103 @@ maxScore: 33
 items:
   - id: cci_mi
     text: 心肌梗塞病史
+    mode: ask-either
     options:
       - { label: 無, score: 0 }
       - { label: 有, score: 1 }
   - id: cci_chf
     text: 充血性心臟衰竭
+    mode: ask-either
     options:
       - { label: 無, score: 0 }
       - { label: 有, score: 1 }
   - id: cci_pvd
     text: 周邊血管疾病
+    mode: ask-either
     options:
       - { label: 無, score: 0 }
       - { label: 有, score: 1 }
   - id: cci_cvd
     text: 腦血管疾病（中風或 TIA）
+    mode: ask-either
     options:
       - { label: 無, score: 0 }
       - { label: 有, score: 1 }
   - id: cci_dementia
     text: 失智症
+    mode: ask-either
     options:
       - { label: 無, score: 0 }
       - { label: 有, score: 1 }
   - id: cci_copd
     text: 慢性肺部疾病（如 COPD）
+    mode: ask-either
     options:
       - { label: 無, score: 0 }
       - { label: 有, score: 1 }
   - id: cci_ctd
     text: 結締組織疾病（如類風濕性關節炎、紅斑性狼瘡）
+    mode: ask-either
     options:
       - { label: 無, score: 0 }
       - { label: 有, score: 1 }
   - id: cci_pud
     text: 消化性潰瘍疾病
+    mode: ask-either
     options:
       - { label: 無, score: 0 }
       - { label: 有, score: 1 }
   - id: cci_liver_mild
     text: 輕度肝臟疾病
+    mode: ask-either
     options:
       - { label: 無, score: 0 }
       - { label: 有, score: 1 }
   - id: cci_dm
     text: 糖尿病（無器官併發症）
+    mode: ask-either
     options:
       - { label: 無, score: 0 }
       - { label: 有, score: 1 }
   - id: cci_hemiplegia
     text: 偏癱或下身癱瘓
+    mode: ask-either
     options:
       - { label: 無, score: 0 }
       - { label: 有, score: 2 }
   - id: cci_renal
     text: 中度至重度腎臟疾病
+    mode: ask-either
     options:
       - { label: 無, score: 0 }
       - { label: 有, score: 2 }
   - id: cci_dm_organ
     text: 糖尿病合併器官損害
+    mode: ask-either
     options:
       - { label: 無, score: 0 }
       - { label: 有, score: 2 }
   - id: cci_tumor
     text: 惡性腫瘤（無轉移）、白血病或淋巴瘤
+    mode: ask-either
     options:
       - { label: 無, score: 0 }
       - { label: 有, score: 2 }
   - id: cci_liver_severe
     text: 中度至重度肝臟疾病
+    mode: ask-either
     options:
       - { label: 無, score: 0 }
       - { label: 有, score: 3 }
   - id: cci_metastatic
     text: 轉移性實體腫瘤
+    mode: ask-either
     options:
       - { label: 無, score: 0 }
       - { label: 有, score: 6 }
   - id: cci_aids
     text: 後天免疫缺乏症候群（AIDS）
+    mode: ask-either
     options:
       - { label: 無, score: 0 }
       - { label: 有, score: 6 }

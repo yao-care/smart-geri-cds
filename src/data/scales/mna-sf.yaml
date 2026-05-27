@@ -21,7 +21,7 @@ maxScore: 14
 items:
   - id: mna_intake
     text: 過去三個月內，是否因食慾不振、消化問題、咀嚼或吞嚥困難而減少進食量？
-    mode: ask-patient
+    mode: ask-either
     prompt: 請向受測者或家屬詢問過去三個月的進食量變化。
     options:
       - { label: 嚴重食慾不振（食量大幅減少）, score: 0 }
@@ -29,7 +29,7 @@ items:
       - { label: 食慾正常（食量無減少）, score: 2 }
   - id: mna_weightloss
     text: 過去三個月內的體重變化？
-    mode: ask-patient
+    mode: ask-either
     prompt: 請向受測者或家屬詢問（或查閱）過去三個月的體重變化。
     options:
       - { label: 體重減輕超過 3 公斤, score: 0 }
@@ -46,7 +46,7 @@ items:
       - { label: 可自由外出活動, score: 2 }
   - id: mna_stress
     text: 過去三個月內是否曾有急性疾病或重大心理壓力？
-    mode: ask-informant
+    mode: ask-either
     prompt: 請向受測者或家屬詢問（或查閱病歷）過去三個月是否有急性疾病或重大心理壓力。
     options:
       - { label: 是, score: 0 }

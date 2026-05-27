@@ -4,7 +4,7 @@
 # 中文題目為暫譯；clinicallyReviewed: false → 中譯、適用 CFS、切分點待臨床最終簽核。
 #
 # 角色（2026-05 起）：mood 領域之 Tier-1 短篩（tier: screen）。亮燈後展開 GDS-15 深評。
-# C-M6 效度閘門：屬需病人本人作答之情緒測驗 → requiresPatient: true、mode ask-patient。
+# C-M6 效度閘門：屬需病人本人作答之情緒測驗 → requiresPatient: true、各題 mode patient（病人自陳）。
 # C-S2 自傷/絕望紅旗：第 2 題觸及情緒低落/絕望 → redFlag: self-harm，
 #   陽性作答時 UI 立即顯示安全提示與轉介路徑（不只計入總分）。
 id: mood-screen
@@ -20,7 +20,7 @@ requiresPatient: true
 maxScore: 6
 items:
   - id: phq2_anhedonia
-    mode: ask-patient
+    mode: patient
     prompt: 請唸給受測者並記錄回答：過去兩週，您有多少時候做事情提不起勁或沒有興趣？
     text: 過去兩週，做事情提不起勁或沒有興趣的頻率
     options:
@@ -29,7 +29,7 @@ items:
       - { label: 超過一半的天數, score: 2 }
       - { label: 幾乎每天, score: 3 }
   - id: phq2_depressed
-    mode: ask-patient
+    mode: patient
     prompt: 請唸給受測者並記錄回答：過去兩週，您有多少時候感到心情低落、沮喪或絕望？（若受測者表達絕望或不想活，請依安全提示處理）
     text: 過去兩週，感到心情低落、沮喪或絕望的頻率
     redFlag: self-harm

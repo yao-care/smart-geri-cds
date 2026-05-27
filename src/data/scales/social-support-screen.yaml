@@ -15,8 +15,8 @@ inputType: option
 maxScore: 2
 items:
   - id: soc_contact
-    mode: ask-patient
-    prompt: 請唸給受測者並記錄回答：過去一週，您與家人或朋友見面、通電話或聯絡的頻率如何？
+    mode: ask-either
+    prompt: 請向受測者或家屬詢問：過去一週與家人或朋友見面、通電話或聯絡的頻率如何？
     text: 過去一週與家人/朋友的社會接觸頻率
     options:
       - { label: 經常（每週數次以上）, score: 0 }

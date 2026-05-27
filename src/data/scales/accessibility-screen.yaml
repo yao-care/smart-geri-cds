@@ -14,7 +14,7 @@ maxScore: 4
 items:
   - id: acc_device
     text: 您目前是否有需要但尚未取得或不合適的輔具（如助行器、輪椅、助聽器、特製座椅）？
-    mode: ask-patient
+    mode: ask-either
     prompt: 請向受測者或家屬詢問是否有需要但尚未取得或不合適的輔具。
     options:
       - { label: 沒有需求或需求已滿足, score: 0 }
@@ -22,7 +22,7 @@ items:
       - { label: 有明顯需求且未滿足, score: 2 }
   - id: acc_environment
     text: 您的住家或社區環境（門檻、樓梯、電梯、通道）是否妨礙您安全進出與移動？
-    mode: ask-patient
+    mode: ask-either
     prompt: 請向受測者或家屬詢問住家/社區環境是否妨礙安全進出與移動。
     options:
       - { label: 無障礙, score: 0 }
