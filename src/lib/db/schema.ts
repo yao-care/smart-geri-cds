@@ -110,6 +110,19 @@ export interface Child {
   createdAt: Date;
 }
 
+/**
+ * 各模組即時產出的分析結果（純問卷版只有問卷分數）。
+ * 持久化於 Assessment 上，供 resume 還原作答進度（避免重答）。
+ */
+export interface PartialAnalysis {
+  /** scaleId → 累計原始分。 */
+  questionnaireScores?: Record<string, number>;
+  /** 同 key 的最大可能分，供正規化。 */
+  questionnaireMaxScores?: Record<string, number>;
+  /** 已完整計分的 ScaleResult（計時任務 / 其 fallback），keyed by 量表 id。 */
+  scaleResults?: Record<string, ScaleResult>;
+}
+
 export interface Assessment {
   id: string;
   childId: string;
@@ -121,6 +134,9 @@ export interface Assessment {
   startedAt: Date;
   completedAt?: Date;
   pausedAt?: Date;
+  /** 進行中的問卷作答進度快照（per-scale 分數 + 計時任務 ScaleResult）。
+   *  resume 時還原，使暫停後續評不需重答。完成後仍保留以利除錯，不影響結果計算。 */
+  partialAnalysis?: PartialAnalysis;
   triageResult?: {
     /** 整體分流＝取最嚴重領域（含 incomplete）。 */
     category: 'normal' | 'monitor' | 'refer' | 'incomplete';
@@ -290,6 +306,9 @@ export class CdssDatabase extends Dexie {
     this.version(2).stores({
       mobilityRecordings: 'id, assessmentId, scaleId, createdAt, [assessmentId+scaleId]',
     });
+    // v3：assessments 新增非索引欄 partialAnalysis（問卷作答進度快照，供 resume 還原）。
+    //   非索引欄不需改 stores()；以空 .stores({}) 標記版本，向後相容（舊紀錄缺欄→undefined）。
+    this.version(3).stores({});
   }
 }
 

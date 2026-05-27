@@ -150,6 +150,37 @@ describe('QuestionnaireModule', () => {
     }, { timeout: 3000 });
   });
 
+  it('on resume, restores prior answers and continues from the first unanswered question', { timeout: 15000 }, async () => {
+    assessmentStore.child = makeChild();
+    assessmentStore.assessment = makeAssessment();
+    assessmentStore.cfsLevel = 'cfs5';
+
+    // First session: answer only Q1, then "pause" (unmount).
+    const first = render(QuestionnaireModule, { scales: [scale] });
+    await waitFor(() => expect(screen.getByText('題目一？')).toBeInTheDocument());
+    await fireEvent.click(
+      screen.getAllByRole('button').find(b => b.classList.contains('option-btn'))!,
+    );
+    // Wait until the per-item event for Q1 is persisted.
+    await waitFor(async () => {
+      const events = await db.assessmentEvents.where('moduleType').equals('questionnaire').toArray();
+      expect(events.some(e => e.data.questionId === 'q1')).toBe(true);
+    }, { timeout: 2000 });
+    first.unmount();
+
+    // Second session (resume): same assessment/child still in the store; events survive.
+    render(QuestionnaireModule, { scales: [scale] });
+
+    // Restore is async (reads events) → wait for it to settle on Q2, not Q1.
+    await waitFor(() => {
+      expect(screen.getByText('題目二？')).toBeInTheDocument();
+    }, { timeout: 2000 });
+    // Q1 is not re-asked.
+    expect(screen.queryByText('題目一？')).toBeNull();
+    // Progress reflects the prior answer (1 of 2 answered before this question).
+    expect(screen.getByText(/第 2 題，共 2 題/)).toBeInTheDocument();
+  });
+
   it('persists per-scale scores (keyed by scaleId) after answering all items', { timeout: 15000 }, async () => {
     assessmentStore.child = makeChild();
     assessmentStore.assessment = makeAssessment();
