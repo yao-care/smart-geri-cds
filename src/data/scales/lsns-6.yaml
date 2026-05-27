@@ -70,4 +70,4 @@ bands:
   - { min: 0, max: 5, severity: refer, label: 高度社會孤立，建議轉介社會支持資源 }
   - { min: 6, max: 11, severity: monitor, label: 社會孤立風險，建議追蹤與鼓勵社會參與 }
   - { min: 12, max: 30, severity: normal, label: 社會連結良好 }
-clinicallyReviewed: true
+clinicallyReviewed: false

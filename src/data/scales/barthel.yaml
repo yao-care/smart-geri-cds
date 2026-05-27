@@ -76,4 +76,4 @@ bands:
   - { min: 0, max: 60, severity: refer, label: 高度依賴，建議轉介評估照護需求 }
   - { min: 61, max: 90, severity: monitor, label: 部分依賴，建議追蹤與復能 }
   - { min: 91, max: 100, severity: normal, label: 大致獨立 }
-clinicallyReviewed: true
+clinicallyReviewed: false
