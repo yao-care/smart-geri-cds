@@ -353,5 +353,89 @@
     "minDuration": 120,
     "maxDuration": 1800,
     "timeSensitive": false
+  },
+  "cga.domain.functional.falls.anomaly.cfs7": {
+    "primary": [
+      "臥床長者 翻身 護理 衛教",
+      "中風後 復健 衛教",
+      "長者 預防壓瘡 翻身擺位"
+    ],
+    "secondary": [
+      "bedridden elderly turning care",
+      "pressure ulcer prevention turning"
+    ],
+    "minDuration": 60,
+    "maxDuration": 1800,
+    "timeSensitive": false
+  },
+  "cga.domain.physical.comorbidity.anomaly.cfs7": {
+    "primary": [
+      "失能長者 多重慢性病 照護",
+      "臥床 長期照護 慢性病管理",
+      "重度衰弱 長者 健康整合"
+    ],
+    "secondary": [
+      "bedridden elderly chronic disease care",
+      "severe frailty multimorbidity"
+    ],
+    "minDuration": 120,
+    "maxDuration": 1800,
+    "timeSensitive": false
+  },
+  "cga.domain.physical.continence.anomaly.cfs7": {
+    "primary": [
+      "長者 失禁 護理 衛教",
+      "臥床 紙尿褲 照護技巧",
+      "老人 尿管 留置 照護"
+    ],
+    "secondary": [
+      "elderly incontinence care",
+      "bedridden adult diaper care"
+    ],
+    "minDuration": 60,
+    "maxDuration": 1800,
+    "timeSensitive": false
+  },
+  "cga.domain.physical.pain.anomaly.cfs7": {
+    "primary": [
+      "PAINAD 失智 疼痛 評估",
+      "失智晚期 疼痛 行為觀察",
+      "臨終 疼痛 緩解 安寧"
+    ],
+    "secondary": [
+      "PAINAD dementia pain",
+      "end of life pain assessment elderly"
+    ],
+    "minDuration": 120,
+    "maxDuration": 1800,
+    "timeSensitive": false
+  },
+  "cga.domain.psychological.delirium.anomaly.cfs7": {
+    "primary": [
+      "譫妄 照護 家屬 衛教",
+      "住院 老人 急性混亂 預防",
+      "譫妄 處置 護理"
+    ],
+    "secondary": [
+      "delirium elderly family caregiver",
+      "hospital delirium prevention"
+    ],
+    "minDuration": 120,
+    "maxDuration": 1800,
+    "timeSensitive": false
+  },
+  "cga.domain.social.financial.anomaly.cfs7": {
+    "primary": [
+      "長照 經濟弱勢 補助",
+      "失能長者 經濟 安排 預立",
+      "老人 喪葬 預立 規劃"
+    ],
+    "secondary": [
+      "long term care financial assistance elderly",
+      "end of life financial planning"
+    ],
+    "minDuration": 120,
+    "maxDuration": 1800,
+    "timeSensitive": false
   }
 }

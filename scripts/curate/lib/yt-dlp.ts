@@ -23,11 +23,16 @@ export function detectRateLimit(stderr: string): boolean {
 
 const BACKOFFS_SECONDS = [30, 60, 120, 240];
 
+// 預設帶 Chrome Default cookies 過 YouTube anti-bot 牆（『Sign in to confirm you're not a bot』）。
+// 可用 YT_DLP_COOKIES_FROM_BROWSER 環境變數覆寫（如 'firefox' 或 'chrome:Profile 1'）。
+const COOKIES_FROM_BROWSER = process.env.YT_DLP_COOKIES_FROM_BROWSER ?? 'chrome:Default';
+
 async function runYtDlp(args: string[]): Promise<string> {
+  const fullArgs = ['--cookies-from-browser', COOKIES_FROM_BROWSER, ...args];
   for (let attempt = 0; attempt < BACKOFFS_SECONDS.length; attempt++) {
     try {
       const exec = promisify(childProcess.execFile);
-      const { stdout } = await exec('yt-dlp', args, { maxBuffer: 50 * 1024 * 1024 });
+      const { stdout } = await exec('yt-dlp', fullArgs, { maxBuffer: 50 * 1024 * 1024 });
       return stdout;
     } catch (err) {
       const e = err as { stderr?: string };
