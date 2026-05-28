@@ -290,7 +290,10 @@
     {#each childrenData as { child, assessments }}
       <section class="child-section">
         <h2 class="child-header">
-          <span class="child-id">ID: {abbreviateId(child.id)}</span>
+          {#if child.nickName?.trim()}
+            <span class="child-nick">{child.nickName}</span>
+          {/if}
+          <span class="child-id" class:secondary={child.nickName?.trim()}>ID: {abbreviateId(child.id)}</span>
           {#if child.birthDate && ageInMonths(child.birthDate) > 0}
             <span class="child-age">約 {Math.floor(ageInMonths(child.birthDate) / 12)} 歲</span>
           {/if}
@@ -631,10 +634,23 @@
     border-bottom: 1px solid var(--line);
   }
 
+  .child-nick {
+    color: var(--text);
+    font-weight: var(--font-bold);
+    font-size: var(--text-base);
+  }
+
   .child-id {
     color: var(--text);
     font-family: var(--font-mono);
     font-size: var(--text-sm);
+  }
+
+  /* 有暱稱時 ID 退為次要參照（仍保留唯一鍵供醫護核對）。 */
+  .child-id.secondary {
+    color: color-mix(in srgb, var(--text), var(--bg) 45%);
+    font-size: var(--text-xs);
+    font-weight: normal;
   }
 
   .child-age {
