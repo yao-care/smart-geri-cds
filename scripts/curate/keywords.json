@@ -13,6 +13,21 @@
     "maxDuration": 1800,
     "timeSensitive": false
   },
+  "cga.domain.environmental.accessibility.anomaly.cfs7": {
+    "primary": [
+      "臥床長者 居家醫療 巡迴",
+      "失能 重度照護 在宅",
+      "重度依賴 醫療接送 救護"
+    ],
+    "secondary": [
+      "bedridden home medical visit elderly",
+      "home medical care severely disabled"
+    ],
+    "educationSlug": "ltc-resources",
+    "minDuration": 120,
+    "maxDuration": 1800,
+    "timeSensitive": false
+  },
   "cga.domain.environmental.home_safety.anomaly.cfs3": {
     "primary": [
       "居家安全 長者 改造 衛教",
@@ -22,6 +37,21 @@
     "secondary": [
       "home safety modification elderly",
       "fall prevention home environment older adults"
+    ],
+    "educationSlug": "home-safety",
+    "minDuration": 120,
+    "maxDuration": 1800,
+    "timeSensitive": false
+  },
+  "cga.domain.environmental.home_safety.anomaly.cfs7": {
+    "primary": [
+      "臥床長者 居家環境 安全",
+      "失智 居家環境 走失 防護",
+      "重度依賴 床欄 防墜床"
+    ],
+    "secondary": [
+      "bedridden home environment safety",
+      "dementia home safety wandering prevention"
     ],
     "educationSlug": "home-safety",
     "minDuration": 120,
@@ -39,6 +69,21 @@
       "activities daily living older adults training"
     ],
     "educationSlug": "fall-prevention",
+    "minDuration": 120,
+    "maxDuration": 1800,
+    "timeSensitive": false
+  },
+  "cga.domain.functional.adl.anomaly.cfs7": {
+    "primary": [
+      "失能長者 日常生活 協助",
+      "重度依賴 餵食 洗澡 換尿布",
+      "中風後 ADL 訓練 復健"
+    ],
+    "secondary": [
+      "severe disability ADL assistance elderly",
+      "stroke ADL training rehabilitation"
+    ],
+    "educationSlug": "adl-maintenance",
     "minDuration": 120,
     "maxDuration": 1800,
     "timeSensitive": false
@@ -117,6 +162,21 @@
     "maxDuration": 1800,
     "timeSensitive": false
   },
+  "cga.domain.functional.iadl.anomaly.cfs5": {
+    "primary": [
+      "輕度失能 用藥管理 協助",
+      "長者 購物 備餐 協助",
+      "高齡 IADL 居家服務 衛教"
+    ],
+    "secondary": [
+      "mild disability IADL medication management",
+      "older adults shopping meal assistance"
+    ],
+    "educationSlug": "ltc-resources",
+    "minDuration": 120,
+    "maxDuration": 1800,
+    "timeSensitive": false
+  },
   "cga.domain.functional.mobility.anomaly.cfs2": {
     "primary": [
       "活躍長者 健走 體能",
@@ -162,6 +222,21 @@
     "maxDuration": 1800,
     "timeSensitive": false
   },
+  "cga.domain.future_wishes.advance_care_planning.anomaly.cfs8": {
+    "primary": [
+      "末期病人 預立醫療決定 簽署",
+      "病主法 不插管 不放鼻胃管",
+      "失智晚期 預立醫療 家屬決定"
+    ],
+    "secondary": [
+      "advance directive end of life signing",
+      "DNR dementia late stage family decision"
+    ],
+    "educationSlug": "advance-care-planning",
+    "minDuration": 120,
+    "maxDuration": 1800,
+    "timeSensitive": false
+  },
   "cga.domain.future_wishes.treatment_preferences.anomaly.cfs5": {
     "primary": [
       "病人自主權利法 長者",
@@ -172,6 +247,21 @@
       "treatment preferences advance directive",
       "patient autonomy end of life"
     ],
+    "minDuration": 120,
+    "maxDuration": 1800,
+    "timeSensitive": false
+  },
+  "cga.domain.future_wishes.treatment_preferences.anomaly.cfs8": {
+    "primary": [
+      "末期 治療目標 討論",
+      "拒絕侵入性治療 善終 衛教",
+      "失智晚期 治療選擇 家庭會議"
+    ],
+    "secondary": [
+      "treatment goals end of life discussion",
+      "withdrawal of treatment family meeting"
+    ],
+    "educationSlug": "treatment-preferences",
     "minDuration": 120,
     "maxDuration": 1800,
     "timeSensitive": false
@@ -351,6 +441,21 @@
     "maxDuration": 1800,
     "timeSensitive": false
   },
+  "cga.domain.physical.sensory.anomaly.cfs7": {
+    "primary": [
+      "失智 感官退化 照護",
+      "重度依賴 視聽障 環境調整",
+      "白內障 重度失能 照護"
+    ],
+    "secondary": [
+      "dementia sensory impairment care",
+      "severe visual hearing loss elderly care"
+    ],
+    "educationSlug": "sensory-impairment",
+    "minDuration": 120,
+    "maxDuration": 1800,
+    "timeSensitive": false
+  },
   "cga.domain.psychological.cognition.anomaly.cfs2": {
     "primary": [
       "健康老化 預防失智 腦力訓練",
@@ -466,6 +571,21 @@
       "family caregiver respite care"
     ],
     "educationSlug": "caregiver-support",
+    "minDuration": 120,
+    "maxDuration": 1800,
+    "timeSensitive": false
+  },
+  "cga.domain.social.caregiver.anomaly.cfs8": {
+    "primary": [
+      "重度失能 照顧者 負荷",
+      "失智末期 家屬 照護 壓力",
+      "臥床長者 照顧者 喘息"
+    ],
+    "secondary": [
+      "severe disability caregiver burden",
+      "late stage dementia family caregiver stress"
+    ],
+    "educationSlug": "caregiver-burnout",
     "minDuration": 120,
     "maxDuration": 1800,
     "timeSensitive": false
