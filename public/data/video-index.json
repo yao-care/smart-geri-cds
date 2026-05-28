@@ -13,6 +13,7 @@
     "incontinence-care",
     "ltc-resources",
     "medication-safety",
+    "pain-management",
     "sarcopenia-exercise",
     "sensory-impairment",
     "social-connection",
@@ -1160,6 +1161,17 @@
       "cga.domain.physical.polypharmacy.anomaly.cfs8",
       "cga.domain.physical.polypharmacy.anomaly.cfs9"
     ],
+    "pain-management": [
+      "cga.domain.physical.pain.anomaly.cfs1",
+      "cga.domain.physical.pain.anomaly.cfs2",
+      "cga.domain.physical.pain.anomaly.cfs3",
+      "cga.domain.physical.pain.anomaly.cfs4",
+      "cga.domain.physical.pain.anomaly.cfs5",
+      "cga.domain.physical.pain.anomaly.cfs6",
+      "cga.domain.physical.pain.anomaly.cfs7",
+      "cga.domain.physical.pain.anomaly.cfs8",
+      "cga.domain.physical.pain.anomaly.cfs9"
+    ],
     "sarcopenia-exercise": [
       "cga.domain.functional.mobility.anomaly.cfs2",
       "cga.domain.functional.mobility.anomaly.cfs3",
@@ -1780,6 +1792,78 @@
         "source": "internal",
         "summary": "認識長者營養不良與體重流失的風險因子，掌握均衡飲食、足夠蛋白質與水分，以及進食困難的因應。",
         "title": "長者營養照護"
+      }
+    ],
+    "monitor::physical.pain::cfs1": [
+      {
+        "slug": "pain-management",
+        "source": "internal",
+        "summary": "疼痛在高齡常被低估與忽視；用簡單的 NRS（0–10）或 PAINAD（無法表達者）評估，從非藥物優先、藥物審慎並用，並注意紅旗症狀。",
+        "title": "長者疼痛評估與管理"
+      }
+    ],
+    "monitor::physical.pain::cfs2": [
+      {
+        "slug": "pain-management",
+        "source": "internal",
+        "summary": "疼痛在高齡常被低估與忽視；用簡單的 NRS（0–10）或 PAINAD（無法表達者）評估，從非藥物優先、藥物審慎並用，並注意紅旗症狀。",
+        "title": "長者疼痛評估與管理"
+      }
+    ],
+    "monitor::physical.pain::cfs3": [
+      {
+        "slug": "pain-management",
+        "source": "internal",
+        "summary": "疼痛在高齡常被低估與忽視；用簡單的 NRS（0–10）或 PAINAD（無法表達者）評估，從非藥物優先、藥物審慎並用，並注意紅旗症狀。",
+        "title": "長者疼痛評估與管理"
+      }
+    ],
+    "monitor::physical.pain::cfs4": [
+      {
+        "slug": "pain-management",
+        "source": "internal",
+        "summary": "疼痛在高齡常被低估與忽視；用簡單的 NRS（0–10）或 PAINAD（無法表達者）評估，從非藥物優先、藥物審慎並用，並注意紅旗症狀。",
+        "title": "長者疼痛評估與管理"
+      }
+    ],
+    "monitor::physical.pain::cfs5": [
+      {
+        "slug": "pain-management",
+        "source": "internal",
+        "summary": "疼痛在高齡常被低估與忽視；用簡單的 NRS（0–10）或 PAINAD（無法表達者）評估，從非藥物優先、藥物審慎並用，並注意紅旗症狀。",
+        "title": "長者疼痛評估與管理"
+      }
+    ],
+    "monitor::physical.pain::cfs6": [
+      {
+        "slug": "pain-management",
+        "source": "internal",
+        "summary": "疼痛在高齡常被低估與忽視；用簡單的 NRS（0–10）或 PAINAD（無法表達者）評估，從非藥物優先、藥物審慎並用，並注意紅旗症狀。",
+        "title": "長者疼痛評估與管理"
+      }
+    ],
+    "monitor::physical.pain::cfs7": [
+      {
+        "slug": "pain-management",
+        "source": "internal",
+        "summary": "疼痛在高齡常被低估與忽視；用簡單的 NRS（0–10）或 PAINAD（無法表達者）評估，從非藥物優先、藥物審慎並用，並注意紅旗症狀。",
+        "title": "長者疼痛評估與管理"
+      }
+    ],
+    "monitor::physical.pain::cfs8": [
+      {
+        "slug": "pain-management",
+        "source": "internal",
+        "summary": "疼痛在高齡常被低估與忽視；用簡單的 NRS（0–10）或 PAINAD（無法表達者）評估，從非藥物優先、藥物審慎並用，並注意紅旗症狀。",
+        "title": "長者疼痛評估與管理"
+      }
+    ],
+    "monitor::physical.pain::cfs9": [
+      {
+        "slug": "pain-management",
+        "source": "internal",
+        "summary": "疼痛在高齡常被低估與忽視；用簡單的 NRS（0–10）或 PAINAD（無法表達者）評估，從非藥物優先、藥物審慎並用，並注意紅旗症狀。",
+        "title": "長者疼痛評估與管理"
       }
     ],
     "monitor::physical.polypharmacy::cfs2": [
@@ -2838,6 +2922,78 @@
         "title": "長者營養照護"
       }
     ],
+    "refer::physical.pain::cfs1": [
+      {
+        "slug": "pain-management",
+        "source": "internal",
+        "summary": "疼痛在高齡常被低估與忽視；用簡單的 NRS（0–10）或 PAINAD（無法表達者）評估，從非藥物優先、藥物審慎並用，並注意紅旗症狀。",
+        "title": "長者疼痛評估與管理"
+      }
+    ],
+    "refer::physical.pain::cfs2": [
+      {
+        "slug": "pain-management",
+        "source": "internal",
+        "summary": "疼痛在高齡常被低估與忽視；用簡單的 NRS（0–10）或 PAINAD（無法表達者）評估，從非藥物優先、藥物審慎並用，並注意紅旗症狀。",
+        "title": "長者疼痛評估與管理"
+      }
+    ],
+    "refer::physical.pain::cfs3": [
+      {
+        "slug": "pain-management",
+        "source": "internal",
+        "summary": "疼痛在高齡常被低估與忽視；用簡單的 NRS（0–10）或 PAINAD（無法表達者）評估，從非藥物優先、藥物審慎並用，並注意紅旗症狀。",
+        "title": "長者疼痛評估與管理"
+      }
+    ],
+    "refer::physical.pain::cfs4": [
+      {
+        "slug": "pain-management",
+        "source": "internal",
+        "summary": "疼痛在高齡常被低估與忽視；用簡單的 NRS（0–10）或 PAINAD（無法表達者）評估，從非藥物優先、藥物審慎並用，並注意紅旗症狀。",
+        "title": "長者疼痛評估與管理"
+      }
+    ],
+    "refer::physical.pain::cfs5": [
+      {
+        "slug": "pain-management",
+        "source": "internal",
+        "summary": "疼痛在高齡常被低估與忽視；用簡單的 NRS（0–10）或 PAINAD（無法表達者）評估，從非藥物優先、藥物審慎並用，並注意紅旗症狀。",
+        "title": "長者疼痛評估與管理"
+      }
+    ],
+    "refer::physical.pain::cfs6": [
+      {
+        "slug": "pain-management",
+        "source": "internal",
+        "summary": "疼痛在高齡常被低估與忽視；用簡單的 NRS（0–10）或 PAINAD（無法表達者）評估，從非藥物優先、藥物審慎並用，並注意紅旗症狀。",
+        "title": "長者疼痛評估與管理"
+      }
+    ],
+    "refer::physical.pain::cfs7": [
+      {
+        "slug": "pain-management",
+        "source": "internal",
+        "summary": "疼痛在高齡常被低估與忽視；用簡單的 NRS（0–10）或 PAINAD（無法表達者）評估，從非藥物優先、藥物審慎並用，並注意紅旗症狀。",
+        "title": "長者疼痛評估與管理"
+      }
+    ],
+    "refer::physical.pain::cfs8": [
+      {
+        "slug": "pain-management",
+        "source": "internal",
+        "summary": "疼痛在高齡常被低估與忽視；用簡單的 NRS（0–10）或 PAINAD（無法表達者）評估，從非藥物優先、藥物審慎並用，並注意紅旗症狀。",
+        "title": "長者疼痛評估與管理"
+      }
+    ],
+    "refer::physical.pain::cfs9": [
+      {
+        "slug": "pain-management",
+        "source": "internal",
+        "summary": "疼痛在高齡常被低估與忽視；用簡單的 NRS（0–10）或 PAINAD（無法表達者）評估，從非藥物優先、藥物審慎並用，並注意紅旗症狀。",
+        "title": "長者疼痛評估與管理"
+      }
+    ],
     "refer::physical.polypharmacy::cfs2": [
       {
         "slug": "medication-safety",
@@ -3331,8 +3487,8 @@
         "8v8JFXPKJQc",
         "XXufec_MC3Q",
         "XqgFS_yV5nM",
-        "m0ZQBZpjmxc",
-        "J-1bHnYBsEI"
+        "J-1bHnYBsEI",
+        "m0ZQBZpjmxc"
       ]
     },
     "cga.domain.environmental.accessibility.anomaly.cfs5": {
@@ -3342,8 +3498,8 @@
         "8v8JFXPKJQc",
         "XXufec_MC3Q",
         "XqgFS_yV5nM",
-        "m0ZQBZpjmxc",
-        "J-1bHnYBsEI"
+        "J-1bHnYBsEI",
+        "m0ZQBZpjmxc"
       ]
     },
     "cga.domain.environmental.accessibility.anomaly.cfs6": {
@@ -3353,8 +3509,8 @@
         "8v8JFXPKJQc",
         "XXufec_MC3Q",
         "XqgFS_yV5nM",
-        "m0ZQBZpjmxc",
-        "J-1bHnYBsEI"
+        "J-1bHnYBsEI",
+        "m0ZQBZpjmxc"
       ]
     },
     "cga.domain.environmental.accessibility.anomaly.cfs7": {
@@ -3363,9 +3519,9 @@
       "videoIds": [
         "8v8JFXPKJQc",
         "XXufec_MC3Q",
-        "XqgFS_yV5nM",
         "m0ZQBZpjmxc",
-        "J-1bHnYBsEI"
+        "J-1bHnYBsEI",
+        "XqgFS_yV5nM"
       ]
     },
     "cga.domain.environmental.accessibility.anomaly.cfs8": {
@@ -3374,9 +3530,9 @@
       "videoIds": [
         "8v8JFXPKJQc",
         "XXufec_MC3Q",
-        "XqgFS_yV5nM",
         "m0ZQBZpjmxc",
-        "J-1bHnYBsEI"
+        "J-1bHnYBsEI",
+        "XqgFS_yV5nM"
       ]
     },
     "cga.domain.environmental.accessibility.anomaly.cfs9": {
@@ -3385,9 +3541,9 @@
       "videoIds": [
         "8v8JFXPKJQc",
         "XXufec_MC3Q",
-        "XqgFS_yV5nM",
         "m0ZQBZpjmxc",
-        "J-1bHnYBsEI"
+        "J-1bHnYBsEI",
+        "XqgFS_yV5nM"
       ]
     },
     "cga.domain.environmental.home_safety.anomaly.cfs1": {
@@ -3446,8 +3602,8 @@
       "educationSlug": "home-safety",
       "inapplicable": false,
       "videoIds": [
-        "Z1A6YLSARwI",
         "cq7apwizQ4s",
+        "Z1A6YLSARwI",
         "1I22b20urZg",
         "j5YSHsQXEmo",
         "raF69KnnZCo"
@@ -3457,8 +3613,8 @@
       "educationSlug": "home-safety",
       "inapplicable": false,
       "videoIds": [
-        "Z1A6YLSARwI",
         "cq7apwizQ4s",
+        "Z1A6YLSARwI",
         "1I22b20urZg",
         "j5YSHsQXEmo",
         "raF69KnnZCo"
@@ -3524,33 +3680,33 @@
       "educationSlug": "adl-maintenance",
       "inapplicable": false,
       "videoIds": [
+        "nbgF_8kinjg",
+        "uYg7iu18caA",
         "ZQaEEP7BSJE",
         "MfrxrLDtDuQ",
-        "nbgF_8kinjg",
-        "gHSg8o4Efns",
-        "uYg7iu18caA"
+        "gHSg8o4Efns"
       ]
     },
     "cga.domain.functional.adl.anomaly.cfs8": {
       "educationSlug": "adl-maintenance",
       "inapplicable": false,
       "videoIds": [
+        "uYg7iu18caA",
         "ZQaEEP7BSJE",
         "MfrxrLDtDuQ",
         "nbgF_8kinjg",
-        "gHSg8o4Efns",
-        "uYg7iu18caA"
+        "gHSg8o4Efns"
       ]
     },
     "cga.domain.functional.adl.anomaly.cfs9": {
       "educationSlug": "adl-maintenance",
       "inapplicable": false,
       "videoIds": [
+        "uYg7iu18caA",
         "ZQaEEP7BSJE",
         "MfrxrLDtDuQ",
         "nbgF_8kinjg",
-        "gHSg8o4Efns",
-        "uYg7iu18caA"
+        "gHSg8o4Efns"
       ]
     },
     "cga.domain.functional.falls.anomaly.cfs1": {
@@ -3652,9 +3808,9 @@
       "videoIds": [
         "NitXM9QnUn4",
         "5CPZ649rNGE",
-        "XhZBd_gzdhc",
         "GEOyJxQoTAA",
-        "JaLN8QnonBc"
+        "JaLN8QnonBc",
+        "XhZBd_gzdhc"
       ]
     },
     "cga.domain.functional.iadl.anomaly.cfs4": {
@@ -3663,9 +3819,9 @@
       "videoIds": [
         "NitXM9QnUn4",
         "5CPZ649rNGE",
-        "XhZBd_gzdhc",
         "GEOyJxQoTAA",
-        "JaLN8QnonBc"
+        "JaLN8QnonBc",
+        "XhZBd_gzdhc"
       ]
     },
     "cga.domain.functional.iadl.anomaly.cfs5": {
@@ -3734,8 +3890,8 @@
         "7BG1vp_N1FU",
         "Xvh51Yw5CaQ",
         "Egw1WmqNAbg",
-        "9Wnc9gaErNE",
-        "M-dkUOiqX3w"
+        "M-dkUOiqX3w",
+        "9Wnc9gaErNE"
       ]
     },
     "cga.domain.functional.mobility.anomaly.cfs3": {
@@ -3823,8 +3979,8 @@
       "videoIds": [
         "fujj-CuWsaI",
         "ruBIxE1BUEc",
-        "ejqzwqeJIrA",
         "2Eh79wr7aSw",
+        "ejqzwqeJIrA",
         "Y4MrKcTB52A"
       ]
     },
@@ -3834,8 +3990,8 @@
       "videoIds": [
         "fujj-CuWsaI",
         "ruBIxE1BUEc",
-        "ejqzwqeJIrA",
         "2Eh79wr7aSw",
+        "ejqzwqeJIrA",
         "Y4MrKcTB52A"
       ]
     },
@@ -3845,8 +4001,8 @@
       "videoIds": [
         "fujj-CuWsaI",
         "ruBIxE1BUEc",
-        "ejqzwqeJIrA",
         "2Eh79wr7aSw",
+        "ejqzwqeJIrA",
         "Y4MrKcTB52A"
       ]
     },
@@ -3892,10 +4048,10 @@
       "educationSlug": "treatment-preferences",
       "inapplicable": false,
       "videoIds": [
-        "IqBjMHzdxUY",
         "8O0lsVKiwt8",
         "2Eh79wr7aSw",
         "PlqPu68ElqE",
+        "IqBjMHzdxUY",
         "QdmzjK74XbM"
       ]
     },
@@ -3903,10 +4059,10 @@
       "educationSlug": "treatment-preferences",
       "inapplicable": false,
       "videoIds": [
-        "IqBjMHzdxUY",
         "8O0lsVKiwt8",
         "2Eh79wr7aSw",
         "PlqPu68ElqE",
+        "IqBjMHzdxUY",
         "QdmzjK74XbM"
       ]
     },
@@ -3914,10 +4070,10 @@
       "educationSlug": "treatment-preferences",
       "inapplicable": false,
       "videoIds": [
-        "IqBjMHzdxUY",
         "8O0lsVKiwt8",
         "2Eh79wr7aSw",
         "PlqPu68ElqE",
+        "IqBjMHzdxUY",
         "QdmzjK74XbM"
       ]
     },
@@ -4126,8 +4282,8 @@
       "videoIds": [
         "rC_unUV0YT4",
         "lKbiRaWnQbs",
-        "j59WC6cbr88",
         "tCGLwR9NbFo",
+        "j59WC6cbr88",
         "BI3sHb--67E"
       ]
     },
@@ -4137,8 +4293,8 @@
       "videoIds": [
         "rC_unUV0YT4",
         "lKbiRaWnQbs",
-        "j59WC6cbr88",
         "tCGLwR9NbFo",
+        "j59WC6cbr88",
         "BI3sHb--67E"
       ]
     },
@@ -4148,8 +4304,8 @@
       "videoIds": [
         "rC_unUV0YT4",
         "lKbiRaWnQbs",
-        "j59WC6cbr88",
         "tCGLwR9NbFo",
+        "j59WC6cbr88",
         "BI3sHb--67E"
       ]
     },
@@ -4159,8 +4315,8 @@
       "videoIds": [
         "rC_unUV0YT4",
         "lKbiRaWnQbs",
-        "j59WC6cbr88",
         "tCGLwR9NbFo",
+        "j59WC6cbr88",
         "BI3sHb--67E"
       ]
     },
@@ -4203,9 +4359,9 @@
       "videoIds": [
         "rC_unUV0YT4",
         "lKbiRaWnQbs",
-        "j59WC6cbr88",
         "tCGLwR9NbFo",
-        "BI3sHb--67E"
+        "BI3sHb--67E",
+        "j59WC6cbr88"
       ]
     },
     "cga.domain.physical.nutrition.anomaly.cfs9": {
@@ -4214,12 +4370,13 @@
       "videoIds": [
         "rC_unUV0YT4",
         "lKbiRaWnQbs",
-        "j59WC6cbr88",
         "tCGLwR9NbFo",
-        "BI3sHb--67E"
+        "BI3sHb--67E",
+        "j59WC6cbr88"
       ]
     },
     "cga.domain.physical.pain.anomaly.cfs1": {
+      "educationSlug": "pain-management",
       "inapplicable": false,
       "videoIds": [
         "ySkUgoOYxeo",
@@ -4230,6 +4387,7 @@
       ]
     },
     "cga.domain.physical.pain.anomaly.cfs2": {
+      "educationSlug": "pain-management",
       "inapplicable": false,
       "videoIds": [
         "ySkUgoOYxeo",
@@ -4240,6 +4398,7 @@
       ]
     },
     "cga.domain.physical.pain.anomaly.cfs3": {
+      "educationSlug": "pain-management",
       "inapplicable": false,
       "videoIds": [
         "ySkUgoOYxeo",
@@ -4250,6 +4409,7 @@
       ]
     },
     "cga.domain.physical.pain.anomaly.cfs4": {
+      "educationSlug": "pain-management",
       "inapplicable": false,
       "videoIds": [
         "ySkUgoOYxeo",
@@ -4260,6 +4420,7 @@
       ]
     },
     "cga.domain.physical.pain.anomaly.cfs5": {
+      "educationSlug": "pain-management",
       "inapplicable": false,
       "videoIds": [
         "ySkUgoOYxeo",
@@ -4270,6 +4431,7 @@
       ]
     },
     "cga.domain.physical.pain.anomaly.cfs6": {
+      "educationSlug": "pain-management",
       "inapplicable": false,
       "videoIds": [
         "ySkUgoOYxeo",
@@ -4280,6 +4442,7 @@
       ]
     },
     "cga.domain.physical.pain.anomaly.cfs7": {
+      "educationSlug": "pain-management",
       "inapplicable": false,
       "videoIds": [
         "ySkUgoOYxeo",
@@ -4290,6 +4453,7 @@
       ]
     },
     "cga.domain.physical.pain.anomaly.cfs8": {
+      "educationSlug": "pain-management",
       "inapplicable": false,
       "videoIds": [
         "ySkUgoOYxeo",
@@ -4300,6 +4464,7 @@
       ]
     },
     "cga.domain.physical.pain.anomaly.cfs9": {
+      "educationSlug": "pain-management",
       "inapplicable": false,
       "videoIds": [
         "ySkUgoOYxeo",
@@ -4319,9 +4484,9 @@
       "videoIds": [
         "FglUj552y_c",
         "9XhiP7KLVdg",
-        "AE6Wj0D0Tf0",
         "YPL-i8ddgYA",
-        "NUt3mquboYY"
+        "NUt3mquboYY",
+        "AE6Wj0D0Tf0"
       ]
     },
     "cga.domain.physical.polypharmacy.anomaly.cfs3": {
@@ -4374,9 +4539,9 @@
       "videoIds": [
         "FglUj552y_c",
         "9XhiP7KLVdg",
-        "AE6Wj0D0Tf0",
         "YPL-i8ddgYA",
-        "NUt3mquboYY"
+        "NUt3mquboYY",
+        "AE6Wj0D0Tf0"
       ]
     },
     "cga.domain.physical.polypharmacy.anomaly.cfs8": {
@@ -4385,9 +4550,9 @@
       "videoIds": [
         "FglUj552y_c",
         "9XhiP7KLVdg",
-        "AE6Wj0D0Tf0",
         "YPL-i8ddgYA",
-        "NUt3mquboYY"
+        "NUt3mquboYY",
+        "AE6Wj0D0Tf0"
       ]
     },
     "cga.domain.physical.polypharmacy.anomaly.cfs9": {
@@ -4396,9 +4561,9 @@
       "videoIds": [
         "FglUj552y_c",
         "9XhiP7KLVdg",
-        "AE6Wj0D0Tf0",
         "YPL-i8ddgYA",
-        "NUt3mquboYY"
+        "NUt3mquboYY",
+        "AE6Wj0D0Tf0"
       ]
     },
     "cga.domain.physical.sensory.anomaly.cfs1": {
@@ -4407,9 +4572,9 @@
       "videoIds": [
         "WKCzKC6gSBY",
         "0iBFwewfYkM",
-        "Jm-nysLPkKU",
         "HUaKU5tFf5s",
-        "Vhk8BJGpVlM"
+        "Vhk8BJGpVlM",
+        "Jm-nysLPkKU"
       ]
     },
     "cga.domain.physical.sensory.anomaly.cfs2": {
@@ -4418,9 +4583,9 @@
       "videoIds": [
         "WKCzKC6gSBY",
         "0iBFwewfYkM",
-        "Jm-nysLPkKU",
         "HUaKU5tFf5s",
-        "Vhk8BJGpVlM"
+        "Vhk8BJGpVlM",
+        "Jm-nysLPkKU"
       ]
     },
     "cga.domain.physical.sensory.anomaly.cfs3": {
@@ -4473,8 +4638,8 @@
       "videoIds": [
         "WKCzKC6gSBY",
         "0iBFwewfYkM",
-        "Jm-nysLPkKU",
         "HUaKU5tFf5s",
+        "Jm-nysLPkKU",
         "Vhk8BJGpVlM"
       ]
     },
@@ -4484,8 +4649,8 @@
       "videoIds": [
         "WKCzKC6gSBY",
         "0iBFwewfYkM",
-        "Jm-nysLPkKU",
         "HUaKU5tFf5s",
+        "Jm-nysLPkKU",
         "Vhk8BJGpVlM"
       ]
     },
@@ -4495,8 +4660,8 @@
       "videoIds": [
         "WKCzKC6gSBY",
         "0iBFwewfYkM",
-        "Jm-nysLPkKU",
         "HUaKU5tFf5s",
+        "Jm-nysLPkKU",
         "Vhk8BJGpVlM"
       ]
     },
@@ -4504,10 +4669,10 @@
       "educationSlug": "cognitive-training",
       "inapplicable": false,
       "videoIds": [
-        "LpCOAUUpt0g",
-        "mrrPJDb3whc",
         "87rvwvf_4Y4",
         "qlGQqJDuA64",
+        "LpCOAUUpt0g",
+        "mrrPJDb3whc",
         "w9TZ73B0Uto"
       ]
     },
@@ -4515,10 +4680,10 @@
       "educationSlug": "cognitive-training",
       "inapplicable": false,
       "videoIds": [
-        "LpCOAUUpt0g",
-        "mrrPJDb3whc",
         "87rvwvf_4Y4",
         "qlGQqJDuA64",
+        "LpCOAUUpt0g",
+        "mrrPJDb3whc",
         "w9TZ73B0Uto"
       ]
     },
@@ -4526,10 +4691,10 @@
       "educationSlug": "cognitive-training",
       "inapplicable": false,
       "videoIds": [
-        "LpCOAUUpt0g",
-        "mrrPJDb3whc",
         "87rvwvf_4Y4",
         "qlGQqJDuA64",
+        "LpCOAUUpt0g",
+        "mrrPJDb3whc",
         "w9TZ73B0Uto"
       ]
     },
@@ -4537,10 +4702,10 @@
       "educationSlug": "cognitive-training",
       "inapplicable": false,
       "videoIds": [
-        "LpCOAUUpt0g",
-        "mrrPJDb3whc",
         "87rvwvf_4Y4",
         "qlGQqJDuA64",
+        "LpCOAUUpt0g",
+        "mrrPJDb3whc",
         "w9TZ73B0Uto"
       ]
     },
@@ -4582,9 +4747,9 @@
       "inapplicable": false,
       "videoIds": [
         "LpCOAUUpt0g",
-        "mrrPJDb3whc",
         "87rvwvf_4Y4",
         "qlGQqJDuA64",
+        "mrrPJDb3whc",
         "w9TZ73B0Uto"
       ]
     },
@@ -4674,10 +4839,10 @@
       "educationSlug": "depression-support",
       "inapplicable": false,
       "videoIds": [
-        "MSDWQiOOyRo",
         "al_21c3Z3GY",
         "dEmFu3D-BGU",
         "6kcb0biR-ms",
+        "MSDWQiOOyRo",
         "lDmvUIoMDFg"
       ]
     },
@@ -4685,10 +4850,10 @@
       "educationSlug": "depression-support",
       "inapplicable": false,
       "videoIds": [
-        "MSDWQiOOyRo",
         "al_21c3Z3GY",
         "dEmFu3D-BGU",
         "6kcb0biR-ms",
+        "MSDWQiOOyRo",
         "lDmvUIoMDFg"
       ]
     },
@@ -4696,22 +4861,22 @@
       "educationSlug": "depression-support",
       "inapplicable": false,
       "videoIds": [
-        "MSDWQiOOyRo",
         "al_21c3Z3GY",
         "dEmFu3D-BGU",
         "6kcb0biR-ms",
-        "lDmvUIoMDFg"
+        "lDmvUIoMDFg",
+        "MSDWQiOOyRo"
       ]
     },
     "cga.domain.psychological.mood.anomaly.cfs4": {
       "educationSlug": "depression-support",
       "inapplicable": false,
       "videoIds": [
-        "MSDWQiOOyRo",
         "al_21c3Z3GY",
         "dEmFu3D-BGU",
         "6kcb0biR-ms",
-        "lDmvUIoMDFg"
+        "lDmvUIoMDFg",
+        "MSDWQiOOyRo"
       ]
     },
     "cga.domain.psychological.mood.anomaly.cfs5": {
@@ -4721,8 +4886,8 @@
         "MSDWQiOOyRo",
         "al_21c3Z3GY",
         "dEmFu3D-BGU",
-        "6kcb0biR-ms",
-        "lDmvUIoMDFg"
+        "lDmvUIoMDFg",
+        "6kcb0biR-ms"
       ]
     },
     "cga.domain.psychological.mood.anomaly.cfs6": {
@@ -4732,8 +4897,8 @@
         "MSDWQiOOyRo",
         "al_21c3Z3GY",
         "dEmFu3D-BGU",
-        "6kcb0biR-ms",
-        "lDmvUIoMDFg"
+        "lDmvUIoMDFg",
+        "6kcb0biR-ms"
       ]
     },
     "cga.domain.psychological.mood.anomaly.cfs7": {
@@ -4804,10 +4969,10 @@
       "educationSlug": "caregiver-support",
       "inapplicable": false,
       "videoIds": [
-        "_Cd0YYRL_NE",
         "1ufvb5k9F04",
         "OdwBZ4AmFQA",
         "n5_-VaYzeuE",
+        "_Cd0YYRL_NE",
         "NfbBUhCMxEk"
       ]
     },
@@ -4815,10 +4980,10 @@
       "educationSlug": "caregiver-support",
       "inapplicable": false,
       "videoIds": [
-        "_Cd0YYRL_NE",
         "1ufvb5k9F04",
         "OdwBZ4AmFQA",
         "n5_-VaYzeuE",
+        "_Cd0YYRL_NE",
         "NfbBUhCMxEk"
       ]
     },
@@ -4826,10 +4991,10 @@
       "educationSlug": "caregiver-support",
       "inapplicable": false,
       "videoIds": [
-        "_Cd0YYRL_NE",
         "1ufvb5k9F04",
         "OdwBZ4AmFQA",
         "n5_-VaYzeuE",
+        "_Cd0YYRL_NE",
         "NfbBUhCMxEk"
       ]
     },
@@ -4983,9 +5148,9 @@
       "videoIds": [
         "2QnVHLK142o",
         "QKW42kFB_DM",
+        "UaaS6s34uAY",
         "lDmvUIoMDFg",
-        "QTEVpoB8yHE",
-        "UaaS6s34uAY"
+        "QTEVpoB8yHE"
       ]
     },
     "cga.domain.social.social_support.anomaly.cfs8": {

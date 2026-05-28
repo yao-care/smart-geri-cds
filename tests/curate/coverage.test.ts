@@ -53,6 +53,54 @@ describe('broadcastDomainVideos', () => {
   });
 });
 
+describe('selectPerCellVideos', () => {
+  it('依 cfs-band classifier 為每格挑匹配影片優先；不足以分數高者補滿', async () => {
+    const { selectPerCellVideos } = await import('../../scripts/curate/lib/coverage');
+    const triggers: TriggerEntry[] = [
+      { trigger: 'cga.domain.functional.falls.anomaly.cfs2', articles: [], videoIds: [] },
+      { trigger: 'cga.domain.functional.falls.anomaly.cfs7', articles: [], videoIds: [] },
+      { trigger: 'cga.domain.functional.falls.anomaly.cfs4', articles: [], videoIds: ['prevent_aaa', 'bedfast_bb', 'general_cc'] },
+    ];
+    const scores = { prevent_aaa: 0.8, bedfast_bb: 0.6, general_cc: 0.5 };
+    // 假分類器：prevent 主動預防(cfs1-4)；bedfast 重度(cfs7-9)；general fallback(cfs3-6)
+    const classify = (v: string): Set<string> => {
+      if (v.startsWith('prevent_')) return new Set(['cfs1', 'cfs2', 'cfs3', 'cfs4']);
+      if (v.startsWith('bedfast_')) return new Set(['cfs7', 'cfs8', 'cfs9']);
+      return new Set(['cfs3', 'cfs4', 'cfs5', 'cfs6']);
+    };
+    const out = selectPerCellVideos(triggers, scores, classify, 5);
+    const byT = Object.fromEntries(out.map(t => [t.trigger, t.videoIds]));
+    // cfs2：prevent 匹配優先，其餘 fallback
+    expect(byT['cga.domain.functional.falls.anomaly.cfs2'][0]).toBe('prevent_aaa');
+    expect(byT['cga.domain.functional.falls.anomaly.cfs2'].slice(0, 1)).toEqual(['prevent_aaa']);
+    // cfs7：bedfast 匹配優先
+    expect(byT['cga.domain.functional.falls.anomaly.cfs7'][0]).toBe('bedfast_bb');
+    // cfs4：prevent + general 都匹配（cfs4 ∈ cfs1-4 也 ∈ cfs3-6），bedfast 不匹配 → 補後
+    const cfs4 = byT['cga.domain.functional.falls.anomaly.cfs4'];
+    expect(cfs4.indexOf('prevent_aaa')).toBeLessThan(cfs4.indexOf('bedfast_bb'));
+    expect(cfs4.indexOf('general_cc')).toBeLessThan(cfs4.indexOf('bedfast_bb'));
+  });
+
+  it('cell 池為空 → 該 cell videoIds 保持空（不假裝有片）', async () => {
+    const { selectPerCellVideos } = await import('../../scripts/curate/lib/coverage');
+    const triggers: TriggerEntry[] = [
+      { trigger: 'cga.domain.physical.comorbidity.anomaly.cfs3', articles: [], videoIds: [] },
+    ];
+    const out = selectPerCellVideos(triggers, {}, () => new Set(), 5);
+    expect(out[0].videoIds).toEqual([]);
+  });
+
+  it('cap 切上限', async () => {
+    const { selectPerCellVideos } = await import('../../scripts/curate/lib/coverage');
+    const triggers: TriggerEntry[] = [
+      { trigger: 'cga.domain.functional.falls.anomaly.cfs5', articles: [], videoIds: ['v1', 'v2', 'v3', 'v4', 'v5', 'v6'] },
+    ];
+    const scores = { v1: 0.9, v2: 0.8, v3: 0.7, v4: 0.6, v5: 0.5, v6: 0.4 };
+    const out = selectPerCellVideos(triggers, scores, () => new Set(['cfs5']), 3);
+    expect(out[0].videoIds).toEqual(['v1', 'v2', 'v3']);
+  });
+});
+
 describe('uncoveredDomainCells', () => {
   it('列出仍為空的 domain 格', () => {
     const triggers: TriggerEntry[] = [
