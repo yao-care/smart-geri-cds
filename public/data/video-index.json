@@ -2,17 +2,22 @@
   "articleSlugs": [
     "adl-maintenance",
     "advance-care-planning",
+    "caregiver-burnout",
     "caregiver-support",
     "cognitive-training",
     "comorbidity-management",
     "delirium-awareness",
+    "dementia-late-stage",
     "depression-support",
     "fall-prevention",
+    "falls-bedridden-care",
     "geriatric-nutrition",
     "home-safety",
     "incontinence-care",
     "ltc-resources",
     "medication-safety",
+    "mobility-bedridden",
+    "nutrition-end-of-life",
     "pain-management",
     "sarcopenia-exercise",
     "sensory-impairment",
@@ -46,6 +51,24 @@
       "sourceTier": "pro-kol",
       "title": "《仁者照護講堂》認識失智症篇",
       "videoId": "0kSQm_0oalM"
+    },
+    "11x5X6dDbvc": {
+      "channel": "TheHealth99",
+      "duration": 514,
+      "language": "zh-Hant",
+      "score": 0.44,
+      "sourceTier": "pro-kol",
+      "title": "【 國語版】長者活力體能訓練 B級(衰弱者)",
+      "videoId": "11x5X6dDbvc"
+    },
+    "1HaZoA2RUig": {
+      "channel": "TVBS Network",
+      "duration": 235,
+      "language": "zh-Hant",
+      "score": 0.47,
+      "sourceTier": "pro-kol",
+      "title": "長者「孤寂加速退化」! 老盟推孤獨處方箋 創社區互助網｜十點不一樣20260217 @tvbsnews24live",
+      "videoId": "1HaZoA2RUig"
     },
     "1I22b20urZg": {
       "channel": "民視新聞網 Formosa TV News network",
@@ -92,6 +115,15 @@
       "title": "Abbey Pain Scale: At Home (PART 1)",
       "videoId": "31n6rfd-QEA"
     },
+    "3mhDcmyPUw0": {
+      "channel": "水木艸夫",
+      "duration": 661,
+      "language": "zh-Hant",
+      "score": 0.45,
+      "sourceTier": "pro-kol",
+      "title": "OTAGO銀髮族預防跌倒運動PART3-平衡訓練篇",
+      "videoId": "3mhDcmyPUw0"
+    },
     "4KcVLgRWmVU": {
       "channel": "TDS台灣臨床失智症學會",
       "duration": 468,
@@ -118,6 +150,15 @@
       "sourceTier": "pro-kol",
       "title": "教授專家告訴你「如何提升老年人生命價值、擺脫刻板印象」，從此活出精彩高齡人生｜歐麗娟 周傳久 周玟琪｜人文講堂｜完整版 20221029",
       "videoId": "5CPZ649rNGE"
+    },
+    "6TOY0wLOPBE": {
+      "channel": "TVBS NEWS",
+      "duration": 235,
+      "language": "zh-Hant",
+      "score": 0.47,
+      "sourceTier": "pro-kol",
+      "title": "長者「孤寂加速退化」! 老盟推孤獨處方箋 創社區互助網｜十點不一樣20260217 @TVBSNEWS01",
+      "videoId": "6TOY0wLOPBE"
     },
     "6kcb0biR-ms": {
       "channel": "新北生活台",
@@ -191,6 +232,15 @@
       "title": "翻身擺位技巧 @CSH_HOSPITAL",
       "videoId": "8aitqCuuPKo"
     },
+    "8fKHA0l7bwk": {
+      "channel": "RTHK 香港電台",
+      "duration": 300,
+      "language": "zh-Hant",
+      "score": 0.51,
+      "sourceTier": "pro-kol",
+      "title": "凝聚香港 - 長者最潮運動北歐式健步行",
+      "videoId": "8fKHA0l7bwk"
+    },
     "8pEl7lKoi8M": {
       "channel": "三軍總醫院",
       "duration": 1321,
@@ -208,6 +258,15 @@
       "sourceTier": "pro-kol",
       "title": "【社會福利】公營醫療大幅加價! 基層人士如何獲得公營醫療費用豁免或減免｜申請資格, 申請方法, 注意事項詳細解說",
       "videoId": "8v8JFXPKJQc"
+    },
+    "9AoflcVzQ7Q": {
+      "channel": "HEALTH 2.0",
+      "duration": 547,
+      "language": "zh-Hant",
+      "score": 0.44,
+      "sourceTier": "pro-kol",
+      "title": "預防失智症 4要訣！【如果云知道 鄭凱云】feat. 蘇姵綺",
+      "videoId": "9AoflcVzQ7Q"
     },
     "9Wnc9gaErNE": {
       "channel": "HEALTH 2.0",
@@ -254,6 +313,24 @@
       "title": "注意！注意！一定要注意！家中老人一旦迈入80岁高龄，以下这6条建议一定要牢记！【安澜谈健康】#老年人健康 #健康科普 #健康 #医学科普 #安澜健康说 #高龄护理 #健康生活方式 #健康建议",
       "videoId": "AE6Wj0D0Tf0"
     },
+    "B2i4IWHwtFI": {
+      "channel": "營養師媽媽Priscilla",
+      "duration": 610,
+      "language": "zh-Hant",
+      "score": 0.5,
+      "sourceTier": "pro-kol",
+      "title": "十大高蛋白質食物 | 增加蛋白質吃什麼？| 優質蛋白質食物推薦10種 | 營養師媽媽Priscilla (粵語中文字幕)",
+      "videoId": "B2i4IWHwtFI"
+    },
+    "B4Gi_IR1tKM": {
+      "channel": "健康旦 HiEggo",
+      "duration": 742,
+      "language": "zh-Hant",
+      "score": 0.47,
+      "sourceTier": "pro-kol",
+      "title": "退休後反而唔開心？情緒警號要注意！ - 鄭丹瑞《健康旦》精神科專科 #韓敬謙 醫生 #情緒系列（CC中文字幕）",
+      "videoId": "B4Gi_IR1tKM"
+    },
     "B8_WeqWBiKQ": {
       "channel": "小愛陪你認識長照的大小事 ",
       "duration": 682,
@@ -298,6 +375,24 @@
       "sourceTier": "pro-kol",
       "title": "2W-預防跌倒衛教影片",
       "videoId": "Ce08THCTt54"
+    },
+    "CuIgR7wGn30": {
+      "channel": "能量自癒術 | 減炎運動",
+      "duration": 535,
+      "language": "zh-Hant",
+      "score": 0.49,
+      "sourceTier": "pro-kol",
+      "title": "退休後如何重新定義生活",
+      "videoId": "CuIgR7wGn30"
+    },
+    "DFjk-NIvVP0": {
+      "channel": "大愛電視 Tzu Chi DaAiVideo",
+      "duration": 180,
+      "language": "zh-Hant",
+      "score": 0.45,
+      "sourceTier": "pro-kol",
+      "title": "【大愛真健康】3分鐘高齡運動∣腳跟左右碰∣小腿訓練∣平衡訓練∣活動髖關節 20221031",
+      "videoId": "DFjk-NIvVP0"
     },
     "DyCnx4dXBG4": {
       "channel": "TheHealth99",
@@ -380,6 +475,15 @@
       "title": "面對老化加速在宅醫療守護失能長者",
       "videoId": "Hfzay4AQgH0"
     },
+    "IRO6OY64jp0": {
+      "channel": "Beiimu fitness",
+      "duration": 686,
+      "language": "zh-Hant",
+      "score": 0.47,
+      "sourceTier": "pro-kol",
+      "title": "【中高齡運動 - 有氧運動】10分鐘輕鬆鍛鍊心肺耐力 (無跳躍、無深蹲)   ▏北木健身",
+      "videoId": "IRO6OY64jp0"
+    },
     "IU3MwUEm0rU": {
       "channel": "IPCF-TITV原文會 原視",
       "duration": 136,
@@ -397,6 +501,15 @@
       "sourceTier": "pro-kol",
       "title": "拒插管氣切　病人自主權利法助走「善終」路",
       "videoId": "IqBjMHzdxUY"
+    },
+    "IzwuxstXycY": {
+      "channel": "HEALTH 2.0",
+      "duration": 866,
+      "language": "zh-Hant",
+      "score": 0.47,
+      "sourceTier": "pro-kol",
+      "title": "簡文仁 10招健腦操 訓練手腳協調 預防失智症 ！【 如果云知道 鄭凱云 】feat.簡文仁 物理治療師",
+      "videoId": "IzwuxstXycY"
     },
     "J-1bHnYBsEI": {
       "channel": "台灣生活新聞 Taiwan Daily Network",
@@ -533,6 +646,15 @@
       "title": "雲林新聞網-張正和藥師居家訪視 獨老影像撼人心",
       "videoId": "NUt3mquboYY"
     },
+    "NfCWydPSueU": {
+      "channel": "客家新聞 Hakka News",
+      "duration": 121,
+      "language": "zh-Hant",
+      "score": 0.45,
+      "sourceTier": "pro-kol",
+      "title": "高齡志工故事紀錄片 鼓勵長者服務社會【客家新聞20171122】",
+      "videoId": "NfCWydPSueU"
+    },
     "NfNucmU9njc": {
       "channel": "大愛電視 Tzu Chi DaAiVideo",
       "duration": 84,
@@ -559,6 +681,24 @@
       "sourceTier": "pro-kol",
       "title": "【老年症候群】6.健康老齡化的過程",
       "videoId": "NitXM9QnUn4"
+    },
+    "No8kFQiR_Sg": {
+      "channel": "鹏哥谈健康",
+      "duration": 574,
+      "language": "zh-Hant",
+      "score": 0.48,
+      "sourceTier": "pro-kol",
+      "title": "8 Signs of Protein Deficiency and How Much Protein You Should Be Consuming",
+      "videoId": "No8kFQiR_Sg"
+    },
+    "O6sEOFcWTAg": {
+      "channel": "大愛電視 Tzu Chi DaAiVideo",
+      "duration": 346,
+      "language": "zh-Hant",
+      "score": 0.32,
+      "sourceTier": "pro-kol",
+      "title": "【真善美故事館】20181104 - 活躍高齡",
+      "videoId": "O6sEOFcWTAg"
     },
     "OdwBZ4AmFQA": {
       "channel": "東華三院Radioicare友心情網上電台",
@@ -632,6 +772,15 @@
       "title": "精華回顧│WCW世界尿失禁周",
       "videoId": "S5VE219EXU4"
     },
+    "SvY7yXyhLj8": {
+      "channel": "人生的意義",
+      "duration": 623,
+      "language": "zh-Hant",
+      "score": 0.47,
+      "sourceTier": "pro-kol",
+      "title": "退休後以為會輕鬆，結果這5件事完全打亂生活，搞懂它們才能真正過上想要的日子 | 退休迷思破解 | 養老陷阱 | 高齡支出 | 情感失衡 | 健康管理 | 養老計畫 | 晚年財務壓力 | 生活適應期",
+      "videoId": "SvY7yXyhLj8"
+    },
     "TY_tX-KbweQ": {
       "channel": "附設醫院臺北醫學大學",
       "duration": 387,
@@ -686,6 +835,24 @@
       "title": "EYE的保衛戰-視力保健衛教影片",
       "videoId": "WKCzKC6gSBY"
     },
+    "WmcQ8FKcKuo": {
+      "channel": "健養之道",
+      "duration": 1306,
+      "language": "zh-Hant",
+      "score": 0.64,
+      "sourceTier": "pro-kol",
+      "title": "肌少症的剋星找到了！公認10大高蛋白食物，雞蛋居然沒上榜，第一名竟是它！換著吃告別肌少症。",
+      "videoId": "WmcQ8FKcKuo"
+    },
+    "XAF7Ex3InEo": {
+      "channel": "HEALTH 2.0",
+      "duration": 479,
+      "language": "zh-Hant",
+      "score": 0.5,
+      "sourceTier": "pro-kol",
+      "title": "防失智！澳洲專家「彈力帶運動」有效延緩腦部退化5年，越活越好命 健康2.0",
+      "videoId": "XAF7Ex3InEo"
+    },
     "XXufec_MC3Q": {
       "channel": "小愛陪你認識長照的大小事 ",
       "duration": 574,
@@ -722,6 +889,15 @@
       "title": "【伊甸基金會】新聞：近5成偏鄉長者生活自理有困難 8成居家環境不安全",
       "videoId": "XhZBd_gzdhc"
     },
+    "Xm1cZX6GB48": {
+      "channel": "HEALTH 2.0",
+      "duration": 774,
+      "language": "zh-Hant",
+      "score": 0.49,
+      "sourceTier": "pro-kol",
+      "title": "跟著醫師吃 7大護腦食物 逆轉失智症【 如果云知道 鄭凱云 】feat. 洛桑加參 預防醫學醫生@tvbshealth20",
+      "videoId": "Xm1cZX6GB48"
+    },
     "XqgFS_yV5nM": {
       "channel": "不老80",
       "duration": 475,
@@ -739,6 +915,15 @@
       "sourceTier": "pro-kol",
       "title": "肌少症的運動處方",
       "videoId": "Xvh51Yw5CaQ"
+    },
+    "XzusBhkhtYI": {
+      "channel": "蘭陵創意行銷",
+      "duration": 826,
+      "language": "zh-Hant",
+      "score": 0.43,
+      "sourceTier": "pro-kol",
+      "title": "社區樂齡志工",
+      "videoId": "XzusBhkhtYI"
     },
     "Y4MrKcTB52A": {
       "channel": "Advance Decision -Taipei City Hospital ",
@@ -821,6 +1006,15 @@
       "title": "「家庭醫師照護方案」防失能者慢性病惡化 20190721 公視晚間新聞",
       "videoId": "bkMQFsFHfz4"
     },
+    "cLbzNV5OEyk": {
+      "channel": "菲特邦 Fit'n Fun",
+      "duration": 174,
+      "language": "zh-Hant",
+      "score": 0.47,
+      "sourceTier": "pro-kol",
+      "title": "菲特邦健康管理｜COLOR WALK｜弘道基金會｜健走｜老人｜舞蹈教學",
+      "videoId": "cLbzNV5OEyk"
+    },
     "cq7apwizQ4s": {
       "channel": "歡喜賈霸Z",
       "duration": 779,
@@ -839,6 +1033,15 @@
       "title": "蔡佳芬醫師-老年憂鬱症Q&A",
       "videoId": "dEmFu3D-BGU"
     },
+    "dJ2ZMI8paqQ": {
+      "channel": "早安健康",
+      "duration": 205,
+      "language": "zh-Hant",
+      "score": 0.65,
+      "sourceTier": "pro-kol",
+      "title": "補充蛋白質不是只能吃肉蛋魚，這種豆類蛋白質含量比肉還高！｜曾雲璿 家庭醫學科醫師【早安健康】",
+      "videoId": "dJ2ZMI8paqQ"
+    },
     "e3wC2Uhr28M": {
       "channel": "Susila Chapagain",
       "duration": 657,
@@ -848,6 +1051,15 @@
       "title": "Pain Assessment of Acute Dementia and Delirium Patients in Aged Care",
       "videoId": "e3wC2Uhr28M"
     },
+    "eC92Y3a1BFQ": {
+      "channel": "早安健康",
+      "duration": 696,
+      "language": "zh-Hant",
+      "score": 0.63,
+      "sourceTier": "pro-kol",
+      "title": "健忘還是失智？這量表快檢查！鍛鍊腦力4招甩開失智不吃藥︱陳龍 神經內科醫師【早安健康X健康大頭條】",
+      "videoId": "eC92Y3a1BFQ"
+    },
     "eCEIYHOCx9w": {
       "channel": "iHealth 政昇處方宅配藥局",
       "duration": 329,
@@ -856,6 +1068,15 @@
       "sourceTier": "pro-kol",
       "title": "失智症衛教",
       "videoId": "eCEIYHOCx9w"
+    },
+    "eO0SDYLgdZ4": {
+      "channel": "劉麗英",
+      "duration": 216,
+      "language": "zh-Hant",
+      "score": 0.43,
+      "sourceTier": "pro-kol",
+      "title": "常做這些運動，避免跌倒，有效維持肌肉力量 #肌少症",
+      "videoId": "eO0SDYLgdZ4"
     },
     "eZ4FkihmlCc": {
       "channel": "舜禹學堂x台灣時間銀行",
@@ -911,6 +1132,15 @@
       "title": "長照預算花不完? 資訊弱勢須關心",
       "videoId": "gfnack-tau0"
     },
+    "gyP1D0gJJ0E": {
+      "channel": "雷叔的退休生活",
+      "duration": 313,
+      "language": "zh-Hant",
+      "score": 0.49,
+      "sourceTier": "pro-kol",
+      "title": "《北上退休半年後，你以為自己適應咗，其實可能只係開始麻木》",
+      "videoId": "gyP1D0gJJ0E"
+    },
     "iGy75Zr24FQ": {
       "channel": "NCKUH成大醫院",
       "duration": 336,
@@ -919,6 +1149,15 @@
       "sourceTier": "pro-kol",
       "title": "【吃藥引發急性譫妄】高政懋醫師-成大e學堂",
       "videoId": "iGy75Zr24FQ"
+    },
+    "iRmaP6P802Y": {
+      "channel": "Cofit x 宋晏仁醫師 - 初日醫學",
+      "duration": 754,
+      "language": "zh-Hant",
+      "score": 0.65,
+      "sourceTier": "pro-kol",
+      "title": "【蛋白質】太神奇了!吃對蛋白質就能預測減重成功？醫師教你三招蛋白質聰明吃，保證減肥不復胖、增肌又減脂｜初日診所 李唐越醫師（減重健身新手、長期吃素必看/最完整的蛋白質教學）",
+      "videoId": "iRmaP6P802Y"
     },
     "iaQ63oaeq0k": {
       "channel": "高雄醫學大學附設高醫岡山醫院",
@@ -1118,6 +1357,15 @@
       "title": "活到100歲臥床沒意義？醫揭「百歲體質」5大關鍵！重訓、防失智、抗發炎飲食一次公開｜精準預防醫學會理事長 張家銘醫師【#健康大錢線 | 錢怡君】2026.5.16 ‪@love52health",
       "videoId": "rC_unUV0YT4"
     },
+    "rJzmKs9pZ_8": {
+      "channel": "Young old 媽媽 [陪你講健康]",
+      "duration": 274,
+      "language": "zh-Hant",
+      "score": 0.43,
+      "sourceTier": "pro-kol",
+      "title": "[15] [老人跌倒原因] 長者跌倒輕則影響心理，重則有嚴重外傷🙏千萬不要掉以輕心！＃長者＃跌倒＃照顧者",
+      "videoId": "rJzmKs9pZ_8"
+    },
     "raF69KnnZCo": {
       "channel": "佛光山人間衛視",
       "duration": 112,
@@ -1226,6 +1474,15 @@
       "title": "20110609照顧老年經濟弱勢 社會局推出福利措施",
       "videoId": "yot9mVfRxOI"
     },
+    "z0E4i_nJ7Hc": {
+      "channel": "Gladys Fit Life",
+      "duration": 1514,
+      "language": "zh-Hant",
+      "score": 0.64,
+      "sourceTier": "pro-kol",
+      "title": "25分鐘居家有氧健走 Power Walk｜跟著一起做｜葛蕾蒂斯Gladys Fit Life",
+      "videoId": "z0E4i_nJ7Hc"
+    },
     "z7Yyt1gWYsI": {
       "channel": "賽馬會流金頌護老有e道",
       "duration": 293,
@@ -1234,6 +1491,15 @@
       "sourceTier": "pro-kol",
       "title": "【失禁】 下尿道症狀",
       "videoId": "z7Yyt1gWYsI"
+    },
+    "zHJxGawte9I": {
+      "channel": "長壽實驗室",
+      "duration": 1138,
+      "language": "zh-Hant",
+      "score": 0.44,
+      "sourceTier": "pro-kol",
+      "title": "60歲後越忙越累？那不是生活充實，是你在逃避孤獨！#60歲後忙碌 #逃避孤獨 #退休生活 #老年心理健康 #過度忙碌 #孤獨感逃避 #退休後適應 #心理健康警訊 #老年焦慮 #中年感情諮商 #倪海厦",
+      "videoId": "zHJxGawte9I"
     }
   },
   "clinicalEducation": {},
@@ -1261,13 +1527,15 @@
       "cga.domain.future_wishes.advance_care_planning.anomaly.cfs8",
       "cga.domain.future_wishes.advance_care_planning.anomaly.cfs9"
     ],
-    "caregiver-support": [
-      "cga.domain.social.caregiver.anomaly.cfs4",
-      "cga.domain.social.caregiver.anomaly.cfs5",
-      "cga.domain.social.caregiver.anomaly.cfs6",
+    "caregiver-burnout": [
       "cga.domain.social.caregiver.anomaly.cfs7",
       "cga.domain.social.caregiver.anomaly.cfs8",
       "cga.domain.social.caregiver.anomaly.cfs9"
+    ],
+    "caregiver-support": [
+      "cga.domain.social.caregiver.anomaly.cfs4",
+      "cga.domain.social.caregiver.anomaly.cfs5",
+      "cga.domain.social.caregiver.anomaly.cfs6"
     ],
     "cognitive-training": [
       "cga.domain.psychological.cognition.anomaly.cfs1",
@@ -1275,9 +1543,7 @@
       "cga.domain.psychological.cognition.anomaly.cfs3",
       "cga.domain.psychological.cognition.anomaly.cfs4",
       "cga.domain.psychological.cognition.anomaly.cfs5",
-      "cga.domain.psychological.cognition.anomaly.cfs6",
-      "cga.domain.psychological.cognition.anomaly.cfs7",
-      "cga.domain.psychological.cognition.anomaly.cfs8"
+      "cga.domain.psychological.cognition.anomaly.cfs6"
     ],
     "comorbidity-management": [
       "cga.domain.physical.comorbidity.anomaly.cfs2",
@@ -1297,6 +1563,10 @@
       "cga.domain.psychological.delirium.anomaly.cfs8",
       "cga.domain.psychological.delirium.anomaly.cfs9"
     ],
+    "dementia-late-stage": [
+      "cga.domain.psychological.cognition.anomaly.cfs7",
+      "cga.domain.psychological.cognition.anomaly.cfs8"
+    ],
     "depression-support": [
       "cga.domain.psychological.mood.anomaly.cfs1",
       "cga.domain.psychological.mood.anomaly.cfs2",
@@ -1311,7 +1581,9 @@
       "cga.domain.functional.falls.anomaly.cfs3",
       "cga.domain.functional.falls.anomaly.cfs4",
       "cga.domain.functional.falls.anomaly.cfs5",
-      "cga.domain.functional.falls.anomaly.cfs6",
+      "cga.domain.functional.falls.anomaly.cfs6"
+    ],
+    "falls-bedridden-care": [
       "cga.domain.functional.falls.anomaly.cfs7",
       "cga.domain.functional.falls.anomaly.cfs8"
     ],
@@ -1321,10 +1593,7 @@
       "cga.domain.physical.nutrition.anomaly.cfs3",
       "cga.domain.physical.nutrition.anomaly.cfs4",
       "cga.domain.physical.nutrition.anomaly.cfs5",
-      "cga.domain.physical.nutrition.anomaly.cfs6",
-      "cga.domain.physical.nutrition.anomaly.cfs7",
-      "cga.domain.physical.nutrition.anomaly.cfs8",
-      "cga.domain.physical.nutrition.anomaly.cfs9"
+      "cga.domain.physical.nutrition.anomaly.cfs6"
     ],
     "home-safety": [
       "cga.domain.environmental.accessibility.anomaly.cfs4",
@@ -1368,6 +1637,14 @@
       "cga.domain.physical.polypharmacy.anomaly.cfs8",
       "cga.domain.physical.polypharmacy.anomaly.cfs9"
     ],
+    "mobility-bedridden": [
+      "cga.domain.functional.mobility.anomaly.cfs7"
+    ],
+    "nutrition-end-of-life": [
+      "cga.domain.physical.nutrition.anomaly.cfs7",
+      "cga.domain.physical.nutrition.anomaly.cfs8",
+      "cga.domain.physical.nutrition.anomaly.cfs9"
+    ],
     "pain-management": [
       "cga.domain.physical.pain.anomaly.cfs1",
       "cga.domain.physical.pain.anomaly.cfs2",
@@ -1384,8 +1661,7 @@
       "cga.domain.functional.mobility.anomaly.cfs3",
       "cga.domain.functional.mobility.anomaly.cfs4",
       "cga.domain.functional.mobility.anomaly.cfs5",
-      "cga.domain.functional.mobility.anomaly.cfs6",
-      "cga.domain.functional.mobility.anomaly.cfs7"
+      "cga.domain.functional.mobility.anomaly.cfs6"
     ],
     "sensory-impairment": [
       "cga.domain.physical.sensory.anomaly.cfs1",
@@ -1611,18 +1887,18 @@
     ],
     "monitor::functional.falls::cfs7": [
       {
-        "slug": "fall-prevention",
+        "slug": "falls-bedridden-care",
         "source": "internal",
-        "summary": "了解跌倒的常見原因與可行的預防策略，從居家環境、運動到用藥檢視多管齊下降低跌倒風險。",
-        "title": "長者跌倒預防"
+        "summary": "對臥床或重度依賴（CFS 7-9）長者，跌倒風險改為「墜床」與「轉位閃失」；翻身、定位、防護墊與壓瘡預防同等重要。",
+        "title": "重度依賴長者的跌倒/墜床預防與壓瘡照護"
       }
     ],
     "monitor::functional.falls::cfs8": [
       {
-        "slug": "fall-prevention",
+        "slug": "falls-bedridden-care",
         "source": "internal",
-        "summary": "了解跌倒的常見原因與可行的預防策略，從居家環境、運動到用藥檢視多管齊下降低跌倒風險。",
-        "title": "長者跌倒預防"
+        "summary": "對臥床或重度依賴（CFS 7-9）長者，跌倒風險改為「墜床」與「轉位閃失」；翻身、定位、防護墊與壓瘡預防同等重要。",
+        "title": "重度依賴長者的跌倒/墜床預防與壓瘡照護"
       }
     ],
     "monitor::functional.iadl::cfs3": [
@@ -1723,10 +1999,10 @@
     ],
     "monitor::functional.mobility::cfs7": [
       {
-        "slug": "sarcopenia-exercise",
+        "slug": "mobility-bedridden",
         "source": "internal",
-        "summary": "認識隨年齡流失的肌肉量與肌力（肌少症），並透過阻力運動與足夠蛋白質攝取維持行動能力。",
-        "title": "肌少症與運動"
+        "summary": "重度依賴或臥床（CFS 7-9）長者的「活動」目標不是行走，而是被動關節活動、姿勢變換、坐椅時間，預防攣縮、肺炎與循環不良。",
+        "title": "臥床長者的活動維持與合併症預防"
       }
     ],
     "monitor::future_wishes.advance_care_planning::cfs5": [
@@ -1979,26 +2255,26 @@
     ],
     "monitor::physical.nutrition::cfs7": [
       {
-        "slug": "geriatric-nutrition",
+        "slug": "nutrition-end-of-life",
         "source": "internal",
-        "summary": "認識長者營養不良與體重流失的風險因子，掌握均衡飲食、足夠蛋白質與水分，以及進食困難的因應。",
-        "title": "長者營養照護"
+        "summary": "末期（CFS 8-9 / 預期生命 < 6 個月）營養目標從「補足熱量」轉為「維持舒適」，理解食慾下降是疾病進展，不必強迫進食。",
+        "title": "末期長者的營養支持"
       }
     ],
     "monitor::physical.nutrition::cfs8": [
       {
-        "slug": "geriatric-nutrition",
+        "slug": "nutrition-end-of-life",
         "source": "internal",
-        "summary": "認識長者營養不良與體重流失的風險因子，掌握均衡飲食、足夠蛋白質與水分，以及進食困難的因應。",
-        "title": "長者營養照護"
+        "summary": "末期（CFS 8-9 / 預期生命 < 6 個月）營養目標從「補足熱量」轉為「維持舒適」，理解食慾下降是疾病進展，不必強迫進食。",
+        "title": "末期長者的營養支持"
       }
     ],
     "monitor::physical.nutrition::cfs9": [
       {
-        "slug": "geriatric-nutrition",
+        "slug": "nutrition-end-of-life",
         "source": "internal",
-        "summary": "認識長者營養不良與體重流失的風險因子，掌握均衡飲食、足夠蛋白質與水分，以及進食困難的因應。",
-        "title": "長者營養照護"
+        "summary": "末期（CFS 8-9 / 預期生命 < 6 個月）營養目標從「補足熱量」轉為「維持舒適」，理解食慾下降是疾病進展，不必強迫進食。",
+        "title": "末期長者的營養支持"
       }
     ],
     "monitor::physical.pain::cfs1": [
@@ -2259,18 +2535,18 @@
     ],
     "monitor::psychological.cognition::cfs7": [
       {
-        "slug": "cognitive-training",
+        "slug": "dementia-late-stage",
         "source": "internal",
-        "summary": "了解正常老化與失智症的差異，學習促進認知活力的生活方式，以及面對記憶力下降時的因應與資源。",
-        "title": "認知促進與失智因應"
+        "summary": "失智晚期（CDR 3 / CFS 8-9）長者已無法言語、需協助所有日常活動；照護重點轉為舒適、安全、症狀觀察與家屬支持。",
+        "title": "失智症晚期照護要點"
       }
     ],
     "monitor::psychological.cognition::cfs8": [
       {
-        "slug": "cognitive-training",
+        "slug": "dementia-late-stage",
         "source": "internal",
-        "summary": "了解正常老化與失智症的差異，學習促進認知活力的生活方式，以及面對記憶力下降時的因應與資源。",
-        "title": "認知促進與失智因應"
+        "summary": "失智晚期（CDR 3 / CFS 8-9）長者已無法言語、需協助所有日常活動；照護重點轉為舒適、安全、症狀觀察與家屬支持。",
+        "title": "失智症晚期照護要點"
       }
     ],
     "monitor::psychological.delirium::cfs4": [
@@ -2403,26 +2679,26 @@
     ],
     "monitor::social.caregiver::cfs7": [
       {
-        "slug": "caregiver-support",
+        "slug": "caregiver-burnout",
         "source": "internal",
-        "summary": "長期照顧容易累積身心壓力與負荷，認識照顧者倦怠的徵兆，學習自我照顧與善用喘息與支持資源。",
-        "title": "照顧者壓力與支持"
+        "summary": "照顧 CFS 7-9 重度依賴長者的主要家屬，照顧壓力、憂鬱、睡眠剝奪比例高；自我覺察、喘息與外部支持是維持長期照護的關鍵。",
+        "title": "重度照顧者的燒盡與支持"
       }
     ],
     "monitor::social.caregiver::cfs8": [
       {
-        "slug": "caregiver-support",
+        "slug": "caregiver-burnout",
         "source": "internal",
-        "summary": "長期照顧容易累積身心壓力與負荷，認識照顧者倦怠的徵兆，學習自我照顧與善用喘息與支持資源。",
-        "title": "照顧者壓力與支持"
+        "summary": "照顧 CFS 7-9 重度依賴長者的主要家屬，照顧壓力、憂鬱、睡眠剝奪比例高；自我覺察、喘息與外部支持是維持長期照護的關鍵。",
+        "title": "重度照顧者的燒盡與支持"
       }
     ],
     "monitor::social.caregiver::cfs9": [
       {
-        "slug": "caregiver-support",
+        "slug": "caregiver-burnout",
         "source": "internal",
-        "summary": "長期照顧容易累積身心壓力與負荷，認識照顧者倦怠的徵兆，學習自我照顧與善用喘息與支持資源。",
-        "title": "照顧者壓力與支持"
+        "summary": "照顧 CFS 7-9 重度依賴長者的主要家屬，照顧壓力、憂鬱、睡眠剝奪比例高；自我覺察、喘息與外部支持是維持長期照護的關鍵。",
+        "title": "重度照顧者的燒盡與支持"
       }
     ],
     "monitor::social.financial::cfs3": [
@@ -2739,18 +3015,18 @@
     ],
     "refer::functional.falls::cfs7": [
       {
-        "slug": "fall-prevention",
+        "slug": "falls-bedridden-care",
         "source": "internal",
-        "summary": "了解跌倒的常見原因與可行的預防策略，從居家環境、運動到用藥檢視多管齊下降低跌倒風險。",
-        "title": "長者跌倒預防"
+        "summary": "對臥床或重度依賴（CFS 7-9）長者，跌倒風險改為「墜床」與「轉位閃失」；翻身、定位、防護墊與壓瘡預防同等重要。",
+        "title": "重度依賴長者的跌倒/墜床預防與壓瘡照護"
       }
     ],
     "refer::functional.falls::cfs8": [
       {
-        "slug": "fall-prevention",
+        "slug": "falls-bedridden-care",
         "source": "internal",
-        "summary": "了解跌倒的常見原因與可行的預防策略，從居家環境、運動到用藥檢視多管齊下降低跌倒風險。",
-        "title": "長者跌倒預防"
+        "summary": "對臥床或重度依賴（CFS 7-9）長者，跌倒風險改為「墜床」與「轉位閃失」；翻身、定位、防護墊與壓瘡預防同等重要。",
+        "title": "重度依賴長者的跌倒/墜床預防與壓瘡照護"
       }
     ],
     "refer::functional.iadl::cfs3": [
@@ -2851,10 +3127,10 @@
     ],
     "refer::functional.mobility::cfs7": [
       {
-        "slug": "sarcopenia-exercise",
+        "slug": "mobility-bedridden",
         "source": "internal",
-        "summary": "認識隨年齡流失的肌肉量與肌力（肌少症），並透過阻力運動與足夠蛋白質攝取維持行動能力。",
-        "title": "肌少症與運動"
+        "summary": "重度依賴或臥床（CFS 7-9）長者的「活動」目標不是行走，而是被動關節活動、姿勢變換、坐椅時間，預防攣縮、肺炎與循環不良。",
+        "title": "臥床長者的活動維持與合併症預防"
       }
     ],
     "refer::future_wishes.advance_care_planning::cfs5": [
@@ -3107,26 +3383,26 @@
     ],
     "refer::physical.nutrition::cfs7": [
       {
-        "slug": "geriatric-nutrition",
+        "slug": "nutrition-end-of-life",
         "source": "internal",
-        "summary": "認識長者營養不良與體重流失的風險因子，掌握均衡飲食、足夠蛋白質與水分，以及進食困難的因應。",
-        "title": "長者營養照護"
+        "summary": "末期（CFS 8-9 / 預期生命 < 6 個月）營養目標從「補足熱量」轉為「維持舒適」，理解食慾下降是疾病進展，不必強迫進食。",
+        "title": "末期長者的營養支持"
       }
     ],
     "refer::physical.nutrition::cfs8": [
       {
-        "slug": "geriatric-nutrition",
+        "slug": "nutrition-end-of-life",
         "source": "internal",
-        "summary": "認識長者營養不良與體重流失的風險因子，掌握均衡飲食、足夠蛋白質與水分，以及進食困難的因應。",
-        "title": "長者營養照護"
+        "summary": "末期（CFS 8-9 / 預期生命 < 6 個月）營養目標從「補足熱量」轉為「維持舒適」，理解食慾下降是疾病進展，不必強迫進食。",
+        "title": "末期長者的營養支持"
       }
     ],
     "refer::physical.nutrition::cfs9": [
       {
-        "slug": "geriatric-nutrition",
+        "slug": "nutrition-end-of-life",
         "source": "internal",
-        "summary": "認識長者營養不良與體重流失的風險因子，掌握均衡飲食、足夠蛋白質與水分，以及進食困難的因應。",
-        "title": "長者營養照護"
+        "summary": "末期（CFS 8-9 / 預期生命 < 6 個月）營養目標從「補足熱量」轉為「維持舒適」，理解食慾下降是疾病進展，不必強迫進食。",
+        "title": "末期長者的營養支持"
       }
     ],
     "refer::physical.pain::cfs1": [
@@ -3387,18 +3663,18 @@
     ],
     "refer::psychological.cognition::cfs7": [
       {
-        "slug": "cognitive-training",
+        "slug": "dementia-late-stage",
         "source": "internal",
-        "summary": "了解正常老化與失智症的差異，學習促進認知活力的生活方式，以及面對記憶力下降時的因應與資源。",
-        "title": "認知促進與失智因應"
+        "summary": "失智晚期（CDR 3 / CFS 8-9）長者已無法言語、需協助所有日常活動；照護重點轉為舒適、安全、症狀觀察與家屬支持。",
+        "title": "失智症晚期照護要點"
       }
     ],
     "refer::psychological.cognition::cfs8": [
       {
-        "slug": "cognitive-training",
+        "slug": "dementia-late-stage",
         "source": "internal",
-        "summary": "了解正常老化與失智症的差異，學習促進認知活力的生活方式，以及面對記憶力下降時的因應與資源。",
-        "title": "認知促進與失智因應"
+        "summary": "失智晚期（CDR 3 / CFS 8-9）長者已無法言語、需協助所有日常活動；照護重點轉為舒適、安全、症狀觀察與家屬支持。",
+        "title": "失智症晚期照護要點"
       }
     ],
     "refer::psychological.delirium::cfs4": [
@@ -3531,26 +3807,26 @@
     ],
     "refer::social.caregiver::cfs7": [
       {
-        "slug": "caregiver-support",
+        "slug": "caregiver-burnout",
         "source": "internal",
-        "summary": "長期照顧容易累積身心壓力與負荷，認識照顧者倦怠的徵兆，學習自我照顧與善用喘息與支持資源。",
-        "title": "照顧者壓力與支持"
+        "summary": "照顧 CFS 7-9 重度依賴長者的主要家屬，照顧壓力、憂鬱、睡眠剝奪比例高；自我覺察、喘息與外部支持是維持長期照護的關鍵。",
+        "title": "重度照顧者的燒盡與支持"
       }
     ],
     "refer::social.caregiver::cfs8": [
       {
-        "slug": "caregiver-support",
+        "slug": "caregiver-burnout",
         "source": "internal",
-        "summary": "長期照顧容易累積身心壓力與負荷，認識照顧者倦怠的徵兆，學習自我照顧與善用喘息與支持資源。",
-        "title": "照顧者壓力與支持"
+        "summary": "照顧 CFS 7-9 重度依賴長者的主要家屬，照顧壓力、憂鬱、睡眠剝奪比例高；自我覺察、喘息與外部支持是維持長期照護的關鍵。",
+        "title": "重度照顧者的燒盡與支持"
       }
     ],
     "refer::social.caregiver::cfs9": [
       {
-        "slug": "caregiver-support",
+        "slug": "caregiver-burnout",
         "source": "internal",
-        "summary": "長期照顧容易累積身心壓力與負荷，認識照顧者倦怠的徵兆，學習自我照顧與善用喘息與支持資源。",
-        "title": "照顧者壓力與支持"
+        "summary": "照顧 CFS 7-9 重度依賴長者的主要家屬，照顧壓力、憂鬱、睡眠剝奪比例高；自我覺察、喘息與外部支持是維持長期照護的關鍵。",
+        "title": "重度照顧者的燒盡與支持"
       }
     ],
     "refer::social.financial::cfs3": [
@@ -3925,10 +4201,10 @@
       "inapplicable": false,
       "videoIds": [
         "LH5oLXL0D4E",
+        "7BG1vp_N1FU",
         "p2LAs_hUFb4",
         "8pEl7lKoi8M",
-        "Ce08THCTt54",
-        "XeaIC5nKZxg"
+        "Ce08THCTt54"
       ]
     },
     "cga.domain.functional.falls.anomaly.cfs3": {
@@ -3936,10 +4212,10 @@
       "inapplicable": false,
       "videoIds": [
         "LH5oLXL0D4E",
+        "7BG1vp_N1FU",
         "p2LAs_hUFb4",
         "8pEl7lKoi8M",
-        "Ce08THCTt54",
-        "XeaIC5nKZxg"
+        "Ce08THCTt54"
       ]
     },
     "cga.domain.functional.falls.anomaly.cfs4": {
@@ -3947,10 +4223,10 @@
       "inapplicable": false,
       "videoIds": [
         "LH5oLXL0D4E",
+        "7BG1vp_N1FU",
         "p2LAs_hUFb4",
         "8pEl7lKoi8M",
-        "Ce08THCTt54",
-        "XeaIC5nKZxg"
+        "Ce08THCTt54"
       ]
     },
     "cga.domain.functional.falls.anomaly.cfs5": {
@@ -3958,10 +4234,10 @@
       "inapplicable": false,
       "videoIds": [
         "LH5oLXL0D4E",
+        "7BG1vp_N1FU",
         "p2LAs_hUFb4",
         "8pEl7lKoi8M",
-        "Ce08THCTt54",
-        "XeaIC5nKZxg"
+        "Ce08THCTt54"
       ]
     },
     "cga.domain.functional.falls.anomaly.cfs6": {
@@ -3969,14 +4245,14 @@
       "inapplicable": false,
       "videoIds": [
         "LH5oLXL0D4E",
+        "7BG1vp_N1FU",
         "p2LAs_hUFb4",
         "8pEl7lKoi8M",
-        "Ce08THCTt54",
-        "XeaIC5nKZxg"
+        "Ce08THCTt54"
       ]
     },
     "cga.domain.functional.falls.anomaly.cfs7": {
-      "educationSlug": "fall-prevention",
+      "educationSlug": "falls-bedridden-care",
       "inapplicable": false,
       "videoIds": [
         "V_Jw_P1kMZE",
@@ -3987,7 +4263,7 @@
       ]
     },
     "cga.domain.functional.falls.anomaly.cfs8": {
-      "educationSlug": "fall-prevention",
+      "educationSlug": "falls-bedridden-care",
       "inapplicable": false,
       "videoIds": [
         "V_Jw_P1kMZE",
@@ -4094,66 +4370,66 @@
       "educationSlug": "sarcopenia-exercise",
       "inapplicable": false,
       "videoIds": [
+        "cLbzNV5OEyk",
         "7BG1vp_N1FU",
         "Xvh51Yw5CaQ",
         "Egw1WmqNAbg",
-        "M-dkUOiqX3w",
-        "9Wnc9gaErNE"
+        "M-dkUOiqX3w"
       ]
     },
     "cga.domain.functional.mobility.anomaly.cfs3": {
       "educationSlug": "sarcopenia-exercise",
       "inapplicable": false,
       "videoIds": [
-        "9Wnc9gaErNE",
-        "7BG1vp_N1FU",
-        "Xvh51Yw5CaQ",
-        "Egw1WmqNAbg",
-        "M-dkUOiqX3w"
+        "z0E4i_nJ7Hc",
+        "8fKHA0l7bwk",
+        "cLbzNV5OEyk",
+        "IRO6OY64jp0",
+        "9Wnc9gaErNE"
       ]
     },
     "cga.domain.functional.mobility.anomaly.cfs4": {
       "educationSlug": "sarcopenia-exercise",
       "inapplicable": false,
       "videoIds": [
-        "9Wnc9gaErNE",
-        "7BG1vp_N1FU",
-        "Xvh51Yw5CaQ",
-        "Egw1WmqNAbg",
-        "M-dkUOiqX3w"
+        "z0E4i_nJ7Hc",
+        "8fKHA0l7bwk",
+        "cLbzNV5OEyk",
+        "IRO6OY64jp0",
+        "9Wnc9gaErNE"
       ]
     },
     "cga.domain.functional.mobility.anomaly.cfs5": {
       "educationSlug": "sarcopenia-exercise",
       "inapplicable": false,
       "videoIds": [
+        "z0E4i_nJ7Hc",
+        "8fKHA0l7bwk",
+        "IRO6OY64jp0",
         "9Wnc9gaErNE",
-        "7BG1vp_N1FU",
-        "Xvh51Yw5CaQ",
-        "Egw1WmqNAbg",
-        "M-dkUOiqX3w"
+        "7BG1vp_N1FU"
       ]
     },
     "cga.domain.functional.mobility.anomaly.cfs6": {
       "educationSlug": "sarcopenia-exercise",
       "inapplicable": false,
       "videoIds": [
+        "z0E4i_nJ7Hc",
+        "8fKHA0l7bwk",
+        "IRO6OY64jp0",
         "9Wnc9gaErNE",
-        "7BG1vp_N1FU",
-        "Xvh51Yw5CaQ",
-        "Egw1WmqNAbg",
-        "M-dkUOiqX3w"
+        "7BG1vp_N1FU"
       ]
     },
     "cga.domain.functional.mobility.anomaly.cfs7": {
-      "educationSlug": "sarcopenia-exercise",
+      "educationSlug": "mobility-bedridden",
       "inapplicable": false,
       "videoIds": [
+        "z0E4i_nJ7Hc",
+        "11x5X6dDbvc",
+        "8fKHA0l7bwk",
         "7BG1vp_N1FU",
-        "Xvh51Yw5CaQ",
-        "Egw1WmqNAbg",
-        "9Wnc9gaErNE",
-        "M-dkUOiqX3w"
+        "cLbzNV5OEyk"
       ]
     },
     "cga.domain.functional.mobility.anomaly.cfs8": {
@@ -4487,70 +4763,70 @@
       "educationSlug": "geriatric-nutrition",
       "inapplicable": false,
       "videoIds": [
+        "WmcQ8FKcKuo",
         "rC_unUV0YT4",
         "fvqnlZwOUBs",
-        "lKbiRaWnQbs",
-        "j59WC6cbr88",
-        "tCGLwR9NbFo"
+        "dJ2ZMI8paqQ",
+        "iRmaP6P802Y"
       ]
     },
     "cga.domain.physical.nutrition.anomaly.cfs2": {
       "educationSlug": "geriatric-nutrition",
       "inapplicable": false,
       "videoIds": [
+        "WmcQ8FKcKuo",
         "rC_unUV0YT4",
         "fvqnlZwOUBs",
-        "lKbiRaWnQbs",
-        "j59WC6cbr88",
-        "tCGLwR9NbFo"
+        "dJ2ZMI8paqQ",
+        "iRmaP6P802Y"
       ]
     },
     "cga.domain.physical.nutrition.anomaly.cfs3": {
       "educationSlug": "geriatric-nutrition",
       "inapplicable": false,
       "videoIds": [
+        "dJ2ZMI8paqQ",
+        "iRmaP6P802Y",
         "lKbiRaWnQbs",
         "tCGLwR9NbFo",
-        "Lr16vXWyULE",
-        "DyCnx4dXBG4",
-        "9Wnc9gaErNE"
+        "B2i4IWHwtFI"
       ]
     },
     "cga.domain.physical.nutrition.anomaly.cfs4": {
       "educationSlug": "geriatric-nutrition",
       "inapplicable": false,
       "videoIds": [
+        "dJ2ZMI8paqQ",
+        "iRmaP6P802Y",
         "lKbiRaWnQbs",
         "tCGLwR9NbFo",
-        "Lr16vXWyULE",
-        "DyCnx4dXBG4",
-        "9Wnc9gaErNE"
+        "B2i4IWHwtFI"
       ]
     },
     "cga.domain.physical.nutrition.anomaly.cfs5": {
       "educationSlug": "geriatric-nutrition",
       "inapplicable": false,
       "videoIds": [
+        "dJ2ZMI8paqQ",
+        "iRmaP6P802Y",
         "lKbiRaWnQbs",
         "j59WC6cbr88",
-        "tCGLwR9NbFo",
-        "Lr16vXWyULE",
-        "DyCnx4dXBG4"
+        "tCGLwR9NbFo"
       ]
     },
     "cga.domain.physical.nutrition.anomaly.cfs6": {
       "educationSlug": "geriatric-nutrition",
       "inapplicable": false,
       "videoIds": [
+        "dJ2ZMI8paqQ",
+        "iRmaP6P802Y",
         "lKbiRaWnQbs",
         "j59WC6cbr88",
-        "tCGLwR9NbFo",
-        "Lr16vXWyULE",
-        "DyCnx4dXBG4"
+        "tCGLwR9NbFo"
       ]
     },
     "cga.domain.physical.nutrition.anomaly.cfs7": {
-      "educationSlug": "geriatric-nutrition",
+      "educationSlug": "nutrition-end-of-life",
       "inapplicable": false,
       "videoIds": [
         "j59WC6cbr88",
@@ -4561,25 +4837,25 @@
       ]
     },
     "cga.domain.physical.nutrition.anomaly.cfs8": {
-      "educationSlug": "geriatric-nutrition",
+      "educationSlug": "nutrition-end-of-life",
       "inapplicable": false,
       "videoIds": [
         "BI3sHb--67E",
         "GI4MtqXR0VA",
         "rC_unUV0YT4",
         "fvqnlZwOUBs",
-        "lKbiRaWnQbs"
+        "dJ2ZMI8paqQ"
       ]
     },
     "cga.domain.physical.nutrition.anomaly.cfs9": {
-      "educationSlug": "geriatric-nutrition",
+      "educationSlug": "nutrition-end-of-life",
       "inapplicable": false,
       "videoIds": [
         "BI3sHb--67E",
         "GI4MtqXR0VA",
         "rC_unUV0YT4",
         "fvqnlZwOUBs",
-        "lKbiRaWnQbs"
+        "dJ2ZMI8paqQ"
       ]
     },
     "cga.domain.physical.pain.anomaly.cfs1": {
@@ -4876,44 +5152,44 @@
       "educationSlug": "cognitive-training",
       "inapplicable": false,
       "videoIds": [
+        "eC92Y3a1BFQ",
+        "Xm1cZX6GB48",
+        "IzwuxstXycY",
         "qlGQqJDuA64",
-        "mTZR38eGf5w",
-        "0kSQm_0oalM",
-        "eCEIYHOCx9w",
-        "LpCOAUUpt0g"
+        "9AoflcVzQ7Q"
       ]
     },
     "cga.domain.psychological.cognition.anomaly.cfs2": {
       "educationSlug": "cognitive-training",
       "inapplicable": false,
       "videoIds": [
+        "eC92Y3a1BFQ",
+        "Xm1cZX6GB48",
+        "IzwuxstXycY",
         "qlGQqJDuA64",
-        "mTZR38eGf5w",
-        "0kSQm_0oalM",
-        "eCEIYHOCx9w",
-        "LpCOAUUpt0g"
+        "9AoflcVzQ7Q"
       ]
     },
     "cga.domain.psychological.cognition.anomaly.cfs3": {
       "educationSlug": "cognitive-training",
       "inapplicable": false,
       "videoIds": [
+        "eC92Y3a1BFQ",
+        "Xm1cZX6GB48",
+        "IzwuxstXycY",
         "qlGQqJDuA64",
-        "mTZR38eGf5w",
-        "0kSQm_0oalM",
-        "eCEIYHOCx9w",
-        "LpCOAUUpt0g"
+        "9AoflcVzQ7Q"
       ]
     },
     "cga.domain.psychological.cognition.anomaly.cfs4": {
       "educationSlug": "cognitive-training",
       "inapplicable": false,
       "videoIds": [
+        "eC92Y3a1BFQ",
+        "Xm1cZX6GB48",
+        "IzwuxstXycY",
         "qlGQqJDuA64",
-        "mTZR38eGf5w",
-        "0kSQm_0oalM",
-        "eCEIYHOCx9w",
-        "LpCOAUUpt0g"
+        "9AoflcVzQ7Q"
       ]
     },
     "cga.domain.psychological.cognition.anomaly.cfs5": {
@@ -4922,9 +5198,9 @@
       "videoIds": [
         "LpCOAUUpt0g",
         "mrrPJDb3whc",
+        "XAF7Ex3InEo",
         "87rvwvf_4Y4",
-        "w9TZ73B0Uto",
-        "4KcVLgRWmVU"
+        "w9TZ73B0Uto"
       ]
     },
     "cga.domain.psychological.cognition.anomaly.cfs6": {
@@ -4933,31 +5209,31 @@
       "videoIds": [
         "LpCOAUUpt0g",
         "mrrPJDb3whc",
+        "XAF7Ex3InEo",
         "87rvwvf_4Y4",
-        "w9TZ73B0Uto",
-        "4KcVLgRWmVU"
+        "w9TZ73B0Uto"
       ]
     },
     "cga.domain.psychological.cognition.anomaly.cfs7": {
-      "educationSlug": "cognitive-training",
+      "educationSlug": "dementia-late-stage",
       "inapplicable": false,
       "videoIds": [
         "LpCOAUUpt0g",
         "mrrPJDb3whc",
+        "XAF7Ex3InEo",
         "87rvwvf_4Y4",
-        "w9TZ73B0Uto",
-        "4KcVLgRWmVU"
+        "w9TZ73B0Uto"
       ]
     },
     "cga.domain.psychological.cognition.anomaly.cfs8": {
-      "educationSlug": "cognitive-training",
+      "educationSlug": "dementia-late-stage",
       "inapplicable": false,
       "videoIds": [
         "LpCOAUUpt0g",
         "qlGQqJDuA64",
+        "eC92Y3a1BFQ",
         "mrrPJDb3whc",
-        "87rvwvf_4Y4",
-        "w9TZ73B0Uto"
+        "XAF7Ex3InEo"
       ]
     },
     "cga.domain.psychological.cognition.anomaly.cfs9": {
@@ -5046,44 +5322,44 @@
       "educationSlug": "depression-support",
       "inapplicable": false,
       "videoIds": [
+        "CuIgR7wGn30",
+        "gyP1D0gJJ0E",
         "al_21c3Z3GY",
-        "6kcb0biR-ms",
-        "dEmFu3D-BGU",
-        "MSDWQiOOyRo",
-        "lDmvUIoMDFg"
+        "B4Gi_IR1tKM",
+        "SvY7yXyhLj8"
       ]
     },
     "cga.domain.psychological.mood.anomaly.cfs2": {
       "educationSlug": "depression-support",
       "inapplicable": false,
       "videoIds": [
+        "CuIgR7wGn30",
+        "gyP1D0gJJ0E",
         "al_21c3Z3GY",
-        "6kcb0biR-ms",
-        "dEmFu3D-BGU",
-        "MSDWQiOOyRo",
-        "lDmvUIoMDFg"
+        "B4Gi_IR1tKM",
+        "SvY7yXyhLj8"
       ]
     },
     "cga.domain.psychological.mood.anomaly.cfs3": {
       "educationSlug": "depression-support",
       "inapplicable": false,
       "videoIds": [
+        "CuIgR7wGn30",
+        "gyP1D0gJJ0E",
         "al_21c3Z3GY",
-        "6kcb0biR-ms",
-        "lDmvUIoMDFg",
-        "dEmFu3D-BGU",
-        "MSDWQiOOyRo"
+        "B4Gi_IR1tKM",
+        "SvY7yXyhLj8"
       ]
     },
     "cga.domain.psychological.mood.anomaly.cfs4": {
       "educationSlug": "depression-support",
       "inapplicable": false,
       "videoIds": [
+        "CuIgR7wGn30",
+        "gyP1D0gJJ0E",
         "al_21c3Z3GY",
-        "6kcb0biR-ms",
-        "lDmvUIoMDFg",
-        "dEmFu3D-BGU",
-        "MSDWQiOOyRo"
+        "B4Gi_IR1tKM",
+        "SvY7yXyhLj8"
       ]
     },
     "cga.domain.psychological.mood.anomaly.cfs5": {
@@ -5093,8 +5369,8 @@
         "MSDWQiOOyRo",
         "lDmvUIoMDFg",
         "dEmFu3D-BGU",
-        "al_21c3Z3GY",
-        "6kcb0biR-ms"
+        "CuIgR7wGn30",
+        "gyP1D0gJJ0E"
       ]
     },
     "cga.domain.psychological.mood.anomaly.cfs6": {
@@ -5104,8 +5380,8 @@
         "MSDWQiOOyRo",
         "lDmvUIoMDFg",
         "dEmFu3D-BGU",
-        "al_21c3Z3GY",
-        "6kcb0biR-ms"
+        "CuIgR7wGn30",
+        "gyP1D0gJJ0E"
       ]
     },
     "cga.domain.psychological.mood.anomaly.cfs7": {
@@ -5114,9 +5390,9 @@
       "videoIds": [
         "MSDWQiOOyRo",
         "dEmFu3D-BGU",
-        "al_21c3Z3GY",
-        "6kcb0biR-ms",
-        "lDmvUIoMDFg"
+        "CuIgR7wGn30",
+        "gyP1D0gJJ0E",
+        "al_21c3Z3GY"
       ]
     },
     "cga.domain.psychological.mood.anomaly.cfs8": {
@@ -5173,7 +5449,7 @@
       ]
     },
     "cga.domain.social.caregiver.anomaly.cfs7": {
-      "educationSlug": "caregiver-support",
+      "educationSlug": "caregiver-burnout",
       "inapplicable": false,
       "videoIds": [
         "n5_-VaYzeuE",
@@ -5184,7 +5460,7 @@
       ]
     },
     "cga.domain.social.caregiver.anomaly.cfs8": {
-      "educationSlug": "caregiver-support",
+      "educationSlug": "caregiver-burnout",
       "inapplicable": false,
       "videoIds": [
         "1ufvb5k9F04",
@@ -5195,7 +5471,7 @@
       ]
     },
     "cga.domain.social.caregiver.anomaly.cfs9": {
-      "educationSlug": "caregiver-support",
+      "educationSlug": "caregiver-burnout",
       "inapplicable": false,
       "videoIds": [
         "1ufvb5k9F04",
@@ -5298,33 +5574,33 @@
       "educationSlug": "social-connection",
       "inapplicable": false,
       "videoIds": [
-        "2QnVHLK142o",
-        "QKW42kFB_DM",
-        "lDmvUIoMDFg",
-        "QTEVpoB8yHE",
-        "UaaS6s34uAY"
+        "1HaZoA2RUig",
+        "6TOY0wLOPBE",
+        "NfCWydPSueU",
+        "XzusBhkhtYI",
+        "O6sEOFcWTAg"
       ]
     },
     "cga.domain.social.social_support.anomaly.cfs3": {
       "educationSlug": "social-connection",
       "inapplicable": false,
       "videoIds": [
+        "1HaZoA2RUig",
+        "6TOY0wLOPBE",
+        "NfCWydPSueU",
         "lDmvUIoMDFg",
-        "QTEVpoB8yHE",
-        "2QnVHLK142o",
-        "QKW42kFB_DM",
-        "UaaS6s34uAY"
+        "XzusBhkhtYI"
       ]
     },
     "cga.domain.social.social_support.anomaly.cfs4": {
       "educationSlug": "social-connection",
       "inapplicable": false,
       "videoIds": [
+        "1HaZoA2RUig",
+        "6TOY0wLOPBE",
+        "NfCWydPSueU",
         "lDmvUIoMDFg",
-        "QTEVpoB8yHE",
-        "2QnVHLK142o",
-        "QKW42kFB_DM",
-        "UaaS6s34uAY"
+        "XzusBhkhtYI"
       ]
     },
     "cga.domain.social.social_support.anomaly.cfs5": {
@@ -5356,8 +5632,8 @@
         "UaaS6s34uAY",
         "2QnVHLK142o",
         "QKW42kFB_DM",
-        "lDmvUIoMDFg",
-        "QTEVpoB8yHE"
+        "1HaZoA2RUig",
+        "6TOY0wLOPBE"
       ]
     },
     "cga.domain.social.social_support.anomaly.cfs8": {
@@ -5366,9 +5642,9 @@
       "videoIds": [
         "2QnVHLK142o",
         "QKW42kFB_DM",
-        "lDmvUIoMDFg",
-        "QTEVpoB8yHE",
-        "UaaS6s34uAY"
+        "1HaZoA2RUig",
+        "6TOY0wLOPBE",
+        "NfCWydPSueU"
       ]
     },
     "cga.domain.social.social_support.anomaly.cfs9": {
@@ -5377,9 +5653,9 @@
       "videoIds": [
         "2QnVHLK142o",
         "QKW42kFB_DM",
-        "lDmvUIoMDFg",
-        "QTEVpoB8yHE",
-        "UaaS6s34uAY"
+        "1HaZoA2RUig",
+        "6TOY0wLOPBE",
+        "NfCWydPSueU"
       ]
     }
   }
