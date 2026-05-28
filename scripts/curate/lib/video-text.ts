@@ -4,7 +4,9 @@
  * 訊號出處（離線、不戳 yt-dlp）：
  *   1. src/data/video-catalog/*.yaml: title + channel
  *   2. scripts/curate/reports/*.md: subtitleHead/Tail（含「[無字幕] description: ...」）
- *   3. scripts/curate/cache/*.vtt: 有完整字幕者（catalog ~112 支中僅 11 支有 vtt）
+ *   3. src/data/video-subtitles/*.vtt: 已驗證並 commit 的字幕資產（內容資產，跨 clone/CI 持久化）；
+ *      scripts/curate/cache/*.vtt: curate 新跑暫存（gitignored、待人工搬到 video-subtitles/）。
+ *      兩處同 videoId 時以 src/data/video-subtitles/ 為準（committed 才是真相源）。
  */
 import fs from 'node:fs/promises';
 import path from 'node:path';
@@ -41,19 +43,24 @@ export async function loadVideoTexts(): Promise<Map<string, string>> {
     }
   }
 
-  // 3. cache vtt → 完整字幕（11 支）；上限 1500 字避免單支主導訊號
-  for (const fp of await fg('scripts/curate/cache/*.vtt')) {
-    const id = path.basename(fp).split('.')[0];
-    const sub = await fs.readFile(fp, 'utf8');
-    const text = sub
-      .split('\n')
-      .filter(l => !l.includes('-->') && !/^\d+$/.test(l) && !l.startsWith('WEBVTT'))
-      .join(' ')
-      .replace(/<[^>]+>/g, '')
-      .trim();
-    if (!text) continue;
-    const existing = texts.get(id) ?? '';
-    texts.set(id, existing + ' | SUB:' + text.slice(0, 1500));
+  // 3. 字幕：先讀 cache（curate 新跑暫存），再讀 video-subtitles（committed 真相源）覆蓋。
+  //    上限 1500 字避免單支主導訊號；剝除 [Music]/[音樂]/[Applause] 等無意義標記後若為空則跳過。
+  for (const baseDir of ['scripts/curate/cache', 'src/data/video-subtitles']) {
+    for (const fp of (await fg(`${baseDir}/*.vtt`)).sort()) {
+      const id = path.basename(fp).split('.')[0];
+      const sub = await fs.readFile(fp, 'utf8');
+      const text = sub
+        .split('\n')
+        .filter(l => !l.includes('-->') && !/^\d+$/.test(l) && !l.startsWith('WEBVTT') && !/^Kind:|^Language:/.test(l))
+        .join(' ')
+        .replace(/<[^>]+>/g, '')
+        .replace(/\[(Music|Applause|音樂|掌聲)\]/g, '')
+        .trim();
+      if (!text) continue;
+      // 同 videoId 時 video-subtitles 覆蓋 cache 版本（committed 才是真相源）
+      const existing = (texts.get(id) ?? '').replace(/ \| SUB:[\s\S]*$/, '');
+      texts.set(id, existing + ' | SUB:' + text.slice(0, 1500));
+    }
   }
 
   return texts;
