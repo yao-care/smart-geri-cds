@@ -57,9 +57,18 @@ export function cfsOf(trigger: string): string | null {
 }
 
 /**
- * 每個 (domain, cfs) cell 從該域影片池挑：① 該 cfs ∈ classifier(video) 的優先（按分數降冪），
- * ② 不足 cap 時以「未匹配但分數高」的補滿（fallback 確保每格 ≥1）。同分以 videoId 字典序穩定排序。
- * 結果：同域不同 CFS 格的影片排序／內容會差異化（在影片池本身有 band 多樣性時）。
+ * Specificity 門檻：classifier 給出 band size <= 此值視為「specific」（窄 band），優於廣譜 ALL_CFS。
+ * 5 = 涵蓋常見窄 band：cfs7-9(3)、cfs5-7(3)、cfs3-6(4)、cfs1-4(4)、cfs6-9(4)、cfs5-9(5)、cfs3-7(5)；
+ * 排除 ALL_CFS(9) 廣譜。提升此值會把更廣的 band 視為 specific（不建議）。
+ */
+const SPECIFIC_BAND_SIZE_MAX = 5;
+
+/**
+ * 每個 (domain, cfs) cell 從該域影片池挑：① specific 命中（窄 band，size ≤ SPECIFIC_BAND_SIZE_MAX）優先，
+ * ② 廣譜命中（ALL_CFS 等）次之，③ 未命中以分數高者補滿（每組內按 catalog score 降冪、同分以 videoId 字典序）。
+ *
+ * 三層分流避免「廣譜片分數較高把窄 band specific 片擠掉 cap」— 否則所有 cfs cell 仍同 5 廣譜，
+ * 無法真實差異化。每格仍保證 ≥1 支（fallback others）。
  */
 export function selectPerCellVideos(
   triggers: TriggerEntry[],
@@ -84,14 +93,21 @@ export function selectPerCellVideos(
     const cfs = cfsOf(t.trigger);
     if (!d || !cfs) return t;
     const all = [...(pool.get(d) ?? [])];
-    const matched: string[] = [];
+    const specific: string[] = [];
+    const broad: string[] = [];
     const others: string[] = [];
     for (const v of all) {
-      if (classify(v).has(cfs)) matched.push(v);
-      else others.push(v);
+      const bands = classify(v);
+      if (bands.has(cfs)) {
+        if (bands.size <= SPECIFIC_BAND_SIZE_MAX) specific.push(v);
+        else broad.push(v);
+      } else {
+        others.push(v);
+      }
     }
-    matched.sort(byScore);
+    specific.sort(byScore);
+    broad.sort(byScore);
     others.sort(byScore);
-    return { ...t, videoIds: [...matched, ...others].slice(0, cap) };
+    return { ...t, videoIds: [...specific, ...broad, ...others].slice(0, cap) };
   });
 }

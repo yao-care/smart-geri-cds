@@ -99,6 +99,35 @@ describe('selectPerCellVideos', () => {
     const out = selectPerCellVideos(triggers, scores, () => new Set(['cfs5']), 3);
     expect(out[0].videoIds).toEqual(['v1', 'v2', 'v3']);
   });
+
+  it('窄 band 匹配優先於廣譜 ALL_CFS（即使廣譜分數較高）— 解決廣譜片擠掉 specific 片問題', async () => {
+    const { selectPerCellVideos } = await import('../../scripts/curate/lib/coverage');
+    const triggers: TriggerEntry[] = [
+      // 池內：5 支廣譜 ALL_CFS（高分） + 2 支 cfs6-9 specific（低分）
+      { trigger: 'cga.domain.physical.comorbidity.anomaly.cfs7', articles: [], videoIds: ['broad_1', 'broad_2', 'broad_3', 'broad_4', 'broad_5', 'narrow_a', 'narrow_b'] },
+      { trigger: 'cga.domain.physical.comorbidity.anomaly.cfs1', articles: [], videoIds: [] },
+    ];
+    const scores = {
+      broad_1: 0.9, broad_2: 0.8, broad_3: 0.7, broad_4: 0.6, broad_5: 0.55,
+      narrow_a: 0.5, narrow_b: 0.4,
+    };
+    const ALL: Set<string> = new Set(['cfs1', 'cfs2', 'cfs3', 'cfs4', 'cfs5', 'cfs6', 'cfs7', 'cfs8', 'cfs9']);
+    const NARROW: Set<string> = new Set(['cfs6', 'cfs7', 'cfs8', 'cfs9']);
+    const classify = (v: string): Set<string> => (v.startsWith('narrow_') ? NARROW : ALL);
+
+    const out = selectPerCellVideos(triggers, scores, classify, 5);
+    const byT = Object.fromEntries(out.map(t => [t.trigger, t.videoIds]));
+
+    // cfs7：narrow specific 優先（即使分數低），broad 補位
+    expect(byT['cga.domain.physical.comorbidity.anomaly.cfs7'].slice(0, 2)).toEqual(['narrow_a', 'narrow_b']);
+    // cfs1：narrow 不含 cfs1 → 只有 broad → 全是 broad
+    expect(byT['cga.domain.physical.comorbidity.anomaly.cfs1'].includes('narrow_a')).toBe(false);
+    expect(byT['cga.domain.physical.comorbidity.anomaly.cfs1'].includes('narrow_b')).toBe(false);
+    // cfs1 vs cfs7 影片集合不同 → 真實 set 差異化
+    const set1 = new Set(byT['cga.domain.physical.comorbidity.anomaly.cfs1']);
+    const set7 = new Set(byT['cga.domain.physical.comorbidity.anomaly.cfs7']);
+    expect([...set1].sort().join(',')).not.toBe([...set7].sort().join(','));
+  });
 });
 
 describe('uncoveredDomainCells', () => {
