@@ -1,19 +1,4 @@
-- videoId: _Cd0YYRL_NE
-  title: 【照顧者壓力】照顧者要學懂定下界線
-  channel: 賽馬會流金頌護老有e道
-  channelId: UC_MNNc-HFGnratVkVBNo45w
-  duration: 184
-  publishedAt: '2023-03-27'
-  language: zh-Hant
-  subtitleType: human
-  sourceTier: pro-kol
-  viewCount: 4259
-  curatedAt: '2026-05-27'
-  lastValidatedAt: '2026-05-27'
-  verifiedBy: manual
-  verificationStatus: verified
-  score: 0.62
-- videoId: '-GdvSpxpg70'
+- videoId: -GdvSpxpg70
   title: 改善尿失禁！骨盆底肌強化運動 健康2.0
   channel: HEALTH 2.0
   channelId: UCAqzHNzLTC6Vm5UYE7xw_2A
@@ -279,7 +264,7 @@
   duration: 670
   publishedAt: '2025-10-22'
   language: zh-Hant
-  subtitleType: none
+  subtitleType: auto
   sourceTier: pro-kol
   viewCount: 25205
   curatedAt: '2026-05-27'
@@ -287,23 +272,7 @@
   verifiedBy: claude-code
   verificationStatus: verified
   score: 0.49
-  notes: auto-curated 2026-05-27；未臨床審核，待抽查
-- videoId: 9jVGObPQko0
-  title: 搭公車不用錢、免交健保費!!別忽略長者的權益！65歲以上應知的「老人福利」FT李翰洲律師
-  channel: 常春月刊
-  channelId: UCt36uQWGHFSaSDPFvFYyZWA
-  duration: 1706
-  publishedAt: '2023-05-23'
-  language: zh-Hant
-  subtitleType: none
-  sourceTier: pro-kol
-  viewCount: 5584
-  curatedAt: '2026-05-27'
-  lastValidatedAt: '2026-05-27'
-  verifiedBy: claude-code
-  verificationStatus: verified
-  score: 0.47
-  notes: auto-curated 2026-05-27；未臨床審核，待抽查
+  notes: auto-curated 2026-05-27；未臨床審核，待抽查；subtitle re-fetched 2026-05-28 (chrome cookies)
 - videoId: 9Wnc9gaErNE
   title: 【名醫觀點】肌少症可逆轉！3運動減緩肌肉流失 多吃這些養肌食物
   channel: HEALTH 2.0
@@ -334,6 +303,22 @@
   verifiedBy: manual
   verificationStatus: verified
   score: 0.46
+- videoId: 9jVGObPQko0
+  title: 搭公車不用錢、免交健保費!!別忽略長者的權益！65歲以上應知的「老人福利」FT李翰洲律師
+  channel: 常春月刊
+  channelId: UCt36uQWGHFSaSDPFvFYyZWA
+  duration: 1706
+  publishedAt: '2023-05-23'
+  language: zh-Hant
+  subtitleType: none
+  sourceTier: pro-kol
+  viewCount: 5584
+  curatedAt: '2026-05-27'
+  lastValidatedAt: '2026-05-27'
+  verifiedBy: claude-code
+  verificationStatus: verified
+  score: 0.47
+  notes: auto-curated 2026-05-27；未臨床審核，待抽查
 - videoId: AE6Wj0D0Tf0
   title: '注意！注意！一定要注意！家中老人一旦迈入80岁高龄，以下这6条建议一定要牢记！【安澜谈健康】#老年人健康 #健康科普 #健康 #医学科普 #安澜健康说 #高龄护理 #健康生活方式 #健康建议'
   channel: 安澜谈健康
@@ -349,21 +334,6 @@
   verifiedBy: manual
   verificationStatus: verified
   score: 0.46
-- videoId: al_21c3Z3GY
-  title: 老人心理健康促進及老年憂鬱症-【土豆人】(長版)
-  channel: 衛生福利部心理健康司
-  channelId: UCwMTCQhKvUZndHBPZjBP45g
-  duration: 255
-  publishedAt: '2024-05-03'
-  language: zh-Hant
-  subtitleType: none
-  sourceTier: pro-kol
-  viewCount: 6983
-  curatedAt: '2026-05-27'
-  lastValidatedAt: '2026-05-27'
-  verifiedBy: manual
-  verificationStatus: verified
-  score: 0.48
 - videoId: B8_WeqWBiKQ
   title: 2025長照政策｜長輩看診不停、藥袋堆成山！揭露台灣高齡醫療盲點！善用整合醫療資源，多重慢性病長者不再逛醫院！慢性病患如何減藥？拒絕醫療資源浪費｜小愛陪你認識長照的大小事
   channel: '小愛陪你認識長照的大小事 '
@@ -380,21 +350,6 @@
   verificationStatus: verified
   score: 0.45
   notes: auto-curated 2026-05-27；未臨床審核，待抽查
-- videoId: Be7s7A90VEM
-  title: 急性精神昏亂(譫妄症)-什麼是譫妄？/分辦譫妄與認知障礙症/成因/預防方法/照顧貼士
-  channel: 香港認知及情緒醫學中心
-  channelId: UC0O0Y-2xzDCbsWWbktR9GUw
-  duration: 441
-  publishedAt: '2023-09-08'
-  language: zh-Hant
-  subtitleType: none
-  sourceTier: pro-kol
-  viewCount: 2351
-  curatedAt: '2026-05-27'
-  lastValidatedAt: '2026-05-27'
-  verifiedBy: manual
-  verificationStatus: verified
-  score: 0.47
 - videoId: BI3sHb--67E
   title: 【獨立特派員】長期臥床者口腔保濕護理(高醫黃純德教授)
   channel: 福樂多台北事務處
@@ -410,6 +365,21 @@
   verifiedBy: manual
   verificationStatus: verified
   score: 0.45
+- videoId: Be7s7A90VEM
+  title: 急性精神昏亂(譫妄症)-什麼是譫妄？/分辦譫妄與認知障礙症/成因/預防方法/照顧貼士
+  channel: 香港認知及情緒醫學中心
+  channelId: UC0O0Y-2xzDCbsWWbktR9GUw
+  duration: 441
+  publishedAt: '2023-09-08'
+  language: zh-Hant
+  subtitleType: none
+  sourceTier: pro-kol
+  viewCount: 2351
+  curatedAt: '2026-05-27'
+  lastValidatedAt: '2026-05-27'
+  verifiedBy: manual
+  verificationStatus: verified
+  score: 0.47
 - videoId: C1PYsv5aZS0
   title: 林澄輝社會福利基金會 服務簡介 國語版
   channel: funcitytv
@@ -441,36 +411,6 @@
   verifiedBy: manual
   verificationStatus: verified
   score: 0.46
-- videoId: cq7apwizQ4s
-  title: '「失智友善居家環境佈置 手把手教學」第６課 #失智 #環境 #賈霸Z'
-  channel: 歡喜賈霸Z
-  channelId: UC5lF5cwRW8juwRXEytwf-YQ
-  duration: 779
-  publishedAt: '2021-11-18'
-  language: zh-Hant
-  subtitleType: none
-  sourceTier: pro-kol
-  viewCount: 13809
-  curatedAt: '2026-05-27'
-  lastValidatedAt: '2026-05-27'
-  verifiedBy: manual
-  verificationStatus: verified
-  score: 0.44
-- videoId: dEmFu3D-BGU
-  title: 蔡佳芬醫師-老年憂鬱症Q&A
-  channel: 醫師健康談-疾病與治療(TENxTAIWAN)
-  channelId: UCtl771U35krJvzlsc5cEf5Q
-  duration: 626
-  publishedAt: '2024-05-31'
-  language: zh-Hant
-  subtitleType: none
-  sourceTier: pro-kol
-  viewCount: 9709
-  curatedAt: '2026-05-27'
-  lastValidatedAt: '2026-05-27'
-  verifiedBy: manual
-  verificationStatus: verified
-  score: 0.48
 - videoId: DyCnx4dXBG4
   title: 長者健康整合式評估(ICOPE)【營養篇】
   channel: TheHealth99
@@ -486,21 +426,6 @@
   verifiedBy: manual
   verificationStatus: verified
   score: 0.44
-- videoId: eCEIYHOCx9w
-  title: 失智症衛教
-  channel: iHealth 政昇處方宅配藥局
-  channelId: UCne2rBgpc1tMuD9Cf_oHDww
-  duration: 329
-  publishedAt: '2020-12-02'
-  language: zh-Hant
-  subtitleType: none
-  sourceTier: pro-kol
-  viewCount: 200
-  curatedAt: '2026-05-27'
-  lastValidatedAt: '2026-05-27'
-  verifiedBy: manual
-  verificationStatus: verified
-  score: 0.37
 - videoId: Egw1WmqNAbg
   title: 【衰老及肌少症】EP05 勤練肌肉 逆轉肌少症 Reverse Sarcopenia by Muscle Building Exercise
   channel: 賽馬會流金頌護老有e道
@@ -516,37 +441,6 @@
   verifiedBy: manual
   verificationStatus: verified
   score: 0.44
-- videoId: ejqzwqeJIrA
-  title: 衛教影片-高齡者臨終議題與預立醫療指示
-  channel: 蕭
-  channelId: UCLCxritkq2kUEzpYqde_Xag
-  duration: 202
-  publishedAt: '2022-06-15'
-  language: zh-Hant
-  subtitleType: none
-  sourceTier: pro-kol
-  viewCount: 57
-  curatedAt: '2026-05-27'
-  lastValidatedAt: '2026-05-27'
-  verifiedBy: manual
-  verificationStatus: verified
-  score: 0.41
-- videoId: eZ4FkihmlCc
-  title: 孤獨的晚年，隱形的危機｜台灣獨居老人的困境
-  channel: 舜禹學堂x台灣時間銀行
-  channelId: UCFZyWIEO5de9RcK1KIkK0hQ
-  duration: 283
-  publishedAt: '2024-10-17'
-  language: zh-Hant
-  subtitleType: none
-  sourceTier: pro-kol
-  viewCount: 32133
-  curatedAt: '2026-05-27'
-  lastValidatedAt: '2026-05-27'
-  verifiedBy: claude-code
-  verificationStatus: verified
-  score: 0.49
-  notes: auto-curated 2026-05-27；未臨床審核，待抽查
 - videoId: FglUj552y_c
   title: 老年醫學09 老年人多重用藥注意事項 by 榮總 彭莉甯醫師
   channel: 看健大健康影音知識庫
@@ -562,36 +456,6 @@
   verifiedBy: manual
   verificationStatus: verified
   score: 0.47
-- videoId: fujj-CuWsaI
-  title: 「怕自己臥床走不了」長照22年看盡人生 簽預立醫療決定書 不插管.不放鼻胃管 生命自主權｜十點不一樣20250204
-  channel: TVBS Channel
-  channelId: UCmgDmqjxbkqIXu4rNbrKodA
-  duration: 302
-  publishedAt: '2025-02-05'
-  language: zh-Hant
-  subtitleType: none
-  sourceTier: pro-kol
-  viewCount: 292
-  curatedAt: '2026-05-27'
-  lastValidatedAt: '2026-05-27'
-  verifiedBy: manual
-  verificationStatus: verified
-  score: 0.45
-- videoId: fvqnlZwOUBs
-  title: 【世界翻轉中】不怕老！84%臥床疾病可以提早預防｜TVBS新聞
-  channel: TVBS NEWS
-  channelId: UC5nwNW4KdC0SzrhF9BXEYOQ
-  duration: 447
-  publishedAt: '2022-05-22'
-  language: zh-Hant
-  subtitleType: none
-  sourceTier: pro-kol
-  viewCount: 4468
-  curatedAt: '2026-05-27'
-  lastValidatedAt: '2026-05-27'
-  verifiedBy: manual
-  verificationStatus: verified
-  score: 0.44
 - videoId: GEOyJxQoTAA
   title: 【口腔健康】口腔衛生與我們生活的每個環節息息相關
   channel: 賽馬會流金頌護老有e道
@@ -608,21 +472,6 @@
   verificationStatus: verified
   score: 0.36
   notes: auto-curated 2026-05-27；未臨床審核，待抽查
-- videoId: gHSg8o4Efns
-  title: 腦中風日常生活功能訓練(一)行走篇
-  channel: myemailtaipei
-  channelId: UCviGcdb2I277bOxHXFLwNDw
-  duration: 359
-  publishedAt: '2011-11-11'
-  language: zh-Hant
-  subtitleType: none
-  sourceTier: pro-kol
-  viewCount: 52668
-  curatedAt: '2026-05-27'
-  lastValidatedAt: '2026-05-27'
-  verifiedBy: manual
-  verificationStatus: verified
-  score: 0.49
 - videoId: GI4MtqXR0VA
   title: (衛教片)牙科林佳詠醫師談，如何幫高齡長輩清潔口腔
   channel: 衛生福利部臺中醫院
@@ -684,36 +533,6 @@
   verifiedBy: manual
   verificationStatus: verified
   score: 0.41
-- videoId: iaQ63oaeq0k
-  title: 高齡者常見疾病｜譫妄症｜高醫岡山醫院家庭醫學科主治醫師吳建誼醫師帶你簡單認識譫妄症❤️‍🩹
-  channel: 高雄醫學大學附設高醫岡山醫院
-  channelId: UC5Adswfh5ajmb5EfvxttMsg
-  duration: 148
-  publishedAt: '2023-08-15'
-  language: zh-Hant
-  subtitleType: none
-  sourceTier: pro-kol
-  viewCount: 9406
-  curatedAt: '2026-05-27'
-  lastValidatedAt: '2026-05-27'
-  verifiedBy: manual
-  verificationStatus: verified
-  score: 0.48
-- videoId: iGy75Zr24FQ
-  title: 【吃藥引發急性譫妄】高政懋醫師-成大e學堂
-  channel: NCKUH成大醫院
-  channelId: UCDx8qcUXN6QW0yF4JH6l3cw
-  duration: 336
-  publishedAt: '2023-07-05'
-  language: zh-Hant
-  subtitleType: none
-  sourceTier: pro-kol
-  viewCount: 5103
-  curatedAt: '2026-05-27'
-  lastValidatedAt: '2026-05-27'
-  verifiedBy: manual
-  verificationStatus: verified
-  score: 0.47
 - videoId: IqBjMHzdxUY
   title: 拒插管氣切　病人自主權利法助走「善終」路
   channel: TVBS NEWS
@@ -730,21 +549,6 @@
   verificationStatus: verified
   score: 0.49
   notes: auto-curated 2026-05-27；未臨床審核，待抽查
-- videoId: iwwE_RiecbU
-  title: 亞東科技大學居家長照照護技巧教學－安全用藥
-  channel: 亞東科技大學護理系
-  channelId: UCU__3zMQPBmvwFrr1_bbCvg
-  duration: 260
-  publishedAt: '2022-08-04'
-  language: zh-Hant
-  subtitleType: none
-  sourceTier: pro-kol
-  viewCount: 1637
-  curatedAt: '2026-05-27'
-  lastValidatedAt: '2026-05-27'
-  verifiedBy: manual
-  verificationStatus: verified
-  score: 0.44
 - videoId: J-1bHnYBsEI
   title: 臺南偏鄉長照交通車 接送弱勢長者就醫-新永安新聞
   channel: 台灣生活新聞 Taiwan Daily Network
@@ -761,36 +565,6 @@
   verificationStatus: verified
   score: 0.38
   notes: auto-curated 2026-05-27；未臨床審核，待抽查
-- videoId: j59WC6cbr88
-  title: 【飲食】如何鼓勵有飲食問題的長者進食
-  channel: 賽馬會流金頌護老有e道
-  channelId: UC_MNNc-HFGnratVkVBNo45w
-  duration: 202
-  publishedAt: '2020-05-22'
-  language: zh-Hant
-  subtitleType: human
-  sourceTier: pro-kol
-  viewCount: 2291
-  curatedAt: '2026-05-27'
-  lastValidatedAt: '2026-05-27'
-  verifiedBy: manual
-  verificationStatus: verified
-  score: 0.53
-- videoId: j5YSHsQXEmo
-  title: 1-3 建立長者居家安全環境
-  channel: 新竹縣診所協會
-  channelId: UCPI9YAGYyLSF4L5JrtzJWHg
-  duration: 209
-  publishedAt: '2021-10-24'
-  language: zh-Hant
-  subtitleType: none
-  sourceTier: pro-kol
-  viewCount: 136
-  curatedAt: '2026-05-27'
-  lastValidatedAt: '2026-05-27'
-  verifiedBy: manual
-  verificationStatus: verified
-  score: 0.4
 - videoId: JaLN8QnonBc
   title: 行天宮精神醫學衛生教育影片-老年憂鬱-恩主公醫院周彥甫醫師
   channel: 精神醫學
@@ -853,21 +627,6 @@
   verificationStatus: verified
   score: 0.44
   notes: auto-curated 2026-05-27；未臨床審核，待抽查
-- videoId: lDmvUIoMDFg
-  title: 憂鬱症...鎖定這類型的人...醫師:不積極治療下場..竟是.....｜十點不一樣20220124
-  channel: TVBS選新聞
-  channelId: UCL0_NxCvkcXwZHpvqgMZY-A
-  duration: 216
-  publishedAt: '2022-01-24'
-  language: zh-Hant
-  subtitleType: none
-  sourceTier: pro-kol
-  viewCount: 3678
-  curatedAt: '2026-05-27'
-  lastValidatedAt: '2026-05-27'
-  verifiedBy: manual
-  verificationStatus: verified
-  score: 0.43
 - videoId: LH5oLXL0D4E
   title: 【衛教】如何預防老人跌倒
   channel: 健康OK棒
@@ -928,52 +687,6 @@
   verifiedBy: manual
   verificationStatus: verified
   score: 0.41
-- videoId: m0ZQBZpjmxc
-  title: 協助銀髮族長輩下床的方法
-  channel: 光合物理治療所
-  channelId: UCQC5rzVaH_k51nxEkBYE9VA
-  duration: 128
-  publishedAt: '2020-08-24'
-  language: zh-Hant
-  subtitleType: none
-  sourceTier: pro-kol
-  viewCount: 107616
-  curatedAt: '2026-05-27'
-  lastValidatedAt: '2026-05-27'
-  verifiedBy: claude-code
-  verificationStatus: verified
-  score: 0.42
-  notes: auto-curated 2026-05-27；未臨床審核，待抽查
-- videoId: MfrxrLDtDuQ
-  title: 中風前兆注意！中風怎麼辦？100%復原有可能嗎？【 挖健康精華 】 江坤俊醫師 甘宗本醫師 @tvbshealth20
-  channel: HEALTH 2.0
-  channelId: UCAqzHNzLTC6Vm5UYE7xw_2A
-  duration: 306
-  publishedAt: '2023-07-21'
-  language: zh-Hant
-  subtitleType: none
-  sourceTier: pro-kol
-  viewCount: 155812
-  curatedAt: '2026-05-27'
-  lastValidatedAt: '2026-05-27'
-  verifiedBy: manual
-  verificationStatus: verified
-  score: 0.5
-- videoId: mrrPJDb3whc
-  title: 【衛教】失智共照中心快速確診服務
-  channel: 健康OK棒
-  channelId: UCvAAwssgHlVMQuTyfxSZuFA
-  duration: 475
-  publishedAt: '2022-07-27'
-  language: zh-Hant
-  subtitleType: human
-  sourceTier: pro-kol
-  viewCount: 890
-  curatedAt: '2026-05-27'
-  lastValidatedAt: '2026-05-27'
-  verifiedBy: manual
-  verificationStatus: verified
-  score: 0.58
 - videoId: MSDWQiOOyRo
   title: '老年憂鬱症與失智症相似要如何分辨？一個關鍵特徵不同！長輩生活習慣突然改變要小心？這種性格竟是老年憂鬱症高危險因子？照顧患者有訣竅，三不三要超重要！｜黃瑽寧（feat. #蔡佳芬）'
   channel: 黃瑽寧愛+好醫生
@@ -989,46 +702,16 @@
   verifiedBy: manual
   verificationStatus: verified
   score: 0.49
-- videoId: mTZR38eGf5w
-  title: 失智症衛教短片 | 失智症症狀  | 預防失智症 | 失智症資源
-  channel: 健康人生
-  channelId: UCSSWLEevc1im-besH3mjYFg
-  duration: 227
-  publishedAt: '2021-08-13'
+- videoId: MfrxrLDtDuQ
+  title: 中風前兆注意！中風怎麼辦？100%復原有可能嗎？【 挖健康精華 】 江坤俊醫師 甘宗本醫師 @tvbshealth20
+  channel: HEALTH 2.0
+  channelId: UCAqzHNzLTC6Vm5UYE7xw_2A
+  duration: 306
+  publishedAt: '2023-07-21'
   language: zh-Hant
   subtitleType: none
   sourceTier: pro-kol
-  viewCount: 708
-  curatedAt: '2026-05-27'
-  lastValidatedAt: '2026-05-27'
-  verifiedBy: manual
-  verificationStatus: verified
-  score: 0.4
-- videoId: n5_-VaYzeuE
-  title: 失智症問題行為多樣化，照顧者負荷壓力近崩潰！奇美醫院長照團隊齊護衛，相輔相成創光輝
-  channel: 奇美醫院哈燒新聞
-  channelId: UCx_Z0c9lIBlEkgkq7T7V3rQ
-  duration: 142
-  publishedAt: '2024-04-09'
-  language: zh-Hant
-  subtitleType: none
-  sourceTier: pro-kol
-  viewCount: 219
-  curatedAt: '2026-05-27'
-  lastValidatedAt: '2026-05-27'
-  verifiedBy: manual
-  verificationStatus: verified
-  score: 0.45
-- videoId: nbgF_8kinjg
-  title: 年長者的肌力訓練! 三個初學者必做下肢動作!  ▏北木健身
-  channel: Beiimu fitness
-  channelId: UCdaqggO6EusPdA0abYSqJgQ
-  duration: 937
-  publishedAt: '2023-08-06'
-  language: zh-Hant
-  subtitleType: none
-  sourceTier: pro-kol
-  viewCount: 3234702
+  viewCount: 155812
   curatedAt: '2026-05-27'
   lastValidatedAt: '2026-05-27'
   verifiedBy: manual
@@ -1049,21 +732,21 @@
   verifiedBy: manual
   verificationStatus: verified
   score: 0.37
-- videoId: NfbBUhCMxEk
-  title: 癌症病人照顧者的工作 Caregiving tasks | 照顧者資訊 Information for caregivers
-  channel: HKU Jockey Club Institute of Cancer Care
-  channelId: UCHyFLDdR1CEJbGCaO6HdlJw
-  duration: 176
-  publishedAt: '2021-04-01'
+- videoId: NUt3mquboYY
+  title: 雲林新聞網-張正和藥師居家訪視 獨老影像撼人心
+  channel: 台灣生活新聞 Taiwan Daily Network
+  channelId: UCoNhCZJsackYDAJsHeW5ZTg
+  duration: 130
+  publishedAt: '2016-07-07'
   language: zh-Hant
   subtitleType: none
   sourceTier: pro-kol
-  viewCount: 612
+  viewCount: 424
   curatedAt: '2026-05-27'
   lastValidatedAt: '2026-05-27'
   verifiedBy: manual
   verificationStatus: verified
-  score: 0.39
+  score: 0.45
 - videoId: NfNucmU9njc
   title: 老人家逛醫院 多重用藥風險大
   channel: 大愛電視 Tzu Chi DaAiVideo
@@ -1079,6 +762,22 @@
   verifiedBy: manual
   verificationStatus: verified
   score: 0.39
+- videoId: NfbBUhCMxEk
+  title: 癌症病人照顧者的工作 Caregiving tasks | 照顧者資訊 Information for caregivers
+  channel: HKU Jockey Club Institute of Cancer Care
+  channelId: UCHyFLDdR1CEJbGCaO6HdlJw
+  duration: 176
+  publishedAt: '2021-04-01'
+  language: zh-Hant
+  subtitleType: auto
+  sourceTier: pro-kol
+  viewCount: 612
+  curatedAt: '2026-05-27'
+  lastValidatedAt: '2026-05-27'
+  verifiedBy: manual
+  verificationStatus: verified
+  score: 0.39
+  notes: subtitle re-fetched 2026-05-28 (chrome cookies)
 - videoId: NitXM9QnUn4
   title: 【老年症候群】6.健康老齡化的過程
   channel: 賽馬會流金頌護老有e道
@@ -1095,21 +794,6 @@
   verificationStatus: verified
   score: 0.61
   notes: auto-curated 2026-05-27；未臨床審核，待抽查
-- videoId: NUt3mquboYY
-  title: 雲林新聞網-張正和藥師居家訪視 獨老影像撼人心
-  channel: 台灣生活新聞 Taiwan Daily Network
-  channelId: UCoNhCZJsackYDAJsHeW5ZTg
-  duration: 130
-  publishedAt: '2016-07-07'
-  language: zh-Hant
-  subtitleType: none
-  sourceTier: pro-kol
-  viewCount: 424
-  curatedAt: '2026-05-27'
-  lastValidatedAt: '2026-05-27'
-  verifiedBy: manual
-  verificationStatus: verified
-  score: 0.45
 - videoId: OdwBZ4AmFQA
   title: 照顧者的精神健康壓力 - 許龍杰醫生 (由中銀香港資助)
   channel: 東華三院Radioicare友心情網上電台
@@ -1120,37 +804,6 @@
   subtitleType: none
   sourceTier: pro-kol
   viewCount: 3476
-  curatedAt: '2026-05-27'
-  lastValidatedAt: '2026-05-27'
-  verifiedBy: manual
-  verificationStatus: verified
-  score: 0.47
-- videoId: oMpBB2Dm8FQ
-  title: 注意!全身廣泛性疼痛...罹「這疾病」醫師:只有這方法....可緩解!｜十點不一樣20230515 @TVBSNEWS02
-  channel: TVBS選新聞
-  channelId: UCL0_NxCvkcXwZHpvqgMZY-A
-  duration: 280
-  publishedAt: '2023-05-15'
-  language: zh-Hant
-  subtitleType: none
-  sourceTier: pro-kol
-  viewCount: 1850
-  curatedAt: '2026-05-27'
-  lastValidatedAt: '2026-05-27'
-  verifiedBy: claude-code
-  verificationStatus: verified
-  score: 0.46
-  notes: auto-curated 2026-05-27；未臨床審核，待抽查
-- videoId: p2LAs_hUFb4
-  title: 預防跌倒衛教影片(英語版)
-  channel: 附設醫院臺北醫學大學
-  channelId: UC-H5PezQyW0Dnu81NnF2BJQ
-  duration: 387
-  publishedAt: '2022-04-19'
-  language: zh-Hant
-  subtitleType: auto
-  sourceTier: pro-kol
-  viewCount: 455
   curatedAt: '2026-05-27'
   lastValidatedAt: '2026-05-27'
   verifiedBy: manual
@@ -1187,22 +840,6 @@
   verificationStatus: verified
   score: 0.34
   notes: auto-curated 2026-05-27；未臨床審核，待抽查
-- videoId: QdmzjK74XbM
-  title: 病人自主權利法1/6上路 讓善終之路更無憾
-  channel: 好心肝·好健康
-  channelId: UCUOa3C4fKN2Io5q_w4512yQ
-  duration: 151
-  publishedAt: '2019-01-07'
-  language: zh-Hant
-  subtitleType: none
-  sourceTier: pro-kol
-  viewCount: 423
-  curatedAt: '2026-05-27'
-  lastValidatedAt: '2026-05-27'
-  verifiedBy: claude-code
-  verificationStatus: verified
-  score: 0.32
-  notes: auto-curated 2026-05-27；未臨床審核，待抽查
 - videoId: QKW42kFB_DM
   title: 家中老人跌倒，可能潛藏疾病？當心多重用藥副作用多！穿著不當可能會增加跌倒？檢查居家環境友善長輩眉角多！如何簡單輕鬆增加肌力？｜黃瑽寧（feat. 蔡佳芬）
   channel: 黃瑽寧愛+好醫生
@@ -1213,21 +850,6 @@
   subtitleType: none
   sourceTier: pro-kol
   viewCount: 15912
-  curatedAt: '2026-05-27'
-  lastValidatedAt: '2026-05-27'
-  verifiedBy: manual
-  verificationStatus: verified
-  score: 0.45
-- videoId: qlGQqJDuA64
-  title: 「失智早就醫，健康呷百二」
-  channel: 賴翎婕
-  channelId: UCIXe47NtixjzEWmMiSEHZ4g
-  duration: 315
-  publishedAt: '2022-12-13'
-  language: zh-Hant
-  subtitleType: none
-  sourceTier: pro-kol
-  viewCount: 1400
   curatedAt: '2026-05-27'
   lastValidatedAt: '2026-05-27'
   verifiedBy: manual
@@ -1248,51 +870,22 @@
   verifiedBy: manual
   verificationStatus: verified
   score: 0.4
-- videoId: raF69KnnZCo
-  title: 20111111孝順父母從生活做起 改造居家安全環境
-  channel: 佛光山人間衛視
-  channelId: UCNAtAy920otLQA--ry6mjdg
-  duration: 112
-  publishedAt: '2011-11-11'
+- videoId: QdmzjK74XbM
+  title: 病人自主權利法1/6上路 讓善終之路更無憾
+  channel: 好心肝·好健康
+  channelId: UCUOa3C4fKN2Io5q_w4512yQ
+  duration: 151
+  publishedAt: '2019-01-07'
   language: zh-Hant
-  subtitleType: none
+  subtitleType: auto
   sourceTier: pro-kol
-  viewCount: 124
+  viewCount: 423
   curatedAt: '2026-05-27'
   lastValidatedAt: '2026-05-27'
-  verifiedBy: manual
+  verifiedBy: claude-code
   verificationStatus: verified
-  score: 0.39
-- videoId: rC_unUV0YT4
-  title: 活到100歲臥床沒意義？醫揭「百歲體質」5大關鍵！重訓、防失智、抗發炎飲食一次公開｜精準預防醫學會理事長 張家銘醫師【#健康大錢線 | 錢怡君】2026.5.16 ‪@love52health
-  channel: 52健康💖我愛健康
-  channelId: UCj7-gsqIfRBsIXXDXtZJ87g
-  duration: 1575
-  publishedAt: '2026-05-16'
-  language: zh-Hant
-  subtitleType: human
-  sourceTier: pro-kol
-  viewCount: 15467
-  curatedAt: '2026-05-27'
-  lastValidatedAt: '2026-05-27'
-  verifiedBy: manual
-  verificationStatus: verified
-  score: 0.63
-- videoId: ruBIxE1BUEc
-  title: 112B002-預立醫療照護諮商之極重度失智症
-  channel: 恩主公醫院 數位教材暫存區
-  channelId: UCjzGKlPid3pjWMckeFtRouQ
-  duration: 297
-  publishedAt: '2024-04-23'
-  language: zh-Hant
-  subtitleType: none
-  sourceTier: pro-kol
-  viewCount: 177
-  curatedAt: '2026-05-27'
-  lastValidatedAt: '2026-05-27'
-  verifiedBy: manual
-  verificationStatus: verified
-  score: 0.45
+  score: 0.32
+  notes: auto-curated 2026-05-27；未臨床審核，待抽查；subtitle re-fetched 2026-05-28 (chrome cookies)
 - videoId: S5VE219EXU4
   title: 精華回顧│WCW世界尿失禁周
   channel: TENA 添寧 TW
@@ -1300,7 +893,7 @@
   duration: 97
   publishedAt: '2021-07-03'
   language: zh-Hant
-  subtitleType: none
+  subtitleType: auto
   sourceTier: pro-kol
   viewCount: 188
   curatedAt: '2026-05-27'
@@ -1308,37 +901,7 @@
   verifiedBy: manual
   verificationStatus: verified
   score: 0.33
-- videoId: siIRWanuLdM
-  title: 20150601【中視健康加油站】─慢性疼痛
-  channel: 中視新聞
-  channelId: UCO3bfz4KY6zGT5IOaFJuxpA
-  duration: 1418
-  publishedAt: '2015-06-02'
-  language: zh-Hant
-  subtitleType: none
-  sourceTier: pro-kol
-  viewCount: 7478
-  curatedAt: '2026-05-27'
-  lastValidatedAt: '2026-05-27'
-  verifiedBy: claude-code
-  verificationStatus: verified
-  score: 0.48
-  notes: auto-curated 2026-05-27；未臨床審核，待抽查
-- videoId: sPpa2pqEJdM
-  title: 【活動能力及預防跌倒】昇耆逸檔案 - 4c. 跌倒起坐保安全
-  channel: 賽馬會流金頌護老有e道
-  channelId: UC_MNNc-HFGnratVkVBNo45w
-  duration: 286
-  publishedAt: '2020-05-22'
-  language: zh-Hant
-  subtitleType: none
-  sourceTier: pro-kol
-  viewCount: 4770
-  curatedAt: '2026-05-27'
-  lastValidatedAt: '2026-05-27'
-  verifiedBy: manual
-  verificationStatus: verified
-  score: 0.38
+  notes: subtitle re-fetched 2026-05-28 (chrome cookies)
 - videoId: TY_tX-KbweQ
   title: 預防跌倒衛教影片(中文版)
   channel: 附設醫院臺北醫學大學
@@ -1361,7 +924,7 @@
   duration: 67
   publishedAt: '2026-05-25'
   language: zh-Hant
-  subtitleType: none
+  subtitleType: auto
   sourceTier: pro-kol
   viewCount: 12
   curatedAt: '2026-05-27'
@@ -1369,21 +932,7 @@
   verifiedBy: manual
   verificationStatus: verified
   score: 0.33
-- videoId: uYg7iu18caA
-  title: 腦中風日常生活功能訓練(二)轉位篇
-  channel: myemailtaipei
-  channelId: UCviGcdb2I277bOxHXFLwNDw
-  duration: 425
-  publishedAt: '2011-11-21'
-  language: zh-Hant
-  subtitleType: none
-  sourceTier: pro-kol
-  viewCount: 21808
-  curatedAt: '2026-05-27'
-  lastValidatedAt: '2026-05-27'
-  verifiedBy: manual
-  verificationStatus: verified
-  score: 0.49
+  notes: subtitle re-fetched 2026-05-28 (chrome cookies)
 - videoId: Vhk8BJGpVlM
   title: 【新耳助聽中心】老年聽覺健康照護
   channel: 新耳助聽中心
@@ -1414,51 +963,22 @@
   verifiedBy: manual
   verificationStatus: verified
   score: 0.43
-- videoId: w9TZ73B0Uto
-  title: 衛教宣傳影片—失智症介紹
-  channel: 都給我來醫些
-  channelId: UCO-ljvEyBHQX_fbtuMbyuKQ
-  duration: 939
-  publishedAt: '2022-05-18'
+- videoId: XXufec_MC3Q
+  title: 2023長照政策｜教你快速預約長照2.0交通車接送服務！小愛陪你認識長照的大小事
+  channel: '小愛陪你認識長照的大小事 '
+  channelId: UC9djZPGSvGfoga-NT9AdKUg
+  duration: 574
+  publishedAt: '2023-08-14'
   language: zh-Hant
   subtitleType: none
   sourceTier: pro-kol
-  viewCount: 100
+  viewCount: 16005
   curatedAt: '2026-05-27'
   lastValidatedAt: '2026-05-27'
-  verifiedBy: manual
+  verifiedBy: claude-code
   verificationStatus: verified
-  score: 0.41
-- videoId: wzecr34FZEo
-  title: 【杏林聚焦】認識譫妄症 第二節 - 樂芷穎醫生(由中銀香港資助)
-  channel: 東華三院Radioicare友心情網上電台
-  channelId: UCNhIL5DEVkJZdWL0swYxCEg
-  duration: 500
-  publishedAt: '2023-10-30'
-  language: zh-Hant
-  subtitleType: none
-  sourceTier: pro-kol
-  viewCount: 2415
-  curatedAt: '2026-05-27'
-  lastValidatedAt: '2026-05-27'
-  verifiedBy: manual
-  verificationStatus: verified
-  score: 0.47
-- videoId: xBBTsrQGamo
-  title: 高齡者用藥安全
-  channel: 屏東縣政府高齡友善資訊頻道
-  channelId: UCmJ60fseugUzikL16nfKFWA
-  duration: 365
-  publishedAt: '2022-01-13'
-  language: zh-Hant
-  subtitleType: none
-  sourceTier: pro-kol
-  viewCount: 472
-  curatedAt: '2026-05-27'
-  lastValidatedAt: '2026-05-27'
-  verifiedBy: manual
-  verificationStatus: verified
-  score: 0.41
+  score: 0.48
+  notes: auto-curated 2026-05-27；未臨床審核，待抽查
 - videoId: XeaIC5nKZxg
   title: 小港醫院 保命防跌 預防跌倒13知 | 港醫衛教 EP11
   channel: Kaohsiung Municipal Siaogang Hospital (KMSH)
@@ -1536,22 +1056,6 @@
   verifiedBy: manual
   verificationStatus: verified
   score: 0.45
-- videoId: XXufec_MC3Q
-  title: 2023長照政策｜教你快速預約長照2.0交通車接送服務！小愛陪你認識長照的大小事
-  channel: '小愛陪你認識長照的大小事 '
-  channelId: UC9djZPGSvGfoga-NT9AdKUg
-  duration: 574
-  publishedAt: '2023-08-14'
-  language: zh-Hant
-  subtitleType: none
-  sourceTier: pro-kol
-  viewCount: 16005
-  curatedAt: '2026-05-27'
-  lastValidatedAt: '2026-05-27'
-  verifiedBy: claude-code
-  verificationStatus: verified
-  score: 0.48
-  notes: auto-curated 2026-05-27；未臨床審核，待抽查
 - videoId: Y4MrKcTB52A
   title: 【老孫的ACP】第4篇：自然好好走-人工營養及流體餵養介紹及其撤除04223
   channel: 'Advance Decision -Taipei City Hospital '
@@ -1567,22 +1071,6 @@
   verifiedBy: manual
   verificationStatus: verified
   score: 0.35
-- videoId: yot9mVfRxOI
-  title: 20110609照顧老年經濟弱勢 社會局推出福利措施
-  channel: 佛光山人間衛視
-  channelId: UCNAtAy920otLQA--ry6mjdg
-  duration: 145
-  publishedAt: '2011-06-09'
-  language: zh-Hant
-  subtitleType: none
-  sourceTier: pro-kol
-  viewCount: 115
-  curatedAt: '2026-05-27'
-  lastValidatedAt: '2026-05-27'
-  verifiedBy: claude-code
-  verificationStatus: verified
-  score: 0.44
-  notes: auto-curated 2026-05-27；未臨床審核，待抽查
 - videoId: YPL-i8ddgYA
   title: 臺中榮總藥學部影音衛教系列 - 老人用藥安全 (國語發音)
   channel: 林逸銘
@@ -1598,6 +1086,535 @@
   verifiedBy: manual
   verificationStatus: verified
   score: 0.46
+- videoId: Z1A6YLSARwI
+  title: 「浴室」長輩易跌倒　居家安全　受關注
+  channel: TVBS NEWS
+  channelId: UC5nwNW4KdC0SzrhF9BXEYOQ
+  duration: 214
+  publishedAt: '2017-01-11'
+  language: zh-Hant
+  subtitleType: none
+  sourceTier: pro-kol
+  viewCount: 30206
+  curatedAt: '2026-05-27'
+  lastValidatedAt: '2026-05-27'
+  verifiedBy: manual
+  verificationStatus: verified
+  score: 0.49
+- videoId: ZQaEEP7BSJE
+  title: 【SDM】國語版-我是心衰竭病人，該選擇哪種復健方式?
+  channel: 健康OK棒
+  channelId: UCvAAwssgHlVMQuTyfxSZuFA
+  duration: 259
+  publishedAt: '2024-06-18'
+  language: en
+  subtitleType: human
+  sourceTier: pro-kol
+  viewCount: 1092
+  curatedAt: '2026-05-27'
+  lastValidatedAt: '2026-05-27'
+  verifiedBy: manual
+  verificationStatus: verified
+  score: 0.61
+- videoId: _Cd0YYRL_NE
+  title: 【照顧者壓力】照顧者要學懂定下界線
+  channel: 賽馬會流金頌護老有e道
+  channelId: UC_MNNc-HFGnratVkVBNo45w
+  duration: 184
+  publishedAt: '2023-03-27'
+  language: zh-Hant
+  subtitleType: human
+  sourceTier: pro-kol
+  viewCount: 4259
+  curatedAt: '2026-05-27'
+  lastValidatedAt: '2026-05-27'
+  verifiedBy: manual
+  verificationStatus: verified
+  score: 0.62
+- videoId: al_21c3Z3GY
+  title: 老人心理健康促進及老年憂鬱症-【土豆人】(長版)
+  channel: 衛生福利部心理健康司
+  channelId: UCwMTCQhKvUZndHBPZjBP45g
+  duration: 255
+  publishedAt: '2024-05-03'
+  language: zh-Hant
+  subtitleType: none
+  sourceTier: pro-kol
+  viewCount: 6983
+  curatedAt: '2026-05-27'
+  lastValidatedAt: '2026-05-27'
+  verifiedBy: manual
+  verificationStatus: verified
+  score: 0.48
+- videoId: cq7apwizQ4s
+  title: '「失智友善居家環境佈置 手把手教學」第６課 #失智 #環境 #賈霸Z'
+  channel: 歡喜賈霸Z
+  channelId: UC5lF5cwRW8juwRXEytwf-YQ
+  duration: 779
+  publishedAt: '2021-11-18'
+  language: zh-Hant
+  subtitleType: none
+  sourceTier: pro-kol
+  viewCount: 13809
+  curatedAt: '2026-05-27'
+  lastValidatedAt: '2026-05-27'
+  verifiedBy: manual
+  verificationStatus: verified
+  score: 0.44
+- videoId: dEmFu3D-BGU
+  title: 蔡佳芬醫師-老年憂鬱症Q&A
+  channel: 醫師健康談-疾病與治療(TENxTAIWAN)
+  channelId: UCtl771U35krJvzlsc5cEf5Q
+  duration: 626
+  publishedAt: '2024-05-31'
+  language: zh-Hant
+  subtitleType: none
+  sourceTier: pro-kol
+  viewCount: 9709
+  curatedAt: '2026-05-27'
+  lastValidatedAt: '2026-05-27'
+  verifiedBy: manual
+  verificationStatus: verified
+  score: 0.48
+- videoId: eCEIYHOCx9w
+  title: 失智症衛教
+  channel: iHealth 政昇處方宅配藥局
+  channelId: UCne2rBgpc1tMuD9Cf_oHDww
+  duration: 329
+  publishedAt: '2020-12-02'
+  language: zh-Hant
+  subtitleType: none
+  sourceTier: pro-kol
+  viewCount: 200
+  curatedAt: '2026-05-27'
+  lastValidatedAt: '2026-05-27'
+  verifiedBy: manual
+  verificationStatus: verified
+  score: 0.37
+- videoId: eZ4FkihmlCc
+  title: 孤獨的晚年，隱形的危機｜台灣獨居老人的困境
+  channel: 舜禹學堂x台灣時間銀行
+  channelId: UCFZyWIEO5de9RcK1KIkK0hQ
+  duration: 283
+  publishedAt: '2024-10-17'
+  language: zh-Hant
+  subtitleType: none
+  sourceTier: pro-kol
+  viewCount: 32133
+  curatedAt: '2026-05-27'
+  lastValidatedAt: '2026-05-27'
+  verifiedBy: claude-code
+  verificationStatus: verified
+  score: 0.49
+  notes: auto-curated 2026-05-27；未臨床審核，待抽查
+- videoId: ejqzwqeJIrA
+  title: 衛教影片-高齡者臨終議題與預立醫療指示
+  channel: 蕭
+  channelId: UCLCxritkq2kUEzpYqde_Xag
+  duration: 202
+  publishedAt: '2022-06-15'
+  language: zh-Hant
+  subtitleType: none
+  sourceTier: pro-kol
+  viewCount: 57
+  curatedAt: '2026-05-27'
+  lastValidatedAt: '2026-05-27'
+  verifiedBy: manual
+  verificationStatus: verified
+  score: 0.41
+- videoId: fujj-CuWsaI
+  title: 「怕自己臥床走不了」長照22年看盡人生 簽預立醫療決定書 不插管.不放鼻胃管 生命自主權｜十點不一樣20250204
+  channel: TVBS Channel
+  channelId: UCmgDmqjxbkqIXu4rNbrKodA
+  duration: 302
+  publishedAt: '2025-02-05'
+  language: zh-Hant
+  subtitleType: none
+  sourceTier: pro-kol
+  viewCount: 292
+  curatedAt: '2026-05-27'
+  lastValidatedAt: '2026-05-27'
+  verifiedBy: manual
+  verificationStatus: verified
+  score: 0.45
+- videoId: fvqnlZwOUBs
+  title: 【世界翻轉中】不怕老！84%臥床疾病可以提早預防｜TVBS新聞
+  channel: TVBS NEWS
+  channelId: UC5nwNW4KdC0SzrhF9BXEYOQ
+  duration: 447
+  publishedAt: '2022-05-22'
+  language: zh-Hant
+  subtitleType: none
+  sourceTier: pro-kol
+  viewCount: 4468
+  curatedAt: '2026-05-27'
+  lastValidatedAt: '2026-05-27'
+  verifiedBy: manual
+  verificationStatus: verified
+  score: 0.44
+- videoId: gHSg8o4Efns
+  title: 腦中風日常生活功能訓練(一)行走篇
+  channel: myemailtaipei
+  channelId: UCviGcdb2I277bOxHXFLwNDw
+  duration: 359
+  publishedAt: '2011-11-11'
+  language: zh-Hant
+  subtitleType: none
+  sourceTier: pro-kol
+  viewCount: 52668
+  curatedAt: '2026-05-27'
+  lastValidatedAt: '2026-05-27'
+  verifiedBy: manual
+  verificationStatus: verified
+  score: 0.49
+- videoId: iGy75Zr24FQ
+  title: 【吃藥引發急性譫妄】高政懋醫師-成大e學堂
+  channel: NCKUH成大醫院
+  channelId: UCDx8qcUXN6QW0yF4JH6l3cw
+  duration: 336
+  publishedAt: '2023-07-05'
+  language: zh-Hant
+  subtitleType: none
+  sourceTier: pro-kol
+  viewCount: 5103
+  curatedAt: '2026-05-27'
+  lastValidatedAt: '2026-05-27'
+  verifiedBy: manual
+  verificationStatus: verified
+  score: 0.47
+- videoId: iaQ63oaeq0k
+  title: 高齡者常見疾病｜譫妄症｜高醫岡山醫院家庭醫學科主治醫師吳建誼醫師帶你簡單認識譫妄症❤️‍🩹
+  channel: 高雄醫學大學附設高醫岡山醫院
+  channelId: UC5Adswfh5ajmb5EfvxttMsg
+  duration: 148
+  publishedAt: '2023-08-15'
+  language: zh-Hant
+  subtitleType: none
+  sourceTier: pro-kol
+  viewCount: 9406
+  curatedAt: '2026-05-27'
+  lastValidatedAt: '2026-05-27'
+  verifiedBy: manual
+  verificationStatus: verified
+  score: 0.48
+- videoId: iwwE_RiecbU
+  title: 亞東科技大學居家長照照護技巧教學－安全用藥
+  channel: 亞東科技大學護理系
+  channelId: UCU__3zMQPBmvwFrr1_bbCvg
+  duration: 260
+  publishedAt: '2022-08-04'
+  language: zh-Hant
+  subtitleType: none
+  sourceTier: pro-kol
+  viewCount: 1637
+  curatedAt: '2026-05-27'
+  lastValidatedAt: '2026-05-27'
+  verifiedBy: manual
+  verificationStatus: verified
+  score: 0.44
+- videoId: j59WC6cbr88
+  title: 【飲食】如何鼓勵有飲食問題的長者進食
+  channel: 賽馬會流金頌護老有e道
+  channelId: UC_MNNc-HFGnratVkVBNo45w
+  duration: 202
+  publishedAt: '2020-05-22'
+  language: zh-Hant
+  subtitleType: human
+  sourceTier: pro-kol
+  viewCount: 2291
+  curatedAt: '2026-05-27'
+  lastValidatedAt: '2026-05-27'
+  verifiedBy: manual
+  verificationStatus: verified
+  score: 0.53
+- videoId: j5YSHsQXEmo
+  title: 1-3 建立長者居家安全環境
+  channel: 新竹縣診所協會
+  channelId: UCPI9YAGYyLSF4L5JrtzJWHg
+  duration: 209
+  publishedAt: '2021-10-24'
+  language: zh-Hant
+  subtitleType: none
+  sourceTier: pro-kol
+  viewCount: 136
+  curatedAt: '2026-05-27'
+  lastValidatedAt: '2026-05-27'
+  verifiedBy: manual
+  verificationStatus: verified
+  score: 0.4
+- videoId: lDmvUIoMDFg
+  title: 憂鬱症...鎖定這類型的人...醫師:不積極治療下場..竟是.....｜十點不一樣20220124
+  channel: TVBS選新聞
+  channelId: UCL0_NxCvkcXwZHpvqgMZY-A
+  duration: 216
+  publishedAt: '2022-01-24'
+  language: zh-Hant
+  subtitleType: none
+  sourceTier: pro-kol
+  viewCount: 3678
+  curatedAt: '2026-05-27'
+  lastValidatedAt: '2026-05-27'
+  verifiedBy: manual
+  verificationStatus: verified
+  score: 0.43
+- videoId: m0ZQBZpjmxc
+  title: 協助銀髮族長輩下床的方法
+  channel: 光合物理治療所
+  channelId: UCQC5rzVaH_k51nxEkBYE9VA
+  duration: 128
+  publishedAt: '2020-08-24'
+  language: zh-Hant
+  subtitleType: none
+  sourceTier: pro-kol
+  viewCount: 107616
+  curatedAt: '2026-05-27'
+  lastValidatedAt: '2026-05-27'
+  verifiedBy: claude-code
+  verificationStatus: verified
+  score: 0.42
+  notes: auto-curated 2026-05-27；未臨床審核，待抽查
+- videoId: mTZR38eGf5w
+  title: 失智症衛教短片 | 失智症症狀  | 預防失智症 | 失智症資源
+  channel: 健康人生
+  channelId: UCSSWLEevc1im-besH3mjYFg
+  duration: 227
+  publishedAt: '2021-08-13'
+  language: zh-Hant
+  subtitleType: none
+  sourceTier: pro-kol
+  viewCount: 708
+  curatedAt: '2026-05-27'
+  lastValidatedAt: '2026-05-27'
+  verifiedBy: manual
+  verificationStatus: verified
+  score: 0.4
+- videoId: mrrPJDb3whc
+  title: 【衛教】失智共照中心快速確診服務
+  channel: 健康OK棒
+  channelId: UCvAAwssgHlVMQuTyfxSZuFA
+  duration: 475
+  publishedAt: '2022-07-27'
+  language: zh-Hant
+  subtitleType: human
+  sourceTier: pro-kol
+  viewCount: 890
+  curatedAt: '2026-05-27'
+  lastValidatedAt: '2026-05-27'
+  verifiedBy: manual
+  verificationStatus: verified
+  score: 0.58
+- videoId: n5_-VaYzeuE
+  title: 失智症問題行為多樣化，照顧者負荷壓力近崩潰！奇美醫院長照團隊齊護衛，相輔相成創光輝
+  channel: 奇美醫院哈燒新聞
+  channelId: UCx_Z0c9lIBlEkgkq7T7V3rQ
+  duration: 142
+  publishedAt: '2024-04-09'
+  language: zh-Hant
+  subtitleType: none
+  sourceTier: pro-kol
+  viewCount: 219
+  curatedAt: '2026-05-27'
+  lastValidatedAt: '2026-05-27'
+  verifiedBy: manual
+  verificationStatus: verified
+  score: 0.45
+- videoId: nbgF_8kinjg
+  title: 年長者的肌力訓練! 三個初學者必做下肢動作!  ▏北木健身
+  channel: Beiimu fitness
+  channelId: UCdaqggO6EusPdA0abYSqJgQ
+  duration: 937
+  publishedAt: '2023-08-06'
+  language: zh-Hant
+  subtitleType: none
+  sourceTier: pro-kol
+  viewCount: 3234702
+  curatedAt: '2026-05-27'
+  lastValidatedAt: '2026-05-27'
+  verifiedBy: manual
+  verificationStatus: verified
+  score: 0.5
+- videoId: oMpBB2Dm8FQ
+  title: 注意!全身廣泛性疼痛...罹「這疾病」醫師:只有這方法....可緩解!｜十點不一樣20230515 @TVBSNEWS02
+  channel: TVBS選新聞
+  channelId: UCL0_NxCvkcXwZHpvqgMZY-A
+  duration: 280
+  publishedAt: '2023-05-15'
+  language: zh-Hant
+  subtitleType: none
+  sourceTier: pro-kol
+  viewCount: 1850
+  curatedAt: '2026-05-27'
+  lastValidatedAt: '2026-05-27'
+  verifiedBy: claude-code
+  verificationStatus: verified
+  score: 0.46
+  notes: auto-curated 2026-05-27；未臨床審核，待抽查
+- videoId: p2LAs_hUFb4
+  title: 預防跌倒衛教影片(英語版)
+  channel: 附設醫院臺北醫學大學
+  channelId: UC-H5PezQyW0Dnu81NnF2BJQ
+  duration: 387
+  publishedAt: '2022-04-19'
+  language: zh-Hant
+  subtitleType: auto
+  sourceTier: pro-kol
+  viewCount: 455
+  curatedAt: '2026-05-27'
+  lastValidatedAt: '2026-05-27'
+  verifiedBy: manual
+  verificationStatus: verified
+  score: 0.47
+- videoId: qlGQqJDuA64
+  title: 「失智早就醫，健康呷百二」
+  channel: 賴翎婕
+  channelId: UCIXe47NtixjzEWmMiSEHZ4g
+  duration: 315
+  publishedAt: '2022-12-13'
+  language: zh-Hant
+  subtitleType: none
+  sourceTier: pro-kol
+  viewCount: 1400
+  curatedAt: '2026-05-27'
+  lastValidatedAt: '2026-05-27'
+  verifiedBy: manual
+  verificationStatus: verified
+  score: 0.45
+- videoId: rC_unUV0YT4
+  title: 活到100歲臥床沒意義？醫揭「百歲體質」5大關鍵！重訓、防失智、抗發炎飲食一次公開｜精準預防醫學會理事長 張家銘醫師【#健康大錢線 | 錢怡君】2026.5.16 ‪@love52health
+  channel: 52健康💖我愛健康
+  channelId: UCj7-gsqIfRBsIXXDXtZJ87g
+  duration: 1575
+  publishedAt: '2026-05-16'
+  language: zh-Hant
+  subtitleType: human
+  sourceTier: pro-kol
+  viewCount: 15467
+  curatedAt: '2026-05-27'
+  lastValidatedAt: '2026-05-27'
+  verifiedBy: manual
+  verificationStatus: verified
+  score: 0.63
+- videoId: raF69KnnZCo
+  title: 20111111孝順父母從生活做起 改造居家安全環境
+  channel: 佛光山人間衛視
+  channelId: UCNAtAy920otLQA--ry6mjdg
+  duration: 112
+  publishedAt: '2011-11-11'
+  language: zh-Hant
+  subtitleType: none
+  sourceTier: pro-kol
+  viewCount: 124
+  curatedAt: '2026-05-27'
+  lastValidatedAt: '2026-05-27'
+  verifiedBy: manual
+  verificationStatus: verified
+  score: 0.39
+- videoId: ruBIxE1BUEc
+  title: 112B002-預立醫療照護諮商之極重度失智症
+  channel: 恩主公醫院 數位教材暫存區
+  channelId: UCjzGKlPid3pjWMckeFtRouQ
+  duration: 297
+  publishedAt: '2024-04-23'
+  language: zh-Hant
+  subtitleType: none
+  sourceTier: pro-kol
+  viewCount: 177
+  curatedAt: '2026-05-27'
+  lastValidatedAt: '2026-05-27'
+  verifiedBy: manual
+  verificationStatus: verified
+  score: 0.45
+- videoId: sPpa2pqEJdM
+  title: 【活動能力及預防跌倒】昇耆逸檔案 - 4c. 跌倒起坐保安全
+  channel: 賽馬會流金頌護老有e道
+  channelId: UC_MNNc-HFGnratVkVBNo45w
+  duration: 286
+  publishedAt: '2020-05-22'
+  language: zh-Hant
+  subtitleType: none
+  sourceTier: pro-kol
+  viewCount: 4770
+  curatedAt: '2026-05-27'
+  lastValidatedAt: '2026-05-27'
+  verifiedBy: manual
+  verificationStatus: verified
+  score: 0.38
+- videoId: siIRWanuLdM
+  title: 20150601【中視健康加油站】─慢性疼痛
+  channel: 中視新聞
+  channelId: UCO3bfz4KY6zGT5IOaFJuxpA
+  duration: 1418
+  publishedAt: '2015-06-02'
+  language: zh-Hant
+  subtitleType: none
+  sourceTier: pro-kol
+  viewCount: 7478
+  curatedAt: '2026-05-27'
+  lastValidatedAt: '2026-05-27'
+  verifiedBy: claude-code
+  verificationStatus: verified
+  score: 0.48
+  notes: auto-curated 2026-05-27；未臨床審核，待抽查
+- videoId: uYg7iu18caA
+  title: 腦中風日常生活功能訓練(二)轉位篇
+  channel: myemailtaipei
+  channelId: UCviGcdb2I277bOxHXFLwNDw
+  duration: 425
+  publishedAt: '2011-11-21'
+  language: zh-Hant
+  subtitleType: none
+  sourceTier: pro-kol
+  viewCount: 21808
+  curatedAt: '2026-05-27'
+  lastValidatedAt: '2026-05-27'
+  verifiedBy: manual
+  verificationStatus: verified
+  score: 0.49
+- videoId: w9TZ73B0Uto
+  title: 衛教宣傳影片—失智症介紹
+  channel: 都給我來醫些
+  channelId: UCO-ljvEyBHQX_fbtuMbyuKQ
+  duration: 939
+  publishedAt: '2022-05-18'
+  language: zh-Hant
+  subtitleType: none
+  sourceTier: pro-kol
+  viewCount: 100
+  curatedAt: '2026-05-27'
+  lastValidatedAt: '2026-05-27'
+  verifiedBy: manual
+  verificationStatus: verified
+  score: 0.41
+- videoId: wzecr34FZEo
+  title: 【杏林聚焦】認識譫妄症 第二節 - 樂芷穎醫生(由中銀香港資助)
+  channel: 東華三院Radioicare友心情網上電台
+  channelId: UCNhIL5DEVkJZdWL0swYxCEg
+  duration: 500
+  publishedAt: '2023-10-30'
+  language: zh-Hant
+  subtitleType: none
+  sourceTier: pro-kol
+  viewCount: 2415
+  curatedAt: '2026-05-27'
+  lastValidatedAt: '2026-05-27'
+  verifiedBy: manual
+  verificationStatus: verified
+  score: 0.47
+- videoId: xBBTsrQGamo
+  title: 高齡者用藥安全
+  channel: 屏東縣政府高齡友善資訊頻道
+  channelId: UCmJ60fseugUzikL16nfKFWA
+  duration: 365
+  publishedAt: '2022-01-13'
+  language: zh-Hant
+  subtitleType: none
+  sourceTier: pro-kol
+  viewCount: 472
+  curatedAt: '2026-05-27'
+  lastValidatedAt: '2026-05-27'
+  verifiedBy: manual
+  verificationStatus: verified
+  score: 0.41
 - videoId: ySkUgoOYxeo
   title: 老人8種常見慢性疼痛 肌肉骨骼.神經性.關節炎 健康2.0
   channel: HEALTH 2.0
@@ -1614,21 +1631,22 @@
   verificationStatus: verified
   score: 0.49
   notes: auto-curated 2026-05-27；未臨床審核，待抽查
-- videoId: Z1A6YLSARwI
-  title: 「浴室」長輩易跌倒　居家安全　受關注
-  channel: TVBS NEWS
-  channelId: UC5nwNW4KdC0SzrhF9BXEYOQ
-  duration: 214
-  publishedAt: '2017-01-11'
+- videoId: yot9mVfRxOI
+  title: 20110609照顧老年經濟弱勢 社會局推出福利措施
+  channel: 佛光山人間衛視
+  channelId: UCNAtAy920otLQA--ry6mjdg
+  duration: 145
+  publishedAt: '2011-06-09'
   language: zh-Hant
   subtitleType: none
   sourceTier: pro-kol
-  viewCount: 30206
+  viewCount: 115
   curatedAt: '2026-05-27'
   lastValidatedAt: '2026-05-27'
-  verifiedBy: manual
+  verifiedBy: claude-code
   verificationStatus: verified
-  score: 0.49
+  score: 0.44
+  notes: auto-curated 2026-05-27；未臨床審核，待抽查
 - videoId: z7Yyt1gWYsI
   title: 【失禁】 下尿道症狀
   channel: 賽馬會流金頌護老有e道
@@ -1644,18 +1662,3 @@
   verifiedBy: manual
   verificationStatus: verified
   score: 0.42
-- videoId: ZQaEEP7BSJE
-  title: 【SDM】國語版-我是心衰竭病人，該選擇哪種復健方式?
-  channel: 健康OK棒
-  channelId: UCvAAwssgHlVMQuTyfxSZuFA
-  duration: 259
-  publishedAt: '2024-06-18'
-  language: en
-  subtitleType: human
-  sourceTier: pro-kol
-  viewCount: 1092
-  curatedAt: '2026-05-27'
-  lastValidatedAt: '2026-05-27'
-  verifiedBy: manual
-  verificationStatus: verified
-  score: 0.61
