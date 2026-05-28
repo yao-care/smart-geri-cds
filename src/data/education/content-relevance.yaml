@@ -20,6 +20,9 @@
 
 
 
+
+
+
 inapplicable:
   physical.comorbidity:
     - cfs1
@@ -84,8 +87,8 @@ triggers:
       - 8v8JFXPKJQc
       - XXufec_MC3Q
       - XqgFS_yV5nM
-      - m0ZQBZpjmxc
       - J-1bHnYBsEI
+      - m0ZQBZpjmxc
     articles:
       - slug: home-safety
         severities:
@@ -97,8 +100,8 @@ triggers:
       - 8v8JFXPKJQc
       - XXufec_MC3Q
       - XqgFS_yV5nM
-      - m0ZQBZpjmxc
       - J-1bHnYBsEI
+      - m0ZQBZpjmxc
     articles:
       - slug: home-safety
         severities:
@@ -110,8 +113,8 @@ triggers:
       - 8v8JFXPKJQc
       - XXufec_MC3Q
       - XqgFS_yV5nM
-      - m0ZQBZpjmxc
       - J-1bHnYBsEI
+      - m0ZQBZpjmxc
     articles:
       - slug: home-safety
         severities:
@@ -122,9 +125,9 @@ triggers:
     videoIds:
       - 8v8JFXPKJQc
       - XXufec_MC3Q
-      - XqgFS_yV5nM
       - m0ZQBZpjmxc
       - J-1bHnYBsEI
+      - XqgFS_yV5nM
     articles:
       - slug: home-safety
         severities:
@@ -135,9 +138,9 @@ triggers:
     videoIds:
       - 8v8JFXPKJQc
       - XXufec_MC3Q
-      - XqgFS_yV5nM
       - m0ZQBZpjmxc
       - J-1bHnYBsEI
+      - XqgFS_yV5nM
     articles:
       - slug: home-safety
         severities:
@@ -148,9 +151,9 @@ triggers:
     videoIds:
       - 8v8JFXPKJQc
       - XXufec_MC3Q
-      - XqgFS_yV5nM
       - m0ZQBZpjmxc
       - J-1bHnYBsEI
+      - XqgFS_yV5nM
     articles:
       - slug: home-safety
         severities:
@@ -211,8 +214,8 @@ triggers:
         browse: true
   - trigger: cga.domain.environmental.home_safety.anomaly.cfs7
     videoIds:
-      - Z1A6YLSARwI
       - cq7apwizQ4s
+      - Z1A6YLSARwI
       - 1I22b20urZg
       - j5YSHsQXEmo
       - raF69KnnZCo
@@ -224,8 +227,8 @@ triggers:
         browse: true
   - trigger: cga.domain.environmental.home_safety.anomaly.cfs8
     videoIds:
-      - Z1A6YLSARwI
       - cq7apwizQ4s
+      - Z1A6YLSARwI
       - 1I22b20urZg
       - j5YSHsQXEmo
       - raF69KnnZCo
@@ -289,11 +292,11 @@ triggers:
         browse: true
   - trigger: cga.domain.functional.adl.anomaly.cfs7
     videoIds:
+      - nbgF_8kinjg
+      - uYg7iu18caA
       - ZQaEEP7BSJE
       - MfrxrLDtDuQ
-      - nbgF_8kinjg
       - gHSg8o4Efns
-      - uYg7iu18caA
     articles:
       - slug: adl-maintenance
         severities:
@@ -302,11 +305,11 @@ triggers:
         browse: true
   - trigger: cga.domain.functional.adl.anomaly.cfs8
     videoIds:
+      - uYg7iu18caA
       - ZQaEEP7BSJE
       - MfrxrLDtDuQ
       - nbgF_8kinjg
       - gHSg8o4Efns
-      - uYg7iu18caA
     articles:
       - slug: adl-maintenance
         severities:
@@ -315,11 +318,11 @@ triggers:
         browse: true
   - trigger: cga.domain.functional.adl.anomaly.cfs9
     videoIds:
+      - uYg7iu18caA
       - ZQaEEP7BSJE
       - MfrxrLDtDuQ
       - nbgF_8kinjg
       - gHSg8o4Efns
-      - uYg7iu18caA
     articles:
       - slug: adl-maintenance
         severities:
@@ -421,9 +424,9 @@ triggers:
     videoIds:
       - NitXM9QnUn4
       - 5CPZ649rNGE
-      - XhZBd_gzdhc
       - GEOyJxQoTAA
       - JaLN8QnonBc
+      - XhZBd_gzdhc
     articles:
       - slug: adl-maintenance
         severities:
@@ -434,9 +437,9 @@ triggers:
     videoIds:
       - NitXM9QnUn4
       - 5CPZ649rNGE
-      - XhZBd_gzdhc
       - GEOyJxQoTAA
       - JaLN8QnonBc
+      - XhZBd_gzdhc
     articles:
       - slug: adl-maintenance
         severities:
@@ -513,8 +516,8 @@ triggers:
       - 7BG1vp_N1FU
       - Xvh51Yw5CaQ
       - Egw1WmqNAbg
-      - 9Wnc9gaErNE
       - M-dkUOiqX3w
+      - 9Wnc9gaErNE
     articles:
       - slug: sarcopenia-exercise
         severities:
@@ -590,8 +593,8 @@ triggers:
     videoIds:
       - fujj-CuWsaI
       - ruBIxE1BUEc
-      - ejqzwqeJIrA
       - 2Eh79wr7aSw
+      - ejqzwqeJIrA
       - Y4MrKcTB52A
     articles:
       - slug: advance-care-planning
@@ -603,8 +606,8 @@ triggers:
     videoIds:
       - fujj-CuWsaI
       - ruBIxE1BUEc
-      - ejqzwqeJIrA
       - 2Eh79wr7aSw
+      - ejqzwqeJIrA
       - Y4MrKcTB52A
     articles:
       - slug: advance-care-planning
@@ -616,8 +619,8 @@ triggers:
     videoIds:
       - fujj-CuWsaI
       - ruBIxE1BUEc
-      - ejqzwqeJIrA
       - 2Eh79wr7aSw
+      - ejqzwqeJIrA
       - Y4MrKcTB52A
     articles:
       - slug: advance-care-planning
@@ -653,10 +656,10 @@ triggers:
         browse: true
   - trigger: cga.domain.future_wishes.treatment_preferences.anomaly.cfs5
     videoIds:
-      - IqBjMHzdxUY
       - 8O0lsVKiwt8
       - 2Eh79wr7aSw
       - PlqPu68ElqE
+      - IqBjMHzdxUY
       - QdmzjK74XbM
     articles:
       - slug: treatment-preferences
@@ -666,10 +669,10 @@ triggers:
         browse: true
   - trigger: cga.domain.future_wishes.treatment_preferences.anomaly.cfs6
     videoIds:
-      - IqBjMHzdxUY
       - 8O0lsVKiwt8
       - 2Eh79wr7aSw
       - PlqPu68ElqE
+      - IqBjMHzdxUY
       - QdmzjK74XbM
     articles:
       - slug: treatment-preferences
@@ -679,10 +682,10 @@ triggers:
         browse: true
   - trigger: cga.domain.future_wishes.treatment_preferences.anomaly.cfs7
     videoIds:
-      - IqBjMHzdxUY
       - 8O0lsVKiwt8
       - 2Eh79wr7aSw
       - PlqPu68ElqE
+      - IqBjMHzdxUY
       - QdmzjK74XbM
     articles:
       - slug: treatment-preferences
@@ -915,8 +918,8 @@ triggers:
     videoIds:
       - rC_unUV0YT4
       - lKbiRaWnQbs
-      - j59WC6cbr88
       - tCGLwR9NbFo
+      - j59WC6cbr88
       - BI3sHb--67E
     articles:
       - slug: geriatric-nutrition
@@ -928,8 +931,8 @@ triggers:
     videoIds:
       - rC_unUV0YT4
       - lKbiRaWnQbs
-      - j59WC6cbr88
       - tCGLwR9NbFo
+      - j59WC6cbr88
       - BI3sHb--67E
     articles:
       - slug: geriatric-nutrition
@@ -941,8 +944,8 @@ triggers:
     videoIds:
       - rC_unUV0YT4
       - lKbiRaWnQbs
-      - j59WC6cbr88
       - tCGLwR9NbFo
+      - j59WC6cbr88
       - BI3sHb--67E
     articles:
       - slug: geriatric-nutrition
@@ -954,8 +957,8 @@ triggers:
     videoIds:
       - rC_unUV0YT4
       - lKbiRaWnQbs
-      - j59WC6cbr88
       - tCGLwR9NbFo
+      - j59WC6cbr88
       - BI3sHb--67E
     articles:
       - slug: geriatric-nutrition
@@ -1006,9 +1009,9 @@ triggers:
     videoIds:
       - rC_unUV0YT4
       - lKbiRaWnQbs
-      - j59WC6cbr88
       - tCGLwR9NbFo
       - BI3sHb--67E
+      - j59WC6cbr88
     articles:
       - slug: geriatric-nutrition
         severities:
@@ -1019,9 +1022,9 @@ triggers:
     videoIds:
       - rC_unUV0YT4
       - lKbiRaWnQbs
-      - j59WC6cbr88
       - tCGLwR9NbFo
       - BI3sHb--67E
+      - j59WC6cbr88
     articles:
       - slug: geriatric-nutrition
         severities:
@@ -1029,7 +1032,12 @@ triggers:
           - refer
         browse: true
   - trigger: cga.domain.physical.pain.anomaly.cfs1
-    articles: []
+    articles:
+      - slug: pain-management
+        browse: true
+        severities:
+          - monitor
+          - refer
     videoIds:
       - ySkUgoOYxeo
       - siIRWanuLdM
@@ -1037,7 +1045,12 @@ triggers:
       - oMpBB2Dm8FQ
       - 4NUgeJevSFM
   - trigger: cga.domain.physical.pain.anomaly.cfs2
-    articles: []
+    articles:
+      - slug: pain-management
+        browse: true
+        severities:
+          - monitor
+          - refer
     videoIds:
       - ySkUgoOYxeo
       - siIRWanuLdM
@@ -1045,7 +1058,12 @@ triggers:
       - oMpBB2Dm8FQ
       - 4NUgeJevSFM
   - trigger: cga.domain.physical.pain.anomaly.cfs3
-    articles: []
+    articles:
+      - slug: pain-management
+        browse: true
+        severities:
+          - monitor
+          - refer
     videoIds:
       - ySkUgoOYxeo
       - siIRWanuLdM
@@ -1053,7 +1071,12 @@ triggers:
       - oMpBB2Dm8FQ
       - 4NUgeJevSFM
   - trigger: cga.domain.physical.pain.anomaly.cfs4
-    articles: []
+    articles:
+      - slug: pain-management
+        browse: true
+        severities:
+          - monitor
+          - refer
     videoIds:
       - ySkUgoOYxeo
       - siIRWanuLdM
@@ -1061,7 +1084,12 @@ triggers:
       - oMpBB2Dm8FQ
       - 4NUgeJevSFM
   - trigger: cga.domain.physical.pain.anomaly.cfs5
-    articles: []
+    articles:
+      - slug: pain-management
+        browse: true
+        severities:
+          - monitor
+          - refer
     videoIds:
       - ySkUgoOYxeo
       - siIRWanuLdM
@@ -1069,7 +1097,12 @@ triggers:
       - oMpBB2Dm8FQ
       - 4NUgeJevSFM
   - trigger: cga.domain.physical.pain.anomaly.cfs6
-    articles: []
+    articles:
+      - slug: pain-management
+        browse: true
+        severities:
+          - monitor
+          - refer
     videoIds:
       - ySkUgoOYxeo
       - siIRWanuLdM
@@ -1077,7 +1110,12 @@ triggers:
       - oMpBB2Dm8FQ
       - 4NUgeJevSFM
   - trigger: cga.domain.physical.pain.anomaly.cfs7
-    articles: []
+    articles:
+      - slug: pain-management
+        browse: true
+        severities:
+          - monitor
+          - refer
     videoIds:
       - ySkUgoOYxeo
       - siIRWanuLdM
@@ -1085,7 +1123,12 @@ triggers:
       - oMpBB2Dm8FQ
       - 4NUgeJevSFM
   - trigger: cga.domain.physical.pain.anomaly.cfs8
-    articles: []
+    articles:
+      - slug: pain-management
+        browse: true
+        severities:
+          - monitor
+          - refer
     videoIds:
       - ySkUgoOYxeo
       - siIRWanuLdM
@@ -1093,7 +1136,12 @@ triggers:
       - oMpBB2Dm8FQ
       - 4NUgeJevSFM
   - trigger: cga.domain.physical.pain.anomaly.cfs9
-    articles: []
+    articles:
+      - slug: pain-management
+        browse: true
+        severities:
+          - monitor
+          - refer
     videoIds:
       - ySkUgoOYxeo
       - siIRWanuLdM
@@ -1104,9 +1152,9 @@ triggers:
     videoIds:
       - FglUj552y_c
       - 9XhiP7KLVdg
-      - AE6Wj0D0Tf0
       - YPL-i8ddgYA
       - NUt3mquboYY
+      - AE6Wj0D0Tf0
     articles:
       - slug: medication-safety
         severities:
@@ -1169,9 +1217,9 @@ triggers:
     videoIds:
       - FglUj552y_c
       - 9XhiP7KLVdg
-      - AE6Wj0D0Tf0
       - YPL-i8ddgYA
       - NUt3mquboYY
+      - AE6Wj0D0Tf0
     articles:
       - slug: medication-safety
         severities:
@@ -1182,9 +1230,9 @@ triggers:
     videoIds:
       - FglUj552y_c
       - 9XhiP7KLVdg
-      - AE6Wj0D0Tf0
       - YPL-i8ddgYA
       - NUt3mquboYY
+      - AE6Wj0D0Tf0
     articles:
       - slug: medication-safety
         severities:
@@ -1195,9 +1243,9 @@ triggers:
     videoIds:
       - FglUj552y_c
       - 9XhiP7KLVdg
-      - AE6Wj0D0Tf0
       - YPL-i8ddgYA
       - NUt3mquboYY
+      - AE6Wj0D0Tf0
     articles:
       - slug: medication-safety
         severities:
@@ -1208,9 +1256,9 @@ triggers:
     videoIds:
       - WKCzKC6gSBY
       - 0iBFwewfYkM
-      - Jm-nysLPkKU
       - HUaKU5tFf5s
       - Vhk8BJGpVlM
+      - Jm-nysLPkKU
     articles:
       - slug: sensory-impairment
         severities:
@@ -1221,9 +1269,9 @@ triggers:
     videoIds:
       - WKCzKC6gSBY
       - 0iBFwewfYkM
-      - Jm-nysLPkKU
       - HUaKU5tFf5s
       - Vhk8BJGpVlM
+      - Jm-nysLPkKU
     articles:
       - slug: sensory-impairment
         severities:
@@ -1286,8 +1334,8 @@ triggers:
     videoIds:
       - WKCzKC6gSBY
       - 0iBFwewfYkM
-      - Jm-nysLPkKU
       - HUaKU5tFf5s
+      - Jm-nysLPkKU
       - Vhk8BJGpVlM
     articles:
       - slug: sensory-impairment
@@ -1299,8 +1347,8 @@ triggers:
     videoIds:
       - WKCzKC6gSBY
       - 0iBFwewfYkM
-      - Jm-nysLPkKU
       - HUaKU5tFf5s
+      - Jm-nysLPkKU
       - Vhk8BJGpVlM
     articles:
       - slug: sensory-impairment
@@ -1312,8 +1360,8 @@ triggers:
     videoIds:
       - WKCzKC6gSBY
       - 0iBFwewfYkM
-      - Jm-nysLPkKU
       - HUaKU5tFf5s
+      - Jm-nysLPkKU
       - Vhk8BJGpVlM
     articles:
       - slug: sensory-impairment
@@ -1323,10 +1371,10 @@ triggers:
         browse: true
   - trigger: cga.domain.psychological.cognition.anomaly.cfs1
     videoIds:
-      - LpCOAUUpt0g
-      - mrrPJDb3whc
       - 87rvwvf_4Y4
       - qlGQqJDuA64
+      - LpCOAUUpt0g
+      - mrrPJDb3whc
       - w9TZ73B0Uto
     articles:
       - slug: cognitive-training
@@ -1336,10 +1384,10 @@ triggers:
         browse: true
   - trigger: cga.domain.psychological.cognition.anomaly.cfs2
     videoIds:
-      - LpCOAUUpt0g
-      - mrrPJDb3whc
       - 87rvwvf_4Y4
       - qlGQqJDuA64
+      - LpCOAUUpt0g
+      - mrrPJDb3whc
       - w9TZ73B0Uto
     articles:
       - slug: cognitive-training
@@ -1349,10 +1397,10 @@ triggers:
         browse: true
   - trigger: cga.domain.psychological.cognition.anomaly.cfs3
     videoIds:
-      - LpCOAUUpt0g
-      - mrrPJDb3whc
       - 87rvwvf_4Y4
       - qlGQqJDuA64
+      - LpCOAUUpt0g
+      - mrrPJDb3whc
       - w9TZ73B0Uto
     articles:
       - slug: cognitive-training
@@ -1362,10 +1410,10 @@ triggers:
         browse: true
   - trigger: cga.domain.psychological.cognition.anomaly.cfs4
     videoIds:
-      - LpCOAUUpt0g
-      - mrrPJDb3whc
       - 87rvwvf_4Y4
       - qlGQqJDuA64
+      - LpCOAUUpt0g
+      - mrrPJDb3whc
       - w9TZ73B0Uto
     articles:
       - slug: cognitive-training
@@ -1415,9 +1463,9 @@ triggers:
   - trigger: cga.domain.psychological.cognition.anomaly.cfs8
     videoIds:
       - LpCOAUUpt0g
-      - mrrPJDb3whc
       - 87rvwvf_4Y4
       - qlGQqJDuA64
+      - mrrPJDb3whc
       - w9TZ73B0Uto
     articles:
       - slug: cognitive-training
@@ -1505,10 +1553,10 @@ triggers:
         browse: true
   - trigger: cga.domain.psychological.mood.anomaly.cfs1
     videoIds:
-      - MSDWQiOOyRo
       - al_21c3Z3GY
       - dEmFu3D-BGU
       - 6kcb0biR-ms
+      - MSDWQiOOyRo
       - lDmvUIoMDFg
     articles:
       - slug: depression-support
@@ -1518,10 +1566,10 @@ triggers:
         browse: true
   - trigger: cga.domain.psychological.mood.anomaly.cfs2
     videoIds:
-      - MSDWQiOOyRo
       - al_21c3Z3GY
       - dEmFu3D-BGU
       - 6kcb0biR-ms
+      - MSDWQiOOyRo
       - lDmvUIoMDFg
     articles:
       - slug: depression-support
@@ -1531,11 +1579,11 @@ triggers:
         browse: true
   - trigger: cga.domain.psychological.mood.anomaly.cfs3
     videoIds:
-      - MSDWQiOOyRo
       - al_21c3Z3GY
       - dEmFu3D-BGU
       - 6kcb0biR-ms
       - lDmvUIoMDFg
+      - MSDWQiOOyRo
     articles:
       - slug: depression-support
         severities:
@@ -1544,11 +1592,11 @@ triggers:
         browse: true
   - trigger: cga.domain.psychological.mood.anomaly.cfs4
     videoIds:
-      - MSDWQiOOyRo
       - al_21c3Z3GY
       - dEmFu3D-BGU
       - 6kcb0biR-ms
       - lDmvUIoMDFg
+      - MSDWQiOOyRo
     articles:
       - slug: depression-support
         severities:
@@ -1560,8 +1608,8 @@ triggers:
       - MSDWQiOOyRo
       - al_21c3Z3GY
       - dEmFu3D-BGU
-      - 6kcb0biR-ms
       - lDmvUIoMDFg
+      - 6kcb0biR-ms
     articles:
       - slug: depression-support
         severities:
@@ -1573,8 +1621,8 @@ triggers:
       - MSDWQiOOyRo
       - al_21c3Z3GY
       - dEmFu3D-BGU
-      - 6kcb0biR-ms
       - lDmvUIoMDFg
+      - 6kcb0biR-ms
     articles:
       - slug: depression-support
         severities:
@@ -1635,10 +1683,10 @@ triggers:
         browse: true
   - trigger: cga.domain.social.caregiver.anomaly.cfs7
     videoIds:
-      - _Cd0YYRL_NE
       - 1ufvb5k9F04
       - OdwBZ4AmFQA
       - n5_-VaYzeuE
+      - _Cd0YYRL_NE
       - NfbBUhCMxEk
     articles:
       - slug: caregiver-support
@@ -1648,10 +1696,10 @@ triggers:
         browse: true
   - trigger: cga.domain.social.caregiver.anomaly.cfs8
     videoIds:
-      - _Cd0YYRL_NE
       - 1ufvb5k9F04
       - OdwBZ4AmFQA
       - n5_-VaYzeuE
+      - _Cd0YYRL_NE
       - NfbBUhCMxEk
     articles:
       - slug: caregiver-support
@@ -1661,10 +1709,10 @@ triggers:
         browse: true
   - trigger: cga.domain.social.caregiver.anomaly.cfs9
     videoIds:
-      - _Cd0YYRL_NE
       - 1ufvb5k9F04
       - OdwBZ4AmFQA
       - n5_-VaYzeuE
+      - _Cd0YYRL_NE
       - NfbBUhCMxEk
     articles:
       - slug: caregiver-support
@@ -1832,9 +1880,9 @@ triggers:
     videoIds:
       - 2QnVHLK142o
       - QKW42kFB_DM
+      - UaaS6s34uAY
       - lDmvUIoMDFg
       - QTEVpoB8yHE
-      - UaaS6s34uAY
     articles:
       - slug: social-connection
         severities:

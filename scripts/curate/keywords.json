@@ -299,13 +299,14 @@
   },
   "cga.domain.functional.iadl.anomaly.cfs4": {
     "primary": [
-      "長者 獨立生活能力 衛教",
-      "高齡 工具性日常活動 維持",
-      "老人 居家自我照顧 能力"
+      "長者 用藥管理 自我照顧 衛教",
+      "高齡 自立支援 生活自理 復能",
+      "老人 備餐 購物 居家生活 能力",
+      "長者 工具性日常活動 Lawton"
     ],
     "secondary": [
-      "instrumental activities daily living elderly",
-      "IADL older adults independence"
+      "instrumental activities daily living elderly Lawton",
+      "older adults independent living medication shopping cooking"
     ],
     "minDuration": 120,
     "maxDuration": 1800,
