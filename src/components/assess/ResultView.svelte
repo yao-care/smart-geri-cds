@@ -52,7 +52,10 @@
    *  and must NOT appear as spurious 'incomplete' spokes. */
   function buildScaleResults(): ScaleResult[] {
     const raw = assessmentStore.partialAnalysis.questionnaireScores ?? {};
-    const precomputed = assessmentStore.partialAnalysis.scaleResults ?? {};
+    // $state.snapshot 去除 runes proxy：precomputed 的 ScaleResult 物件會原樣流入
+    // triageResult.details，再經 setTriageResult 寫入 IndexedDB；runes proxy 無法通過
+    // structured clone（DataCloneError）。與 assessment store 的 partialAnalysis 同樣處理。
+    const precomputed = $state.snapshot(assessmentStore.partialAnalysis.scaleResults ?? {}) as Record<string, ScaleResult>;
     const cfsLevel = assessmentStore.cfsLevel;
     if (!cfsLevel) return [];
     const applicable = scales.filter(s => s.applicableCfs.includes(cfsLevel));
