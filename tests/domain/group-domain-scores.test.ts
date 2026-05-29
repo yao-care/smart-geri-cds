@@ -40,4 +40,25 @@ describe('groupDomainScores', () => {
   it('returns [] for empty input', () => {
     expect(groupDomainScores([])).toEqual([]);
   });
+
+  it('collapses multiple scores for one sub-domain to the most-severe (screen flagged → full)', () => {
+    // computeDomainScores emits one row per scale result, so a flagged screen +
+    // its expanded full scale arrive as two rows for the same top.sub.
+    const groups = groupDomainScores([
+      s('functional.adl', 90, 'normal'), // screen
+      s('functional.adl', 40, 'refer'),  // expanded full — more severe
+    ]);
+    expect(groups).toHaveLength(1);
+    expect(groups[0].items).toHaveLength(1);
+    expect(groups[0].items[0]).toMatchObject({ sub: 'adl', score: 40, severity: 'refer' });
+  });
+
+  it('keeps a completed result over an incomplete one for the same sub-domain', () => {
+    const groups = groupDomainScores([
+      s('psychological.cognition', 0, 'incomplete'),
+      s('psychological.cognition', 70, 'normal'),
+    ]);
+    expect(groups[0].items).toHaveLength(1);
+    expect(groups[0].items[0]).toMatchObject({ severity: 'normal', score: 70 });
+  });
 });

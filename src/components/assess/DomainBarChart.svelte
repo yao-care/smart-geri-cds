@@ -4,7 +4,8 @@ import type { DomainScore } from '../../engine/cdsa/radar-scoring';
 import type { Severity } from '../../lib/scales/scale';
 
 interface Props {
-  /** One entry per scored `top.sub`. */
+  /** Raw per-scale-result scores; multiple rows per `top.sub` (screen + full)
+   *  are collapsed to one most-severe row by groupDomainScores. */
   data: DomainScore[];
   title?: string;
   showLegend?: boolean;
