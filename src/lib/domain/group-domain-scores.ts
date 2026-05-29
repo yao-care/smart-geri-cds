@@ -34,6 +34,10 @@ export function groupDomainScores(scores: DomainScore[]): DomainGroup[] {
       if (!d.domain.startsWith(`${top}.`)) continue;
       const sub = d.domain.split('.')[1] ?? '';
       const prev = bySub.get(sub);
+      // Strict `>` keeps the first-seen row on equal severity. `details` arrive
+      // screen-before-full, so the screen's score shows on a tie — clinically
+      // equivalent since severity (not the raw %) drives the judgement, and the
+      // two scales' raw/max are not on a comparable scale anyway.
       if (!prev || SEVERITY_RANK[d.severity] > SEVERITY_RANK[prev.severity]) {
         bySub.set(sub, { sub, label: domainLabel(top, sub), score: d.score, severity: d.severity });
       }
