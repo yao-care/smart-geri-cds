@@ -2,9 +2,11 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** 修掉問卷題目標頭的同義重複文案，並把結果頁無法閱讀的 20 軸雷達圖換成可讀的分組水平長條圖。
+**Goal:** 修掉問卷題目標頭的同義重複文案，並把結果頁無法閱讀的雷達圖換成可讀的分組水平長條圖。
 
-**Architecture:** 兩個前端修正，不動分層引擎與計分。(1) 把 `QuestionnaireModule.svelte` 內嵌的 `MODE_FRAME` 抽成純模組 `src/lib/scales/mode-frame.ts`、改寫成無重複文案、加單元測試後回接元件。(2) 新增純函式 `groupDomainScores` 與 `DomainBarChart.svelte`（沿用既有 `DomainScore` 資料形狀），取代 `RadarChart.svelte`；結果頁兩個呼叫點改用新元件，刪除舊雷達元件與其測試。
+**Architecture:** 兩個前端修正，不動分層引擎與計分。(1) 把 `QuestionnaireModule.svelte` 內嵌的 `MODE_FRAME` 抽成純模組 `src/lib/scales/mode-frame.ts`、改寫成無重複文案、加單元測試後回接元件；同步更新 `QuestionnaireModule.test.ts` 中 3 條斷言舊文案的既有測試。(2) 新增純函式 `groupDomainScores` 與 `DomainBarChart.svelte`（沿用既有 `DomainScore` 資料形狀），取代 `RadarChart.svelte`；結果頁兩個呼叫點改用新元件，刪除舊雷達元件與其測試。
+
+**現況校正（審查補充）：** 現有 `RadarChart.svelte` 是 **SVG 環狀雷達**（`polarToCartesian` + `<polygon>` + 環狀 `<text>` 標籤），20+ 軸時標籤互相重疊不可讀；但它**已具備** title、legend（`數值＝原始分占量表滿分百分比…`）、二級中文標籤、incomplete 破折號。本 Phase 的價值在於把 SVG 環狀座標換成**分組水平長條**（天生支援 20+ 域、可讀），並**沿用**既有的 title/legend/標籤/incomplete 呈現要素（非從無到有新增）。`DomainScore` 計分不變。
 
 **Tech Stack:** Astro 5 + Svelte 5 runes、TypeScript strict、vitest（`tests/**/*.test.ts`，jsdom）、`@testing-library/svelte`、CSS Custom Properties（`src/styles/tokens.css`）。
 
@@ -24,6 +26,7 @@
 
 修改：
 - `src/components/assess/QuestionnaireModule.svelte` — 移除內嵌 `MODE_FRAME`/`currentFrame`，改 import `mode-frame.ts`。
+- `tests/components/QuestionnaireModule.test.ts` — 同步更新 3 條斷言舊 MODE_FRAME 文案的既有測試（`:165` patient、`:212` ask-either、`:308` ask-informant-unavailable）。
 - `src/components/assess/ResultView.svelte` — `RadarChart` → `DomainBarChart`。
 - `src/components/assess/ResultViewWrapper.svelte` — `RadarChart` → `DomainBarChart`。
 
@@ -59,6 +62,19 @@ describe('MODE_FRAME copy (de-duplicated)', () => {
     expect(f.hint).not.toContain('受測者本人作答');
   });
 
+  it('ask-either frame title drops the old parenthetical tail', () => {
+    const f = MODE_FRAME['ask-either'];
+    expect(f.title).toBe('向受測者本人或家屬／照顧者詢問');
+    // Regression: old title appended「（可參考觀察與病歷）」, duplicating the hint.
+    expect(f.title).not.toContain('（');
+  });
+
+  it('ask-informant-unavailable: title states the state, hint carries the「無法取得」action', () => {
+    const f = MODE_FRAME['ask-informant-unavailable'];
+    expect(f.title).toBe('查無可詢問的知情者');
+    expect(f.hint).toContain('無法取得');
+  });
+
   it('every frame has a short title that is not duplicated inside its hint', () => {
     for (const [mode, f] of Object.entries(MODE_FRAME)) {
       expect(f.title.length, `${mode} title too long`).toBeLessThanOrEqual(20);
@@ -72,12 +88,9 @@ describe('resolveModeFrame', () => {
     expect(resolveModeFrame('ask-informant', false)).toBe(MODE_FRAME['ask-informant-unavailable']);
   });
 
-  it('keeps ask-informant frame when informant is available', () => {
+  it('keeps ask-informant when present, and returns other modes unchanged', () => {
     expect(resolveModeFrame('ask-informant', true)).toBe(MODE_FRAME['ask-informant']);
-  });
-
-  it('falls back to patient frame for unknown mode', () => {
-    expect(resolveModeFrame('nonsense', null)).toBe(MODE_FRAME['patient']);
+    expect(resolveModeFrame('measure', null)).toBe(MODE_FRAME['measure']);
   });
 });
 ```
@@ -92,6 +105,8 @@ Expected: FAIL — `Cannot find module '../../src/lib/scales/mode-frame'`.
 Create `src/lib/scales/mode-frame.ts`:
 
 ```typescript
+import type { ItemMode } from './scale';
+
 /** Answer-source framing copy shown above each questionnaire item.
  *  title = WHO answers / which method (mode-level); the item's own `prompt`
  *  says WHAT the question asks. The two must not restate each other (the old
@@ -101,20 +116,26 @@ export interface ModeFrame {
   hint: string;
 }
 
-export const MODE_FRAME: Record<string, ModeFrame> = {
+/** Every `ItemMode` plus the informant-absent degraded frame. Closed union →
+ *  adding a new ItemMode triggers a compile error here until its frame exists. */
+export type ModeFrameKey = ItemMode | 'ask-informant-unavailable';
+
+export const MODE_FRAME: Record<ModeFrameKey, ModeFrame> = {
   'patient': { title: '由受測者本人作答', hint: '操作者唸出題目，記錄其回答。' },
   'observe': { title: '由操作者觀察受測者', hint: '依下列觀察重點觀察，記錄結果。' },
   'ask-either': { title: '向受測者本人或家屬／照顧者詢問', hint: '可參考觀察與病歷後記錄。' },
   'ask-informant': { title: '向熟悉受測者的家屬／照顧者詢問', hint: '請選最了解其日常生活者回答。' },
-  'ask-informant-unavailable': { title: '無知情者可詢問', hint: '本題需家屬／照顧者；可標為「無法取得」（記為未完成）。' },
+  'ask-informant-unavailable': { title: '查無可詢問的知情者', hint: '本題需家屬／照顧者；可標為「無法取得」（記為未完成）。' },
   'measure': { title: '由操作者量測', hint: '依下列方式量測，記錄數值。' },
 };
 
-export function resolveModeFrame(mode: string, informantAvailable: boolean | null): ModeFrame {
+/** `mode` is the item's `ItemMode` (same type as the component's `currentMode`).
+ *  The closed-union Record guarantees a hit, so no fallback is needed. */
+export function resolveModeFrame(mode: ItemMode, informantAvailable: boolean | null): ModeFrame {
   if (mode === 'ask-informant' && informantAvailable === false) {
     return MODE_FRAME['ask-informant-unavailable'];
   }
-  return MODE_FRAME[mode] ?? MODE_FRAME['patient'];
+  return MODE_FRAME[mode];
 }
 ```
 
@@ -141,9 +162,22 @@ import { resolveModeFrame } from '../../lib/scales/mode-frame';
 const currentFrame = $derived(resolveModeFrame(currentMode, informantAvailable));
 ```
 
-（`currentMode` 第 241 行、`informantAvailable` 既有變數均保留不動；render 端 `569-570` 的 `currentFrame.title` / `currentFrame.hint` 不變。）
+（`currentMode` 第 241 行為 `ItemMode`，與 `resolveModeFrame(mode: ItemMode, …)` 第一參數型別一致；`informantAvailable` 既有變數 `boolean | null` 與第二參數一致；render 端 `569-570` 的 `currentFrame.title` / `currentFrame.hint` 不變。原 `$derived.by(() => {…})` 整段以單行 `$derived(resolveModeFrame(…))` 取代，行為等價。）
 
-- [ ] **Step 6: 型別與 lint 檢查**
+- [ ] **Step 6: 同步更新既有 QuestionnaireModule.test.ts 斷言（去重的回歸守門）**
+
+文案去重會讓 3 條既有測試的期望字串失配（已逐一查證行號與內容）。改 `tests/components/QuestionnaireModule.test.ts`：
+
+- `:165` `'請受測者本人作答（操作者唸題並記錄）'` → `'由受測者本人作答'`（patient title）。
+- `:212` `'向受測者本人或家屬／照顧者詢問（可參考觀察與病歷）'` → `'向受測者本人或家屬／照顧者詢問'`（ask-either title）。
+- `:308`（含上方 `:307` 註解）`'無知情者，標為無法取得'` → `'查無可詢問的知情者'`（ask-informant-unavailable title）；`:307` 註解同步改述。
+
+不動的既有斷言（新值與舊值一致，不會壞）：`:177` 與 `:373` 的 `'向熟悉受測者的家屬／照顧者詢問'`、`:166` 的 YAML `prompt`、`:179` 的 `/無法取得/`（來自 UI「無法取得」標記按鈕，非 MODE_FRAME title）。
+
+Run: `pnpm exec vitest run tests/components/QuestionnaireModule.test.ts`
+Expected: PASS（測試數不變，3 條斷言改為新文案後通過）。
+
+- [ ] **Step 7: 型別與 lint 檢查**
 
 Run: `pnpm exec svelte-check --tsconfig ./tsconfig.json 2>&1 | tail -5`
 Expected: 0 errors（warning 數不增加）。
@@ -151,14 +185,15 @@ Expected: 0 errors（warning 數不增加）。
 Run: `pnpm exec eslint src/lib/scales/mode-frame.ts src/components/assess/QuestionnaireModule.svelte`
 Expected: 無 error。
 
-- [ ] **Step 7: Commit**
+- [ ] **Step 8: Commit**
 
 ```bash
-git add src/lib/scales/mode-frame.ts tests/scales/mode-frame.test.ts src/components/assess/QuestionnaireModule.svelte
+git add src/lib/scales/mode-frame.ts tests/scales/mode-frame.test.ts src/components/assess/QuestionnaireModule.svelte tests/components/QuestionnaireModule.test.ts
 git commit -m "fix(assess): 抽出 MODE_FRAME 去重問卷標頭文案
 
 title 只說由誰作答、hint 只說操作者動作，不再與彼此及 YAML prompt 同義重複。
-抽成 src/lib/scales/mode-frame.ts 純模組可測。
+抽成 src/lib/scales/mode-frame.ts 純模組可測，鍵型別收斂為 ItemMode|'ask-informant-unavailable' 封閉聯集。
+同步更新 QuestionnaireModule.test.ts 3 條斷言舊文案（patient/ask-either/unavailable title）。
 
 Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>"
 ```
@@ -435,7 +470,7 @@ const SEVERITY_COLOR: Record<Severity, string> = {
 .domain-group { margin-bottom: var(--space-3); }
 .group-title { font-size: var(--text-sm); font-weight: var(--font-bold); margin: 0 0 var(--space-1) 0; color: var(--text); opacity: 0.75; }
 .bar-row { display: flex; align-items: center; gap: var(--space-2); margin: var(--space-1) 0; min-height: 28px; }
-.bar-label { flex: 0 0 7em; font-size: var(--text-sm); text-align: right; }
+.bar-label { flex: 0 0 8em; font-size: var(--text-sm); text-align: right; white-space: nowrap; }
 .bar-track { flex: 1; height: 16px; background: var(--surface); border-radius: 8px; overflow: hidden; }
 .bar-fill { height: 100%; border-radius: 8px; }
 .bar-val { flex: 0 0 2.5em; font-size: var(--text-sm); font-weight: var(--font-bold); text-align: left; }
@@ -518,7 +553,7 @@ Expected: 無輸出（零殘留）。
 - [ ] **Step 5: 全測試 + 型別 + lint**
 
 Run: `pnpm test`
-Expected: PASS；總數 = 改動前基線 366 − 6（刪 RadarChart 測試）+ 6（mode-frame）+ 5（group）+ 7（DomainBarChart）= 378 pass（若基線非 366 則相對增減一致即可）。
+Expected: PASS；總數 = 改動前基線 366（已實跑 `vitest run` 確認）− 6（刪 RadarChart.test.ts，實測 6 個 it）+ 6（mode-frame）+ 5（group）+ 7（DomainBarChart）= **378 pass**。Task 1 Step 6 更新 QuestionnaireModule.test.ts 的 3 條斷言屬「改文案不增減」，pass 數不變。
 
 Run: `pnpm check`
 Expected: 0 errors。
@@ -552,7 +587,7 @@ Expected: build 成功（含 Pagefind 索引）、preview 起在 4321。
 
 用 playwright MCP 開 `http://localhost:4321/assess/`，跑完一個個案到結果頁，確認：
 - 「各面向評估」區塊出現分組長條（6 大類分組、bar 寬度對應分數、顏色對應嚴重度）。
-- 標籤不重疊、可閱讀。
+- 標籤不重疊、可閱讀；最長子標籤（如「預立照護諮商」「工具性日常」）完整顯示不換行、不截斷。
 - incomplete 領域顯示「—」。
 - 問卷某題標頭只有「title + hint」兩行且不重複（譫妄 AMT4 題或任一 patient 題）。
 - console 無錯誤。
@@ -570,6 +605,15 @@ Run: 結束背景 preview 程序。
 - **§E 文案去重** → Task 1 ✅
 - **§D 結果頁長條圖（方向 B）** → Task 2（分組）+ Task 3（元件）+ Task 4（接線）✅
 - **spec 教訓「需端到端走完」** → Task 5 ✅
-- 型別一致：`DomainScore`（domain/score/severity）跨 Task 2/3 一致；`groupDomainScores` 回傳 `DomainGroup[]`，元件 `groups` 直接 each；`SEVERITY_COLOR` 鍵為 `Severity` 四值，與 `tokens.css` 既有 `--accent/--warn/--danger/--line` 對應。
+- 型別一致：`DomainScore`（domain/score/severity）跨 Task 2/3 一致；`groupDomainScores` 回傳 `DomainGroup[]`，元件 `groups` 直接 each；`SEVERITY_COLOR` 鍵為 `Severity` 四值，與 `--accent/--warn/--danger/--line`（`tokens.css`）對應；字級/間距 token（`--text-lg/--text-sm/--space-*/--font-bold`）在 `typography.css`，`--text-sm = 20px ≥ 18px` 不違反最小字級。`MODE_FRAME` 鍵為 `ItemMode|'ask-informant-unavailable'` 封閉聯集、`resolveModeFrame(mode: ItemMode, …)` 與元件 `currentMode` 型別一致。
 - 無 placeholder：所有步驟含實際程式碼與指令。
 - 範圍：Phase 1 僅前端兩修正，不觸分層引擎（Phase 2）與自評層（Phase 3）。
+
+### 第一輪獨立審查（Opus）修正納入（2026-05-29）
+
+- **[blocker]** 文案去重會讓 `QuestionnaireModule.test.ts` 既有斷言失配。審查報 `:165`/`:212` 兩處；自行 grep 查證**補抓 `:308`**（unavailable title）共 3 處 → Task 1 新增 Step 6 同步更新。
+- **[major]** `MODE_FRAME` 鍵型別由 `Record<string,…>` 收斂為封閉聯集 + `resolveModeFrame` 簽名改 `ItemMode`，移除型別上 unreachable 的 fallback；測試移除無意義的 `'nonsense'` 案例。
+- **[major]** 校正「現況」敘述：既有 `RadarChart` 已是 SVG 環狀雷達且具 title/legend/標籤/incomplete，本 Phase 是換座標形態並沿用呈現要素（非新增）。
+- **[minor]** `.bar-label` 加 `white-space: nowrap`、放寬 `8em`，防最長標籤換行；Task 5 加目視檢查。
+- **[minor]** unavailable title `'無知情者可詢問'`（斷句歧義）改為 `'查無可詢問的知情者'`。
+- 已逐一查證並成立：行號（241/247-260/569-570）、`ItemMode` 5 值、`DomainScore`/`Severity`/`DOMAIN_TREE`/`DOMAIN_TOP_LABELS`/`domainLabel` export 與用法、`score=round(100*raw/max)` 0–100 故 legend 與 `width:%` 語義正確、tsconfig 未開 `noUncheckedIndexedAccess`（封閉聯集索引回非 undefined）、`render(Comp,{props})` 慣例、`grep RadarChart` 僅 4 處 + 待刪測試、測試數 366→378。
