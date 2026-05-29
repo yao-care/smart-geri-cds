@@ -4,6 +4,7 @@
   import { domainLabel } from '../../lib/domain/domain-tree';
   import { scoreScale, type ScaleDef, type ScaleItem, type ScaleResult } from '../../lib/scales/scale';
   import { selectScreenScales, expandedFullScales, applyAvailabilityGate } from '../../lib/scales/tiering';
+  import { resolveModeFrame } from '../../lib/scales/mode-frame';
   import MobilityTaskModule from './MobilityTaskModule.svelte';
   import { MOBILITY_FALLBACK_SCALE } from '../../data/mobility-fallback';
 
@@ -240,24 +241,7 @@
   );
   const currentMode = $derived(currentQuestion?.item.mode ?? 'patient');
 
-  /** Per-item answer-source framing copy (SOP-correct wording; replaces the
-   *  operator-blind「請詢問家屬」 that fired regardless of source role). The
-   *  ask-informant frame degrades when no informant is available — the item is
-   *  marked 無法取得 (cognition auto-swaps to Mini-Cog upstream, §5). */
-  const MODE_FRAME: Record<string, { title: string; hint: string }> = {
-    'patient': { title: '請受測者本人作答（操作者唸題並記錄）', hint: '操作者：請受測者本人作答，唸題並記錄其回答。' },
-    'observe': { title: '請操作者觀察受測者並記錄', hint: '操作者：依下列觀察重點觀察受測者，記錄結果。' },
-    'ask-either': { title: '向受測者本人或家屬／照顧者詢問（可參考觀察與病歷）', hint: '操作者：向受測者本人和／或同行的家屬／照顧者詢問，可參考觀察與病歷後記錄。' },
-    'ask-informant': { title: '向熟悉受測者的家屬／照顧者詢問', hint: '操作者：向熟悉受測者日常的家屬／照顧者詢問並記錄。' },
-    'ask-informant-unavailable': { title: '無知情者，標為無法取得', hint: '本題需熟悉受測者的家屬／照顧者；目前無可詢問之知情者，可標為無法取得（記為未完成）。' },
-    'measure': { title: '請依下列方式量測並記錄', hint: '操作者：依下列方式量測，記錄數值。' },
-  };
-  const currentFrame = $derived.by(() => {
-    if (currentMode === 'ask-informant' && informantAvailable === false) {
-      return MODE_FRAME['ask-informant-unavailable'];
-    }
-    return MODE_FRAME[currentMode] ?? MODE_FRAME['patient'];
-  });
+  const currentFrame = $derived(resolveModeFrame(currentMode, informantAvailable));
 
   // ---- Per-scale summary (active option scales only) ----
   const scaleSummary = $derived.by(() => {

@@ -162,7 +162,7 @@ describe('QuestionnaireModule (tiered)', () => {
     assessmentStore.patientAble = true;
     assessmentStore.cfsLevel = 'cfs5';
     render(QuestionnaireModule, { scales: [moodScreen, moodFull] });
-    await waitFor(() => expect(screen.getByText('請受測者本人作答（操作者唸題並記錄）')).toBeInTheDocument());
+    await waitFor(() => expect(screen.getByText('由受測者本人作答')).toBeInTheDocument());
     expect(screen.getByText('請唸給受測者：做事提不起勁的頻率？')).toBeInTheDocument();
   });
 
@@ -209,7 +209,7 @@ describe('QuestionnaireModule (tiered)', () => {
     assessmentStore.patientAble = true;
     assessmentStore.cfsLevel = 'cfs5';
     render(QuestionnaireModule, { scales: [adlEither] });
-    await waitFor(() => expect(screen.getByText('向受測者本人或家屬／照顧者詢問（可參考觀察與病歷）')).toBeInTheDocument());
+    await waitFor(() => expect(screen.getByText('向受測者本人或家屬／照顧者詢問')).toBeInTheDocument());
     expect(screen.queryByText('請詢問家屬／照顧者')).toBeNull();
   });
 
@@ -304,8 +304,8 @@ describe('QuestionnaireModule (tiered)', () => {
     assessmentStore.patientAble = true;
     render(QuestionnaireModule, { scales: [caregiverScreen] });
 
-    // The ask-informant header degrades to「無知情者，標為無法取得」.
-    await waitFor(() => expect(screen.getByText('無知情者，標為無法取得')).toBeInTheDocument());
+    // The ask-informant header degrades to「查無可詢問的知情者」.
+    await waitFor(() => expect(screen.getByText('查無可詢問的知情者')).toBeInTheDocument());
     await clickOption('不會');
 
     await waitFor(() => {
