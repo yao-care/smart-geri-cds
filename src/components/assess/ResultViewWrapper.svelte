@@ -1,6 +1,6 @@
 <script lang="ts">
   import { db, type Assessment } from '../../lib/db/schema';
-  import RadarChart from './RadarChart.svelte';
+  import DomainBarChart from './DomainBarChart.svelte';
   import EducationMatch from './EducationMatch.svelte';
   import AssessmentPdfReport from './AssessmentPdfReport.svelte';
   import { deriveCgaTriggers } from '$lib/education/trigger-derivation';
@@ -123,7 +123,7 @@
     {#if domainScores.length > 0}
       <section class="radar-section" aria-label="各面向評估結果">
         <h3>各面向評估</h3>
-        <RadarChart data={domainScores} />
+        <DomainBarChart data={domainScores} />
       </section>
     {/if}
 
