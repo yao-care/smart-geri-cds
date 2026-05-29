@@ -1,5 +1,5 @@
 <script lang="ts">
-import { groupDomainScores } from '../../lib/domain/group-domain-scores';
+import { groupDomainScores, type DomainGroupRow } from '../../lib/domain/group-domain-scores';
 import type { DomainScore } from '../../engine/cdsa/radar-scoring';
 import type { Severity } from '../../lib/scales/scale';
 
@@ -19,6 +19,25 @@ const SEVERITY_COLOR: Record<Severity, string> = {
   refer: 'var(--danger)',
   incomplete: 'var(--line)',
 };
+
+/** Spoken severity so screen-reader users get the risk that colour conveys
+ *  visually (WCAG 1.4.1 — colour must not be the only cue). */
+const SEVERITY_LABEL: Record<Severity, string> = {
+  normal: '正常',
+  monitor: '需注意',
+  refer: '建議轉介',
+  incomplete: '未完成',
+};
+
+/** One spoken string per bar associating sub-domain, score and severity, so a
+ *  screen reader announces「認知：80（正常）」instead of two adjacent text nodes. */
+function rowAriaLabel(it: DomainGroupRow): string {
+  const status =
+    it.severity === 'incomplete'
+      ? SEVERITY_LABEL.incomplete
+      : `${it.score}（${SEVERITY_LABEL[it.severity]}）`;
+  return `${it.label}：${status}`;
+}
 </script>
 
 <div class="bars-wrap">
@@ -33,10 +52,11 @@ const SEVERITY_COLOR: Record<Severity, string> = {
     <section class="domain-group" aria-label={g.label}>
       <h4 class="group-title">{g.label}</h4>
       {#each g.items as it (it.sub + it.label)}
-        <div class="bar-row">
+        <div class="bar-row" role="img" aria-label={rowAriaLabel(it)}>
           <span class="bar-label">{it.label}</span>
           <div class="bar-track">
             {#if it.severity !== 'incomplete'}
+              <!-- floor at 2% so a 0/low score still shows a visible sliver; the numeric label always accompanies it -->
               <div
                 class="bar-fill"
                 style="width:{Math.max(it.score, 2)}%; background:{SEVERITY_COLOR[it.severity]}"

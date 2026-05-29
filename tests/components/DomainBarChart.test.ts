@@ -58,4 +58,18 @@ describe('DomainBarChart', () => {
     });
     expect(screen.getByText('—')).toBeTruthy();
   });
+
+  it('exposes a per-row aria-label with sub-domain, score and spoken severity', () => {
+    render(DomainBarChart, {
+      data: [{ domain: 'psychological.cognition', score: 80, severity: 'normal' }],
+    });
+    expect(screen.getByRole('img', { name: '認知：80（正常）' })).toBeTruthy();
+  });
+
+  it('per-row aria-label says 未完成 (not a score) for incomplete scales', () => {
+    render(DomainBarChart, {
+      data: [{ domain: 'psychological.mood', score: 0, severity: 'incomplete' }],
+    });
+    expect(screen.getByRole('img', { name: '情緒：未完成' })).toBeTruthy();
+  });
 });
