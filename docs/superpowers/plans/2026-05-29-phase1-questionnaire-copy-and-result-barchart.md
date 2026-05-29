@@ -598,6 +598,21 @@ Run: 結束背景 preview 程序。
 
 - [ ] **Step 4（無 commit）**：回報目視結果；若有問題回到對應 Task 修正。
 
+### Task 5 執行結果（2026-05-29 本機 preview，控制者親自跑）
+
+**問卷標頭去重 ✓**：譫妄 observe 題標頭三層不重複——title「由操作者觀察受測者」(誰/方式)、hint「依下列觀察重點觀察，記錄結果。」(操作者動作)、prompt「請觀察受測者…警醒程度」(問什麼)，`dup:false`。
+
+**結果頁長條圖 ✓**：cfs5 / informant=是 / patientAble=否 個案，26 scaleResults → 渲染 **19 條 bar、6 大類分組**。配色（refer→danger / monitor→warn / normal→accent）、incomplete「—」(情緒、譫妄)、0 分 sliver 2% 細條、最長標籤(預立照護諮商/可及性·輔具)不換行、per-row aria-label 全部正確；截圖確認標籤不重疊可讀。
+
+**端到端揭露的回歸（已修，commit 322fce7）**：
+- 初次跑結果頁卡在「正在產生評估結果…」，console 抓到 `each_key_duplicate`。根因：`computeDomainScores` 每 scale result 一筆，screen 亮燈展開 full 時同 `top.sub` 出現兩筆（adl-screen+barthel、cognition-screen+spmsq、comorbidity-screen+cci、nutrition+mna-sf、pain+painad、social-support+lsns-6 等）。舊 RadarChart 用**非 keyed** `{#each data as d, i}` 不報；DomainBarChart 的 keyed each `(it.sub+it.label)` 遇重複 key 崩潰中斷渲染。
+- 修法：`groupDomainScores` 對同子域聚合取最嚴重（`SEVERITY_RANK` refer>monitor>normal>incomplete，incomplete 最低使已完成結果優先），符合 spec §D「每子域一條」與引擎「取最嚴重」哲學。+2 單元測試覆蓋重複 domain。重 build 後 console 確認 `each_key_duplicate` 消失、19 bars 正常渲染。
+- **教訓**：單元測試 input 都假設「每 top.sub 一筆」，未涵蓋真實 `computeDomainScores` 的重複 domain；端到端才暴露（呼應 spec 教訓「抽象指標需端到端走完」）。
+
+**既有問題（非 Phase 1 引入，記錄待後續）**：
+- `DataCloneError`（Dexie `schema.js` put `#<Object> could not be cloned`）：持久化路徑某物件含不可 structured-clone 內容（與 memory 記載 partialAnalysis 的 `$state.snapshot` 議題同源）。Phase 1 五個改檔皆不觸及 Dexie 寫入或被寫資料，邏輯排除為本 Phase 引入；不阻塞結果頁渲染。建議後續以 systematic-debugging 排查 persist 路徑。
+- 重複標題：ResultView 外層 `<h3>各面向評估</h3>` + DomainBarChart 內建 `<h3>各面向評估結果</h3>`。RadarChart 時代即存在（plan 要求保留外層 h3），非本次引入；可後續整理（移除其一）。
+
 ---
 
 ## Self-Review（計畫對照 spec）
