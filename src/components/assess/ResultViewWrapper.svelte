@@ -122,7 +122,6 @@
 
     {#if domainScores.length > 0}
       <section class="radar-section" aria-label="各面向評估結果">
-        <h3>各面向評估</h3>
         <DomainBarChart data={domainScores} />
       </section>
     {/if}
@@ -205,7 +204,6 @@
     text-align: center;
   }
 
-  .radar-section h3,
   .education-section h3 {
     font-size: var(--text-lg);
     margin-bottom: var(--space-4);
