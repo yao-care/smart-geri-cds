@@ -4,7 +4,7 @@
 
 **Goal:** 在現有 screen/full 兩層之上新增「大方向 triage 層」——每域 1 題快速分流，亮燈才逐層展開 screen→full；冷啟動全正常即結束（依 CFS 約 18-23 題）；譫妄 4AT 與認知 AD8/Mini-Cog 兩個病安域一律施測（always-run，不被 triage 守門）。
 
-**Architecture:** 三層分流純函式化於 `tiering.ts`（`selectTriageScales`、`selectAlwaysRunScreens`、共用 `expandFlagged` helper 衍生 `expandedScreenScales`/`expandedFullScales`）。新增 18 個 `tier:'triage'` 量表 YAML（排除兩個 always-run 病安域 delirium、cognition），每個 1 題、`expandsTo` 指向對應 screen。`QuestionnaireModule.svelte` 的 tier 狀態由二值擴為三值，展開邏輯由「screen→full 一段」改為「triage→screen→full 兩段」，並補強 resume 的逐層重建。計分與結果頁不變。
+**Architecture:** 三層分流純函式化於 `tiering.ts`（`selectTriageScales`、`selectAlwaysRunScreens`、共用 `expandFlagged` helper 衍生 `expandedScreenScales`/`expandedFullScales`）。新增 18 個 `tier:'triage'` 量表 YAML（排除兩個 always-run 病安域 delirium、cognition），每個 1 題、`expandsTo` 指向對應 screen。`QuestionnaireModule.svelte` 的 tier 狀態由二值擴為三值，展開邏輯由「screen→full 一段」改為「triage→screen→full 兩段」，並補強 resume 的逐層重建。計分公式不變；**結果頁因 triage 結果進入而每域皆有 bar**（使用者決策：冷啟動全正常顯示 18 域正常條），同域已深評時 triage 讓位給 screen/full 細緻 %（Task 5 去重）。
 
 **Tech Stack:** Astro 5 Content Layer（`src/content.config.ts` Zod schema）+ Svelte 5 runes、TypeScript strict（禁 `any`）、vitest（`tests/**/*.test.ts`，jsdom，`@testing-library/svelte`）、量表 YAML（`src/data/scales/`）。
 
@@ -127,19 +127,28 @@ In `src/lib/scales/load-scales.ts`，`ScaleEntryData.tier`（line 9）：
 
 - [ ] **Step 6: questionnaire-coverage 測試本地型別三值（第一輪審查補抓）**
 
-In `tests/data/questionnaire-coverage.test.ts`，本地 `ScaleYaml` interface（約 line 11）的 tier：
+In `tests/data/questionnaire-coverage.test.ts`，本地 `ScaleYaml` interface（約 line 9-13）需擴 tier 三值，**並補 Task 3 coverage 測試會用到的 `alwaysRun`/`expandsTo`/`domain` 欄位**（第二輪審查：否則 `t.expandsTo`/`s.domain.sub` 在 TS strict 下是型別錯誤、`pnpm check` 失敗）。把（約）：
 
 ```typescript
+interface ScaleYaml {
+  id: string;
   tier?: 'screen' | 'full';
+  applicableCfs?: string[];
+}
 ```
 
-改為：
+擴為（既有欄位以該檔實際為準，僅新增缺少者）：
 
 ```typescript
+interface ScaleYaml {
+  id: string;
   tier?: 'triage' | 'screen' | 'full';
+  alwaysRun?: boolean;
+  expandsTo?: string;
+  domain?: { top: string; sub: string };
+  applicableCfs?: string[];
+}
 ```
-
-（否則 Task 3 的 `s.tier === 'triage'` 過濾在 TS strict 下是「比較必為 false」型別錯誤，`pnpm check` 失敗。）
 
 - [ ] **Step 7: 跑測試確認通過 + 型別檢查**
 
@@ -487,7 +496,7 @@ Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>"
 
 ## Task 4：QuestionnaireModule 三階段展開 + resume 重建
 
-**問題**：`QuestionnaireModule.svelte` 目前 tier 為 `'screen' | 'full'` 二值、起始即施測所有 screen、亮燈展 full（一段）。改為：起始 `'triage'`、施測 triage 題 + alwaysRun screen（4AT、認知）、triage concern 展開對應 screen、screen 亮燈再展 full（兩段）。**並補強 resume：依已答內容逐層重建 expandedScreens/fullScales/tier**（第一輪審查 blocker）。計分/結果頁不變。
+**問題**：`QuestionnaireModule.svelte` 目前 tier 為 `'screen' | 'full'` 二值、起始即施測所有 screen、亮燈展 full（一段）。改為：起始 `'triage'`、施測 triage 題 + alwaysRun screen（4AT、認知）、triage concern 展開對應 screen、screen 亮燈再展 full（兩段）。**並補強 resume：依已答內容逐層重建 expandedScreens/fullScales/tier**（第一輪審查 blocker）。計分公式不變；triage 結果經 `activeOptionScales` 進 partialAnalysis（結果頁去重見 Task 5）。
 
 **設計（三階段累加）：**
 - 階段 `'triage'`：`triageScales` + `alwaysRunScreens`(4AT、認知)。
@@ -738,22 +747,11 @@ function maybeAdvanceFromTriage(): void {
 }
 ```
 
+**A(iv) 註記（第二輪審查）**：`maybeAdvanceFromTriage` 在 `expandTriageTier()`（同步設 `expandedScreens`/`tier`）後讀 `questions`/`timedScales` derived。**既有 `maybeAdvanceTier`(line 412-413) 用完全相同模式**（`expandTier()` 後 `questions.findIndex`）且功能正常 → Svelte 5 `$derived` 為 pull-based、於普通函式內 access 時即時重算（非 `$effect` 內延遲），故此處與既有一致、無 stale。**但**因屬 reactivity 細節，Task 6 個案 B（triage concern→screen 展開）與個案 C（resume）**務必端到端驗證實際題序**；若實測 stale，改用 `expandTriageTier` 回傳值組裝待答序列（鏡像 `maybeAdvanceTier` 對 `expandedTimed` 的回傳值用法）。`initPhase` resume 因連續兩次同步展開（expandTriageTier→expandTier）後緊接讀 derived，已於 Step 7b 加 `await tick()` 保險（async 可 await）。
+
 （`maybeAdvanceTier`/`expandTier`(line 426-441) 既有保留——`screenOptionScales`/`screenTimedScales` 現衍生自含 always-run+expandedScreens 的 `screenScales`，語意正確。`computeGatedResult`(445-461) 不動。`tier==='full'` summary 收尾不變。）
 
-**同步改 `persistScoresToStore`（line 465-472）— 第二輪審查 blocker C：triage 結果必須進 partialAnalysis，否則冷啟動全正常時結果頁只剩 4AT+認知 2 域、其餘 18 域分數消失。** 將其遍歷集合由 `[...screenOptionScales, ...fullOptionScales]` 改為含 triage：
-
-```typescript
-function persistScoresToStore(): void {
-  const results: ScaleResult[] = [];
-  for (const s of [...triageOptionScales, ...screenOptionScales, ...fullOptionScales]) {
-    const r = computeGatedResult(s);
-    if (r) results.push(r);
-  }
-  assessmentStore.addAnalysis(results);
-}
-```
-
-（同域 triage + 展開 screen 兩筆 ScaleResult 以各自 scaleId 為 key 並存於 `partialAnalysis.scaleResults`；結果頁 `computeDomainScores` 對每筆產一 DomainScore，`groupDomainScores` 已「取最嚴重」聚合同域——Phase 1 的聚合修正正為此鋪路，故安全、結果頁每域皆有分數。）
+**`persistScoresToStore`（真實 line 482-500）不需修改 — 第二輪審查校正（我先前誤讀為遍歷 screen+full，實際遍歷 `activeOptionScales`）：** 真實 code 是 `for (const s of activeOptionScales)`（line 496），且 Step 5 已使 `activeOptionScales` 在 summary 階段（tier='full'）含 triage+screen+full → **triage 結果自動進 `partialAnalysis.scaleResults`**，無需改 persistScoresToStore（其 `scaleSummary`→`questionnaireScores`/`questionnaireMaxScores` 部分亦保留不動）。使用者已決策「冷啟動全正常 → 18 域皆顯示正常條」，故 triage 進結果頁是**預期行為**。**唯一需處理的是結果頁同域去重**（triage maxScore=1 的 0/100% 不可遮蓋同域展開 screen/full 的細緻 %）→ 見 **Task 5**。
 
 - [ ] **Step 7: 補強 initPhase（空守門 + resume 逐層重建）— 第一輪審查 blocker**
 
@@ -842,7 +840,116 @@ Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>"
 
 ---
 
-## Task 5：端到端目視驗證（playwright，本機 preview）
+## Task 5：結果頁同域 triage 去重（triage 進結果頁、不遮蓋深評）
+
+**問題（第二輪審查 major C + 使用者決策）**：使用者選「冷啟動全正常 → 18 域皆顯示正常條」，故 triage 結果進 `partialAnalysis.scaleResults`（Task 4 已達成，persistScoresToStore 不需改）。但同域 triage(maxScore 1 → 0/100%) 與展開的 screen/full 同時流入 `computeDomainScores`；`groupDomainScores` 同 severity tie 取先到 → triage 粗略值遮蓋深評細緻 %。修：ResultView `buildScaleResults` 對每個 `top.sub`，若已有 screen/full 結果則排除該域 triage 結果（triage 僅在該域未深評時當「正常」標記）。抽純函式可測。
+
+**Files:**
+- Create: `src/lib/domain/dedupe-triage-results.ts`
+- Test: `tests/domain/dedupe-triage-results.test.ts`
+- Modify: `src/components/assess/ResultView.svelte`（buildScaleResults，line 53-76）
+
+- [ ] **Step 1: 失敗測試** — Create `tests/domain/dedupe-triage-results.test.ts`:
+
+```typescript
+import { describe, it, expect } from 'vitest';
+import { dedupeTriageResults } from '../../src/lib/domain/dedupe-triage-results';
+import type { ScaleResult } from '../../src/lib/scales/scale';
+
+const r = (scaleId: string, top: string, sub: string, severity: ScaleResult['severity']): ScaleResult =>
+  ({ scaleId, domain: { top, sub } as ScaleResult['domain'], rawScore: 0, maxScore: 1, severity, bandLabel: '' });
+
+describe('dedupeTriageResults', () => {
+  it('drops triage when same top.sub has a screen result (deep wins)', () => {
+    const out = dedupeTriageResults([
+      { result: r('falls-triage', 'functional', 'falls', 'monitor'), tier: 'triage' },
+      { result: r('steadi-falls', 'functional', 'falls', 'refer'), tier: 'screen' },
+    ]);
+    expect(out.map(x => x.scaleId)).toEqual(['steadi-falls']);
+  });
+
+  it('keeps triage when the domain was not expanded (cold-start normal marker)', () => {
+    const out = dedupeTriageResults([
+      { result: r('nutrition-triage', 'physical', 'nutrition', 'normal'), tier: 'triage' },
+    ]);
+    expect(out.map(x => x.scaleId)).toEqual(['nutrition-triage']);
+  });
+
+  it('leaves non-triage results untouched', () => {
+    const out = dedupeTriageResults([
+      { result: r('4at', 'psychological', 'delirium', 'normal'), tier: 'screen' },
+      { result: r('cci', 'physical', 'comorbidity', 'monitor'), tier: 'full' },
+    ]);
+    expect(out.map(x => x.scaleId)).toEqual(['4at', 'cci']);
+  });
+});
+```
+
+- [ ] **Step 2: 確認失敗** — `pnpm exec vitest run tests/domain/dedupe-triage-results.test.ts` → FAIL（模組不存在）。
+
+- [ ] **Step 3: 實作** — Create `src/lib/domain/dedupe-triage-results.ts`:
+
+```typescript
+import type { ScaleResult } from '../scales/scale';
+
+export interface TieredResult {
+  result: ScaleResult;
+  tier: 'triage' | 'screen' | 'full';
+}
+
+/** Drop a domain's triage result when that top.sub also has a screen/full result.
+ *  triage (maxScore 1 → 0/100%) is a routing gate; a deep result's nuanced % wins
+ *  (groupDomainScores ties go to the first-seen row, and triage is appended first).
+ *  triage is kept only when its domain was not expanded — its sole normal marker
+ *  so a cold-start all-normal assessment still shows every domain (使用者決策). */
+export function dedupeTriageResults(items: TieredResult[]): ScaleResult[] {
+  const key = (r: ScaleResult) => `${r.domain.top}.${r.domain.sub}`;
+  const deep = new Set(items.filter(i => i.tier !== 'triage').map(i => key(i.result)));
+  return items.filter(i => i.tier !== 'triage' || !deep.has(key(i.result))).map(i => i.result);
+}
+```
+
+- [ ] **Step 4: 確認通過** — `pnpm exec vitest run tests/domain/dedupe-triage-results.test.ts` → PASS（3 tests）。
+
+- [ ] **Step 5: 接線 ResultView.buildScaleResults**
+
+In `src/components/assess/ResultView.svelte`，import 加：
+
+```typescript
+import { dedupeTriageResults, type TieredResult } from '../../lib/domain/dedupe-triage-results';
+```
+
+`buildScaleResults`（line 53-76）的收集迴圈改為帶 tier 收集、回傳去重結果（保留 Phase 1 的 `$state.snapshot(precomputed)`）：
+
+```typescript
+    const applicable = scales.filter(s => s.applicableCfs.includes(cfsLevel));
+    const collected: TieredResult[] = [];
+    for (const def of applicable) {
+      let res: ScaleResult | undefined;
+      if (def.id in precomputed) res = precomputed[def.id];
+      else if (def.id in raw) res = scoreScale(def, raw[def.id]);
+      if (res) collected.push({ result: res, tier: def.tier });
+    }
+    return dedupeTriageResults(collected);
+```
+
+- [ ] **Step 6: 跑測試 + check + lint** — `pnpm test`、`pnpm check`(0)、`pnpm lint`(0)。
+
+- [ ] **Step 7: Commit**
+
+```bash
+git add src/lib/domain/dedupe-triage-results.ts tests/domain/dedupe-triage-results.test.ts src/components/assess/ResultView.svelte
+git commit -m "feat(assess): 結果頁同域 triage 去重 — triage 進結果頁但不遮蓋深評
+
+triage(maxScore 1→0/100%) 同域有展開 screen/full 時被丟棄，深評細緻 % 勝出；
+未展開域保留 triage 正常標記（冷啟動全正常仍顯示 18 域）。抽純函式 dedupeTriageResults 可測。
+
+Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>"
+```
+
+---
+
+## Task 6：端到端目視驗證（playwright，本機 preview）
 
 **目的**：spec 教訓——抽象測試通過不代表真實流程正確（Phase 1 端到端揭露 each_key_duplicate、本輪審查揭露 cfs1-3 守門/resume 的前車之鑑）。**務必涵蓋 cfs1-3（無 4AT）與 resume**。
 
@@ -856,14 +963,14 @@ Expected: build 成功、preview 起在 4321。
 playwright 開 `http://localhost:4321/assess/`，**cfs2**（無 4AT，但認知 cognition-screen alwaysRun 適用 cfs1-8）/ informant=是 / patientAble=是，所有 triage 題答最佳選項、認知題答正常。確認：
 - triage 題正常出現（**不因 cfs2 無 4AT 而空狀態跳過**——驗 Step 7a 守門修正）。
 - 認知（AD8）在 triage 階段一律出現（always-run）。
-- 全正常 → 不展開任何 screen → 直達結果頁。console 無錯誤（特別 each_key_duplicate）。
+- 全正常 → 不展開任何 screen → 直達結果頁。**結果頁顯示 cfs2 所有適用域（8 triage 域 + 認知）皆「正常」bar、無重複域**（驗 Task 5 triage 進結果頁 + 去重）。console 無錯誤（特別 each_key_duplicate / DataCloneError）。
 
 - [ ] **Step 3: 個案 B — cfs5 單域亮燈 + 無知情者認知 fallback**
 
 重開新評估 **cfs5 / informant=否 / patientAble=是**，僅「跌倒」triage 答「是」，其餘正常。確認：
 - 跌倒 triage「是」→ 出現 steadi-falls screen；亮燈後出 sit-to-stand。
 - 4AT 一律出題；認知因 informant=否 → **出現 Mini-Cog（非 AD8）**（驗 always-run C-M2）。
-- 其他域 triage 正常 → 不展開。結果頁長條圖正確、console 無錯。
+- 其他域 triage 正常 → 不展開。**結果頁 falls 域顯示 steadi-falls 的細緻 %（非 triage 的 0/100%）**（驗 Task 5 深評優先去重）；其餘域 normal bar。console 無錯。
 
 - [ ] **Step 4: 個案 C — resume 重建**
 
@@ -886,8 +993,9 @@ cfs5 評估答到 screen 階段一半 → 暫停 → 從評估紀錄「繼續」
 - **第一輪審查 blocker（resume tier 重建、cfs1-3 空守門）** → Task 4 Step 7 ✅
 - **冷啟動題數（誠實，依 CFS 逐域核對 applicableCfs）**：題數 = 該 CFS 適用 triage 數 + always-run（4AT 4 題 cfs4+；認知 AD8/Mini-Cog）。**cfs2 適用 triage = 8**（comorbidity/polypharmacy/nutrition/sensory/pain/mood/social-support/falls；continence/adl/iadl/financial/home-safety 從 cfs3、caregiver/accessibility 從 cfs4、acp/treatment-pref 從 cfs5、mobility cfs7）→ cfs2 ≈ 8 triage + 認知（無 4AT）。**cfs5 適用 triage = 17**（除 mobility cfs7-only）→ ≈ 17 triage + 4AT(4) + 認知 ≈ 22-24 題。spec「18-20」為概數；實際依 CFS 分層，Task 5 個案 A 以 cfs2 實測題數。
 - 型別一致：`tier` 三值跨 6 處；`expandedScreenScales`/`expandedFullScales` 同 `expandFlagged`；`selectAlwaysRunScreens(all, cfs, informantAvailable?)` 與 `selectScreenScales` 同簽名風格。
+- **結果頁 triage 去重（使用者決策：cold-start 顯示 18 域）** → Task 5（dedupeTriageResults 純函式 + buildScaleResults 接線）✅
 - 無 placeholder：型別/tiering/測試/UI 含完整 code；18 triage YAML 以「完整範本 + 完整對照表 + 取材規則」表達（DRY）。
-- 範圍：Phase 2 僅專業層三層金字塔，不觸自評層（Phase 3）、不改計分/結果頁。
+- 範圍：Phase 2 僅專業層三層金字塔，不觸自評層（Phase 3）；不改計分公式（結果頁因 triage 進入而每域有 bar、同域深評優先，Task 5 去重）。
 
 ## 第一輪獨立審查（Opus）修正納入（2026-05-30）
 
@@ -902,16 +1010,17 @@ cfs5 評估答到 screen 階段一半 → 暫停 → 從評估紀錄「繼續」
 - **[minor] caregiver 無知情者呈現** → Task 3 特例註記。
 - 已查證成立：Task 1 行號、Task 2 `expandFlagged` 重構等價（既有 tiering.test 不破）、`expandedFullScales` 唯一呼叫端 QuestionnaireModule:437、對照表 screen id/expandsTo/applicableCfs 真實、19→18 域計數。
 
-## 第二輪獨立審查（Opus）修正納入（2026-05-30）
+## 第二輪獨立審查（Opus）修正納入（2026-05-30，含控制者誤判校正）
 
-- **[blocker C] triage 結果未 persist → 結果頁缺 18 域分數**：已查證 `persistScoresToStore`(line 465-472) 只遍歷 screen+full。修：Task 4 Step 6 改其遍歷含 `triageOptionScales`（同域兩筆由結果頁 `groupDomainScores` 聚合）+ Task 4 Step 1 新增 persist 測試（blocker C）。
-- **[blocker A-iv] resume 重建踩 derived 未即時重算坑**：已查證 `maybeAdvanceTier` line 393 既有註解確認此坑。修：Task 4 Step 7b 重建後 `await tick()` + `destroyed` 檢查，再算 resume point；Step 3 加 `import { tick } from 'svelte'`。
-- **[major] `selectScreenScales` import unused**：改版後無呼叫端。修：Task 4 Step 3 精確 import（移除 selectScreenScales、保留 expandedFullScales/applyAvailabilityGate、新增四函式）。
-- **[major] 認知 C-M2 的 mini-cog CFS 覆蓋 + 雙不可得降級**：修：設計決策 4 補前提（mini-cog applicableCfs ⊇ cognition-screen）+ 雙不可得為可接受降級；Task 3 Step 4 加 coverage 查核。
-- **[major] 既有測試破壞範圍低估**：修：Task 4 Step 9 明列 QuestionnaireFlow flow / resume:435 / 題數斷言 / mode-frame 測試四類受影響範圍與對齊策略。
-- **[minor] 題數估算錯**：修：Self-Review 逐域核對（cfs2=8、cfs5=17 triage）。
-- **[minor] caregiver 無知情者呈現**：Task 3 特例註記已述（incomplete → 結果頁破折號，合理）。
-- 已查證成立（第二輪）：空守門修正邏輯正確、`expandFlagged` 重構複查一致、coverage 第 6 處補上、timedScales 不引入 triageTimed 自洽、對照表抽查一致、4AT 不重問測試涵蓋。
+**重要校正**：控制者在第二輪審查完成前，基於**誤讀 `persistScoresToStore`**（誤以為遍歷 `screen+full`，真實為遍歷 `activeOptionScales` line 496）搶先做了錯誤 Edit（顯式三集合改寫且漏 `questionnaireScores`）。真實審查回報後已撤銷並校正：
+
+- **[major C] 結果頁同域 triage 遮蓋深評（非「缺域」）**：真實 `persistScoresToStore` 遍歷 `activeOptionScales`（Step 5 已含 triage）→ triage 自動進結果頁、**不缺域**；persistScoresToStore **不需改**。真正問題＝同域 triage(maxScore 1→0/100%) 遮蓋展開 screen/full 細緻 %。使用者決策「triage 進結果頁顯示 18 域」→ 新增 **Task 5 結果頁同域去重**（深評優先、未展開域保留 triage 正常標記）。
+- **[blocker A-iv] resume/advance 後讀 derived**：`initPhase` Step 7b 加 `await tick()` + `destroyed`；`maybeAdvanceFromTriage` 與既有 `maybeAdvanceTier`:412-413 同模式（Svelte 5 pull-based derived，普通函式內 access 即時重算），加 A(iv) 註記 + Task 6 端到端驗證為準。
+- **[major] coverage 本地 `ScaleYaml` 缺 expandsTo/domain**：Task 1 Step 6 補 `expandsTo?`/`domain?`/`alwaysRun?`（不只 tier，否則 Task 3 測試 TS 編譯錯）。
+- **[major] `selectScreenScales` import unused**：Task 4 Step 3 精確 import 已移除。
+- **[major] 既有測試破壞範圍低估**：Task 4 Step 9 明列 ~10 QuestionnaireModule（裸 screen fixture 需配 triage fixture）+ QuestionnaireFlow flow + resume:435 + mode-frame 測試。
+- **[minor] 題數/caregiver/cfs1-3 rationale/maybeAdvanceTier 393→395**：Self-Review 逐域題數、文字校正。
+- 已查證成立（第二輪）：mini-cog cfs1-8 ⊇ cognition cfs1-8（C-S6 守住）、`expandFlagged` 重構等價（既有 tiering.test 不破）、空守門修正正確、timedScales 不引入 triageTimed 自洽、18 域計數、expandsTo 目標皆存在、4AT 不重問測試涵蓋。
 
 ## 待 review 重點（給第三輪審查者）
 
