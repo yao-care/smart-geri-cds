@@ -1,0 +1,25 @@
+# 大方向 triage 題（tier: triage）。取材 home-safety 代表題（居家環境跌倒危害）。
+# concern → 展開 home-safety 短篩（screen）。
+# clinicallyReviewed: false → 待臨床簽核。
+id: home-safety-triage
+domain:
+  top: environmental
+  sub: home_safety
+tier: triage
+expandsTo: home-safety
+applicableCfs: [cfs3, cfs4, cfs5, cfs6, cfs7, cfs8]
+scoring: sum
+inputType: option
+maxScore: 1
+items:
+  - id: hs_triage_q
+    mode: ask-either
+    prompt: 請向受測者或家屬詢問：居家環境是否有讓您擔心跌倒或受傷的地方（如地面濕滑、照明不足、缺少扶手等）？
+    text: 居家環境是否有讓您擔心跌倒或受傷的地方？
+    options:
+      - { label: 否, score: 0 }
+      - { label: 是, score: 1 }
+bands:
+  - { min: 0, max: 0, severity: normal, label: 無明顯居家危害徵兆 }
+  - { min: 1, max: 1, severity: monitor, label: 有居家跌倒疑慮，建議進一步居家安全短篩 }
+clinicallyReviewed: false

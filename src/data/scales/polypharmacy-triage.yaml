@@ -1,0 +1,25 @@
+# 大方向 triage 題（tier: triage）。取材 polypharmacy 代表題（用藥種數）。
+# concern → 展開 polypharmacy 短篩（screen），無另設深評。
+# clinicallyReviewed: false → 待臨床簽核。
+id: polypharmacy-triage
+domain:
+  top: physical
+  sub: polypharmacy
+tier: triage
+expandsTo: polypharmacy
+applicableCfs: [cfs2, cfs3, cfs4, cfs5, cfs6, cfs7, cfs8, cfs9]
+scoring: sum
+inputType: option
+maxScore: 1
+items:
+  - id: poly_triage_q
+    mode: ask-either
+    prompt: 請向受測者或家屬詢問（可請其數藥盒）：每天是否規律服用 5 種以上處方藥？
+    text: 每天是否規律服用 5 種以上處方藥？
+    options:
+      - { label: 否（少於 5 種）, score: 0 }
+      - { label: 是（5 種以上）, score: 1 }
+bands:
+  - { min: 0, max: 0, severity: normal, label: 無多重用藥疑慮 }
+  - { min: 1, max: 1, severity: monitor, label: 多重用藥，建議進一步用藥短篩 }
+clinicallyReviewed: false

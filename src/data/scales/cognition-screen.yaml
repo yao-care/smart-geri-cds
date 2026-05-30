@@ -15,6 +15,7 @@ domain:
   top: psychological
   sub: cognition
 tier: screen
+alwaysRun: true
 expandsTo: spmsq
 applicableCfs: [cfs1, cfs2, cfs3, cfs4, cfs5, cfs6, cfs7, cfs8]
 scoring: sum

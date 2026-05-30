@@ -1,0 +1,25 @@
+# 大方向 triage 題（tier: triage）。取材 accessibility-screen 代表題（輔具需求/外出困難）。
+# concern → 展開 accessibility-screen 短篩（screen）。
+# clinicallyReviewed: false → 待臨床簽核。
+id: accessibility-triage
+domain:
+  top: environmental
+  sub: accessibility
+tier: triage
+expandsTo: accessibility-screen
+applicableCfs: [cfs4, cfs5, cfs6, cfs7, cfs8, cfs9]
+scoring: sum
+inputType: option
+maxScore: 1
+items:
+  - id: acc_triage_q
+    mode: ask-either
+    prompt: 請向受測者或家屬詢問：是否有需要但尚未取得的輔具，或外出時有困難？
+    text: 是否有需要但尚未取得的輔具，或外出有困難？
+    options:
+      - { label: 否, score: 0 }
+      - { label: 是, score: 1 }
+bands:
+  - { min: 0, max: 0, severity: normal, label: 無輔具需求或可及性障礙徵兆 }
+  - { min: 1, max: 1, severity: monitor, label: 有輔具需求或外出困難，建議進一步可及性短篩 }
+clinicallyReviewed: false

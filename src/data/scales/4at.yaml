@@ -17,6 +17,7 @@ domain:
   top: psychological
   sub: delirium
 tier: screen
+alwaysRun: true
 applicableCfs: [cfs4, cfs5, cfs6, cfs7, cfs8, cfs9]
 scoring: sum
 inputType: option

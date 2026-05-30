@@ -1,0 +1,25 @@
+# 大方向 triage 題（tier: triage）。取材 iadl-screen 代表題（工具性活動協助需求）。
+# concern → 展開 iadl-screen 短篩（screen），其再亮燈展開 Lawton 深評。
+# clinicallyReviewed: false → 待臨床簽核。
+id: iadl-triage
+domain:
+  top: functional
+  sub: iadl
+tier: triage
+expandsTo: iadl-screen
+applicableCfs: [cfs3, cfs4, cfs5, cfs6, cfs7, cfs8, cfs9]
+scoring: sum
+inputType: option
+maxScore: 1
+items:
+  - id: iadl_triage_q
+    mode: ask-either
+    prompt: 請向受測者或家屬詢問：購物、備餐、用藥或理財等事務是否需要他人協助？
+    text: 購物、備餐、用藥或理財等事務是否需要協助？
+    options:
+      - { label: 否（完全獨立）, score: 0 }
+      - { label: 是（需要協助）, score: 1 }
+bands:
+  - { min: 0, max: 0, severity: normal, label: 工具性日常活動大致獨立 }
+  - { min: 1, max: 1, severity: monitor, label: 有工具性活動協助需求，建議進一步 IADL 短篩 }
+clinicallyReviewed: false

@@ -1,0 +1,27 @@
+# 大方向 triage 題（tier: triage）。取材 mobility-screen 代表題（行走/起身困難）。
+# concern → 展開 mobility-screen 短篩（screen），其再亮燈展開 sit-to-stand 深評。
+# 注意：mobility-screen applicableCfs 僅 [cfs7]；cfs2–cfs6 的行動風險由 falls-triage
+#   → steadi-falls → sit-to-stand 路徑覆蓋（見 falls-triage 說明）。
+# clinicallyReviewed: false → 待臨床簽核。
+id: mobility-triage
+domain:
+  top: functional
+  sub: mobility
+tier: triage
+expandsTo: mobility-screen
+applicableCfs: [cfs7]
+scoring: sum
+inputType: option
+maxScore: 1
+items:
+  - id: mob_triage_q
+    mode: ask-either
+    prompt: 請向受測者或家屬詢問：平地行走或從椅子起身是否感到困難？
+    text: 平地行走或起身是否感到困難？
+    options:
+      - { label: 否, score: 0 }
+      - { label: 是, score: 1 }
+bands:
+  - { min: 0, max: 0, severity: normal, label: 無明顯行動困難徵兆 }
+  - { min: 1, max: 1, severity: monitor, label: 有行動困難，建議進一步行動能力短篩 }
+clinicallyReviewed: false

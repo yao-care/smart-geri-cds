@@ -1,0 +1,25 @@
+# 大方向 triage 題（tier: triage）。取材 acp-status 代表題（ACP 意願討論）。
+# concern → 展開 acp-status 短篩（screen）。
+# clinicallyReviewed: false → 待臨床簽核。
+id: acp-triage
+domain:
+  top: future_wishes
+  sub: advance_care_planning
+tier: triage
+expandsTo: acp-status
+applicableCfs: [cfs5, cfs6, cfs7, cfs8, cfs9]
+scoring: sum
+inputType: option
+maxScore: 1
+items:
+  - id: acp_triage_q
+    mode: ask-either
+    prompt: 請向受測者或家屬詢問：是否想了解或討論預立醫療照護的相關安排？
+    text: 是否想了解或討論預立醫療照護的相關安排？
+    options:
+      - { label: 否或尚未考慮, score: 0 }
+      - { label: 是，有興趣了解, score: 1 }
+bands:
+  - { min: 0, max: 0, severity: normal, label: 無立即 ACP 討論需求 }
+  - { min: 1, max: 1, severity: monitor, label: 有 ACP 意願，建議進一步 ACP 狀態短篩 }
+clinicallyReviewed: false

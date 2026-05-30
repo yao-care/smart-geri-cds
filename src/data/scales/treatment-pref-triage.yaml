@@ -1,0 +1,25 @@
+# 大方向 triage 題（tier: triage）。取材 treatment-pref 代表題（醫療處置意願）。
+# concern → 展開 treatment-pref 短篩（screen）。
+# clinicallyReviewed: false → 待臨床簽核。
+id: treatment-pref-triage
+domain:
+  top: future_wishes
+  sub: treatment_preferences
+tier: triage
+expandsTo: treatment-pref
+applicableCfs: [cfs5, cfs6, cfs7, cfs8, cfs9]
+scoring: sum
+inputType: option
+maxScore: 1
+items:
+  - id: tp_triage_q
+    mode: ask-either
+    prompt: 請向受測者或家屬詢問：是否想表達對未來醫療處置（如急救、插管）的偏好？
+    text: 是否想表達對未來醫療處置（如急救）的偏好？
+    options:
+      - { label: 否或尚未考慮, score: 0 }
+      - { label: 是，有意願表達, score: 1 }
+bands:
+  - { min: 0, max: 0, severity: normal, label: 無立即醫療意願表達需求 }
+  - { min: 1, max: 1, severity: monitor, label: 有醫療意願表達需求，建議進一步治療偏好短篩 }
+clinicallyReviewed: false

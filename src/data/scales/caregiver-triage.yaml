@@ -1,0 +1,27 @@
+# 大方向 triage 題（tier: triage）。取材 caregiver-screen 代表題（照顧者負荷）。
+# concern → 展開 caregiver-screen 短篩（screen），其再亮燈展開 Zarit-12 深評。
+# 特例：requiresInformant: true；向照顧者詢問，無知情者時 availability gate 標記 incomplete、不展開。
+# clinicallyReviewed: false → 待臨床簽核。
+id: caregiver-triage
+domain:
+  top: social
+  sub: caregiver
+tier: triage
+expandsTo: caregiver-screen
+applicableCfs: [cfs4, cfs5, cfs6, cfs7, cfs8, cfs9]
+scoring: sum
+inputType: option
+requiresInformant: true
+maxScore: 1
+items:
+  - id: cg_triage_q
+    mode: ask-informant
+    prompt: 請詢問主要照顧者：照顧這位長者是否讓您感到沉重負擔？
+    text: （向照顧者）照顧這位長者是否讓您感到沉重負擔？
+    options:
+      - { label: 否（沒有或輕微）, score: 0 }
+      - { label: 是（中度或沉重）, score: 1 }
+bands:
+  - { min: 0, max: 0, severity: normal, label: 無明顯照顧者負荷徵兆 }
+  - { min: 1, max: 1, severity: monitor, label: 有照顧者負荷，建議進一步照顧者短篩 }
+clinicallyReviewed: false

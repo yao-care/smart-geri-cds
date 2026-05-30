@@ -100,3 +100,44 @@ describe('tiered screen coverage (CGA axis)', () => {
     }
   });
 });
+
+/**
+ * Triage-layer coverage gate (Phase 2 Task 3): every CFS level must have ≥1
+ * tier:triage scale, triage scales must expandsTo a valid screen, patient-safety
+ * domains (delirium/cognition) are alwaysRun with no triage gate, and the
+ * mini-cog fallback covers all cognition-screen CFS levels (C-S6).
+ */
+describe('triage layer coverage (Phase 2 Task 3)', () => {
+  const scales = SCALE_DEFS;
+
+  it('every CFS level has at least one tier:triage scale', () => {
+    for (const cfs of CFS_LEVELS) {
+      const triage = scales.filter(s => s.tier === 'triage' && s.applicableCfs?.includes(cfs));
+      expect(triage.length, `${cfs} has no triage scale`).toBeGreaterThan(0);
+    }
+  });
+
+  it('every triage scale expandsTo an existing screen scale', () => {
+    const screenIds = new Set(scales.filter(s => s.tier === 'screen').map(s => s.id));
+    for (const t of scales.filter(s => s.tier === 'triage')) {
+      expect(t.expandsTo, `${t.id} missing expandsTo`).toBeTruthy();
+      expect(screenIds.has(t.expandsTo!), `${t.id}.expandsTo=${t.expandsTo} not a screen`).toBe(true);
+    }
+  });
+
+  it('delirium and cognition are alwaysRun screens (no triage gate; C-M1/C-S6)', () => {
+    expect(scales.find(s => s.id === '4at')?.alwaysRun).toBe(true);
+    expect(scales.find(s => s.id === 'cognition-screen')?.alwaysRun).toBe(true);
+    expect(scales.some(s => s.tier === 'triage' && s.domain?.sub === 'delirium')).toBe(false);
+    expect(scales.some(s => s.tier === 'triage' && s.domain?.sub === 'cognition')).toBe(false);
+  });
+
+  it('mini-cog applicableCfs ⊇ cognition-screen (C-M2 fallback never drops cognition)', () => {
+    const cog = scales.find(s => s.id === 'cognition-screen');
+    const mini = scales.find(s => s.id === 'mini-cog');
+    expect(cog && mini).toBeTruthy();
+    for (const cfs of cog!.applicableCfs ?? []) {
+      expect((mini!.applicableCfs ?? []).includes(cfs), `mini-cog missing ${cfs}`).toBe(true);
+    }
+  });
+});

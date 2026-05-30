@@ -1,0 +1,25 @@
+# 大方向 triage 題（tier: triage）。取材 financial-screen 代表題（收入足以支應）。
+# concern → 展開 financial-screen 短篩（screen）。
+# clinicallyReviewed: false → 待臨床簽核。
+id: financial-triage
+domain:
+  top: social
+  sub: financial
+tier: triage
+expandsTo: financial-screen
+applicableCfs: [cfs3, cfs4, cfs5, cfs6, cfs7, cfs8, cfs9]
+scoring: sum
+inputType: option
+maxScore: 1
+items:
+  - id: fin_triage_q
+    mode: ask-either
+    prompt: 請向受測者或家屬詢問：目前收入是否足以支應日常生活與醫療開銷？
+    text: 目前收入是否足以支應日常生活與醫療開銷？
+    options:
+      - { label: 是（足夠）, score: 0 }
+      - { label: 否（不足或勉強）, score: 1 }
+bands:
+  - { min: 0, max: 0, severity: normal, label: 無明顯經濟壓力徵兆 }
+  - { min: 1, max: 1, severity: monitor, label: 有經濟壓力，建議進一步經濟短篩 }
+clinicallyReviewed: false

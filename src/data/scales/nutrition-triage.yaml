@@ -1,0 +1,25 @@
+# 大方向 triage 題（tier: triage）。取材 nutrition-screen 代表題（食量/體重）。
+# concern → 展開 nutrition-screen 短篩（screen），其再亮燈展開 MNA-SF 深評。
+# clinicallyReviewed: false → 待臨床簽核。
+id: nutrition-triage
+domain:
+  top: physical
+  sub: nutrition
+tier: triage
+expandsTo: nutrition-screen
+applicableCfs: [cfs1, cfs2, cfs3, cfs4, cfs5, cfs6, cfs7, cfs8, cfs9]
+scoring: sum
+inputType: option
+maxScore: 1
+items:
+  - id: nutr_triage_q
+    mode: ask-either
+    prompt: 請向受測者或家屬詢問：最近是否食慾變差，或三個月內體重明顯減輕？
+    text: 最近是否食慾變差或體重明顯減輕？
+    options:
+      - { label: 否, score: 0 }
+      - { label: 是, score: 1 }
+bands:
+  - { min: 0, max: 0, severity: normal, label: 無明顯營養不良徵兆 }
+  - { min: 1, max: 1, severity: monitor, label: 有食慾下降/體重減輕，建議進一步營養短篩 }
+clinicallyReviewed: false

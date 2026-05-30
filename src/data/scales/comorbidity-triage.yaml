@@ -1,0 +1,25 @@
+# 大方向 triage 題（tier: triage）。取材 comorbidity-screen 代表題（慢性疾病種數）。
+# concern → 展開 comorbidity-screen 短篩（screen），其再亮燈展開 CCI 深評。
+# clinicallyReviewed: false → 待臨床簽核。
+id: comorbidity-triage
+domain:
+  top: physical
+  sub: comorbidity
+tier: triage
+expandsTo: comorbidity-screen
+applicableCfs: [cfs2, cfs3, cfs4, cfs5, cfs6, cfs7, cfs8, cfs9]
+scoring: sum
+inputType: option
+maxScore: 1
+items:
+  - id: comorb_triage_q
+    mode: ask-either
+    prompt: 請向受測者或家屬詢問（或核對病歷）：是否有長期治療中的慢性疾病（如高血壓、糖尿病、心臟病等）？
+    text: 是否有長期治療中的慢性疾病（如高血壓、糖尿病、心臟病等）？
+    options:
+      - { label: 否, score: 0 }
+      - { label: 是, score: 1 }
+bands:
+  - { min: 0, max: 0, severity: normal, label: 無慢性疾病徵兆 }
+  - { min: 1, max: 1, severity: monitor, label: 有慢性疾病，建議進一步共病短篩 }
+clinicallyReviewed: false

@@ -1,0 +1,27 @@
+# 大方向 triage 題（tier: triage）。取材 steadi-falls 代表題「過去一年是否跌倒」。
+# concern → 展開 steadi-falls 短篩（screen），其再亮燈展開 sit-to-stand 深評。
+# 註：falls triage 亦覆蓋低 CFS 的 mobility 行動風險（mobility-screen 僅 cfs7；
+#     steadi-falls→sit-to-stand 是 mobility 域 timed 深評）。
+# clinicallyReviewed: false → 待臨床簽核。
+id: falls-triage
+domain:
+  top: functional
+  sub: falls
+tier: triage
+expandsTo: steadi-falls
+applicableCfs: [cfs2, cfs3, cfs4, cfs5, cfs6, cfs7, cfs8]
+scoring: sum
+inputType: option
+maxScore: 1
+items:
+  - id: falls_triage_q
+    mode: ask-either
+    prompt: 請向受測者或家屬詢問：過去一年內是否曾經跌倒，或站立/行走會不穩？
+    text: 過去一年內是否曾經跌倒，或站立／行走會不穩？
+    options:
+      - { label: 否, score: 0 }
+      - { label: 是, score: 1 }
+bands:
+  - { min: 0, max: 0, severity: normal, label: 無明顯跌倒風險徵兆 }
+  - { min: 1, max: 1, severity: monitor, label: 有跌倒/不穩徵兆，建議進一步跌倒短篩 }
+clinicallyReviewed: false
