@@ -18,6 +18,7 @@
 2. **always-run 機制＝宣告式 YAML 旗標 `alwaysRun?: boolean`**（spec §B 列為首選；與既有 `requiresPatient`/`requiresInformant` 旗標一致）。**兩個病安域一律施測、不被任何 triage 守門**：
    - `4at.yaml`（譫妄，C-M1）設 `alwaysRun: true`、維持 `tier:'screen'`。
    - `cognition-screen.yaml`（AD8，C-S6 認知不可靜默跳過——專抓無病識感失智）設 `alwaysRun: true`、維持 `tier:'screen'`。**經使用者確認比照 4AT 一律施測**（既有系統對 cfs1-8 本就無條件施測認知篩；Phase 2 不得降級為 triage-gated）。
+   - **always-run = 一律「嘗試施測」，非繞過 availability gate**（第三輪審查）：4AT(`requiresPatient:true`)、AD8(`requiresInformant:true`) 仍經 `applyAvailabilityGate`——病人完全無法參與 / 無知情者時該量表 incomplete（如決策 4 認知雙不可得），結果頁顯破折號。always-run 保證「不被 triage 守門跳過」，不保證「必得分數」。
 3. **delirium 與 cognition 無 triage 題**：兩者皆 always-run，於 triage 階段一律施測，不需大方向守門題。**triage 題共 18 個**＝DOMAIN_TREE 20 sub − delirium − cognition。
 4. **always-run 的認知 C-M2 fallback**：`selectAlwaysRunScreens` 取得的 screen 集合需套用 `resolveCognitionScreen`——無知情者時 `cognition-screen`(AD8, requiresInformant) 換成 `mini-cog`(客觀題)，使無病識感且無知情者的個案仍被客觀篩檢（C-S6 + C-M2 既有）。
    - **前提（第二輪審查 major）**：`mini-cog` 的 `applicableCfs` 必須 ⊇ `cognition-screen` 的 `applicableCfs`，否則無知情者時某些 CFS 經 re-filter 後認知會消失（再次違反 C-S6）。Task 2 Step 1 測試含此 swap；Task 3 Step 4 coverage 加查核（見該步）；Task 5 個案 B 實測無知情者出 Mini-Cog。
@@ -261,6 +262,16 @@ describe('expandedScreenScales (triage concern → screen)', () => {
     ];
     expect(expandedScreenScales(all, [result('falls-triage', 'incomplete')])).toHaveLength(0);
   });
+
+  it('dedupes when two flagged sources expand to the same target (no each_key_duplicate)', () => {
+    const all = [
+      def({ id: 'a-triage', tier: 'triage', expandsTo: 'shared-screen' }),
+      def({ id: 'b-triage', tier: 'triage', expandsTo: 'shared-screen' }),
+      def({ id: 'shared-screen', tier: 'screen' }),
+    ];
+    const out = expandedScreenScales(all, [result('a-triage', 'monitor'), result('b-triage', 'monitor')]);
+    expect(out.map(s => s.id)).toEqual(['shared-screen']); // once, not twice
+  });
 });
 ```
 
@@ -286,7 +297,10 @@ function expandFlagged(all: ScaleDef[], results: ScaleResult[]): ScaleDef[] {
     const source = all.find(s => s.id === r.scaleId);
     if (source?.expandsTo) {
       const target = all.find(s => s.id === source.expandsTo);
-      if (target) out.push(target);
+      // Dedupe target: two flagged sources can point at one target (cfs7
+      // falls+mobility both expand→sit-to-stand) — pushing twice would render
+      // duplicate questions → each_key_duplicate (Phase 1 痛點). Guard here.
+      if (target && !out.includes(target)) out.push(target);
     }
   }
   return out;
