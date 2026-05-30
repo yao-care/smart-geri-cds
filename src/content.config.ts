@@ -158,7 +158,8 @@ const scalesCollection = defineCollection({
       message: 'domain.top/domain.sub 不是合法的二層域組合',
     }),
     /** Default 'screen' so existing YAMLs (which lack `tier`) still parse. */
-    tier: z.enum(['screen', 'full']).default('screen'),
+    tier: z.enum(['triage', 'screen', 'full']).default('screen'),
+    alwaysRun: z.boolean().optional(),
     expandsTo: z.string().optional(),
     applicableCfs: z.array(z.enum(CFS_LEVELS)),
     scoring: z.enum(['sum', 'weighted', 'error-count', 'measured-value', 'timed-task']),

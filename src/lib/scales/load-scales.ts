@@ -6,7 +6,8 @@ import type { CfsLevel } from '../utils/cfs-levels';
 interface ScaleEntryData {
   id: string;
   domain: { top: string; sub: string };
-  tier: 'screen' | 'full';
+  tier: 'triage' | 'screen' | 'full';
+  alwaysRun?: boolean;
   expandsTo?: string;
   applicableCfs: string[];
   scoring: ScaleDef['scoring'];
@@ -29,6 +30,7 @@ export function toScaleDefs(entries: { data: ScaleEntryData }[]): ScaleDef[] {
     id: data.id,
     domain: { top: data.domain.top as DomainTop, sub: data.domain.sub as DomainSub },
     tier: data.tier,
+    alwaysRun: data.alwaysRun,
     expandsTo: data.expandsTo,
     applicableCfs: data.applicableCfs as CfsLevel[],
     scoring: data.scoring,

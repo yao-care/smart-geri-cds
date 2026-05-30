@@ -44,7 +44,8 @@ describe('ScaleDef extended fields', () => {
       bands: [],
       clinicallyReviewed: false,
     };
-    expectTypeOf(def.tier).toEqualTypeOf<'screen' | 'full'>();
+    expectTypeOf(def.tier).toEqualTypeOf<'triage' | 'screen' | 'full'>();
+    expectTypeOf(def.alwaysRun).toEqualTypeOf<boolean | undefined>();
     expectTypeOf(def.expandsTo).toEqualTypeOf<string | undefined>();
     expectTypeOf(def.requiresPatient).toEqualTypeOf<boolean | undefined>();
     expectTypeOf(def.requiresInformant).toEqualTypeOf<boolean | undefined>();

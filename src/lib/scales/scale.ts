@@ -34,8 +34,11 @@ export interface ScaleItem {
 export interface ScaleDef {
   id: string;
   domain: { top: DomainTop; sub: DomainSub };
-  /** 'screen' = first-tier brief screen; 'full' = expanded deep assessment. */
-  tier: 'screen' | 'full';
+  /** 'triage' = 大方向層（每域 1 題，亮燈展開 screen）；'screen' = 短篩層
+   *  （亮燈展開 full）；'full' = 深評層。 */
+  tier: 'triage' | 'screen' | 'full';
+  /** always-run：無論 triage 結果都一律施測（病安域：譫妄 4AT C-M1、認知 C-S6）。 */
+  alwaysRun?: boolean;
   /** ID of the full-scale to expand into when this screen flags (severity ≥ monitor). */
   expandsTo?: string;
   applicableCfs: CfsLevel[];

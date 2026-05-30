@@ -8,7 +8,10 @@ import { DOMAIN_SUBS, isValidDomain } from '../../src/lib/domain/domain-tree';
 
 interface ScaleYaml {
   id: string;
-  tier?: 'screen' | 'full';
+  tier?: 'triage' | 'screen' | 'full';
+  alwaysRun?: boolean;
+  expandsTo?: string;
+  domain?: { top: string; sub: string };
   applicableCfs?: string[];
 }
 
