@@ -100,19 +100,52 @@ export function selectScreenScales(all: ScaleDef[], cfs: CfsLevel, informantAvai
 const WORSE = (s: Severity): boolean => s === 'monitor' || s === 'refer';
 
 /**
- * Given the screen results, return the full-tier ScaleDef objects to expand into.
- * Only expands scales whose screen result was flagged (severity ≥ monitor).
- * Scales with no `expandsTo` or whose full scale isn't in `all` are silently skipped.
+ * Given a tier's results, return the next-tier ScaleDef objects to expand into.
+ * Only flagged (severity ≥ monitor) results expand, via their scale's `expandsTo`.
+ * Tier-agnostic: drives both triage→screen and screen→full expansion.
  */
-export function expandedFullScales(all: ScaleDef[], screenResults: ScaleResult[]): ScaleDef[] {
+function expandFlagged(all: ScaleDef[], results: ScaleResult[]): ScaleDef[] {
   const out: ScaleDef[] = [];
-  for (const r of screenResults) {
+  for (const r of results) {
     if (!WORSE(r.severity)) continue;
-    const screen = all.find(s => s.id === r.scaleId);
-    if (screen?.expandsTo) {
-      const full = all.find(s => s.id === screen.expandsTo);
-      if (full) out.push(full);
+    const source = all.find(s => s.id === r.scaleId);
+    if (source?.expandsTo) {
+      const target = all.find(s => s.id === source.expandsTo);
+      // Dedupe target: two flagged sources can point at one target (cfs7
+      // falls+mobility both expand→sit-to-stand) — pushing twice would render
+      // duplicate questions → each_key_duplicate (Phase 1 痛點). Guard here.
+      if (target && !out.includes(target)) out.push(target);
     }
   }
   return out;
+}
+
+/** triage concern (≥monitor) → expand into the screen each triage points to. */
+export function expandedScreenScales(all: ScaleDef[], triageResults: ScaleResult[]): ScaleDef[] {
+  return expandFlagged(all, triageResults);
+}
+
+/** screen flag (≥monitor) → expand into the full scale each screen points to. */
+export function expandedFullScales(all: ScaleDef[], screenResults: ScaleResult[]): ScaleDef[] {
+  return expandFlagged(all, screenResults);
+}
+
+/** Select all tier:'triage' big-picture scales applicable to the given CFS level. */
+export function selectTriageScales(all: ScaleDef[], cfs: CfsLevel): ScaleDef[] {
+  return all.filter(s => s.tier === 'triage' && s.applicableCfs.includes(cfs));
+}
+
+/**
+ * Select tier:'screen' scales flagged `alwaysRun` (病安域：4AT、認知) applicable
+ * to the CFS level. These run unconditionally in the triage phase, never gated by
+ * a triage result (C-M1 譫妄、C-S6 認知不可靜默跳過).
+ *
+ * When `informantAvailable` is supplied, the cognition always-run scale is resolved
+ * through the C-M2 fallback (AD8 ↔ Mini-Cog) and re-filtered for CFS applicability,
+ * exactly like `selectScreenScales`.
+ */
+export function selectAlwaysRunScreens(all: ScaleDef[], cfs: CfsLevel, informantAvailable?: boolean): ScaleDef[] {
+  const screens = all.filter(s => s.tier === 'screen' && s.alwaysRun === true && s.applicableCfs.includes(cfs));
+  if (informantAvailable === undefined) return screens;
+  return resolveCognitionScreen(screens, informantAvailable, all).filter(s => s.applicableCfs.includes(cfs));
 }
