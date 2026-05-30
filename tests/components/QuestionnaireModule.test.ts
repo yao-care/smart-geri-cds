@@ -310,9 +310,10 @@ describe('QuestionnaireModule (tiered)', () => {
 
     await waitFor(async () => {
       const events = await db.assessmentEvents.where('moduleType').equals('questionnaire').toArray();
-      expect(events.length).toBeGreaterThan(0);
-      expect(events[0].eventType).toBe('questionnaire_answer');
-      expect(events[0].data.scaleId).toBe('mood-triage'); // triage is first question
+      const answers = events.filter(e => e.eventType === 'questionnaire_answer');
+      expect(answers.length).toBeGreaterThan(0);
+      // 不依位置（always-run 先行時第一筆可能是 always-run 題）；驗 triage answer 確有記錄。
+      expect(answers.some(e => e.data.scaleId === 'mood-triage')).toBe(true);
     }, { timeout: 2000 });
   });
 
