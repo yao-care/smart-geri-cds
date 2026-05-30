@@ -6,15 +6,17 @@ import { assessmentStore } from '../../src/lib/stores/assessment.svelte';
 import { db } from '../../src/lib/db/schema';
 import type { ScaleDef } from '../../src/lib/scales/scale';
 
-/** Synthetic screen scale set spanning two domains, all applicable at cfs5.
- *  Both are tier:'screen' (with no expandsTo) so they run directly in the
- *  tiered flow without expansion. */
+/** Synthetic scale set spanning two domains, all applicable at cfs5.
+ *  Both screen scales are alwaysRun:true so they appear directly in the triage
+ *  phase without requiring a triage gate — testing the CFS-driven flow without
+ *  depending on triage expansion. */
 function makeScales(): ScaleDef[] {
   return [
     {
       id: 'mood-screen',
       domain: { top: 'psychological', sub: 'mood' },
       tier: 'screen',
+      alwaysRun: true,
       applicableCfs: ['cfs5'],
       scoring: 'sum',
       inputType: 'option',
@@ -33,6 +35,7 @@ function makeScales(): ScaleDef[] {
       id: 'adl-screen',
       domain: { top: 'functional', sub: 'adl' },
       tier: 'screen',
+      alwaysRun: true,
       applicableCfs: ['cfs5'],
       scoring: 'sum',
       inputType: 'option',

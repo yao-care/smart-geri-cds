@@ -29,6 +29,50 @@ function makeAssessment(
   };
 }
 
+// ---- Triage-tier fixtures (Task 4 三階段展開) ----
+const fallsTriage: ScaleDef = {
+  id: 'falls-triage', domain: { top: 'functional', sub: 'falls' }, tier: 'triage',
+  expandsTo: 'falls-screen', applicableCfs: ['cfs5'], scoring: 'sum', inputType: 'option', maxScore: 1,
+  items: [{ id: 'ft', mode: 'ask-either', prompt: 'FALLS_TRIAGE_Q', text: 'FALLS_TRIAGE_Q',
+    options: [{ label: '否', score: 0 }, { label: '是', score: 1 }] }],
+  bands: [{ min: 0, max: 0, severity: 'normal', label: 'ok' }, { min: 1, max: 1, severity: 'monitor', label: 'concern' }],
+  clinicallyReviewed: false,
+};
+const fallsScreen: ScaleDef = {
+  id: 'falls-screen', domain: { top: 'functional', sub: 'falls' }, tier: 'screen', expandsTo: 'falls-full',
+  applicableCfs: ['cfs5'], scoring: 'sum', inputType: 'option', maxScore: 1,
+  items: [{ id: 'fs', mode: 'ask-either', prompt: 'FALLS_SCREEN_Q', text: 'FALLS_SCREEN_Q',
+    options: [{ label: '否', score: 0 }, { label: '是', score: 1 }] }],
+  bands: [{ min: 0, max: 0, severity: 'normal', label: 'ok' }, { min: 1, max: 1, severity: 'monitor', label: 'flag' }],
+  clinicallyReviewed: false,
+};
+const fallsFull: ScaleDef = {
+  id: 'falls-full', domain: { top: 'functional', sub: 'falls' }, tier: 'full',
+  applicableCfs: ['cfs5'], scoring: 'sum', inputType: 'option', maxScore: 1,
+  items: [{ id: 'ff', mode: 'ask-either', prompt: 'FALLS_FULL_Q', text: 'FALLS_FULL_Q',
+    options: [{ label: '否', score: 0 }, { label: '是', score: 1 }] }],
+  bands: [{ min: 0, max: 0, severity: 'normal', label: 'ok' }, { min: 1, max: 1, severity: 'monitor', label: 'x' }],
+  clinicallyReviewed: false,
+};
+const alwaysRunScreen: ScaleDef = {
+  id: 'delirium-always', domain: { top: 'psychological', sub: 'delirium' }, tier: 'screen', alwaysRun: true,
+  applicableCfs: ['cfs5'], scoring: 'sum', inputType: 'option', maxScore: 1,
+  items: [{ id: 'ar', mode: 'observe', prompt: 'ALWAYS_RUN_Q', text: 'ALWAYS_RUN_Q',
+    options: [{ label: '正常', score: 0 }, { label: '異常', score: 1 }] }],
+  bands: [{ min: 0, max: 0, severity: 'normal', label: 'ok' }, { min: 1, max: 1, severity: 'monitor', label: 'x' }],
+  clinicallyReviewed: false,
+};
+
+/** Minimal triage scale pointing to mood-screen (used by tests that need to reach moodScreen). */
+const moodTriage: ScaleDef = {
+  id: 'mood-triage', domain: { top: 'psychological', sub: 'mood' }, tier: 'triage',
+  expandsTo: 'mood-screen', applicableCfs: ['cfs5'], scoring: 'sum', inputType: 'option', maxScore: 1,
+  items: [{ id: 'mt', mode: 'ask-either', prompt: 'MOOD_TRIAGE_Q', text: 'MOOD_TRIAGE_Q',
+    options: [{ label: '無', score: 0 }, { label: '有', score: 1 }] }],
+  bands: [{ min: 0, max: 0, severity: 'normal', label: 'ok' }, { min: 1, max: 1, severity: 'monitor', label: 'concern' }],
+  clinicallyReviewed: false,
+};
+
 /** Mood screen (tier:screen) → expands to the GDS-15-like full scale.
  *  Item 2 carries the self-harm red flag. requiresPatient (情緒測驗). */
 const moodScreen: ScaleDef = {
@@ -83,11 +127,13 @@ const moodFull: ScaleDef = {
 };
 
 /** A caregiver-burden screen with an ask-informant item (for the 無法取得 path
- *  and informant-mode framing). Not delirium/cognition → 無法取得 allowed. */
+ *  and informant-mode framing). Not delirium/cognition → 無法取得 allowed.
+ *  alwaysRun:true so it appears immediately in the triage phase without a triage gate. */
 const caregiverScreen: ScaleDef = {
   id: 'caregiver-screen',
   domain: { top: 'social', sub: 'caregiver' },
   tier: 'screen',
+  alwaysRun: true,
   applicableCfs: ['cfs5'],
   scoring: 'sum',
   inputType: 'option',
@@ -150,7 +196,7 @@ describe('QuestionnaireModule (tiered)', () => {
   it('shows the empty state when no screen scale applies to the CFS level', async () => {
     assessmentStore.child = makeChild();
     assessmentStore.assessment = makeAssessment();
-    assessmentStore.cfsLevel = 'cfs1'; // screen applies only to cfs5
+    assessmentStore.cfsLevel = 'cfs1'; // all fixtures apply only to cfs5
     render(QuestionnaireModule, { scales: [moodScreen, moodFull] });
     await waitFor(() => expect(screen.getByText(/沒有可施測的量表/)).toBeInTheDocument());
   });
@@ -161,7 +207,12 @@ describe('QuestionnaireModule (tiered)', () => {
     assessmentStore.informantAvailable = true;
     assessmentStore.patientAble = true;
     assessmentStore.cfsLevel = 'cfs5';
-    render(QuestionnaireModule, { scales: [moodScreen, moodFull] });
+    // moodTriage (ask-either mode) → concern → moodScreen (patient mode) appears.
+    render(QuestionnaireModule, { scales: [moodTriage, moodScreen, moodFull] });
+    // First the triage question appears. Answer triage with concern to expand the mood-screen.
+    await waitFor(() => expect(screen.getByText('MOOD_TRIAGE_Q')).toBeInTheDocument());
+    await clickOption('有');    // triage concern → expand mood-screen
+    // Now the screen item appears with patient mode frame.
     await waitFor(() => expect(screen.getByText('由受測者本人作答')).toBeInTheDocument());
     expect(screen.getByText('請唸給受測者：做事提不起勁的頻率？')).toBeInTheDocument();
   });
@@ -172,6 +223,7 @@ describe('QuestionnaireModule (tiered)', () => {
     assessmentStore.informantAvailable = true;
     assessmentStore.patientAble = true;
     assessmentStore.cfsLevel = 'cfs5';
+    // caregiverScreen is alwaysRun:true → appears directly in the triage phase.
     render(QuestionnaireModule, { scales: [caregiverScreen] });
     // caregiver item is ask-informant → informant-source header.
     await waitFor(() => expect(screen.getByText('向熟悉受測者的家屬／照顧者詢問')).toBeInTheDocument());
@@ -180,35 +232,15 @@ describe('QuestionnaireModule (tiered)', () => {
   });
 
   it('ask-either item header is patient-OR-family (NOT the operator-blind「請詢問家屬」)', async () => {
-    // Regression for the original contradiction: an ADL-style ask-either item
-    // must read「向受測者本人或家屬…」, not「請詢問家屬／照顧者」.
-    const adlEither: ScaleDef = {
-      id: 'adl-screen',
-      domain: { top: 'functional', sub: 'adl' },
-      tier: 'screen',
-      applicableCfs: ['cfs5'],
-      scoring: 'sum',
-      inputType: 'option',
-      maxScore: 2,
-      items: [
-        {
-          id: 'adl_help', mode: 'ask-either',
-          prompt: '請向受測者或家屬詢問：日常自我照顧是否需要協助？', text: 'ADL 協助',
-          options: [{ label: '不需要', score: 0 }, { label: '需要', score: 2 }],
-        },
-      ],
-      bands: [
-        { min: 0, max: 0, severity: 'normal', label: '獨立' },
-        { min: 1, max: 2, severity: 'monitor', label: '需協助' },
-      ],
-      clinicallyReviewed: false,
-    };
+    // Regression for the original contradiction: an ask-either item must read
+    // 「向受測者本人或家屬…」, not「請詢問家屬／照顧者」.
+    // fallsTriage has mode:ask-either and appears directly in the triage phase.
     assessmentStore.child = makeChild();
     assessmentStore.assessment = makeAssessment();
     assessmentStore.informantAvailable = true;
     assessmentStore.patientAble = true;
     assessmentStore.cfsLevel = 'cfs5';
-    render(QuestionnaireModule, { scales: [adlEither] });
+    render(QuestionnaireModule, { scales: [fallsTriage, fallsScreen, fallsFull] });
     await waitFor(() => expect(screen.getByText('向受測者本人或家屬／照顧者詢問')).toBeInTheDocument());
     expect(screen.queryByText('請詢問家屬／照顧者')).toBeNull();
   });
@@ -217,11 +249,13 @@ describe('QuestionnaireModule (tiered)', () => {
     assessmentStore.child = makeChild();
     assessmentStore.assessment = makeAssessment();
     assessmentStore.cfsLevel = 'cfs5';
-    render(QuestionnaireModule, { scales: [moodScreen, moodFull] });
+    render(QuestionnaireModule, { scales: [moodTriage, moodScreen, moodFull] });
 
-    // Answer both screen items 「完全沒有」(0) → screen normal → no expand.
-    await clickOption('完全沒有');
-    await clickOption('完全沒有');
+    // Triage concern → expand mood-screen, then answer both screen items 「完全沒有」(0) → normal.
+    await clickOption('有');            // mood-triage concern → expand mood-screen
+    await waitFor(() => expect(screen.getByText('請唸給受測者：做事提不起勁的頻率？')).toBeInTheDocument());
+    await clickOption('完全沒有');       // screen item 1 normal
+    await clickOption('完全沒有');       // screen item 2 normal → screen normal → no full expand
 
     await waitFor(() => expect(screen.getByText('問卷完成！')).toBeInTheDocument(), { timeout: 3000 });
     // No GDS full question was ever rendered.
@@ -232,8 +266,11 @@ describe('QuestionnaireModule (tiered)', () => {
     assessmentStore.child = makeChild();
     assessmentStore.assessment = makeAssessment();
     assessmentStore.cfsLevel = 'cfs5';
-    render(QuestionnaireModule, { scales: [moodScreen, moodFull] });
+    render(QuestionnaireModule, { scales: [moodTriage, moodScreen, moodFull] });
 
+    // Triage concern → expand mood-screen, then flag the screen → expand mood-full.
+    await clickOption('有');            // mood-triage concern → expand mood-screen
+    await waitFor(() => expect(screen.getByText('請唸給受測者：做事提不起勁的頻率？')).toBeInTheDocument());
     // Screen item 1: 0, item 2: 3 (also triggers red flag) → screen score 3 → monitor → expand.
     await clickOption('完全沒有');
     await clickOption('幾乎每天');
@@ -249,10 +286,12 @@ describe('QuestionnaireModule (tiered)', () => {
     assessmentStore.child = makeChild();
     assessmentStore.assessment = makeAssessment();
     assessmentStore.cfsLevel = 'cfs5';
-    render(QuestionnaireModule, { scales: [moodScreen, moodFull] });
+    render(QuestionnaireModule, { scales: [moodTriage, moodScreen, moodFull] });
 
-    await clickOption('完全沒有'); // item 1
-    await clickOption('幾乎每天'); // item 2 = redFlag affirmative
+    await clickOption('有');           // mood-triage concern → expand mood-screen
+    await waitFor(() => expect(screen.getByText('請唸給受測者：做事提不起勁的頻率？')).toBeInTheDocument());
+    await clickOption('完全沒有'); // screen item 1
+    await clickOption('幾乎每天'); // screen item 2 = redFlag affirmative
 
     // Safety notice appears (non-blocking: flow continued into the expanded scale).
     await waitFor(() => expect(screen.getByRole('alert')).toBeInTheDocument(), { timeout: 3000 });
@@ -264,15 +303,16 @@ describe('QuestionnaireModule (tiered)', () => {
     assessmentStore.child = makeChild();
     assessmentStore.assessment = makeAssessment();
     assessmentStore.cfsLevel = 'cfs5';
-    render(QuestionnaireModule, { scales: [moodScreen, moodFull] });
+    // moodTriage appears first; clicking '有' records a triage answer, then mood-screen appears.
+    render(QuestionnaireModule, { scales: [moodTriage, moodScreen, moodFull] });
 
-    await clickOption('完全沒有');
+    await clickOption('有'); // answer the triage question (first in triage phase)
 
     await waitFor(async () => {
       const events = await db.assessmentEvents.where('moduleType').equals('questionnaire').toArray();
       expect(events.length).toBeGreaterThan(0);
       expect(events[0].eventType).toBe('questionnaire_answer');
-      expect(events[0].data.scaleId).toBe('mood-screen');
+      expect(events[0].data.scaleId).toBe('mood-triage'); // triage is first question
     }, { timeout: 2000 });
   });
 
@@ -282,9 +322,13 @@ describe('QuestionnaireModule (tiered)', () => {
     assessmentStore.cfsLevel = 'cfs5';
     assessmentStore.informantAvailable = true;
     assessmentStore.patientAble = false;
-    render(QuestionnaireModule, { scales: [moodScreen, moodFull] });
+    // moodTriage (ask-either, no patient requirement) → concern → moodScreen (requiresPatient).
+    render(QuestionnaireModule, { scales: [moodTriage, moodScreen, moodFull] });
 
-    // Answer both screen items; patient cannot validly perform a patient-required test.
+    // Answer triage concern to expand mood-screen, then answer both screen items.
+    // Patient cannot validly perform a patient-required test → severity=incomplete.
+    await clickOption('有');       // triage concern → expand mood-screen
+    await waitFor(() => expect(screen.getByText('請唸給受測者：做事提不起勁的頻率？')).toBeInTheDocument());
     await clickOption('完全沒有');
     await clickOption('完全沒有');
 
@@ -302,6 +346,7 @@ describe('QuestionnaireModule (tiered)', () => {
     assessmentStore.cfsLevel = 'cfs5';
     assessmentStore.informantAvailable = false;
     assessmentStore.patientAble = true;
+    // caregiverScreen is alwaysRun:true → appears directly in the triage phase.
     render(QuestionnaireModule, { scales: [caregiverScreen] });
 
     // The ask-informant header degrades to「查無可詢問的知情者」.
@@ -321,6 +366,7 @@ describe('QuestionnaireModule (tiered)', () => {
       id: 'cognition-screen',
       domain: { top: 'psychological', sub: 'cognition' },
       tier: 'screen',
+      alwaysRun: true, // always-run: appears in triage phase without triage gate (C-S6)
       expandsTo: 'spmsq',
       applicableCfs: ['cfs5'],
       scoring: 'sum',
@@ -357,7 +403,7 @@ describe('QuestionnaireModule (tiered)', () => {
     assessmentStore.cfsLevel = 'cfs5';
     render(QuestionnaireModule, { scales: [ad8, miniCog] });
 
-    // No informant → AD8 is replaced by the patient-performed Mini-Cog.
+    // No informant → AD8 is replaced by the patient-performed Mini-Cog (C-M2).
     await waitFor(() => expect(screen.getByText('Mini-Cog 病人受測題')).toBeInTheDocument());
     expect(screen.queryByText('AD8 知情者題')).toBeNull();
   });
@@ -368,6 +414,7 @@ describe('QuestionnaireModule (tiered)', () => {
     assessmentStore.cfsLevel = 'cfs5';
     assessmentStore.informantAvailable = true;
     assessmentStore.patientAble = true;
+    // caregiverScreen is alwaysRun:true → appears directly in the triage phase.
     render(QuestionnaireModule, { scales: [caregiverScreen] });
 
     await waitFor(() => expect(screen.getByText('向熟悉受測者的家屬／照顧者詢問')).toBeInTheDocument());
@@ -382,6 +429,14 @@ describe('QuestionnaireModule (tiered)', () => {
 
   it('renders the timed-task module when a flagged mobility screen expands to sit-to-stand', { timeout: 15000 }, async () => {
     // jsdom has no getUserMedia → MobilityTaskModule falls back to self-report.
+    const mobilityTriage: ScaleDef = {
+      id: 'mobility-triage', domain: { top: 'functional', sub: 'mobility' }, tier: 'triage',
+      expandsTo: 'mobility-screen', applicableCfs: ['cfs5'], scoring: 'sum', inputType: 'option', maxScore: 1,
+      items: [{ id: 'mobt', mode: 'ask-either', prompt: '行走困難嗎？', text: '行走困難嗎？',
+        options: [{ label: '沒有', score: 0 }, { label: '有困難', score: 1 }] }],
+      bands: [{ min: 0, max: 0, severity: 'normal', label: 'ok' }, { min: 1, max: 1, severity: 'monitor', label: 'c' }],
+      clinicallyReviewed: false,
+    };
     const mobilityScreen: ScaleDef = {
       id: 'mobility-screen',
       domain: { top: 'functional', sub: 'mobility' },
@@ -420,12 +475,13 @@ describe('QuestionnaireModule (tiered)', () => {
     assessmentStore.child = makeChild();
     assessmentStore.assessment = makeAssessment();
     assessmentStore.cfsLevel = 'cfs5';
-    render(QuestionnaireModule, { scales: [mobilityScreen, sitToStand] });
+    render(QuestionnaireModule, { scales: [mobilityTriage, mobilityScreen, sitToStand] });
 
-    // Wait for the screen question to mount (avoid the mount-vs-click race) then
-    // flag the screen → expand to the timed sit-to-stand.
+    // First answer triage concern to reach mobility-screen, then flag screen → timed sit-to-stand.
+    await waitFor(() => expect(screen.getByText('行走困難嗎？')).toBeInTheDocument());
+    await clickOption('有困難');         // triage concern → expand mobility-screen
     await waitFor(() => expect(screen.getByText('行走是否困難？')).toBeInTheDocument());
-    await clickOption('明顯困難');
+    await clickOption('明顯困難');       // screen flag → expand timed sit-to-stand
 
     await waitFor(() => {
       expect(screen.getByText('行動能力自述')).toBeInTheDocument();
@@ -437,10 +493,13 @@ describe('QuestionnaireModule (tiered)', () => {
     assessmentStore.assessment = makeAssessment();
     assessmentStore.cfsLevel = 'cfs5';
 
-    // First session: answer only screen item 1, then "pause" (unmount).
-    const first = render(QuestionnaireModule, { scales: [moodScreen, moodFull] });
+    // First session: answer triage concern (→ expands mood-screen), then answer
+    // only screen item 1, then "pause" (unmount).
+    const first = render(QuestionnaireModule, { scales: [moodTriage, moodScreen, moodFull] });
+    await waitFor(() => expect(screen.getByText('MOOD_TRIAGE_Q')).toBeInTheDocument());
+    await clickOption('有');           // triage concern → expand mood-screen
     await waitFor(() => expect(screen.getByText('請唸給受測者：做事提不起勁的頻率？')).toBeInTheDocument());
-    await clickOption('完全沒有');
+    await clickOption('完全沒有');     // answer screen item 1
     await waitFor(async () => {
       const events = await db.assessmentEvents.where('moduleType').equals('questionnaire').toArray();
       expect(events.some(e => e.data.questionId === 'phq2_anhedonia')).toBe(true);
@@ -448,11 +507,14 @@ describe('QuestionnaireModule (tiered)', () => {
     first.unmount();
 
     // Second session (resume): same assessment/child still in the store.
-    render(QuestionnaireModule, { scales: [moodScreen, moodFull] });
+    // initPhase rebuilds tier state: triage all resolved → expandTriageTier →
+    // expandedScreens=[moodScreen], tier='screen'. Resume point = screen item 2.
+    render(QuestionnaireModule, { scales: [moodTriage, moodScreen, moodFull] });
     await waitFor(() => {
       expect(screen.getByText('請唸給受測者：心情低落或絕望的頻率？')).toBeInTheDocument();
-    }, { timeout: 2000 });
-    // Item 1 is not re-asked.
+    }, { timeout: 4000 });
+    // Triage and screen item 1 are not re-asked.
+    expect(screen.queryByText('MOOD_TRIAGE_Q')).toBeNull();
     expect(screen.queryByText('請唸給受測者：做事提不起勁的頻率？')).toBeNull();
   });
 
@@ -460,9 +522,14 @@ describe('QuestionnaireModule (tiered)', () => {
     assessmentStore.child = makeChild();
     assessmentStore.assessment = makeAssessment();
     assessmentStore.cfsLevel = 'cfs5';
-    render(QuestionnaireModule, { scales: [moodScreen, moodFull] });
+    // Need triage fixture so moodScreen can be reached via concern.
+    render(QuestionnaireModule, { scales: [moodTriage, moodScreen, moodFull] });
 
-    const MAX = 12;
+    // Answer triage with concern to expand mood-screen, then click remaining items.
+    await waitFor(() => expect(screen.getByText('MOOD_TRIAGE_Q')).toBeInTheDocument());
+    await clickOption('有'); // triage concern → expand mood-screen
+    // Now answer remaining items (screen + possible full) with first option.
+    const MAX = 20;
     for (let i = 0; i < MAX; i++) {
       if (screen.queryByText('問卷完成！')) break;
       await clickFirstOption();
@@ -473,5 +540,63 @@ describe('QuestionnaireModule (tiered)', () => {
     const maxScores = assessmentStore.partialAnalysis.questionnaireMaxScores;
     expect(scores?.['mood-screen']).toBeDefined();
     expect(maxScores?.['mood-screen']).toBe(6);
+  });
+
+  // ---- Task 4 三階段展開測試 ----
+
+  it('triage normal → does NOT expand into the domain screen', async () => {
+    assessmentStore.child = makeChild();
+    assessmentStore.assessment = makeAssessment();
+    assessmentStore.informantAvailable = true;
+    assessmentStore.patientAble = true;
+    assessmentStore.cfsLevel = 'cfs5';
+    render(QuestionnaireModule, { scales: [fallsTriage, fallsScreen, fallsFull] });
+    await clickOption('否');                                  // triage normal
+    await waitFor(() => expect(screen.queryByText('FALLS_SCREEN_Q')).toBeNull());
+  });
+
+  it('triage concern → expands screen; screen flag → expands full', async () => {
+    assessmentStore.child = makeChild();
+    assessmentStore.assessment = makeAssessment();
+    assessmentStore.informantAvailable = true;
+    assessmentStore.patientAble = true;
+    assessmentStore.cfsLevel = 'cfs5';
+    render(QuestionnaireModule, { scales: [fallsTriage, fallsScreen, fallsFull] });
+    await clickOption('是');                                  // triage concern
+    await waitFor(() => expect(screen.getByText('FALLS_SCREEN_Q')).toBeInTheDocument());
+    await clickOption('是');                                  // screen flag
+    await waitFor(() => expect(screen.getByText('FALLS_FULL_Q')).toBeInTheDocument());
+  });
+
+  it('alwaysRun screen is asked in the triage phase and NOT re-asked after expansion', async () => {
+    assessmentStore.child = makeChild();
+    assessmentStore.assessment = makeAssessment();
+    assessmentStore.informantAvailable = true;
+    assessmentStore.patientAble = true;
+    assessmentStore.cfsLevel = 'cfs5';
+    render(QuestionnaireModule, { scales: [fallsTriage, fallsScreen, fallsFull, alwaysRunScreen] });
+    // always-run question present from the triage phase (appears before triage scales)
+    await waitFor(() => expect(screen.getByText('ALWAYS_RUN_Q')).toBeInTheDocument());
+    await clickOption('正常');                                // answer always-run (normal)
+    await clickOption('是');                                  // falls triage concern → expand falls-screen
+    await waitFor(() => expect(screen.getByText('FALLS_SCREEN_Q')).toBeInTheDocument());
+    // always-run question must NOT reappear (already answered)
+    expect(screen.queryByText('ALWAYS_RUN_Q')).toBeNull();
+  });
+
+  it('persists triage results so all-normal domains still get a score (blocker C)', async () => {
+    assessmentStore.child = makeChild();
+    assessmentStore.assessment = makeAssessment();
+    assessmentStore.informantAvailable = true;
+    assessmentStore.patientAble = true;
+    assessmentStore.cfsLevel = 'cfs5';
+    render(QuestionnaireModule, { scales: [fallsTriage, fallsScreen, fallsFull] });
+    await clickOption('否');                                  // triage normal → no expansion → summary
+    // triage result must be persisted (else the falls domain vanishes on the result page)
+    await waitFor(() => {
+      const stored = assessmentStore.partialAnalysis.scaleResults ?? {};
+      expect(stored['falls-triage']).toBeTruthy();
+      expect(stored['falls-triage'].severity).toBe('normal');
+    });
   });
 });

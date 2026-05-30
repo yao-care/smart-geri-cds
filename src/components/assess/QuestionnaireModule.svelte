@@ -3,7 +3,11 @@
   import { recordEvent, getEventsByModule } from '../../lib/db/assessment-events';
   import { domainLabel } from '../../lib/domain/domain-tree';
   import { scoreScale, type ScaleDef, type ScaleItem, type ScaleResult } from '../../lib/scales/scale';
-  import { selectScreenScales, expandedFullScales, applyAvailabilityGate } from '../../lib/scales/tiering';
+  import {
+    selectTriageScales, selectAlwaysRunScreens, expandedScreenScales,
+    expandedFullScales, resolveCognitionScreen, applyAvailabilityGate,
+  } from '../../lib/scales/tiering';
+  import { tick } from 'svelte';
   import { resolveModeFrame } from '../../lib/scales/mode-frame';
   import MobilityTaskModule from './MobilityTaskModule.svelte';
   import { MOBILITY_FALLBACK_SCALE } from '../../data/mobility-fallback';
@@ -24,11 +28,13 @@
     item: ScaleItem;
   }
 
-  /** Which tier the asking phase is currently in. Screens run first; once all
-   *  screens are scored, `expandTier()` flips this to 'full' and appends the
-   *  expanded full scales' questions. Declared before the derived sequences
+  /** Which tier the asking phase is currently in. Triage runs first; once all
+   *  triage + always-run questions are scored, `expandTriageTier()` flips this to
+   *  'screen' and appends the expanded screen scales' questions. Then screens run;
+   *  once all screens are scored, `expandTier()` flips this to 'full' and appends
+   *  the expanded full scales' questions. Declared before the derived sequences
    *  that read it. */
-  let tier = $state<'screen' | 'full'>('screen');
+  let tier = $state<'triage' | 'screen' | 'full'>('triage');
 
   // ---- Derived state ----
   const cfsLevel = $derived(assessmentStore.cfsLevel);
@@ -36,13 +42,17 @@
   const informantAvailable = $derived(assessmentStore.informantAvailable);
   const patientAble = $derived(assessmentStore.patientAble);
 
-  /** Tier-1 screen scales for this CFS level (always run first).
-   *  Informant-aware: with no informant available the cognition screen falls
-   *  back from AD8 to Mini-Cog (C-M2). When availability is not yet known (null)
-   *  we omit it so legacy AD8 selection is used. */
-  const screenScales = $derived<ScaleDef[]>(
-    cfsLevel ? selectScreenScales(scales, cfsLevel, informantAvailable ?? undefined) : [],
+  /** Tier-0 大方向題（每域 1 題；不含病安 always-run 域）。 */
+  const triageScales = $derived<ScaleDef[]>(cfsLevel ? selectTriageScales(scales, cfsLevel) : []);
+  /** 病安 always-run screen（4AT、認知，含 C-M2 fallback）：triage 階段一律施測。 */
+  const alwaysRunScreens = $derived<ScaleDef[]>(
+    cfsLevel ? selectAlwaysRunScreens(scales, cfsLevel, informantAvailable ?? undefined) : [],
   );
+
+  /** Tier-1 screen scales = always-run screens (present from the triage phase) +
+   *  expandedScreens (populated by expandTriageTier from flagged triage results). */
+  let expandedScreens = $state<ScaleDef[]>([]);
+  const screenScales = $derived<ScaleDef[]>([...alwaysRunScreens, ...expandedScreens]);
 
   /** Tier-2 full scales, computed after the screens are scored (only flagged
    *  screens expand). Populated by `expandTier()`; empty until then. */
@@ -50,19 +60,33 @@
 
   /** Timed-task scales (e.g. sit-to-stand) render via the dedicated module
    *  rather than as option questions. Split per tier so screen timed tasks
-   *  (if any) run first, then any expanded timed task (e.g. sit-to-stand). */
+   *  (if any) run first, then any expanded timed task (e.g. sit-to-stand).
+   *  triage 題與 always-run（4AT option、認知 AD8/Mini-Cog option）皆非 timed-task；
+   *  故不引入 triageTimedScales（YAGNI，避免索引基底不一致）。 */
   const screenTimedScales = $derived<ScaleDef[]>(screenScales.filter(s => s.inputType === 'timed-task'));
   const fullTimedScales = $derived<ScaleDef[]>(fullScales.filter(s => s.inputType === 'timed-task'));
   const timedScales = $derived<ScaleDef[]>([...screenTimedScales, ...fullTimedScales]);
 
   /** Option scales per tier (the only scales that become flat questions). */
+  const triageOptionScales = $derived<ScaleDef[]>(triageScales.filter(s => s.inputType !== 'timed-task'));
+  // triage 階段：triage 題 + always-run screens；screen 階段：再加已展開 screens（已在 screenScales）；
+  // full 階段：再加 full。screenOptionScales 衍生自含 always-run+expandedScreens 的 screenScales。
   const screenOptionScales = $derived<ScaleDef[]>(screenScales.filter(s => s.inputType !== 'timed-task'));
   const fullOptionScales = $derived<ScaleDef[]>(fullScales.filter(s => s.inputType !== 'timed-task'));
 
-  /** Active option scales depend on the tier: screens first; once expanded,
-   *  screens + the flagged full scales. */
+  /** Active option scales: always-run screens appear first (highest priority: 4AT, 認知),
+   *  then triage, then expanded screens, then full scales.
+   *  The cumulative approach ensures persistScoresToStore (which iterates activeOptionScales)
+   *  covers triage results so the result page shows all domains (blocker C).
+   *  Ordering: alwaysRun (in screenOptionScales) → triage → expanded screens (in screenOptionScales
+   *  after expansion) → full. Since alwaysRunScreens are part of screenScales = [alwaysRunScreens,
+   *  expandedScreens], screenOptionScales = alwaysRun + expanded in that order. So the combined
+   *  sequence is screenOptionScales (alwaysRun first) + triageOptionScales + (on expansion:
+   *  expanded screens already included in screenOptionScales) + fullOptionScales. */
   const activeOptionScales = $derived<ScaleDef[]>(
-    tier === 'screen' ? screenOptionScales : [...screenOptionScales, ...fullOptionScales],
+    tier === 'full'
+      ? [...screenOptionScales, ...triageOptionScales, ...fullOptionScales]
+      : [...screenOptionScales, ...triageOptionScales],
   );
 
   /** Flatten the active option scales into a single question sequence. */
@@ -115,9 +139,9 @@
 
   /** Resolve entry phase, restoring prior progress when resuming. */
   async function initPhase(): Promise<void> {
-    // No screen scale applies to this CFS level → empty state. phase 'asking'
+    // No triage / always-run / screen scale applies → empty state. phase 'asking'
     // with a null currentQuestion (no questions) renders the empty-state branch.
-    if (screenScales.length === 0) {
+    if (triageScales.length === 0 && screenScales.length === 0) {
       phase = 'asking';
       return;
     }
@@ -125,11 +149,21 @@
     await restoreAnswers();
     if (destroyed) return; // unmounted during restore → don't touch reactive deriveds
 
-    // If every screen option scale is already answered, the prior session must
-    // have reached (or passed) the screen→full boundary — recompute expansion
-    // so resumed full questions reappear in the same order.
-    if (screenOptionScales.length > 0 && screenOptionScales.every(isScaleResolved)) {
-      expandTier();
+    // Resume: rebuild tier state from prior answers, layer by layer.
+    // (1) triage all resolved → expand screens (sets expandedScreens, tier='screen').
+    if (triageOptionScales.length > 0 && triageOptionScales.every(isScaleResolved)) {
+      expandTriageTier();
+      // (2) screens all resolved → expand fulls (sets fullScales, tier='full').
+      if (screenOptionScales.length > 0 && screenOptionScales.every(isScaleResolved)) {
+        expandTier();
+      }
+      // CRITICAL (第二輪審查 blocker A-iv): expandTriageTier/expandTier just wrote
+      // $state (expandedScreens/fullScales/tier); the questions/timedScales $derived
+      // do NOT recompute within this synchronous block. Flush with tick() before
+      // computing the resume point below, else firstUnanswered runs on a stale
+      // `questions` that lacks expanded items.
+      await tick();
+      if (destroyed) return;
     }
 
     // Skip timed tasks that already produced a ScaleResult (kept across resume;
@@ -380,11 +414,53 @@
       return;
     }
     // All active questions resolved.
-    if (tier === 'screen') {
+    if (tier === 'triage') {
+      maybeAdvanceFromTriage();
+    } else if (tier === 'screen') {
       maybeAdvanceTier();
     } else {
       persistScoresToStore();
       phase = 'summary';
+    }
+  }
+
+  /** Compute triage results → resolve which screens to expand into (expandsTo,
+   *  C-M2 cognition fallback + CFS re-filter), set expandedScreens, flip tier→'screen'.
+   *  Returns the newly expanded screens. Idempotent. */
+  function expandTriageTier(): ScaleDef[] {
+    const triageResults: ScaleResult[] = [];
+    for (const s of triageOptionScales) {
+      const r = computeGatedResult(s);
+      if (r) triageResults.push(r);
+    }
+    const targets = expandedScreenScales(scales, triageResults);
+    const resolved = resolveCognitionScreen(targets, informantAvailable ?? true, scales)
+      .filter(s => !!cfsLevel && s.applicableCfs.includes(cfsLevel));
+    expandedScreens = resolved;
+    tier = 'screen';
+    return resolved;
+  }
+
+  /** All triage + always-run-screen questions resolved → expand flagged screens.
+   *  New screen questions → keep asking; else fall through to the screen→full
+   *  boundary (always-run screen results may still flag a full scale). */
+  function maybeAdvanceFromTriage(): void {
+    const expandedScreensNow = expandTriageTier();          // 用回傳值（鏡像 maybeAdvanceTier 防禦寫法）
+    const expandedTimed = expandedScreensNow.filter(s => s.inputType === 'timed-task');
+    const stored = assessmentStore.partialAnalysis.scaleResults ?? {};
+    const hasUnfinishedTimed = expandedTimed.some(s => !stored[s.id]);
+    if (hasUnfinishedTimed) {
+      const idx = timedScales.findIndex(s => !stored[s.id]);
+      timedIndex = idx === -1 ? timedScales.length : idx;
+      phase = 'timed';
+      return;
+    }
+    const firstScreen = questions.findIndex(q => answers[q.item.id] === undefined && !unavailableScales.has(q.scaleId));
+    if (firstScreen !== -1) {
+      currentIndex = firstScreen;
+      phase = 'asking';
+    } else {
+      maybeAdvanceTier();
     }
   }
 
@@ -528,6 +604,7 @@
       <div class="progress-bar-track">
         <div class="progress-bar-fill" style="width: {progressPct}%"></div>
       </div>
+      <span class="tier-label">{tier === 'triage' ? '大方向' : tier === 'screen' ? '短篩' : '深評'}</span>
       <span class="progress-label">第 {currentIndex + 1} 題，共 {totalQuestions} 題</span>
     </div>
 
@@ -684,6 +761,8 @@
     border-radius: var(--radius-full);
     transition: width 0.3s ease;
   }
+
+  .tier-label { font-size: var(--text-sm); font-weight: var(--font-bold); color: var(--accent); margin-right: var(--space-2); }
 
   .progress-label {
     font-size: var(--text-xs);
