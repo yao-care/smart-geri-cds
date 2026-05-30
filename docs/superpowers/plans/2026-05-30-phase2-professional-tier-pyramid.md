@@ -728,9 +728,10 @@ function expandTriageTier(): ScaleDef[] {
  *  New screen questions → keep asking; else fall through to the screen→full
  *  boundary (always-run screen results may still flag a full scale). */
 function maybeAdvanceFromTriage(): void {
-  expandTriageTier();
+  const expandedScreensNow = expandTriageTier();          // 用回傳值（鏡像 maybeAdvanceTier 防禦寫法）
+  const expandedTimed = expandedScreensNow.filter(s => s.inputType === 'timed-task');
   const stored = assessmentStore.partialAnalysis.scaleResults ?? {};
-  const hasUnfinishedTimed = timedScales.some(s => !stored[s.id]);
+  const hasUnfinishedTimed = expandedTimed.some(s => !stored[s.id]);
   if (hasUnfinishedTimed) {
     const idx = timedScales.findIndex(s => !stored[s.id]);
     timedIndex = idx === -1 ? timedScales.length : idx;
@@ -747,7 +748,7 @@ function maybeAdvanceFromTriage(): void {
 }
 ```
 
-**A(iv) 註記（第二輪審查）**：`maybeAdvanceFromTriage` 在 `expandTriageTier()`（同步設 `expandedScreens`/`tier`）後讀 `questions`/`timedScales` derived。**既有 `maybeAdvanceTier`(line 412-413) 用完全相同模式**（`expandTier()` 後 `questions.findIndex`）且功能正常 → Svelte 5 `$derived` 為 pull-based、於普通函式內 access 時即時重算（非 `$effect` 內延遲），故此處與既有一致、無 stale。**但**因屬 reactivity 細節，Task 6 個案 B（triage concern→screen 展開）與個案 C（resume）**務必端到端驗證實際題序**；若實測 stale，改用 `expandTriageTier` 回傳值組裝待答序列（鏡像 `maybeAdvanceTier` 對 `expandedTimed` 的回傳值用法）。`initPhase` resume 因連續兩次同步展開（expandTriageTier→expandTier）後緊接讀 derived，已於 Step 7b 加 `await tick()` 保險（async 可 await）。
+**A(iv) 註記（第二、三輪審查）**：`maybeAdvanceFromTriage` 已鏡像既有 `maybeAdvanceTier` 防禦寫法——用 `expandTriageTier()` **回傳值** 判斷「是否有 timed」（最關鍵跳轉，不依賴 derived），僅 `firstScreen` 一處用 `questions` derived（與既有 `maybeAdvanceTier`:413 完全同模式、功能已證正常：Svelte 5 `$derived` pull-based、普通函式內 access 即時重算）。`initPhase` resume 因連續兩次同步展開後緊接讀 derived，已於 Step 7b 加 `await tick()` 保險（async 可 await）。Task 6 個案 B/C 端到端驗證實際題序為最終兜底。
 
 （`maybeAdvanceTier`/`expandTier`(line 426-441) 既有保留——`screenOptionScales`/`screenTimedScales` 現衍生自含 always-run+expandedScreens 的 `screenScales`，語意正確。`computeGatedResult`(445-461) 不動。`tier==='full'` summary 收尾不變。）
 
@@ -842,7 +843,11 @@ Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>"
 
 ## Task 5：結果頁同域 triage 去重（triage 進結果頁、不遮蓋深評）
 
-**問題（第二輪審查 major C + 使用者決策）**：使用者選「冷啟動全正常 → 18 域皆顯示正常條」，故 triage 結果進 `partialAnalysis.scaleResults`（Task 4 已達成，persistScoresToStore 不需改）。但同域 triage(maxScore 1 → 0/100%) 與展開的 screen/full 同時流入 `computeDomainScores`；`groupDomainScores` 同 severity tie 取先到 → triage 粗略值遮蓋深評細緻 %。修：ResultView `buildScaleResults` 對每個 `top.sub`，若已有 screen/full 結果則排除該域 triage 結果（triage 僅在該域未深評時當「正常」標記）。抽純函式可測。
+**問題（第二輪審查 major C + 使用者決策）**：使用者選「冷啟動全正常 → 18 域皆顯示正常條」，故 triage 結果進 `partialAnalysis.scaleResults`（Task 4 已達成，persistScoresToStore 不需改）。
+
+**不變量（第三輪審查，務必維持）**：triage 結果進 persist 依賴「`persistScoresToStore` 在 summary 時 `activeOptionScales` 已含 triage」——即 **tier 必經 triage→screen→full 推進到底**（即使全正常：`maybeAdvanceFromTriage`→無展開→`maybeAdvanceTier`→無展開→`fullScales=[]`/`tier='full'`→summary，使 summary 時 `activeOptionScales` 含 triage+screen+full）。任何「全正常捷徑直接 summary」的優化都**必須**先 persist triage 結果，否則 18 域分數再次消失（重蹈第二輪 blocker C）。
+
+但同域 triage(maxScore 1 → 0/100%) 與展開的 screen/full 同時流入 `computeDomainScores`；`groupDomainScores` 同 severity tie 取先到 → triage 粗略值遮蓋深評細緻 %。修：ResultView `buildScaleResults` 對每個 `top.sub`，若已有 screen/full 結果則排除該域 triage 結果（triage 僅在該域未深評時當「正常」標記）。抽純函式可測。
 
 **Files:**
 - Create: `src/lib/domain/dedupe-triage-results.ts`
@@ -975,7 +980,7 @@ playwright 開 `http://localhost:4321/assess/`，**cfs2**（無 4AT，但認知 
 - [ ] **Step 4: 個案 C — resume 重建**
 
 cfs5 評估答到 screen 階段一半 → 暫停 → 從評估紀錄「繼續」。確認：
-- resume 回到正確 tier 階段（已展開的 screen 題重現、不要求重答已答題）。
+- resume 回到 screen 階段（tier='screen'）、已展開的 screen 題重現、已答 triage/screen 題不再出現；resume point（`await tick()` 後）落在第一個未答題（**非跳 summary、非回 triage 重答**）。
 - 完成後結果頁正確、console 無錯（特別 DataCloneError、each_key_duplicate）。
 
 - [ ] **Step 5: 收掉 preview，回報目視結果**。若有問題回對應 Task 修正。
