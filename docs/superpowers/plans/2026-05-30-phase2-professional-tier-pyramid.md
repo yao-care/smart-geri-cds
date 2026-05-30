@@ -20,6 +20,8 @@
    - `cognition-screen.yaml`（AD8，C-S6 認知不可靜默跳過——專抓無病識感失智）設 `alwaysRun: true`、維持 `tier:'screen'`。**經使用者確認比照 4AT 一律施測**（既有系統對 cfs1-8 本就無條件施測認知篩；Phase 2 不得降級為 triage-gated）。
 3. **delirium 與 cognition 無 triage 題**：兩者皆 always-run，於 triage 階段一律施測，不需大方向守門題。**triage 題共 18 個**＝DOMAIN_TREE 20 sub − delirium − cognition。
 4. **always-run 的認知 C-M2 fallback**：`selectAlwaysRunScreens` 取得的 screen 集合需套用 `resolveCognitionScreen`——無知情者時 `cognition-screen`(AD8, requiresInformant) 換成 `mini-cog`(客觀題)，使無病識感且無知情者的個案仍被客觀篩檢（C-S6 + C-M2 既有）。
+   - **前提（第二輪審查 major）**：`mini-cog` 的 `applicableCfs` 必須 ⊇ `cognition-screen` 的 `applicableCfs`，否則無知情者時某些 CFS 經 re-filter 後認知會消失（再次違反 C-S6）。Task 2 Step 1 測試含此 swap；Task 3 Step 4 coverage 加查核（見該步）；Task 5 個案 B 實測無知情者出 Mini-Cog。
+   - **雙不可得為可接受降級（非 bug）**：無知情者 **且** 病人不能參與（patientAble=false）時，換成的 `mini-cog`(requiresPatient) 經 `applyAvailabilityGate` → incomplete。此時認知域顯示「未完成」破折號（AD8 與 Mini-Cog 兩條來源都不可得，確實無法施測）；always-run 保證「嘗試施測」，非保證「必得分數」。
 5. **mobility 域的 triage 覆蓋取捨（誠實記錄）**：`mobility-screen` 既有僅 `applicableCfs: [cfs7]`；故 `mobility-triage` 亦僅 cfs7。**cfs2-6 的行動風險由 `falls-triage`(cfs2-8) → `steadi-falls` → `sit-to-stand`（mobility 域 timed 深評）路徑覆蓋**，非經獨立 mobility triage。這是既有 mobility-screen 設計的延續，非本計畫新引入的缺口；coverage 測試「每 CFS ≥1 triage」由其他 17-18 個 triage 通過（mobility cfs2-6 無獨立 triage 入口屬已知設計取捨）。
 
 ---
@@ -445,7 +447,18 @@ it('delirium and cognition are alwaysRun screens (no triage gate; C-M1/C-S6)', (
   expect(scales.some(s => s.tier === 'triage' && s.domain.sub === 'delirium')).toBe(false);
   expect(scales.some(s => s.tier === 'triage' && s.domain.sub === 'cognition')).toBe(false);
 });
+
+it('mini-cog applicableCfs ⊇ cognition-screen (C-M2 fallback never drops cognition)', () => {
+  const cog = scales.find(s => s.id === 'cognition-screen');
+  const mini = scales.find(s => s.id === 'mini-cog');
+  expect(cog && mini).toBeTruthy();
+  for (const cfs of cog!.applicableCfs) {
+    expect(mini!.applicableCfs.includes(cfs), `mini-cog missing ${cfs}`).toBe(true);
+  }
+});
 ```
+
+**注意**：若此測試 FAIL（mini-cog 既有 applicableCfs 不含 cognition-screen 的全部 cfs），需擴 `mini-cog.yaml` 的 applicableCfs 至 ⊇ cognition-screen，否則無知情者時該 cfs 認知消失（C-S6）。此為本 task 的前置條件，在 Step 5 跑測試時一併確認。
 
 （`scales`、`CFS_LEVELS` 沿用該測試檔既有的 YAML 載入與常數匯入。）
 
@@ -566,6 +579,22 @@ it('alwaysRun screen is asked in the triage phase and NOT re-asked after expansi
   // always-run question must NOT reappear (already answered)
   expect(screen.queryByText('ALWAYS_RUN_Q')).toBeNull();
 });
+
+it('persists triage results so all-normal domains still get a score (blocker C)', async () => {
+  assessmentStore.child = makeChild();
+  assessmentStore.assessment = makeAssessment();
+  assessmentStore.informantAvailable = true;
+  assessmentStore.patientAble = true;
+  assessmentStore.cfsLevel = 'cfs5';
+  render(QuestionnaireModule, { scales: [fallsTriage, fallsScreen, fallsFull] });
+  await clickOption('否');                                  // triage normal → no expansion → summary
+  // triage result must be persisted (else the falls domain vanishes on the result page)
+  await waitFor(() => {
+    const stored = assessmentStore.partialAnalysis.scaleResults ?? {};
+    expect(stored['falls-triage']).toBeTruthy();
+    expect(stored['falls-triage'].severity).toBe('normal');
+  });
+});
 ```
 
 - [ ] **Step 2: 跑測試確認失敗**
@@ -575,14 +604,22 @@ Expected: FAIL — 目前無 triage 階段。
 
 - [ ] **Step 3: import + tier 三值**
 
-In `src/components/assess/QuestionnaireModule.svelte`，自 `'../../lib/scales/tiering'` 的 import 補上新函式（保留既有 import，勿重複）：
+In `src/components/assess/QuestionnaireModule.svelte`，精確調整 import（第二輪審查 major：避免 unused）：
+- **移除** `selectScreenScales`（`screenScales` 改為 `alwaysRunScreens + expandedScreens`，grep 確認元件內無其他用處）。
+- **保留既有** `expandedFullScales`（`expandTier` 用）、`applyAvailabilityGate`（`computeGatedResult` line 460 用）。
+- **新增** `selectTriageScales`、`selectAlwaysRunScreens`、`expandedScreenScales`、`resolveCognitionScreen`。
 
 ```typescript
 import {
-  selectScreenScales, selectTriageScales, selectAlwaysRunScreens,
-  expandedScreenScales, expandedFullScales, resolveCognitionScreen,
-  applyAvailabilityGate,
+  selectTriageScales, selectAlwaysRunScreens, expandedScreenScales,
+  expandedFullScales, resolveCognitionScreen, applyAvailabilityGate,
 } from '../../lib/scales/tiering';
+```
+
+並新增 `tick` import（resume 重建 flush derived 用，Step 7b）：
+
+```typescript
+import { tick } from 'svelte';
 ```
 
 tier 狀態（line 31）`let tier = $state<'screen' | 'full'>('screen');` 改為：
@@ -701,7 +738,22 @@ function maybeAdvanceFromTriage(): void {
 }
 ```
 
-（`maybeAdvanceTier`/`expandTier`(line 426-441) 既有保留——`screenOptionScales`/`screenTimedScales` 現衍生自含 always-run+expandedScreens 的 `screenScales`，語意正確。`computeGatedResult`、`persistScoresToStore` 等不動。`tier==='full'` summary 收尾不變。）
+（`maybeAdvanceTier`/`expandTier`(line 426-441) 既有保留——`screenOptionScales`/`screenTimedScales` 現衍生自含 always-run+expandedScreens 的 `screenScales`，語意正確。`computeGatedResult`(445-461) 不動。`tier==='full'` summary 收尾不變。）
+
+**同步改 `persistScoresToStore`（line 465-472）— 第二輪審查 blocker C：triage 結果必須進 partialAnalysis，否則冷啟動全正常時結果頁只剩 4AT+認知 2 域、其餘 18 域分數消失。** 將其遍歷集合由 `[...screenOptionScales, ...fullOptionScales]` 改為含 triage：
+
+```typescript
+function persistScoresToStore(): void {
+  const results: ScaleResult[] = [];
+  for (const s of [...triageOptionScales, ...screenOptionScales, ...fullOptionScales]) {
+    const r = computeGatedResult(s);
+    if (r) results.push(r);
+  }
+  assessmentStore.addAnalysis(results);
+}
+```
+
+（同域 triage + 展開 screen 兩筆 ScaleResult 以各自 scaleId 為 key 並存於 `partialAnalysis.scaleResults`；結果頁 `computeDomainScores` 對每筆產一 DomainScore，`groupDomainScores` 已「取最嚴重」聚合同域——Phase 1 的聚合修正正為此鋪路，故安全、結果頁每域皆有分數。）
 
 - [ ] **Step 7: 補強 initPhase（空守門 + resume 逐層重建）— 第一輪審查 blocker**
 
@@ -728,10 +780,17 @@ In `initPhase()`（line 117-158）：
       if (screenOptionScales.length > 0 && screenOptionScales.every(isScaleResolved)) {
         expandTier();
       }
+      // CRITICAL (第二輪審查 blocker A-iv): expandTriageTier/expandTier just wrote
+      // $state (expandedScreens/fullScales/tier); the questions/timedScales $derived
+      // do NOT recompute within this synchronous block (cf. maybeAdvanceTier's note
+      // at line 393). Flush with tick() before computing the resume point below,
+      // else firstUnanswered runs on a stale `questions` that lacks expanded items.
+      await tick();
+      if (destroyed) return;
     }
 ```
 
-（刪除原 line 131-133 的獨立 `if (screenOptionScales.every(isScaleResolved)) expandTier();`——其語意已併入上方第 (2) 層，且僅在 triage 已展開後才正確。`restoreAnswers`/`isScaleResolved`/timed-skip(line 137-140)/resume point(line 143-157) 其餘不動：timed-skip 與 resume point 依賴的 `questions`/`timedScales` 在重建後已含展開的 screen/full 題，故計算正確。）
+（刪除原 line 131-133 的獨立 `if (screenOptionScales.every(isScaleResolved)) expandTier();`——其語意已併入上方第 (2) 層，且僅在 triage 已展開後才正確。`restoreAnswers`/`isScaleResolved` 不動。**關鍵**：timed-skip(line 137-140) 與 resume point(line 143-157) 依賴 `questions`/`timedScales` derived，須在上方 `await tick()` flush 後才正確反映展開的 screen/full 題——故 `await tick()` 必須置於重建之後、timed-skip 之前。`tick` 自 `svelte` import（見 Step 3）。）
 
 - [ ] **Step 8: 進度提示加 tier 階段標籤**
 
@@ -753,7 +812,12 @@ Run: `pnpm exec vitest run tests/components/QuestionnaireModule.test.ts -t "tria
 Expected: PASS。
 
 Run: `pnpm exec vitest run tests/components/QuestionnaireModule.test.ts tests/components/QuestionnaireFlow.test.ts`
-Expected: 部分既有測試 FAIL — 它們假設「起始即出 screen 題」。**逐一修正**：凡斷言某 screen/full 題一開始就出現者，改為「先答對應 triage 題（concern）才出 screen 題」；resume 測試（如 `tests/components/QuestionnaireModule.test.ts:435` 假設一開始出 `phq2_anhedonia`）改為先有 mood-triage concern。**不得放寬測試意圖**，只對齊新流程（與 Phase 1 同原則）。提供對齊後若仍 FAIL 回報具體案例。
+Expected: 部分既有測試 FAIL — 它們假設「起始即出 screen 題」。**已知受影響範圍（第二輪審查，逐一對齊；不得放寬測試意圖，只對齊新流程，與 Phase 1 同原則）：**
+- **`QuestionnaireFlow.test.ts` 批量答題 flow**（最大宗）：fixture 用 fakeTimers 連續答 screen 題，三層後第一批是 triage 題；需在 flow 中先答 triage（concern 才出 screen）、重算題序與 `totalQuestions`。
+- **`QuestionnaireModule.test.ts:435` resume 測試**：假設一開始出 `phq2_anhedonia`（mood screen 題）→ 改為先 mood-triage concern；並驗證 resume 重建（Step 7b）後正確回到 screen 階段。
+- **任何斷言「第 1 題是某 screen 題」「totalQuestions = N」者**：題數因 triage 先行改變，重算。
+- **mode-frame 相關測試（Phase 1 新增，`QuestionnaireModule.test.ts:158-214` 等）**：若以某 screen scale 觸發特定 mode header（如 caregiver ask-informant、adl ask-either），該 scale 現需先經 triage concern 展開才出現 → 測試需先答對應 triage concern，或改用 triage/always-run scale（其 mode header 在 triage 階段即可驗）。
+逐項對齊後仍 FAIL 則回報具體案例。
 
 - [ ] **Step 10: 全測試 + check + lint**
 
@@ -820,7 +884,7 @@ cfs5 評估答到 screen 階段一半 → 暫停 → 從評估紀錄「繼續」
 - **§B UI 三階段展開** → Task 4 ✅
 - **§B/C-M2 認知 fallback** → Task 2 selectAlwaysRunScreens 套 resolveCognitionScreen + Task 5 個案 B 驗證 ✅
 - **第一輪審查 blocker（resume tier 重建、cfs1-3 空守門）** → Task 4 Step 7 ✅
-- **冷啟動題數（誠實，依 CFS）**：題數 = 該 CFS 適用 triage 數 + always-run（4AT 4 題 cfs4+；認知 AD8/Mini-Cog）。例：cfs2 ≈ 14 triage + 認知（無 4AT）；cfs5 ≈ 17 triage + 4AT(4) + 認知 ≈ 22-23 題。spec「18-20」為概數，實際依 CFS 分層、以本表為準。
+- **冷啟動題數（誠實，依 CFS 逐域核對 applicableCfs）**：題數 = 該 CFS 適用 triage 數 + always-run（4AT 4 題 cfs4+；認知 AD8/Mini-Cog）。**cfs2 適用 triage = 8**（comorbidity/polypharmacy/nutrition/sensory/pain/mood/social-support/falls；continence/adl/iadl/financial/home-safety 從 cfs3、caregiver/accessibility 從 cfs4、acp/treatment-pref 從 cfs5、mobility cfs7）→ cfs2 ≈ 8 triage + 認知（無 4AT）。**cfs5 適用 triage = 17**（除 mobility cfs7-only）→ ≈ 17 triage + 4AT(4) + 認知 ≈ 22-24 題。spec「18-20」為概數；實際依 CFS 分層，Task 5 個案 A 以 cfs2 實測題數。
 - 型別一致：`tier` 三值跨 6 處；`expandedScreenScales`/`expandedFullScales` 同 `expandFlagged`；`selectAlwaysRunScreens(all, cfs, informantAvailable?)` 與 `selectScreenScales` 同簽名風格。
 - 無 placeholder：型別/tiering/測試/UI 含完整 code；18 triage YAML 以「完整範本 + 完整對照表 + 取材規則」表達（DRY）。
 - 範圍：Phase 2 僅專業層三層金字塔，不觸自評層（Phase 3）、不改計分/結果頁。
@@ -838,7 +902,18 @@ cfs5 評估答到 screen 階段一半 → 暫停 → 從評估紀錄「繼續」
 - **[minor] caregiver 無知情者呈現** → Task 3 特例註記。
 - 已查證成立：Task 1 行號、Task 2 `expandFlagged` 重構等價（既有 tiering.test 不破）、`expandedFullScales` 唯一呼叫端 QuestionnaireModule:437、對照表 screen id/expandsTo/applicableCfs 真實、19→18 域計數。
 
-## 待 review 重點（給第二輪審查者）
+## 第二輪獨立審查（Opus）修正納入（2026-05-30）
+
+- **[blocker C] triage 結果未 persist → 結果頁缺 18 域分數**：已查證 `persistScoresToStore`(line 465-472) 只遍歷 screen+full。修：Task 4 Step 6 改其遍歷含 `triageOptionScales`（同域兩筆由結果頁 `groupDomainScores` 聚合）+ Task 4 Step 1 新增 persist 測試（blocker C）。
+- **[blocker A-iv] resume 重建踩 derived 未即時重算坑**：已查證 `maybeAdvanceTier` line 393 既有註解確認此坑。修：Task 4 Step 7b 重建後 `await tick()` + `destroyed` 檢查，再算 resume point；Step 3 加 `import { tick } from 'svelte'`。
+- **[major] `selectScreenScales` import unused**：改版後無呼叫端。修：Task 4 Step 3 精確 import（移除 selectScreenScales、保留 expandedFullScales/applyAvailabilityGate、新增四函式）。
+- **[major] 認知 C-M2 的 mini-cog CFS 覆蓋 + 雙不可得降級**：修：設計決策 4 補前提（mini-cog applicableCfs ⊇ cognition-screen）+ 雙不可得為可接受降級；Task 3 Step 4 加 coverage 查核。
+- **[major] 既有測試破壞範圍低估**：修：Task 4 Step 9 明列 QuestionnaireFlow flow / resume:435 / 題數斷言 / mode-frame 測試四類受影響範圍與對齊策略。
+- **[minor] 題數估算錯**：修：Self-Review 逐域核對（cfs2=8、cfs5=17 triage）。
+- **[minor] caregiver 無知情者呈現**：Task 3 特例註記已述（incomplete → 結果頁破折號，合理）。
+- 已查證成立（第二輪）：空守門修正邏輯正確、`expandFlagged` 重構複查一致、coverage 第 6 處補上、timedScales 不引入 triageTimed 自洽、對照表抽查一致、4AT 不重問測試涵蓋。
+
+## 待 review 重點（給第三輪審查者）
 
 1. Task 4 三階段狀態機（`maybeAdvanceFromTriage`→`maybeAdvanceTier` 串接、always-run screen 在 triage/screen 階段計分時機、`activeOptionScales` 三階段累加自洽）是否仍有 timed-task（sit-to-stand）邊界或重複計分遺漏。
 2. initPhase resume 重建（Step 7b）對「triage 部分答、screen 未到」「screen 部分答」等中間態的還原正確性。
