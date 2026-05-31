@@ -155,6 +155,8 @@ export interface Assessment {
   };
   fhirSubmitted: boolean;
   fhirDiagnosticReportId?: string;
+  /** GCM（或其他 redirect 型收案機構）回傳的病例唯一碼（收案編號）。 */
+  gcmCaseId?: string;
   physicianNote?: string | null;
   physicianNoteUpdatedAt?: Date | null;
   /** Origin of the record. Undefined / 'idb' = produced on this device.
