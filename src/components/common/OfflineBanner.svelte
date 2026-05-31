@@ -64,9 +64,11 @@
   }
 
   .banner-update button {
-    background: oklch(1 0 0 / 0.2);
+    /* 用變暗 overlay 而非半透明白：白色 overlay 會把 --warn 背景提亮，
+       使白字對比掉到 4.34（< AA 4.5）。變暗後對比穩定 ≥4.5。 */
+    background: oklch(0 0 0 / 0.2);
     color: white;
-    border: 1px solid oklch(1 0 0 / 0.4);
+    border: 1px solid oklch(1 0 0 / 0.55);
     border-radius: 4px;
     padding: 2px 8px;
     margin-left: 0.5rem;
