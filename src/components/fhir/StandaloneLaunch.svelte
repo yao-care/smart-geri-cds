@@ -69,6 +69,8 @@
     isConnecting = true;
     try {
       await saveServer();
+      // 授權會 redirect 到 /launch/，記住來源頁以便回呼後導回（預設 /assess/）。
+      sessionStorage.setItem('fhir.return', window.location.pathname + window.location.search);
       await handleStandaloneLaunch(fhirBaseUrl.trim(), clientId.trim(), scopes.trim());
       // Browser redirects — execution stops here
     } catch (err) {

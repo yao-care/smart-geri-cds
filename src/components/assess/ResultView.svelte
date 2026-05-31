@@ -1,8 +1,6 @@
 <script lang="ts">
   import { assessmentStore } from '../../lib/stores/assessment.svelte';
-  import { authStore } from '../../lib/stores/auth.svelte';
   import { setTriageResult } from '../../lib/db/assessments';
-  import { submitAssessmentToFhir } from '../../lib/fhir/cdsa-submit';
   import { computeTriage, type TriageResult } from '../../engine/cdsa/triage';
   import { computeDomainScores } from '../../engine/cdsa/radar-scoring';
   import { scoreScale, type ScaleDef, type ScaleResult } from '../../lib/scales/scale';
@@ -12,6 +10,7 @@
   import AssessmentPdfReport from './AssessmentPdfReport.svelte';
   import { deriveCgaTriggers } from '$lib/education/trigger-derivation';
   import TriggerVideoList from '../education/TriggerVideoList.svelte';
+  import IntakeSubmit from './IntakeSubmit.svelte';
 
   interface Props {
     scales?: ScaleDef[];
@@ -19,9 +18,6 @@
 
   let { scales = [] }: Props = $props();
 
-  let fhirSubmitting = $state(false);
-  let fhirSubmitted = $state(false);
-  let fhirError = $state<string | null>(null);
   let triageResult = $state<TriageResult | null>(null);
   let isComputing = $state(true);
 
@@ -123,22 +119,6 @@
     await assessmentStore.complete();
   }
 
-  async function submitToFhir() {
-    if (!assessmentStore.assessment || !assessmentStore.child || !authStore.isAuthenticated || !triageResult) return;
-    fhirSubmitting = true;
-    fhirError = null;
-    try {
-      const result = await submitAssessmentToFhir(
-        assessmentStore.assessment, assessmentStore.child.id, triageResult,
-      );
-      fhirSubmitted = result.success;
-      if (!result.success) fhirError = result.error ?? '傳送失敗';
-    } catch {
-      fhirError = '傳送失敗，請稍後重試';
-    } finally {
-      fhirSubmitting = false;
-    }
-  }
 </script>
 
 {#if isComputing || !triageResult}
@@ -182,16 +162,12 @@
   {/if}
 
   <div class="result-actions">
-    {#if authStore.isAuthenticated && !fhirSubmitted}
-      <button class="btn-fhir" onclick={submitToFhir} disabled={fhirSubmitting}>
-        {fhirSubmitting ? '傳送中…' : '傳送結果至醫院'}
-      </button>
-    {:else if fhirSubmitted}
-      <p class="fhir-success">已傳送至醫院 FHIR Server</p>
-    {/if}
-
-    {#if fhirError}
-      <p class="fhir-error">{fhirError}</p>
+    {#if assessmentStore.assessment && assessmentStore.child && triageResult}
+      <IntakeSubmit
+        assessment={assessmentStore.assessment}
+        child={assessmentStore.child}
+        {triageResult}
+      />
     {/if}
 
     {#if assessmentStore.assessment && assessmentStore.child}
@@ -273,41 +249,6 @@
     gap: var(--space-4);
     padding-top: var(--space-4);
     border-top: 1px solid var(--line);
-  }
-
-  .btn-fhir {
-    padding: var(--space-3) var(--space-7);
-    background: var(--accent);
-    color: white;
-    border: none;
-    border-radius: var(--radius-md);
-    font-size: var(--text-sm);
-    font-weight: var(--font-medium);
-    cursor: pointer;
-    min-height: 48px;
-    min-width: 200px;
-    transition: background 0.2s;
-  }
-
-  .btn-fhir:hover:not(:disabled) {
-    background: color-mix(in srgb, var(--accent) 85%, black);
-  }
-
-  .btn-fhir:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-  }
-
-  .fhir-success {
-    font-size: var(--text-sm);
-    color: var(--accent);
-    font-weight: var(--font-medium);
-  }
-
-  .fhir-error {
-    font-size: var(--text-sm);
-    color: var(--danger);
-    font-weight: var(--font-medium);
   }
 
   .btn-history {

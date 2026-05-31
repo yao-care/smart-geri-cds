@@ -82,6 +82,11 @@ export async function markFhirSubmitted(id: string, fhirDiagnosticReportId: stri
   });
 }
 
+/** 記錄 GCM 收案編號（病例唯一碼）。 */
+export async function markGcmSubmitted(id: string, caseId: string): Promise<void> {
+  await db.assessments.update(id, { gcmCaseId: caseId, updatedAt: new Date() });
+}
+
 export async function getIncompleteAssessments(): Promise<Assessment[]> {
   return db.assessments.where('status').anyOf(['started', 'paused', 'resumed']).reverse().sortBy('createdAt');
 }

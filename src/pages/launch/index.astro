@@ -1,0 +1,22 @@
+---
+import Base from '../../layouts/Base.astro';
+import LaunchCallback from '../../components/fhir/LaunchCallback.svelte';
+---
+
+<Base title="連線處理" description="SMART on FHIR 授權回呼處理">
+  <meta slot="head" name="referrer" content="no-referrer" />
+  <meta slot="head" name="robots" content="noindex" />
+  <main id="main-content" class="launch-main">
+    <LaunchCallback client:load />
+  </main>
+</Base>
+
+<style>
+  .launch-main {
+    min-height: 100dvh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-4);
+  }
+</style>
