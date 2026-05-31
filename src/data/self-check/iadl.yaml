@@ -1,0 +1,14 @@
+id: sc-iadl
+domain: { top: functional, sub: iadl }
+category: scored
+maxScore: 1
+items:
+  - id: q
+    text: 買東西、煮飯、管理藥物或金錢這些事，您是否需要別人幫忙？
+    options:
+      - { label: 不需要（自己可以）, score: 0 }
+      - { label: 需要幫忙, score: 1 }
+bands:
+  - { min: 0, max: 0, light: green, advice: 日常事務大致能自理。 }
+  - { min: 1, max: 1, light: amber, advice: 較複雜的事務需要協助時，建議了解社區或長照支援。 }
+clinicallyReviewed: false

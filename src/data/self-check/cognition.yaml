@@ -1,0 +1,15 @@
+# 新增自我檢視題（spec C-1：cognition 自覺記憶）。僅主觀篩檢、非認知診斷。
+id: sc-cognition
+domain: { top: psychological, sub: cognition }
+category: scored
+maxScore: 1
+items:
+  - id: q
+    text: 您是否覺得自己的記憶或思考，比以前差，而且影響到日常生活？
+    options:
+      - { label: 沒有, score: 0 }
+      - { label: 有, score: 1 }
+bands:
+  - { min: 0, max: 0, light: green, advice: 目前沒有自覺的記憶困擾。這只是主觀感受，不是診斷。 }
+  - { min: 1, max: 1, light: amber, advice: 自覺記憶變差建議找醫療人員做完整評估；這只是初步檢視，不是診斷。 }
+clinicallyReviewed: false

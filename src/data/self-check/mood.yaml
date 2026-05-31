@@ -1,0 +1,21 @@
+# 取材 mood-triage（情緒低落）+ 新增自傷紅旗題（spec C-1：含自傷紅旗）。
+id: sc-mood
+domain: { top: psychological, sub: mood }
+category: scored
+maxScore: 2
+items:
+  - id: low
+    text: 最近兩週，您是否常感到情緒低落，或對事情提不起勁？
+    options:
+      - { label: 沒有, score: 0 }
+      - { label: 有, score: 1 }
+  - id: self_harm
+    text: 最近兩週，您是否有不想活下去，或想傷害自己的念頭？
+    redFlag: self-harm
+    options:
+      - { label: 沒有, score: 0 }
+      - { label: 有, score: 1 }
+bands:
+  - { min: 0, max: 0, light: green, advice: 情緒狀態目前看起來還好。 }
+  - { min: 1, max: 2, light: amber, advice: 情緒低落建議找人談談或尋求醫療人員協助。 }
+clinicallyReviewed: false

@@ -1,0 +1,14 @@
+id: sc-social-support
+domain: { top: social, sub: social_support }
+category: scored
+maxScore: 1
+items:
+  - id: q
+    text: 您是否覺得孤單，或缺少需要時可以求助的家人、朋友？
+    options:
+      - { label: 沒有, score: 0 }
+      - { label: 有, score: 1 }
+bands:
+  - { min: 0, max: 0, light: green, advice: 目前有可依靠的支持。 }
+  - { min: 1, max: 1, light: amber, advice: 感到孤立時建議多與親友連結，或了解社區關懷資源。 }
+clinicallyReviewed: false

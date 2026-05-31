@@ -1,0 +1,13 @@
+# 覺察題（awareness）：不計風險、不亮黃燈；選「是」只在結尾提示可與醫療團隊討論。
+id: sc-acp
+domain: { top: future_wishes, sub: advance_care_planning }
+category: awareness
+maxScore: 1
+items:
+  - id: q
+    text: 您是否想了解或安排「預立醫療照護」（先想好將來的醫療方向）？
+    options:
+      - { label: 還沒考慮, score: 0 }
+      - { label: 想了解, score: 1 }
+bands: []
+clinicallyReviewed: false

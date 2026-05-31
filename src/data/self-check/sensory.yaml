@@ -1,0 +1,14 @@
+id: sc-sensory
+domain: { top: physical, sub: sensory }
+category: scored
+maxScore: 1
+items:
+  - id: q
+    text: 您的視力或聽力，是否影響到日常生活（像看電視、和人交談）？
+    options:
+      - { label: 沒有, score: 0 }
+      - { label: 有, score: 1 }
+bands:
+  - { min: 0, max: 0, light: green, advice: 視力與聽力目前沒有明顯影響。 }
+  - { min: 1, max: 1, light: amber, advice: 視聽困難會影響安全與社交，建議檢查視力／聽力或調整輔具。 }
+clinicallyReviewed: false

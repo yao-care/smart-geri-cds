@@ -1,0 +1,12 @@
+id: sc-treatment-pref
+domain: { top: future_wishes, sub: treatment_preferences }
+category: awareness
+maxScore: 1
+items:
+  - id: q
+    text: 您是否想表達自己對未來醫療（像要不要急救）的想法？
+    options:
+      - { label: 還沒考慮, score: 0 }
+      - { label: 想表達, score: 1 }
+bands: []
+clinicallyReviewed: false
