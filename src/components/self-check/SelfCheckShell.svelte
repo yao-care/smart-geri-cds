@@ -1,4 +1,5 @@
 <script lang="ts">
+import { untrack } from 'svelte';
 import { SelfCheckStore } from '$lib/stores/self-check.svelte';
 import type { SelfCheckScale } from '$lib/self-check/self-check';
 import SelfCheckIntro from './SelfCheckIntro.svelte';
@@ -8,7 +9,7 @@ import SelfCheckResult from './SelfCheckResult.svelte';
 interface Props { scales: SelfCheckScale[]; }
 const { scales }: Props = $props();
 
-const store = new SelfCheckStore(scales);
+const store = untrack(() => new SelfCheckStore(scales));
 </script>
 
 {#if store.step === 'intro'}
