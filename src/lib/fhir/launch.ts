@@ -50,6 +50,7 @@ export async function handleCallback(): Promise<{
   accessToken: string;
   fhirUser: string;
   scopes: string[];
+  serverUrl: string;
 }> {
   const client = await completeAuth();
   return {
@@ -57,5 +58,6 @@ export async function handleCallback(): Promise<{
     accessToken: getAccessToken(),
     fhirUser: getFhirUser(),
     scopes: getScopes(),
+    serverUrl: client.state.serverUrl ?? '',
   };
 }
