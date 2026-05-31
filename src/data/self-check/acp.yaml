@@ -4,7 +4,7 @@ domain: { top: future_wishes, sub: advance_care_planning }
 category: awareness
 maxScore: 1
 items:
-  - id: q
+  - id: acp_q
     text: 您是否想了解或安排「預立醫療照護」（先想好將來的醫療方向）？
     options:
       - { label: 還沒考慮, score: 0 }

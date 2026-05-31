@@ -3,7 +3,7 @@ domain: { top: environmental, sub: home_safety }
 category: scored
 maxScore: 1
 items:
-  - id: q
+  - id: home_safety_q
     text: 您的住家是否有讓您擔心跌倒或受傷的地方（像地板濕滑、燈光不夠、沒有扶手）？
     options:
       - { label: 沒有, score: 0 }

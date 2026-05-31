@@ -3,7 +3,7 @@ domain: { top: functional, sub: iadl }
 category: scored
 maxScore: 1
 items:
-  - id: q
+  - id: iadl_q
     text: 買東西、煮飯、管理藥物或金錢這些事，您是否需要別人幫忙？
     options:
       - { label: 不需要（自己可以）, score: 0 }

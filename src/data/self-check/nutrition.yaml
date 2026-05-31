@@ -3,7 +3,7 @@ domain: { top: physical, sub: nutrition }
 category: scored
 maxScore: 1
 items:
-  - id: q
+  - id: nutrition_q
     text: 您最近是否食慾變差，或體重明顯減輕？
     options:
       - { label: 沒有, score: 0 }

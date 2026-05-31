@@ -4,7 +4,7 @@ domain: { top: psychological, sub: cognition }
 category: scored
 maxScore: 1
 items:
-  - id: q
+  - id: cognition_q
     text: 您是否覺得自己的記憶或思考，比以前差，而且影響到日常生活？
     options:
       - { label: 沒有, score: 0 }

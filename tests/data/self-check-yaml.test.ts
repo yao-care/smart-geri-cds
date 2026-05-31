@@ -59,4 +59,13 @@ describe('self-check YAML 題庫', () => {
       }
     }
   });
+
+  it('所有題目 item id 全域唯一（避免 answers map 鍵碰撞）', () => {
+    const ids: string[] = [];
+    for (const { d } of docs) {
+      for (const it of d.items) ids.push(it.id);
+    }
+    const unique = new Set(ids);
+    expect(unique.size, `重複 id: ${ids.filter((x, i) => ids.indexOf(x) !== i).join(', ')}`).toBe(ids.length);
+  });
 });

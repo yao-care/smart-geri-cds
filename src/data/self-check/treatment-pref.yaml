@@ -3,7 +3,7 @@ domain: { top: future_wishes, sub: treatment_preferences }
 category: awareness
 maxScore: 1
 items:
-  - id: q
+  - id: treatment_pref_q
     text: 您是否想表達自己對未來醫療（像要不要急救）的想法？
     options:
       - { label: 還沒考慮, score: 0 }

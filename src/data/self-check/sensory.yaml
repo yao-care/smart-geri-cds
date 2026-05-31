@@ -3,7 +3,7 @@ domain: { top: physical, sub: sensory }
 category: scored
 maxScore: 1
 items:
-  - id: q
+  - id: sensory_q
     text: 您的視力或聽力，是否影響到日常生活（像看電視、和人交談）？
     options:
       - { label: 沒有, score: 0 }

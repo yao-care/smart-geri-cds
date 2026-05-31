@@ -3,7 +3,7 @@ domain: { top: physical, sub: polypharmacy }
 category: scored
 maxScore: 1
 items:
-  - id: q
+  - id: polypharmacy_q
     text: 您每天是否固定服用 5 種以上的藥（含醫師開的處方）？
     options:
       - { label: 沒有（少於 5 種）, score: 0 }

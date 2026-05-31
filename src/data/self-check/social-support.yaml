@@ -3,7 +3,7 @@ domain: { top: social, sub: social_support }
 category: scored
 maxScore: 1
 items:
-  - id: q
+  - id: social_support_q
     text: 您是否覺得孤單，或缺少需要時可以求助的家人、朋友？
     options:
       - { label: 沒有, score: 0 }

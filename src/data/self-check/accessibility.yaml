@@ -3,7 +3,7 @@ domain: { top: environmental, sub: accessibility }
 category: scored
 maxScore: 1
 items:
-  - id: q
+  - id: accessibility_q
     text: 您是否有需要但還沒拿到的輔具，或外出時會遇到困難？
     options:
       - { label: 沒有, score: 0 }

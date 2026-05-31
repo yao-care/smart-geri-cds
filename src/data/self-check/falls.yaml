@@ -3,7 +3,7 @@ domain: { top: functional, sub: falls }
 category: scored
 maxScore: 1
 items:
-  - id: q
+  - id: falls_q
     text: 過去一年內，您是否曾經跌倒，或站立、走路時會不穩？
     options:
       - { label: 沒有, score: 0 }
