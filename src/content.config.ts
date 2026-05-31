@@ -173,6 +173,41 @@ const scalesCollection = defineCollection({
   }),
 });
 
+// ---------- self-check collection (glob loader, YAML) ----------
+// 民眾自評層題庫。獨立於 scales（專業層）：無 CFS/mode/tier/expandsTo。
+// 題目取材自既有 triage 代表題，全 clinicallyReviewed:false（自我檢視非診斷）。
+const selfCheckItemSchema = z.object({
+  id: z.string(),
+  text: z.string(),
+  options: z.array(z.object({ label: z.string(), score: z.number() })),
+  redFlag: z.literal('self-harm').optional(),
+});
+
+const selfCheckBandSchema = z.object({
+  min: z.number().optional(),
+  max: z.number().optional(),
+  light: z.enum(['green', 'amber']),
+  advice: z.string(),
+});
+
+const selfChecksCollection = defineCollection({
+  loader: glob({ pattern: ['**/*.yaml', '!**/README.md'], base: './src/data/self-check' }),
+  schema: z.object({
+    id: z.string(),
+    domain: z.object({
+      top: z.enum(DOMAIN_TOPS as [string, ...string[]]),
+      sub: z.enum(DOMAIN_SUBS as [string, ...string[]]),
+    }).refine(d => isValidDomain(d.top, d.sub), {
+      message: 'domain.top/domain.sub 不是合法的二層域組合',
+    }),
+    category: z.enum(['scored', 'awareness']),
+    maxScore: z.number(),
+    items: z.array(selfCheckItemSchema),
+    bands: z.array(selfCheckBandSchema),
+    clinicallyReviewed: z.boolean(),
+  }),
+});
+
 // ---------- export ----------
 export const collections = {
   rules: rulesCollection,
@@ -180,4 +215,5 @@ export const collections = {
   education: educationCollection,
   cards: cardsCollection,
   scales: scalesCollection,
+  selfChecks: selfChecksCollection,
 };
