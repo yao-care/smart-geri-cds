@@ -1,5 +1,5 @@
 import { scoreSelfCheck, type SelfCheckScale, type SelfCheckAnswers } from './self-check';
-import { DOMAIN_TREE, DOMAIN_TOPS, domainLabel, type DomainTop, type DomainSub } from '$lib/domain/domain-tree';
+import { DOMAIN_SUBS, domainLabel, type DomainTop, type DomainSub } from '$lib/domain/domain-tree';
 
 export type SelfOverall = 'green' | 'amber' | 'red';
 
@@ -26,18 +26,15 @@ export interface SelfCheckSummary {
 }
 
 /** DOMAIN_TREE 的全域 top.sub 線性順序，用於排序 concerns。 */
-function domainOrderIndex(top: DomainTop, sub: string): number {
-  let idx = 0;
-  for (const t of DOMAIN_TOPS) {
-    for (const s of DOMAIN_TREE[t] as readonly string[]) {
-      if (t === top && s === sub) return idx;
-      idx++;
-    }
-  }
-  return Number.MAX_SAFE_INTEGER;
+function domainOrderIndex(sub: DomainSub): number {
+  return DOMAIN_SUBS.indexOf(sub);
 }
 
-/** 任一 scale 的任一 redFlag item 被選正分 → 觸發自傷紅旗。 */
+/**
+ * 任一 scale 的任一 redFlag item 被選正分 → 觸發自傷紅旗。
+ * 刻意不經 scoreSelfCheck 完成度閘門：只要自傷題答「是」就一律觸發，
+ * 即使該領域其他題未答完（病安優先，單一陽性即升旗）。
+ */
 function hasRedFlag(scales: SelfCheckScale[], answers: SelfCheckAnswers): boolean {
   return scales.some(sc =>
     sc.items.some(it => it.redFlag === 'self-harm' && (answers[it.id] ?? 0) > 0));
@@ -66,7 +63,7 @@ export function summariseSelfCheck(scales: SelfCheckScale[], answers: SelfCheckA
     }
   }
 
-  concerns.sort((a, b) => domainOrderIndex(a.top, a.sub) - domainOrderIndex(b.top, b.sub));
+  concerns.sort((a, b) => domainOrderIndex(a.sub) - domainOrderIndex(b.sub));
 
   const overall: SelfOverall = redFlag ? 'red' : concerns.length > 0 ? 'amber' : 'green';
   return { overall, redFlag, concerns, awareness };

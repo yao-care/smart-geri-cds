@@ -60,8 +60,15 @@ describe('summariseSelfCheck', () => {
   it('concerns sorted by DOMAIN_TREE order (physical before functional)', () => {
     const pain: SelfCheckScale = {
       ...falls, id: 'sc-pain', domain: { top: 'physical', sub: 'pain' },
+      items: [{ id: 'p', text: '疼痛？', options: falls.items[0].options }],
     };
-    const s = summariseSelfCheck([falls, pain], { f: 1, [pain.items[0].id]: 1 });
+    const s = summariseSelfCheck([falls, pain], { f: 1, p: 1 });
     expect(s.concerns.map(c => c.sub)).toEqual(['pain', 'falls']);
+  });
+
+  it('incomplete scored scale → not a concern, stays green', () => {
+    const s = summariseSelfCheck([mood], {});   // no answers at all
+    expect(s.concerns).toHaveLength(0);
+    expect(s.overall).toBe('green');
   });
 });
