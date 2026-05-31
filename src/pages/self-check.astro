@@ -1,0 +1,24 @@
+---
+import Base from '../layouts/Base.astro';
+import Header from '../components/blocks/Header.astro';
+import SelfCheckShell from '../components/self-check/SelfCheckShell.svelte';
+import { getCollection } from 'astro:content';
+import { toSelfCheckScales } from '../lib/self-check/load-self-checks';
+
+const entries = await getCollection('selfChecks');
+const scales = toSelfCheckScales(entries);
+---
+
+<Base title="高齡自我檢視" description="2–3 分鐘的高齡自我檢視，語音唸題、白話結果，建議找醫療人員做完整評估。">
+  <div class="app-layout">
+    <Header />
+    <main id="main-content" class="app-main" data-pagefind-body>
+      <SelfCheckShell client:load {scales} />
+    </main>
+  </div>
+</Base>
+
+<style>
+  .app-layout { min-height: 100dvh; display: flex; flex-direction: column; }
+  .app-main { flex: 1; padding: var(--space-6) var(--space-4); max-width: 720px; width: 100%; margin: 0 auto; }
+</style>
