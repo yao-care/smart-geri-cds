@@ -33,7 +33,10 @@ const trust = [
       這個免費工具以臨床衰弱量表（CFS）為基礎，引導完成多領域周全性評估，
       提供分流建議與衛教資源，協助臨床人員與照護者作出更好的決策。
     </p>
-    <a href="/assess/" class="cta-primary">開始評估</a>
+    <div class="cta-group">
+      <a href="/assess/" class="cta-primary">開始評估</a>
+      <a href="/self-check/" class="cta-secondary">民眾自我檢視（2–3 分鐘）</a>
+    </div>
     <ul class="hero-trustbar">
       <li>免費</li><li>免登入</li><li>保護隱私</li><li>篩檢非診斷</li>
     </ul>
@@ -115,7 +118,10 @@ const trust = [
   <!-- 8. 最終 CTA -->
   <section class="final-cta" aria-label="開始評估">
     <h2>準備好了嗎？</h2>
-    <a href="/assess/" class="cta-primary">開始評估</a>
+    <div class="cta-group">
+      <a href="/assess/" class="cta-primary">開始評估</a>
+      <a href="/self-check/" class="cta-secondary">民眾自我檢視（2–3 分鐘）</a>
+    </div>
   </section>
 </App>
 
@@ -153,6 +159,30 @@ const trust = [
   }
   .cta-primary:hover {
     background-color: color-mix(in srgb, var(--accent), black 12%);
+  }
+  .cta-group {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-3);
+  }
+  .cta-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: var(--space-3) var(--space-6);
+    font-size: var(--text-lg);
+    font-weight: var(--font-bold);
+    color: var(--accent);
+    background: transparent;
+    border: 2px solid var(--accent);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+  }
+  .cta-secondary:hover {
+    background-color: color-mix(in srgb, var(--accent), transparent 90%);
   }
   .hero-trustbar {
     display: flex;
