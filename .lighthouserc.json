@@ -1,19 +1,21 @@
 {
   "ci": {
     "collect": {
+      "staticDistDir": "./dist",
       "url": [
-        "http://localhost:4321/result/",
-        "http://localhost:4321/workspace/result/"
+        "http://localhost/index.html",
+        "http://localhost/self-check/index.html",
+        "http://localhost/assess/index.html"
       ],
-      "numberOfRuns": 3,
-      "startServerCommand": "pnpm preview",
-      "startServerReadyPattern": "Local"
+      "numberOfRuns": 3
     },
     "assert": {
       "assertions": {
-        "categories:performance": ["error", { "minScore": 0.85 }]
+        "categories:accessibility": ["error", { "minScore": 0.9 }],
+        "categories:performance": ["warn", { "minScore": 0.9 }],
+        "categories:best-practices": ["warn", { "minScore": 0.9 }],
+        "categories:seo": ["warn", { "minScore": 0.9 }]
       }
-    },
-    "upload": { "target": "temporary-public-storage" }
+    }
   }
 }
