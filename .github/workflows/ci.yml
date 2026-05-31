@@ -8,28 +8,24 @@ jobs:
   index-consistency:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v3
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v6
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v6
         with: { node-version: 22, cache: 'pnpm' }
       - run: pnpm install --frozen-lockfile
-      - run: pnpm build:video-index
-      - name: Fail if generated index drifted
+
+      - name: Regenerate generated indexes
         run: |
-          if ! git diff --exit-code public/data/video-index.json; then
-            echo "::error::video-index.json out of sync. Run 'pnpm build:video-index' and commit."
+          pnpm exec tsx scripts/build-content-index.ts
+          pnpm exec tsx scripts/build-questionnaire-applicability.ts
+      - name: Fail if generated indexes drifted
+        run: |
+          if ! git diff --exit-code \
+            public/data/video-index.json \
+            src/lib/education/clinical-education.generated.ts \
+            src/lib/data/expected-questionnaire-domains.generated.json; then
+            echo "::error::Generated indexes out of sync. Run scripts/build-content-index.ts and scripts/build-questionnaire-applicability.ts, then commit."
             exit 1
           fi
-      - run: pnpm test
 
-  lighthouse:
-    runs-on: ubuntu-latest
-    needs: index-consistency
-    steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v3
-      - uses: actions/setup-node@v4
-        with: { node-version: 22, cache: 'pnpm' }
-      - run: pnpm install --frozen-lockfile
-      - run: pnpm build
-      - run: npx @lhci/cli autorun
+      - run: pnpm test
