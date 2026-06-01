@@ -6,6 +6,7 @@
   import { deriveCgaTriggers } from '$lib/education/trigger-derivation';
   import { computeDomainScores } from '../../engine/cdsa/radar-scoring';
   import TriggerVideoList from '../education/TriggerVideoList.svelte';
+  import IntakeSubmit from './IntakeSubmit.svelte';
   import type { Child } from '../../lib/db/schema';
 
   // Stand-alone result page entry. Reads ?id= from the URL, loads the
@@ -141,6 +142,10 @@
     {/if}
 
     <div class="result-actions">
+      {#if child && fullTriage}
+        <IntakeSubmit {assessment} {child} triageResult={fullTriage} />
+      {/if}
+
       {#if child}
         <AssessmentPdfReport {assessment} {child} />
       {/if}
