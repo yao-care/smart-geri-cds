@@ -12,6 +12,9 @@
   let gender = $state<'male' | 'female' | 'other'>('male');
   let nickName = $state('');
   let cfsLevel = $state<CfsLevel | null>(null);
+  // 滑過／鍵盤聚焦預覽的等級（供「未選即可逐級比對描述」）；無預覽時顯示已選等級。
+  let previewLevel = $state<CfsLevel | null>(null);
+  const shownLevel = $derived(previewLevel ?? cfsLevel);
   // SOP 事實（取代 operator 角色）：
   // - informantAvailable（必填，未預設）：是否有熟悉受測者日常的家屬／照顧者可提供資訊。
   //   gate ask-informant 量表、決定認知用 AD8（有）或 Mini-Cog（無）。
@@ -57,12 +60,26 @@
     <fieldset class="field cfs-card">
       <legend>臨床衰弱量表 CFS <span class="required">*</span></legend>
 
-      <!-- 3×3 grid keeps all nine levels on one screen; the selected level's
-           description appears in the line below the grid. -->
+      <!-- 3×3 grid keeps all nine levels on one screen; hovering/focusing a level
+           previews its full description below so levels can be compared before
+           選取（previewLevel）；選定後顯示已選等級的描述。 -->
       <div class="cfs-grid" role="radiogroup" aria-label="臨床衰弱量表等級">
         {#each CFS_LEVELS as level (level)}
-          <label class="cfs-chip" class:selected={cfsLevel === level}>
-            <input type="radio" name="cfs" value={level} bind:group={cfsLevel} />
+          <label
+            class="cfs-chip"
+            class:selected={cfsLevel === level}
+            class:preview={previewLevel === level}
+            onmouseenter={() => (previewLevel = level)}
+            onmouseleave={() => (previewLevel = null)}
+          >
+            <input
+              type="radio"
+              name="cfs"
+              value={level}
+              bind:group={cfsLevel}
+              onfocus={() => (previewLevel = level)}
+              onblur={() => (previewLevel = null)}
+            />
             <span class="cfs-num">{level.replace('cfs', '')}</span>
             <span class="cfs-name">{CFS_LABELS[level]}</span>
           </label>
@@ -70,10 +87,10 @@
       </div>
 
       <p class="cfs-selected-desc" aria-live="polite">
-        {#if cfsLevel}
-          <strong>{cfsLevel.replace('cfs', '')} {CFS_LABELS[cfsLevel]}</strong>：{CFS_DESCRIPTIONS[cfsLevel]}
+        {#if shownLevel}
+          <strong>{shownLevel.replace('cfs', '')} {CFS_LABELS[shownLevel]}</strong>：{CFS_DESCRIPTIONS[shownLevel]}
         {:else}
-          請點選最符合的等級（必填）；依近 2 週日常狀態判定，非急性生病期。
+          滑過或點選等級即可看說明。請依近 2 週日常狀態判定（必填，非急性生病期）。
         {/if}
       </p>
 
@@ -348,6 +365,17 @@
     background: color-mix(in srgb, var(--accent) 14%, var(--bg));
   }
 
+  /* hover/keyboard-focus 預覽：較淡的強調，與「已選」區分。 */
+  .cfs-chip.preview:not(.selected) {
+    border-color: var(--accent);
+    background: color-mix(in srgb, var(--accent) 7%, var(--bg));
+  }
+
+  .cfs-chip input[type="radio"]:focus-visible + .cfs-num {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
   .cfs-chip input[type="radio"] {
     position: absolute;
     opacity: 0;
@@ -384,6 +412,8 @@
     font-size: var(--text-caption);
     line-height: var(--lh-base);
     color: color-mix(in srgb, var(--text), var(--bg) 12%);
+    /* 固定約兩行高，hover 逐級預覽時不抖動。 */
+    min-height: 3em;
   }
 
   /* Decision aid: adjacent-level thresholds (collapsed by default to keep the
