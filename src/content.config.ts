@@ -1,82 +1,7 @@
 import { defineCollection, z } from 'astro:content';
-import { glob, file } from 'astro/loaders';
+import { glob } from 'astro/loaders';
 import { CFS_LEVELS } from './lib/utils/cfs-levels';
 import { DOMAIN_TOPS, DOMAIN_SUBS, isValidDomain } from './lib/domain/domain-tree';
-
-// ---------- tuple helper ----------
-const rangeTuple = z.tuple([z.number(), z.number()]);
-
-const thresholdSchema = z.object({
-  normal: rangeTuple,
-  advisory: rangeTuple,
-  warning: rangeTuple,
-});
-
-const indicatorSetSchema = z.object({
-  heart_rate: thresholdSchema,
-  spo2: thresholdSchema,
-  respiratory_rate: thresholdSchema,
-  temperature: thresholdSchema,
-  sleep_quality: thresholdSchema,
-  activity_level: thresholdSchema,
-  sugar_intake: thresholdSchema,
-});
-
-// ---------- rules collection (file loader, object‑keyed) ----------
-// YAML is structured as an object whose top-level keys become entry IDs.
-// We store a single key "default" that holds the full rule set.
-const rulesCollection = defineCollection({
-  loader: file('./src/data/rules/pediatric-default.yaml'),
-  schema: z.object({
-    version: z.string(),
-    age_groups: z.object({
-      infant: indicatorSetSchema,
-      toddler: indicatorSetSchema,
-      preschool: indicatorSetSchema,
-    }),
-    escalation: z.object({
-      advisory_to_warning_hours: z.number(),
-      warning_to_critical_hours: z.number(),
-    }),
-    deduplication: z.object({
-      window_minutes: z.number(),
-    }),
-    missing_data: z.object({
-      alert_after_hours: z.number(),
-    }),
-    multi_indicator: z.object({
-      advisory_count_for_warning: z.number(),
-    }),
-    trend: z.object({
-      consecutive_days_for_escalation: z.number(),
-    }),
-  }),
-});
-
-// ---------- baselines collection (file loader, object‑keyed) ----------
-const baselineIndicatorSchema = z.object({
-  mean: z.number(),
-  std: z.number(),
-  min: z.number().optional(),
-  max: z.number().optional(),
-  p25: z.number().optional(),
-  p75: z.number().optional(),
-});
-
-const baselineEntrySchema = z.object({
-  heart_rate: baselineIndicatorSchema,
-  spo2: baselineIndicatorSchema,
-  respiratory_rate: baselineIndicatorSchema,
-  temperature: baselineIndicatorSchema,
-  sleep_quality: baselineIndicatorSchema,
-  activity_level: baselineIndicatorSchema,
-  sugar_intake: baselineIndicatorSchema,
-});
-
-const baselinesCollection = defineCollection({
-  loader: file('./src/data/baselines/pediatric-baselines.json'),
-  schema: baselineEntrySchema,
-});
 
 // ---------- education collection (glob loader, markdown) ----------
 // Education markdown 為「純文章衛教」的單一來源。
@@ -102,28 +27,6 @@ const educationCollection = defineCollection({
     publishedAt: z.date(),
     updatedAt: z.date().optional(),
     locale: z.string().default('zh-TW'),
-  }),
-});
-
-// ---------- cards collection (file loader, array JSON) ----------
-// Array JSON: each element is an entry with required `id` field.
-// Schema describes a single card (not the array).
-const cardsCollection = defineCollection({
-  loader: file('./src/data/cards/index.json'),
-  schema: z.object({
-    domain: z.enum([
-      'gross_motor', 'fine_motor', 'language_comp',
-      'language_expr', 'cognition', 'social_emotional',
-    ]),
-    filename: z.string(),
-    description: z.string(),
-    ageGroups: z.array(z.string()).optional(),
-    source: z.enum(['storyset', 'undraw', 'pexels', 'openverse', 'manual']),
-    sourceUrl: z.string().url(),
-    attribution: z.string().optional(),
-    license: z.enum(['CC0', 'CC-BY', 'Pexels', 'MIT', 'custom']),
-    reviewStatus: z.enum(['pending', 'approved', 'rejected']),
-    reviewedAt: z.string().optional(),
   }),
 });
 
@@ -210,10 +113,7 @@ const selfChecksCollection = defineCollection({
 
 // ---------- export ----------
 export const collections = {
-  rules: rulesCollection,
-  baselines: baselinesCollection,
   education: educationCollection,
-  cards: cardsCollection,
   scales: scalesCollection,
   selfChecks: selfChecksCollection,
 };
