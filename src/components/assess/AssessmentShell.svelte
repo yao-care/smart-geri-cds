@@ -85,8 +85,8 @@
   }
 
   .step-content {
-    min-height: 400px;
-    padding-bottom: var(--space-12);
+    min-height: 360px;
+    padding-bottom: var(--space-4);
   }
 
   .resume-prompt {

@@ -47,110 +47,120 @@
 </script>
 
 <form class="subject-profile" onsubmit={(e) => { e.preventDefault(); handleSubmit(); }}>
-  <h2>受測者評估設定</h2>
-  <p class="form-desc">請先由臨床或照護者判定臨床衰弱量表（CFS）；下方基本資料僅供紀錄、皆為選填。</p>
+  <header class="sp-head">
+    <h2>受測者評估設定</h2>
+    <p class="form-desc">請先判定臨床衰弱量表（CFS）；基本資料選填、僅供紀錄。</p>
+  </header>
 
-  <fieldset class="field cfs-field cfs-card">
-    <legend>臨床衰弱量表 CFS <span class="required">*</span></legend>
-    <p class="cfs-principle">
-      請依受測者<strong>近 2 週的日常狀態</strong>判定（非急性生病期），由臨床或照護者評估。
-    </p>
+  <div class="sp-grid">
+    <!-- LEFT: CFS — the lead clinical judgment -->
+    <fieldset class="field cfs-card">
+      <legend>臨床衰弱量表 CFS <span class="required">*</span></legend>
 
-    <div class="cfs-anchors">
-      <span class="cfs-anchors-title">判讀關鍵分界</span>
-      <ul>
-        <li><span class="anchor-edge">3→4</span> 開始有症狀使活動變慢，但日常仍能自理</li>
-        <li><span class="anchor-edge">4→5</span> 工具性日常（購物／理財／服藥）需協助</li>
-        <li><span class="anchor-edge">5→6</span> 戶外活動與家務需協助</li>
-        <li><span class="anchor-edge">6→7</span> 個人照護（洗澡／穿衣／如廁）依賴他人</li>
-      </ul>
-    </div>
-
-    <p class="cfs-hint">請選擇最符合目前狀態的等級（必填，未選不得開始評估）。</p>
-    <div class="cfs-list" role="radiogroup" aria-label="臨床衰弱量表等級">
-      {#each CFS_LEVELS as level (level)}
-        <label class="cfs-option" class:selected={cfsLevel === level}>
-          <input type="radio" name="cfs" value={level} bind:group={cfsLevel} />
-          <span class="cfs-head">
+      <!-- 3×3 grid keeps all nine levels on one screen; the selected level's
+           description appears in the line below the grid. -->
+      <div class="cfs-grid" role="radiogroup" aria-label="臨床衰弱量表等級">
+        {#each CFS_LEVELS as level (level)}
+          <label class="cfs-chip" class:selected={cfsLevel === level}>
+            <input type="radio" name="cfs" value={level} bind:group={cfsLevel} />
             <span class="cfs-num">{level.replace('cfs', '')}</span>
             <span class="cfs-name">{CFS_LABELS[level]}</span>
-          </span>
-          <span class="cfs-desc">{CFS_DESCRIPTIONS[level]}</span>
-        </label>
-      {/each}
-    </div>
-  </fieldset>
-
-  <fieldset class="field availability-field">
-    <legend>是否有熟悉受測者日常的家屬／照顧者可提供資訊？ <span class="required">*</span></legend>
-    <p class="cfs-hint">用於需向知情者詢問的題目（如 AD8、急性變化、照顧者負荷），並決定認知短篩採 AD8（有）或 Mini-Cog（無）。（必填，未答不得開始評估）</p>
-    <div class="yesno-pills" role="radiogroup" aria-label="是否有可提供資訊的家屬或照顧者">
-      <label class="pill" class:selected={informantAvailable === true}>
-        <input type="radio" name="informantAvailable" value="yes" checked={informantAvailable === true} onchange={() => (informantAvailable = true)} />
-        是
-      </label>
-      <label class="pill" class:selected={informantAvailable === false}>
-        <input type="radio" name="informantAvailable" value="no" checked={informantAvailable === false} onchange={() => (informantAvailable = false)} />
-        否
-      </label>
-    </div>
-  </fieldset>
-
-  <fieldset class="field availability-field">
-    <legend>受測者本人能否參與作答/受測？</legend>
-    <p class="cfs-hint">若否，需受測者本人作答的認知/情緒測驗將標示「需受測者本人，建議由專業評估」。（預設為「是」）</p>
-    <div class="yesno-pills" role="radiogroup" aria-label="受測者本人能否參與作答或受測">
-      <label class="pill" class:selected={patientAble === true}>
-        <input type="radio" name="patientAble" value="yes" checked={patientAble === true} onchange={() => (patientAble = true)} />
-        是
-      </label>
-      <label class="pill" class:selected={patientAble === false}>
-        <input type="radio" name="patientAble" value="no" checked={patientAble === false} onchange={() => (patientAble = false)} />
-        否
-      </label>
-    </div>
-  </fieldset>
-
-  <div class="optional-section">
-    <h3 class="optional-title">基本資料（選填）</h3>
-
-    <div class="field">
-      <label for="birthDate">出生日期</label>
-      <input
-        id="birthDate"
-        type="date"
-        bind:value={birthDate}
-        max={new Date().toISOString().split('T')[0]}
-      />
-      {#if ageMonths !== null}
-        <span class="age-badge">約 {Math.floor(ageMonths / 12)} 歲</span>
-      {/if}
-      {#if isUnder65}
-        <span class="age-notice">提醒：本系統以高齡周全性評估為主，未滿 65 歲仍可進行（不阻擋）。</span>
-      {/if}
-    </div>
-
-    <fieldset class="field">
-      <legend>性別</legend>
-      <div class="gender-pills">
-        <label class="pill" class:selected={gender === 'male'}>
-          <input type="radio" name="gender" value="male" bind:group={gender} />
-          男
-        </label>
-        <label class="pill" class:selected={gender === 'female'}>
-          <input type="radio" name="gender" value="female" bind:group={gender} />
-          女
-        </label>
-        <label class="pill" class:selected={gender === 'other'}>
-          <input type="radio" name="gender" value="other" bind:group={gender} />
-          其他
-        </label>
+          </label>
+        {/each}
       </div>
+
+      <p class="cfs-selected-desc" aria-live="polite">
+        {#if cfsLevel}
+          <strong>{cfsLevel.replace('cfs', '')} {CFS_LABELS[cfsLevel]}</strong>：{CFS_DESCRIPTIONS[cfsLevel]}
+        {:else}
+          請點選最符合的等級（必填）；依近 2 週日常狀態判定，非急性生病期。
+        {/if}
+      </p>
+
+      <details class="cfs-anchors">
+        <summary class="cfs-anchors-title">判讀關鍵分界（點開對照）</summary>
+        <ul>
+          <li><span class="anchor-edge">3→4</span> 開始有症狀使活動變慢，但日常仍能自理</li>
+          <li><span class="anchor-edge">4→5</span> 工具性日常（購物／理財／服藥）需協助</li>
+          <li><span class="anchor-edge">5→6</span> 戶外活動與家務需協助</li>
+          <li><span class="anchor-edge">6→7</span> 個人照護（洗澡／穿衣／如廁）依賴他人</li>
+        </ul>
+      </details>
     </fieldset>
 
-    <div class="field">
-      <label for="nickName">暱稱</label>
-      <input id="nickName" type="text" bind:value={nickName} placeholder="顯示用稱呼" />
+    <!-- RIGHT: prerequisites + optional record-only data -->
+    <div class="sp-side">
+      <fieldset class="field availability-field">
+        <legend>有家屬／照顧者可提供日常資訊？ <span class="required">*</span></legend>
+        <div class="yesno-pills" role="radiogroup" aria-label="是否有可提供資訊的家屬或照顧者">
+          <label class="pill" class:selected={informantAvailable === true}>
+            <input type="radio" name="informantAvailable" value="yes" checked={informantAvailable === true} onchange={() => (informantAvailable = true)} />
+            是
+          </label>
+          <label class="pill" class:selected={informantAvailable === false}>
+            <input type="radio" name="informantAvailable" value="no" checked={informantAvailable === false} onchange={() => (informantAvailable = false)} />
+            否
+          </label>
+        </div>
+      </fieldset>
+
+      <fieldset class="field availability-field">
+        <legend>受測者本人能否參與作答／受測？<span class="legend-note">（預設是）</span></legend>
+        <div class="yesno-pills" role="radiogroup" aria-label="受測者本人能否參與作答或受測">
+          <label class="pill" class:selected={patientAble === true}>
+            <input type="radio" name="patientAble" value="yes" checked={patientAble === true} onchange={() => (patientAble = true)} />
+            是
+          </label>
+          <label class="pill" class:selected={patientAble === false}>
+            <input type="radio" name="patientAble" value="no" checked={patientAble === false} onchange={() => (patientAble = false)} />
+            否
+          </label>
+        </div>
+      </fieldset>
+
+      <details class="optional-details">
+        <summary>基本資料（選填，僅供紀錄）</summary>
+        <div class="optional-body">
+          <div class="field">
+            <label for="birthDate">出生日期</label>
+            <input
+              id="birthDate"
+              type="date"
+              bind:value={birthDate}
+              max={new Date().toISOString().split('T')[0]}
+            />
+            {#if ageMonths !== null}
+              <span class="age-badge">約 {Math.floor(ageMonths / 12)} 歲</span>
+            {/if}
+            {#if isUnder65}
+              <span class="age-notice">提醒：未滿 65 歲仍可進行（不阻擋）。</span>
+            {/if}
+          </div>
+
+          <fieldset class="field">
+            <legend>性別</legend>
+            <div class="gender-pills">
+              <label class="pill" class:selected={gender === 'male'}>
+                <input type="radio" name="gender" value="male" bind:group={gender} />
+                男
+              </label>
+              <label class="pill" class:selected={gender === 'female'}>
+                <input type="radio" name="gender" value="female" bind:group={gender} />
+                女
+              </label>
+              <label class="pill" class:selected={gender === 'other'}>
+                <input type="radio" name="gender" value="other" bind:group={gender} />
+                其他
+              </label>
+            </div>
+          </fieldset>
+
+          <div class="field">
+            <label for="nickName">暱稱</label>
+            <input id="nickName" type="text" bind:value={nickName} placeholder="顯示用稱呼" />
+          </div>
+        </div>
+      </details>
     </div>
   </div>
 
@@ -168,37 +178,54 @@
 
 <style>
   .subject-profile {
-    max-width: 560px;
+    max-width: 920px;
     margin: 0 auto;
-    padding: var(--space-6);
+    padding: var(--space-2);
   }
 
-  h2 {
-    font-size: var(--text-2xl);
+  .sp-head {
     text-align: center;
     margin-bottom: var(--space-2);
   }
 
+  h2 {
+    font-size: var(--text-lg);
+    margin-bottom: var(--space-1);
+  }
+
   .form-desc {
-    text-align: center;
     color: color-mix(in srgb, var(--text), var(--bg) 30%);
-    font-size: var(--text-sm);
-    margin-bottom: var(--space-8);
+    font-size: var(--text-caption);
+  }
+
+  /* Two columns on wide screens: CFS lead (left) + prerequisites/optional (right).
+     Stacks on narrow screens. */
+  .sp-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-3);
+  }
+
+  @media (min-width: 720px) {
+    .sp-grid {
+      grid-template-columns: 1.25fr 1fr;
+      align-items: start;
+    }
   }
 
   .field {
-    margin: 0 0 var(--space-6);
+    margin: 0;
     padding: 0;
     border: 0;
     min-width: 0;
   }
 
   label,
-  .field > legend {
+  legend {
     display: block;
     font-size: var(--text-sm);
     font-weight: var(--font-medium);
-    margin-bottom: var(--space-2);
+    margin-bottom: var(--space-1);
     padding: 0;
     color: var(--text);
   }
@@ -210,11 +237,11 @@
   input[type="date"],
   input[type="text"] {
     width: 100%;
-    padding: var(--space-3) var(--space-4);
+    padding: var(--space-2) var(--space-3);
     border: 1px solid var(--line);
     border-radius: var(--radius-md);
-    font-size: var(--text-base);
-    min-height: 48px;
+    font-size: var(--text-xs);
+    min-height: 44px;
     background: var(--bg);
     color: var(--text);
   }
@@ -231,20 +258,21 @@
     background: color-mix(in srgb, var(--accent) 12%, var(--bg));
     color: var(--accent);
     border-radius: var(--radius-full);
-    font-size: var(--text-xs);
+    font-size: var(--text-caption);
     font-weight: var(--font-medium);
   }
 
   .age-notice {
     display: block;
     margin-top: var(--space-2);
-    font-size: var(--text-xs);
+    font-size: var(--text-caption);
     color: var(--warn);
   }
 
-  .gender-pills {
+  .gender-pills,
+  .yesno-pills {
     display: flex;
-    gap: var(--space-3);
+    gap: var(--space-2);
   }
 
   .pill {
@@ -252,12 +280,12 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: var(--space-3);
+    padding: var(--space-2);
     border: 1px solid var(--line);
     border-radius: var(--radius-md);
     cursor: pointer;
-    font-size: var(--text-sm);
-    min-height: 48px;
+    font-size: var(--text-xs);
+    min-height: 44px;
     transition: all 0.15s;
     margin-bottom: 0;
   }
@@ -275,64 +303,122 @@
     border-color: var(--accent);
   }
 
-  /* ---- CFS selector (lead card) ---- */
+  /* ---- CFS lead card ---- */
   .cfs-card {
-    padding: var(--space-5);
+    padding: var(--space-3);
     border: 1px solid color-mix(in srgb, var(--accent) 35%, var(--line));
     border-radius: var(--radius-lg);
     background: color-mix(in srgb, var(--accent) 5%, var(--bg));
-    margin-bottom: var(--space-8);
   }
 
   .cfs-card > legend {
-    font-size: var(--text-lg);
+    font-size: var(--text-base);
     font-weight: var(--font-bold);
     color: var(--text);
-    margin-bottom: var(--space-2);
+    margin-bottom: var(--space-1);
   }
 
-  .cfs-principle {
-    font-size: var(--text-sm);
-    line-height: var(--lh-base);
-    color: color-mix(in srgb, var(--text), var(--bg) 20%);
-    margin-bottom: var(--space-3);
+  /* 3×3 level grid */
+  .cfs-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-1);
   }
 
-  /* Decision aid: adjacent-level thresholds (判讀關鍵分界) */
-  .cfs-anchors {
-    background: var(--bg);
+  .cfs-chip {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-1) var(--space-2);
     border: 1px solid var(--line);
     border-radius: var(--radius-md);
-    padding: var(--space-3) var(--space-4);
-    margin-bottom: var(--space-4);
+    background: var(--bg);
+    cursor: pointer;
+    min-height: 44px;
+    transition: border-color 0.15s, background 0.15s;
+    margin-bottom: 0;
+  }
+
+  .cfs-chip:hover {
+    border-color: var(--accent);
+  }
+
+  .cfs-chip.selected {
+    border-color: var(--accent);
+    background: color-mix(in srgb, var(--accent) 14%, var(--bg));
+  }
+
+  .cfs-chip input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  .cfs-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    width: 26px;
+    height: 26px;
+    border-radius: var(--radius-full);
+    background: color-mix(in srgb, var(--accent) 16%, var(--bg));
+    color: var(--accent);
+    font-weight: var(--font-bold);
+    font-size: var(--text-caption);
+  }
+
+  .cfs-name {
+    font-size: var(--text-xs);
+    font-weight: var(--font-medium);
+    color: var(--text);
+    line-height: 1.2;
+  }
+
+  .cfs-selected-desc {
+    margin: var(--space-2) 0;
+    padding: var(--space-2) var(--space-3);
+    border-radius: var(--radius-md);
+    background: var(--bg);
+    font-size: var(--text-caption);
+    line-height: var(--lh-base);
+    color: color-mix(in srgb, var(--text), var(--bg) 12%);
+  }
+
+  /* Decision aid: adjacent-level thresholds (collapsed by default to keep the
+     page on one screen; clinician expands when needed). */
+  .cfs-anchors {
+    border-top: 1px dashed var(--line);
+    padding-top: var(--space-2);
   }
 
   .cfs-anchors-title {
-    display: block;
-    font-size: var(--text-sm);
+    font-size: var(--text-caption);
     font-weight: var(--font-bold);
     color: var(--accent);
-    margin-bottom: var(--space-2);
+    cursor: pointer;
+    list-style-position: inside;
   }
 
   .cfs-anchors ul {
     list-style: none;
-    margin: 0;
+    margin: var(--space-2) 0 0;
     padding: 0;
     display: flex;
     flex-direction: column;
-    gap: var(--space-2);
+    gap: var(--space-1);
   }
 
   .cfs-anchors li {
-    font-size: var(--text-sm);
+    font-size: var(--text-caption);
     line-height: var(--lh-base);
     color: color-mix(in srgb, var(--text), var(--bg) 15%);
   }
 
   .anchor-edge {
     display: inline-block;
-    min-width: 44px;
+    min-width: 40px;
     margin-right: var(--space-2);
     padding: 0 var(--space-2);
     border-radius: var(--radius-sm);
@@ -343,108 +429,53 @@
     text-align: center;
   }
 
-  .cfs-hint {
-    font-size: var(--text-xs);
-    color: color-mix(in srgb, var(--text), var(--bg) 30%);
-    margin-bottom: var(--space-3);
-  }
-
-  .cfs-list {
+  /* ---- Prerequisites column ---- */
+  .sp-side {
     display: flex;
     flex-direction: column;
-    gap: var(--space-2);
-  }
-
-  .cfs-option {
-    display: block;
-    padding: var(--space-3) var(--space-4);
-    border: 1px solid var(--line);
-    border-radius: var(--radius-md);
-    cursor: pointer;
-    min-height: 44px;
-    transition: border-color 0.15s, background 0.15s;
-    margin-bottom: 0;
-  }
-
-  .cfs-option:hover {
-    border-color: var(--accent);
-  }
-
-  .cfs-option.selected {
-    border-color: var(--accent);
-    background: color-mix(in srgb, var(--accent) 10%, var(--bg));
-  }
-
-  .cfs-option input[type="radio"] {
-    position: absolute;
-    opacity: 0;
-    width: 0;
-    height: 0;
-  }
-
-  .cfs-head {
-    display: flex;
-    align-items: center;
-    gap: var(--space-2);
-  }
-
-  .cfs-num {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 28px;
-    height: 28px;
-    border-radius: var(--radius-full);
-    background: color-mix(in srgb, var(--accent) 14%, var(--bg));
-    color: var(--accent);
-    font-weight: var(--font-bold);
-    font-size: var(--text-sm);
-  }
-
-  .cfs-name {
-    font-size: var(--text-base);
-    font-weight: var(--font-medium);
-    color: var(--text);
-  }
-
-  .cfs-desc {
-    display: block;
-    margin-top: var(--space-1);
-    font-size: var(--text-sm);
-    color: color-mix(in srgb, var(--text), var(--bg) 25%);
-    line-height: var(--lh-base);
-  }
-
-  /* ---- Availability (在場/可參與) yes/no pills ---- */
-  .yesno-pills {
-    display: flex;
     gap: var(--space-3);
   }
 
-  /* ---- Optional (record-only) demographics, demoted below the clinical inputs ---- */
-  .optional-section {
-    margin-top: var(--space-8);
-    padding-top: var(--space-5);
-    border-top: 1px solid var(--line);
+  .legend-note {
+    font-weight: normal;
+    font-size: var(--text-caption);
+    color: color-mix(in srgb, var(--text), var(--bg) 35%);
   }
 
-  .optional-title {
-    font-size: var(--text-base);
+  /* ---- Optional (record-only) demographics, collapsed by default ---- */
+  .optional-details {
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    padding: var(--space-2) var(--space-3);
+  }
+
+  .optional-details summary {
+    cursor: pointer;
+    font-size: var(--text-xs);
     font-weight: var(--font-medium);
-    color: color-mix(in srgb, var(--text), var(--bg) 25%);
-    margin-bottom: var(--space-4);
+    color: color-mix(in srgb, var(--text), var(--bg) 20%);
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+  }
+
+  .optional-body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    margin-top: var(--space-3);
   }
 
   .error {
     color: var(--danger);
     font-size: var(--text-sm);
-    margin-bottom: var(--space-4);
+    margin: var(--space-3) 0 0;
     text-align: center;
   }
 
   .btn-start {
     width: 100%;
-    padding: var(--space-4);
+    padding: var(--space-3);
     background: var(--accent);
     color: white;
     border: none;
@@ -452,8 +483,8 @@
     font-size: var(--text-lg);
     font-weight: var(--font-bold);
     cursor: pointer;
-    min-height: 56px;
-    margin-top: var(--space-4);
+    min-height: 48px;
+    margin-top: var(--space-2);
   }
 
   .btn-start:hover:not(:disabled) {

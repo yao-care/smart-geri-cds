@@ -15,16 +15,18 @@ describe('SubjectProfile', () => {
     expect(screen.getByRole('radiogroup', { name: /臨床衰弱量表/ })).toBeInTheDocument();
   });
 
-  it('renders all nine CFS levels with descriptions', () => {
+  it('renders all nine CFS level labels; the selected level surfaces its description', async () => {
     render(SubjectProfile);
     expect(screen.getByText('非常健壯')).toBeInTheDocument();
     expect(screen.getByText('末期')).toBeInTheDocument();
+    // Compact one-screen layout: descriptions show for the selected level only.
+    await fireEvent.click(screen.getByDisplayValue('cfs1'));
     expect(screen.getByText(/規律運動/)).toBeInTheDocument();
   });
 
   it('renders the CFS 判讀關鍵分界 anchor reference (decision aid)', () => {
     render(SubjectProfile);
-    expect(screen.getByText('判讀關鍵分界')).toBeInTheDocument();
+    expect(screen.getByText(/判讀關鍵分界/)).toBeInTheDocument();
     // The four adjacent-level thresholds (3→4 … 6→7).
     expect(screen.getByText(/開始有症狀使活動變慢/)).toBeInTheDocument();
     expect(screen.getByText(/工具性日常（購物／理財／服藥）需協助/)).toBeInTheDocument();
