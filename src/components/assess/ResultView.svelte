@@ -17,8 +17,16 @@
 
   let { scales = [] }: Props = $props();
 
-  let triageResult = $state<TriageResult | null>(null);
-  let isComputing = $state(true);
+  // 分流結果為「純衍生」：依 cfsLevel + partialAnalysis 計算，無副作用。
+  // （副作用＝寫回 DB/標完成 — 移到下方 save-once 的 $effect，避免在反應式計算中
+  //  觸發 store 變更而造成無窮重算迴圈。）
+  const triageResult = $derived.by<TriageResult | null>(() => {
+    const cfs = assessmentStore.cfsLevel;
+    if (!cfs) return null;
+    const partial = $state.snapshot(assessmentStore.partialAnalysis);
+    return buildTriageResult(scales, partial, cfs);
+  });
+  const isComputing = $derived(!triageResult);
 
   const categoryLabels: Record<string, string> = {
     normal: '正常',
@@ -41,18 +49,14 @@
     incomplete: 'var(--surface)',
   };
 
-  // 進入結果頁時，從 partialAnalysis 即時計算分流（<1 秒）。計算/去重邏輯與問卷
-  // summary 共用 buildTriageResult（單一真相源）。$state.snapshot 去除 runes proxy，
-  // 否則 precomputed ScaleResult 無法通過 structured clone 寫入 IndexedDB。
+  // 進結果頁時把分流結果寫回 DB + 標完成，只做一次（問卷 summary 多半已先 finalise；
+  // 此處為 idempotent 補寫）。用 plain 旗標而非 $state，避免它本身造成反應式重觸發。
+  let saved = false;
   $effect(() => {
-    const cfsLevel = assessmentStore.cfsLevel;
-    if (!cfsLevel) return;
-    const partial = $state.snapshot(assessmentStore.partialAnalysis);
-    const result = buildTriageResult(scales, partial, cfsLevel);
-    if (!result) return;
-    triageResult = result;
-    isComputing = false;
-    void saveResult(result);
+    if (triageResult && !saved) {
+      saved = true;
+      void saveResult(triageResult);
+    }
   });
 
   const domainScores = $derived(computeDomainScores(triageResult));

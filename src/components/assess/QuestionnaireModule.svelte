@@ -9,6 +9,7 @@
   } from '../../lib/scales/tiering';
   import { tick } from 'svelte';
   import { buildTriageResult } from '../../lib/assess/build-triage-result';
+  import { speak, cancelSpeech, hasZhTwVoice } from '../../lib/tts/speak';
   import { resolveModeFrame } from '../../lib/scales/mode-frame';
   import MobilityTaskModule from './MobilityTaskModule.svelte';
   import { MOBILITY_FALLBACK_SCALE } from '../../data/mobility-fallback';
@@ -300,6 +301,24 @@
 
   const currentFrame = $derived(resolveModeFrame(currentMode, informantAvailable));
 
+  // ---- TTS（朗讀題目）：複用自我檢視層的 zh-TW Web Speech 合成 ----
+  // 操作者模式（如 ask-informant/ask-either）原本「由操作者唸出題目」，改由本機語音
+  // 朗讀。進新題自動朗讀；無中文語音時降級為純文字（hasZhTwVoice 判定）。
+  const spokenText = $derived(currentQuestion?.item.prompt ?? currentQuestion?.item.text ?? '');
+  let ttsAvailable = $state(true);
+
+  $effect(() => {
+    ttsAvailable = hasZhTwVoice();
+  });
+
+  // 進新題自動朗讀（僅在作答階段）；換題/離開前取消在途語音避免疊音。
+  $effect(() => {
+    if (phase !== 'asking') return;
+    const text = spokenText;
+    if (text) speak(text);
+    return () => cancelSpeech();
+  });
+
   // ---- Per-scale summary (active option scales only) ----
   const scaleSummary = $derived.by(() => {
     return activeOptionScales.map(s => {
@@ -325,6 +344,7 @@
     if (!currentQuestion) return;
     if (isSaving) return;
 
+    cancelSpeech();
     isSaving = true;
     lastAnswerLabel = option.label;
 
@@ -386,6 +406,7 @@
   async function handleUnavailable() {
     if (!currentQuestion) return;
     if (isSaving) return;
+    cancelSpeech();
     const scaleId = currentQuestion.scaleId;
     unavailableScales = new Set([...unavailableScales, scaleId]);
 
@@ -653,6 +674,13 @@
       {currentQuestion.item.prompt ?? currentQuestion.item.text ?? ''}
     </h2>
 
+    <!-- TTS：朗讀題目（本機 zh-TW 語音；無語音時提示直接閱讀） -->
+    {#if ttsAvailable}
+      <button type="button" class="tts-replay" onclick={() => speak(spokenText)}>🔊 再唸一次</button>
+    {:else}
+      <p class="tts-none">（此裝置沒有中文語音，請直接唸出題目）</p>
+    {/if}
+
     <!-- Sub-questions (e.g. AMT4 four orientation items) -->
     {#if currentQuestion.item.subquestions && currentQuestion.item.subquestions.length > 0}
       <ol class="subquestions">
@@ -802,8 +830,35 @@
     font-size: var(--text-xl);
     font-weight: var(--font-bold);
     line-height: var(--lh-xl);
-    margin-bottom: var(--space-4);
+    margin-bottom: var(--space-2);
     color: var(--text);
+  }
+
+  /* ---- TTS replay / no-voice note ---- */
+  .tts-replay {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin-bottom: var(--space-4);
+    padding: var(--space-2) var(--space-3);
+    background: none;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-full);
+    color: var(--accent);
+    font-size: var(--text-sm);
+    cursor: pointer;
+    min-height: 44px;
+  }
+
+  .tts-replay:hover {
+    border-color: var(--accent);
+    background: color-mix(in srgb, var(--accent) 8%, var(--bg));
+  }
+
+  .tts-none {
+    margin-bottom: var(--space-4);
+    font-size: var(--text-sm);
+    color: color-mix(in srgb, var(--text), var(--bg) 30%);
   }
 
   /* ---- Sub-questions ---- */
