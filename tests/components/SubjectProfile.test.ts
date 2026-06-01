@@ -10,7 +10,7 @@ describe('SubjectProfile', () => {
 
   it('renders the form heading and the CFS selector', () => {
     render(SubjectProfile);
-    expect(screen.getByRole('heading', { name: '受測者基本資料' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: '受測者評估設定' })).toBeInTheDocument();
     expect(screen.getByLabelText(/出生日期/)).toBeInTheDocument();
     expect(screen.getByRole('radiogroup', { name: /臨床衰弱量表/ })).toBeInTheDocument();
   });
@@ -20,6 +20,24 @@ describe('SubjectProfile', () => {
     expect(screen.getByText('非常健壯')).toBeInTheDocument();
     expect(screen.getByText('末期')).toBeInTheDocument();
     expect(screen.getByText(/規律運動/)).toBeInTheDocument();
+  });
+
+  it('renders the CFS 判讀關鍵分界 anchor reference (decision aid)', () => {
+    render(SubjectProfile);
+    expect(screen.getByText('判讀關鍵分界')).toBeInTheDocument();
+    // The four adjacent-level thresholds (3→4 … 6→7).
+    expect(screen.getByText(/開始有症狀使活動變慢/)).toBeInTheDocument();
+    expect(screen.getByText(/工具性日常（購物／理財／服藥）需協助/)).toBeInTheDocument();
+    expect(screen.getByText(/戶外活動與家務需協助/)).toBeInTheDocument();
+    expect(screen.getByText(/個人照護（洗澡／穿衣／如廁）依賴他人/)).toBeInTheDocument();
+  });
+
+  it('places the CFS selector BEFORE the optional demographics (DOB) in the DOM', () => {
+    render(SubjectProfile);
+    const cfsGroup = screen.getByRole('radiogroup', { name: /臨床衰弱量表/ });
+    const dob = screen.getByLabelText(/出生日期/);
+    // CFS leads the form; DOB is demoted below it.
+    expect(cfsGroup.compareDocumentPosition(dob) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
   });
 
   it('renders the SOP availability inputs (informantAvailable + patientAble), not an operator role selector', () => {

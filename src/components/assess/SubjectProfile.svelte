@@ -47,50 +47,25 @@
 </script>
 
 <form class="subject-profile" onsubmit={(e) => { e.preventDefault(); handleSubmit(); }}>
-  <h2>受測者基本資料</h2>
-  <p class="form-desc">出生日期僅供紀錄；請務必由臨床或照護者判定臨床衰弱量表 (CFS) 等級。</p>
+  <h2>受測者評估設定</h2>
+  <p class="form-desc">請先由臨床或照護者判定臨床衰弱量表（CFS）；下方基本資料僅供紀錄、皆為選填。</p>
 
-  <div class="field">
-    <label for="birthDate">出生日期（選填）</label>
-    <input
-      id="birthDate"
-      type="date"
-      bind:value={birthDate}
-      max={new Date().toISOString().split('T')[0]}
-    />
-    {#if ageMonths !== null}
-      <span class="age-badge">約 {Math.floor(ageMonths / 12)} 歲</span>
-    {/if}
-    {#if isUnder65}
-      <span class="age-notice">提醒：本系統以高齡周全性評估為主，未滿 65 歲仍可進行（不阻擋）。</span>
-    {/if}
-  </div>
-
-  <fieldset class="field">
-    <legend>性別</legend>
-    <div class="gender-pills">
-      <label class="pill" class:selected={gender === 'male'}>
-        <input type="radio" name="gender" value="male" bind:group={gender} />
-        男
-      </label>
-      <label class="pill" class:selected={gender === 'female'}>
-        <input type="radio" name="gender" value="female" bind:group={gender} />
-        女
-      </label>
-      <label class="pill" class:selected={gender === 'other'}>
-        <input type="radio" name="gender" value="other" bind:group={gender} />
-        其他
-      </label>
-    </div>
-  </fieldset>
-
-  <div class="field">
-    <label for="nickName">暱稱（選填）</label>
-    <input id="nickName" type="text" bind:value={nickName} placeholder="顯示用稱呼" />
-  </div>
-
-  <fieldset class="field cfs-field">
+  <fieldset class="field cfs-field cfs-card">
     <legend>臨床衰弱量表 CFS <span class="required">*</span></legend>
+    <p class="cfs-principle">
+      請依受測者<strong>近 2 週的日常狀態</strong>判定（非急性生病期），由臨床或照護者評估。
+    </p>
+
+    <div class="cfs-anchors">
+      <span class="cfs-anchors-title">判讀關鍵分界</span>
+      <ul>
+        <li><span class="anchor-edge">3→4</span> 開始有症狀使活動變慢，但日常仍能自理</li>
+        <li><span class="anchor-edge">4→5</span> 工具性日常（購物／理財／服藥）需協助</li>
+        <li><span class="anchor-edge">5→6</span> 戶外活動與家務需協助</li>
+        <li><span class="anchor-edge">6→7</span> 個人照護（洗澡／穿衣／如廁）依賴他人</li>
+      </ul>
+    </div>
+
     <p class="cfs-hint">請選擇最符合目前狀態的等級（必填，未選不得開始評估）。</p>
     <div class="cfs-list" role="radiogroup" aria-label="臨床衰弱量表等級">
       {#each CFS_LEVELS as level (level)}
@@ -135,6 +110,49 @@
       </label>
     </div>
   </fieldset>
+
+  <div class="optional-section">
+    <h3 class="optional-title">基本資料（選填）</h3>
+
+    <div class="field">
+      <label for="birthDate">出生日期</label>
+      <input
+        id="birthDate"
+        type="date"
+        bind:value={birthDate}
+        max={new Date().toISOString().split('T')[0]}
+      />
+      {#if ageMonths !== null}
+        <span class="age-badge">約 {Math.floor(ageMonths / 12)} 歲</span>
+      {/if}
+      {#if isUnder65}
+        <span class="age-notice">提醒：本系統以高齡周全性評估為主，未滿 65 歲仍可進行（不阻擋）。</span>
+      {/if}
+    </div>
+
+    <fieldset class="field">
+      <legend>性別</legend>
+      <div class="gender-pills">
+        <label class="pill" class:selected={gender === 'male'}>
+          <input type="radio" name="gender" value="male" bind:group={gender} />
+          男
+        </label>
+        <label class="pill" class:selected={gender === 'female'}>
+          <input type="radio" name="gender" value="female" bind:group={gender} />
+          女
+        </label>
+        <label class="pill" class:selected={gender === 'other'}>
+          <input type="radio" name="gender" value="other" bind:group={gender} />
+          其他
+        </label>
+      </div>
+    </fieldset>
+
+    <div class="field">
+      <label for="nickName">暱稱</label>
+      <input id="nickName" type="text" bind:value={nickName} placeholder="顯示用稱呼" />
+    </div>
+  </div>
 
   {#if validationError}
     <p class="error" role="alert">{validationError}</p>
@@ -257,7 +275,74 @@
     border-color: var(--accent);
   }
 
-  /* ---- CFS selector ---- */
+  /* ---- CFS selector (lead card) ---- */
+  .cfs-card {
+    padding: var(--space-5);
+    border: 1px solid color-mix(in srgb, var(--accent) 35%, var(--line));
+    border-radius: var(--radius-lg);
+    background: color-mix(in srgb, var(--accent) 5%, var(--bg));
+    margin-bottom: var(--space-8);
+  }
+
+  .cfs-card > legend {
+    font-size: var(--text-lg);
+    font-weight: var(--font-bold);
+    color: var(--text);
+    margin-bottom: var(--space-2);
+  }
+
+  .cfs-principle {
+    font-size: var(--text-sm);
+    line-height: var(--lh-base);
+    color: color-mix(in srgb, var(--text), var(--bg) 20%);
+    margin-bottom: var(--space-3);
+  }
+
+  /* Decision aid: adjacent-level thresholds (判讀關鍵分界) */
+  .cfs-anchors {
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    padding: var(--space-3) var(--space-4);
+    margin-bottom: var(--space-4);
+  }
+
+  .cfs-anchors-title {
+    display: block;
+    font-size: var(--text-sm);
+    font-weight: var(--font-bold);
+    color: var(--accent);
+    margin-bottom: var(--space-2);
+  }
+
+  .cfs-anchors ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .cfs-anchors li {
+    font-size: var(--text-sm);
+    line-height: var(--lh-base);
+    color: color-mix(in srgb, var(--text), var(--bg) 15%);
+  }
+
+  .anchor-edge {
+    display: inline-block;
+    min-width: 44px;
+    margin-right: var(--space-2);
+    padding: 0 var(--space-2);
+    border-radius: var(--radius-sm);
+    background: color-mix(in srgb, var(--accent) 14%, var(--bg));
+    color: var(--accent);
+    font-weight: var(--font-bold);
+    font-variant-numeric: tabular-nums;
+    text-align: center;
+  }
+
   .cfs-hint {
     font-size: var(--text-xs);
     color: color-mix(in srgb, var(--text), var(--bg) 30%);
@@ -334,6 +419,20 @@
   .yesno-pills {
     display: flex;
     gap: var(--space-3);
+  }
+
+  /* ---- Optional (record-only) demographics, demoted below the clinical inputs ---- */
+  .optional-section {
+    margin-top: var(--space-8);
+    padding-top: var(--space-5);
+    border-top: 1px solid var(--line);
+  }
+
+  .optional-title {
+    font-size: var(--text-base);
+    font-weight: var(--font-medium);
+    color: color-mix(in srgb, var(--text), var(--bg) 25%);
+    margin-bottom: var(--space-4);
   }
 
   .error {
