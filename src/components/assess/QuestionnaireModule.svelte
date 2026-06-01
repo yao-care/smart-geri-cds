@@ -27,6 +27,10 @@
     sub: string;
     domainLabel: string;
     clinicallyReviewed: boolean;
+    /** Scale tier + always-run flag → drives the per-segment progress display
+     *  (病安必評 = always-run 4AT/認知；大方向 = triage 一域一題；短篩/深評). */
+    tier: 'triage' | 'screen' | 'full';
+    alwaysRun: boolean;
     item: ScaleItem;
   }
 
@@ -100,6 +104,8 @@
         sub: s.domain.sub,
         domainLabel: domainLabel(s.domain.top, s.domain.sub),
         clinicallyReviewed: s.clinicallyReviewed,
+        tier: s.tier,
+        alwaysRun: !!s.alwaysRun,
         item,
       })),
     ),
@@ -289,9 +295,25 @@
 
   // ---- Progress ----
   const currentQuestion = $derived(questions[currentIndex] ?? null);
-  const totalQuestions = $derived(questions.length);
-  const answeredCount = $derived(Object.keys(answers).length);
-  const progressPct = $derived(totalQuestions > 0 ? Math.round((answeredCount / totalQuestions) * 100) : 0);
+
+  // ---- Per-segment progress（避免「大方向 共 29 題」這種嚇人的全覆蓋感）----
+  // 把一律施測的病安多題篩檢（4AT、認知）獨立成「病安必評」段落；「大方向」只算
+  // 一域一題的 triage。進度在「當前段落內」計數，而非全問卷總題數。
+  function segmentLabel(q: FlatQuestion): string {
+    if (q.alwaysRun) return '病安必評';
+    return q.tier === 'triage' ? '大方向' : q.tier === 'screen' ? '短篩' : '深評';
+  }
+  const currentSegment = $derived(currentQuestion ? segmentLabel(currentQuestion) : '');
+  const segmentQuestions = $derived(
+    currentQuestion ? questions.filter(q => segmentLabel(q) === currentSegment) : [],
+  );
+  const segIndex = $derived(
+    currentQuestion ? segmentQuestions.findIndex(q => q.item.id === currentQuestion.item.id) : -1,
+  );
+  const segTotal = $derived(segmentQuestions.length);
+  const segProgressPct = $derived(segTotal > 0 ? Math.round(((segIndex + 1) / segTotal) * 100) : 0);
+  // 大方向是一域一題 → 用「面向」；其餘段落用「題」。
+  const segUnit = $derived(currentSegment === '大方向' ? '面向' : '題');
 
   /** The ScaleDef the current question belongs to (for mode framing + gating). */
   const currentScaleDef = $derived<ScaleDef | null>(
@@ -637,13 +659,13 @@
     {/key}
 
   {:else if phase === 'asking' && currentQuestion}
-    <!-- Progress bar -->
-    <div class="progress-bar-wrap" role="progressbar" aria-valuenow={progressPct} aria-valuemin={0} aria-valuemax={100}>
+    <!-- Progress bar（段落內進度：病安必評／大方向／短篩／深評 各自計數） -->
+    <div class="progress-bar-wrap" role="progressbar" aria-valuenow={segProgressPct} aria-valuemin={0} aria-valuemax={100}>
       <div class="progress-bar-track">
-        <div class="progress-bar-fill" style="width: {progressPct}%"></div>
+        <div class="progress-bar-fill" style="width: {segProgressPct}%"></div>
       </div>
-      <span class="tier-label">{tier === 'triage' ? '大方向' : tier === 'screen' ? '短篩' : '深評'}</span>
-      <span class="progress-label">第 {currentIndex + 1} 題，共 {totalQuestions} 題</span>
+      <span class="tier-label">{currentSegment}</span>
+      <span class="progress-label">第 {segIndex + 1} / {segTotal} {segUnit}</span>
     </div>
 
     <!-- Self-harm safety notice (C-S2): immediate, prominent, non-blocking -->
