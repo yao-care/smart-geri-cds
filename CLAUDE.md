@@ -7,7 +7,7 @@
 
 兩條使用路徑：
 - 民眾自我檢視 `/self-check/`
-- 專業評估 `/assess/` → `/result/`，臨床工作區 `/workspace/`
+- 專業評估 `/assess/` → `/result/`（可上傳至收案機構）→ 臨床工作區 `/workspace/`
 
 ## 技術棧
 
@@ -17,7 +17,7 @@
 - **資料庫**: IndexedDB via Dexie 4（瀏覽器端）
 - **圖表**: D3 子模組（`d3-scale`、`d3-shape` 等）
 - **ML**: ONNX Runtime Web（WASM）in Web Worker
-- **FHIR**: fhirclient.js（SMART launch）
+- **FHIR**: 上傳兩路徑 — fhirclient.js（已連線醫院 SMART launch，頁內 POST）／原生 `fetch`+`crypto.subtle` PKCE（redirect 型收案機構如 GCM，不用 fhirclient 因需帶自訂 `login_hint`/`nickname`），共用 `/launch/` callback 雙路分流（憑 `sessionStorage['gcm.flow']`）
 - **搜尋**: Pagefind　**PDF**: jsPDF（動態 import）
 - **PWA**: 自建 service worker + manifest（`scripts/build-sw.mjs`、`build-manifest.mjs`）
 - **套件管理**: pnpm
