@@ -259,7 +259,7 @@ const CDSS_INDICATOR_ENUM = z.enum([
   'sleep_quality', 'activity_level', 'sugar_intake',
 ]);
 const CDSS_LEVEL_ENUM = z.enum(['advisory', 'warning', 'critical']);
-const CDSS_AGE_ENUM = z.enum(['infant', 'toddler', 'preschool']);
+const CDSS_AGE_ENUM = z.enum(['cfs-low', 'cfs-mid', 'cfs-high']);
 const videoIdsField = z.array(z.string().regex(/^[A-Za-z0-9_-]{11}$/)).default([]);
 
 export const cdsaTriageEntrySchema = z.object({
@@ -453,22 +453,22 @@ describe('triggerEntrySchema discriminatedUnion', () => {
 
   it('accepts cdss.vital-sign with critical', () => {
     expect(triggerEntrySchema.parse({
-      trigger: 'cdss.spo2.critical.infant',
+      trigger: 'cdss.spo2.critical.cfs-low',
       category: 'vital-sign',
       indicator: 'spo2',
       level: 'critical',
-      ageGroup: 'infant',
+      ageGroup: 'cfs-low',
       videoIds: [],
     })).toBeDefined();
   });
 
   it('rejects cdss with normal level (not in enum)', () => {
     expect(() => cdssVitalSignEntrySchema.parse({
-      trigger: 'cdss.spo2.normal.infant',
+      trigger: 'cdss.spo2.normal.cfs-low',
       category: 'vital-sign',
       indicator: 'spo2',
       level: 'normal',
-      ageGroup: 'infant',
+      ageGroup: 'cfs-low',
       videoIds: [],
     })).toThrow();
   });
@@ -748,12 +748,12 @@ describe('deriveCdssTriggers', () => {
   });
 
   it('skips normal-level indicators', () => {
-    expect(deriveCdssTriggers([mk('spo2', 'normal')], 'infant')).toEqual([]);
+    expect(deriveCdssTriggers([mk('spo2', 'normal')], 'cfs-low')).toEqual([]);
   });
 
   it('emits trigger for critical', () => {
-    expect(deriveCdssTriggers([mk('spo2', 'critical')], 'infant')).toEqual([
-      'cdss.spo2.critical.infant',
+    expect(deriveCdssTriggers([mk('spo2', 'critical')], 'cfs-low')).toEqual([
+      'cdss.spo2.critical.cfs-low',
     ]);
   });
 
@@ -761,14 +761,14 @@ describe('deriveCdssTriggers', () => {
     const triggers = deriveCdssTriggers([
       mk('spo2', 'warning'),
       mk('heart_rate', 'advisory'),
-    ], 'toddler');
-    expect(triggers).toContain('cdss.spo2.warning.toddler');
-    expect(triggers).toContain('cdss.heart_rate.advisory.toddler');
+    ], 'cfs-mid');
+    expect(triggers).toContain('cdss.spo2.warning.cfs-mid');
+    expect(triggers).toContain('cdss.heart_rate.advisory.cfs-mid');
   });
 
   it('throws on unknown indicator in DEV', () => {
     vi.stubEnv('DEV', true);
-    expect(() => deriveCdssTriggers([mk('unknown', 'warning')], 'infant')).toThrow(/Unknown CDSS indicator/);
+    expect(() => deriveCdssTriggers([mk('unknown', 'warning')], 'cfs-low')).toThrow(/Unknown CDSS indicator/);
     vi.unstubAllEnvs();
   });
 });
@@ -788,7 +788,7 @@ import type { TriageResult } from '../../engine/cdsa/triage';
 import type { AgeGroupCDSA } from '../utils/age-groups';
 import type { IndicatorResult } from '../../engine/workers/rule-engine.worker';
 
-type AgeGroupCDSS = 'infant' | 'toddler' | 'preschool';
+type AgeGroupCDSS = 'cfs-low' | 'cfs-mid' | 'cfs-high';
 
 const KNOWN_DOMAINS = new Set([
   'behavior', 'gross_motor', 'fine_motor', 'language',
@@ -958,7 +958,7 @@ Create `tests/fixtures/video-yaml/src/data/education/when-to-seek-help.md`:
 title: "何時就醫"
 summary: "範例"
 category: general
-ageGroup: [toddler]
+ageGroup: [cfs-mid]
 format: article
 publishedAt: 2024-01-01
 ---
@@ -1500,7 +1500,7 @@ describe('mergeCustomVideos', () => {
       [mk('v1', 0.9)],
       [
         mkCustom('vA', 0.5, ['cdsa.triage.refer.13-24m']),
-        mkCustom('vB', 0.5, ['cdss.spo2.critical.infant']),
+        mkCustom('vB', 0.5, ['cdss.spo2.critical.cfs-low']),
       ],
       'cdsa.triage.refer.13-24m',
       {},
@@ -2420,8 +2420,8 @@ git commit -m "feat(education-videos): curate-videos.ts main pipeline (search �
 
 - [ ] **Step 2: 跑 dry-run 確認 keywords.json schema OK**
 
-Run: `pnpm curate:videos --trigger cdss.spo2.critical.infant`
-Expected: 完整 pipeline 跑通 → 產出 `scripts/curate/reports/cdss.spo2.critical.infant.md`
+Run: `pnpm curate:videos --trigger cdss.spo2.critical.cfs-low`
+Expected: 完整 pipeline 跑通 → 產出 `scripts/curate/reports/cdss.spo2.critical.cfs-low.md`
 
 - [ ] **Step 3: Commit**
 
@@ -3030,7 +3030,7 @@ const relatedTriggers = Object.entries(indexData.triggers)
 # src/data/education/<slug>.md frontmatter
 ---
 title: ...
-relatedTriggers: [cdss.spo2.critical.infant, cdss.spo2.warning.infant]
+relatedTriggers: [cdss.spo2.critical.cfs-low, cdss.spo2.warning.cfs-low]
 ---
 ```
 

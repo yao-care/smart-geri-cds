@@ -3,8 +3,6 @@
 開源的**高齡周全性評估（CGA）臨床決策輔助系統**，以 SMART on FHIR 標準運行於瀏覽器端。
 零後端、部署於 GitHub Pages、支援 PWA 離線；CFS 分層 + 多領域量表的分流評估，所有運算皆在瀏覽器執行。
 
-> 本專案由兒科 CDS（smart-pedi-cds）fork 改造而來。部分基建（closed-loop 預警 / webhook / ONNX ML worker）沿用自來源，**目前非高齡 CGA 主流程重點**，維護時以下方「核心流程」為準。
-
 ## 兩條使用路徑
 
 - **民眾自我檢視** `/self-check/` — 白話題庫、TTS 朗讀、紅黃綠結果，純記憶體不持久化
@@ -48,11 +46,10 @@ src/
 │   ├── fhir/         # 連線與 callback（StandaloneLaunch / LaunchCallback…）
 │   ├── education/    # 衛教與影片
 │   ├── workspace/    # 臨床工作區
-│   └── common/ ui/ blocks/ settings/  # 通用 / 設定（含沿用的 webhook/ML 設定）
+│   └── common/ ui/ blocks/ settings/  # 通用 / 設定（FHIR Server、Webhook、通知、衛教）
 ├── engine/       # 客戶端引擎
 │   ├── cdsa/         # 分流核心（triage / radar-scoring / assessment-analyzer）
-│   ├── workers/      # Web Workers（rule-engine / baseline / ml-inference）
-│   └── fhir-writer / closed-loop / webhook / notification / tab-coordinator
+│   └── tab-coordinator.ts  # 多分頁 BroadcastChannel 協調
 ├── lib/          # 共用函式庫
 │   ├── fhir/         # SMART client、收案上傳（gcm-submit / intake-institutions）
 │   ├── db/           # IndexedDB DAO（Dexie schema、assessments…）
@@ -78,7 +75,7 @@ src/
 
 - **產生檔（已納版控，改完要重產提交）** — 否則 CI drift 檢查會擋下：
   `public/data/video-index.json`、`src/lib/education/clinical-education.generated.ts`、`src/lib/data/expected-questionnaire-domains.generated.json`。執行 `pnpm build`（或 predev/prebuild hook）即重產。
-- **內容資料位置**（`src/data/`）：量表 `scales/`、自評題庫 `self-check/`、衛教 `education/`、規則 `rules/`、基線 `baselines/`、影片 `video-catalog/`（皆 YAML/JSON/Markdown）。
+- **內容資料位置**（`src/data/`）：量表 `scales/`、自評題庫 `self-check/`、衛教 `education/`、影片 `video-catalog/`（皆 YAML/Markdown）。
 - **設計系統**：色彩僅用 7 個 token + `color-mix()`（OKLCH + hex fallback）；最小字級 18px、觸控 44px。規格見 `docs/superpowers/specs/`。
 - **開發規則**：見 [`CLAUDE.md`](./CLAUDE.md)（型別 strict 無 `any`、Svelte 5 runes、D3 子模組匯入、安全/PII 規範）。
 - **設計/實作文件**：`docs/superpowers/specs/`（設計）與 `docs/superpowers/plans/`（實作計畫）。

@@ -32,7 +32,7 @@ export type AgeGroupCDSA =
   | '37-48m' | '49-60m' | '61-72m';
 
 // src/lib/db/schema.ts — Patient.ageGroup（CDSS 用）
-type AgeGroupCDSS = 'infant' | 'toddler' | 'preschool';
+type AgeGroupCDSS = 'cfs-low' | 'cfs-mid' | 'cfs-high';
 
 // src/lib/utils/risk-levels.ts
 export type RiskLevel = 'normal' | 'advisory' | 'warning' | 'critical';
@@ -123,7 +123,7 @@ import type { TriageResult } from '../../engine/cdsa/triage';
 import type { AgeGroupCDSA } from '../utils/age-groups';
 import type { IndicatorResult } from '../../engine/workers/rule-engine.worker';
 
-type AgeGroupCDSS = 'infant' | 'toddler' | 'preschool';
+type AgeGroupCDSS = 'cfs-low' | 'cfs-mid' | 'cfs-high';
 
 const KNOWN_DOMAINS = new Set([
   'behavior', 'gross_motor', 'fine_motor', 'language',
@@ -258,7 +258,7 @@ const CDSS_INDICATOR_ENUM = z.enum([
 
 const CDSS_LEVEL_ENUM = z.enum(['advisory', 'warning', 'critical']);
 
-const CDSS_AGE_ENUM = z.enum(['infant', 'toddler', 'preschool']);
+const CDSS_AGE_ENUM = z.enum(['cfs-low', 'cfs-mid', 'cfs-high']);
 
 const videoIdsField = z.array(z.string().regex(/^[A-Za-z0-9_-]{11}$/)).default([]);
 
@@ -426,11 +426,11 @@ scripts/
 
 **`src/data/education-videos/cdss-vital-signs.yaml`**：
 ```yaml
-- trigger: cdss.spo2.critical.infant
+- trigger: cdss.spo2.critical.cfs-low
   category: vital-sign         # 注意：hyphen，與 schema discriminator 一致
   indicator: spo2              # snake_case
   level: critical
-  ageGroup: infant
+  ageGroup: cfs-low
   educationSlug: respiratory-care
   videoIds:
     - abc123XYZ45
@@ -815,7 +815,7 @@ V1 實作以「custom 永遠空陣列」走 happy path；介面行為仍由 §6 
 
 ```bash
 pnpm curate:videos                              # 全量
-pnpm curate:videos --trigger cdss.spo2.critical.infant
+pnpm curate:videos --trigger cdss.spo2.critical.cfs-low
 pnpm curate:videos --category cdss
 pnpm curate:videos --redo-rejected
 pnpm curate:videos --validate-only
@@ -948,9 +948,9 @@ score =
 
 ```json
 {
-  "cdss.spo2.critical.infant": {
+  "cdss.spo2.critical.cfs-low": {
     "primary":   ["長者 血氧 過低", "新生兒 缺氧 緊急"],
-    "secondary": ["infant low SpO2 emergency"],
+    "secondary": ["cfs-low low SpO2 emergency"],
     "educationSlug": "respiratory-care",
     "minDuration": 60,
     "maxDuration": 600,
@@ -1062,7 +1062,7 @@ jobs:
 | # | 檢核項 | 通過條件 |
 |---|--------|---------|
 | 1 | **臨床正確性** | 字幕陳述符合台灣老年醫學醫學會 / WHO / CDC 主流共識；無單一研究結論誇大、無已撤回指引 |
-| 2 | **年齡適配** | 影片內 demonstrated 年齡與 trigger 的 ageGroup 一致或鄰近一格；不適配（如示範學齡兒卻歸 infant trigger）→ fail |
+| 2 | **年齡適配** | 影片內 demonstrated 年齡與 trigger 的 ageGroup 一致或鄰近一格；不適配（如示範學齡兒卻歸 cfs-low trigger）→ fail |
 | 3 | **症狀 vs 診斷區隔** | 不把症狀直接稱為診斷（例如「咳嗽 = 肺炎」）；該轉介就醫的場景明確提示「請就醫」而非自行處置 |
 | 4 | **無商業推銷** | 不推銷特定品牌奶粉/益生菌/維他命/智慧穿戴；不出現「使用優惠碼」「下方連結購買」 |
 | 5 | **無偽科學** | 不提偏方、不提中醫無 RCT 證據療法、不提食補替代醫療、不提抗疫苗論述 |

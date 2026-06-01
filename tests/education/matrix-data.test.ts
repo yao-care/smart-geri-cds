@@ -7,8 +7,8 @@ const triggers = {
   'cga.domain.functional.mobility.anomaly.cfs5': { videoIds: [],               inapplicable: false },
   // article-only cell (educationSlug, no videos) must still surface in the matrix
   'cga.domain.psychological.mood.anomaly.cfs5':  { videoIds: [],               inapplicable: false, educationSlug: 'mood-care' },
-  // cdss.* and cga.triage.* (incl. their educationSlug) must be ignored by the matrix
-  'cdss.sugar_intake.critical.toddler':          { videoIds: ['xyz'],          inapplicable: false, educationSlug: 'diet-control' },
+  // non-domain keys (cga.triage.* and any legacy key, incl. their educationSlug) must be ignored by the matrix
+  'legacy.ignored.key.cfs5':                     { videoIds: ['xyz'],          inapplicable: false, educationSlug: 'nutrition-guide' },
   'cga.triage.refer.cfs5':                       { videoIds: [],               inapplicable: false },
 };
 

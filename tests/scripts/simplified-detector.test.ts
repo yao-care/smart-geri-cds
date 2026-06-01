@@ -3,7 +3,7 @@ import { simplifiedRatio } from '../../scripts/curate/lib/simplified-detector';
 
 describe('simplifiedRatio', () => {
   it('returns 0 for pure traditional', () => {
-    expect(simplifiedRatio('兒童體重發展')).toBeLessThan(0.1);
+    expect(simplifiedRatio('長者體重變化')).toBeLessThan(0.1);
   });
 
   it('returns > 0.3 for simplified content', () => {

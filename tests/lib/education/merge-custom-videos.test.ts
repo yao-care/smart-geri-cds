@@ -13,7 +13,7 @@ const mkCustom = (id: string, score: number, triggers: string[] | '*' = '*'): Cu
 
 describe('mergeCustomVideos', () => {
   it('returns static videos when no custom', () => {
-    const merged = mergeCustomVideos([mk('v1', 0.9), mk('v2', 0.7)], [], 'cdsa.triage.refer.13-24m', {});
+    const merged = mergeCustomVideos([mk('v1', 0.9), mk('v2', 0.7)], [], 'cga.triage.refer.cfs5', {});
     expect(merged.map(v => v.videoId)).toEqual(['v1', 'v2']);
   });
 
@@ -21,7 +21,7 @@ describe('mergeCustomVideos', () => {
     const merged = mergeCustomVideos(
       [mk('v1', 0.9)],
       [mkCustom('vCustom', 0.5)],
-      'cdsa.triage.refer.13-24m',
+      'cga.triage.refer.cfs5',
       {},
     );
     expect(merged.map(v => v.videoId)).toEqual(['vCustom', 'v1']);
@@ -31,7 +31,7 @@ describe('mergeCustomVideos', () => {
     const merged = mergeCustomVideos(
       [mk('v1', 0.9)],
       [mkCustom('v1', 0.3)],
-      'cdsa.triage.refer.13-24m',
+      'cga.triage.refer.cfs5',
       {},
     );
     expect(merged).toHaveLength(1);
@@ -42,10 +42,10 @@ describe('mergeCustomVideos', () => {
     const merged = mergeCustomVideos(
       [mk('v1', 0.9)],
       [
-        mkCustom('vA', 0.5, ['cdsa.triage.refer.13-24m']),
-        mkCustom('vB', 0.5, ['cdss.spo2.critical.infant']),
+        mkCustom('vA', 0.5, ['cga.triage.refer.cfs5']),
+        mkCustom('vB', 0.5, ['cga.domain.physical.nutrition.anomaly.cfs5']),
       ],
-      'cdsa.triage.refer.13-24m',
+      'cga.triage.refer.cfs5',
       {},
     );
     expect(merged.map(v => v.videoId)).toEqual(['vA', 'v1']);
@@ -55,7 +55,7 @@ describe('mergeCustomVideos', () => {
     const merged = mergeCustomVideos(
       [mk('v1', 0.9)],
       [mkCustom('vAll', 0.5, '*')],
-      'cdsa.triage.refer.13-24m',
+      'cga.triage.refer.cfs5',
       {},
     );
     expect(merged.map(v => v.videoId)).toEqual(['vAll', 'v1']);
@@ -65,7 +65,7 @@ describe('mergeCustomVideos', () => {
     const merged = mergeCustomVideos(
       [mk('v1', 0.9), mk('v2', 0.7)],
       [mkCustom('vA', 0.5)],
-      'cdsa.triage.refer.13-24m',
+      'cga.triage.refer.cfs5',
       { maxResults: 2 },
     );
     expect(merged.map(v => v.videoId)).toEqual(['vA', 'v1']);
@@ -75,7 +75,7 @@ describe('mergeCustomVideos', () => {
     const merged = mergeCustomVideos(
       [mk('v1', 0.7), mk('v2', 0.9)],
       [mkCustom('vA', 0.4), mkCustom('vB', 0.6)],
-      'cdsa.triage.refer.13-24m',
+      'cga.triage.refer.cfs5',
       {},
     );
     expect(merged.map(v => v.videoId)).toEqual(['vB', 'vA', 'v2', 'v1']);

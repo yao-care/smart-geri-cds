@@ -8,7 +8,7 @@ describe('SW register', () => {
 
   it('does not register in dev mode', async () => {
     vi.stubEnv('PROD', false);
-    vi.stubEnv('BASE_URL', '/smart-pedi-cds/');
+    vi.stubEnv('BASE_URL', '/smart-geri-cds/');
     const reg = vi.mocked(navigator.serviceWorker.register);
     reg.mockClear();
     const mod = await import('../../../src/lib/sw/register');
@@ -18,17 +18,17 @@ describe('SW register', () => {
 
   it('registers SW with correct base path in prod', async () => {
     vi.stubEnv('PROD', true);
-    vi.stubEnv('BASE_URL', '/smart-pedi-cds/');
+    vi.stubEnv('BASE_URL', '/smart-geri-cds/');
     const reg = vi.mocked(navigator.serviceWorker.register);
     reg.mockClear();
     const mod = await import('../../../src/lib/sw/register');
     mod.registerSW();
-    expect(reg).toHaveBeenCalledWith('/smart-pedi-cds/sw.js');
+    expect(reg).toHaveBeenCalledWith('/smart-geri-cds/sw.js');
   });
 
   it('handles SW register failure gracefully', async () => {
     vi.stubEnv('PROD', true);
-    vi.stubEnv('BASE_URL', '/smart-pedi-cds/');
+    vi.stubEnv('BASE_URL', '/smart-geri-cds/');
     const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
     const reg = vi.mocked(navigator.serviceWorker.register);
     reg.mockClear();

@@ -30,7 +30,7 @@
 ## 既有資料事實（執行者必讀）
 
 - `AGE_GROUPS_CDSA` = `['2-6m','7-12m','13-24m','25-36m','37-48m','49-60m','61-72m']`（`src/lib/utils/age-groups.ts`）。
-- CDSS 粗年齡 ↔ CDSA 細年齡：`infant`→`2-6m,7-12m`；`toddler`→`13-24m,25-36m`；`preschool`→`37-48m,49-60m,61-72m`。
+- CDSS 粗年齡 ↔ CDSA 細年齡：`cfs-low`→`2-6m,7-12m`；`cfs-mid`→`13-24m,25-36m`；`cfs-high`→`37-48m,49-60m,61-72m`。
 - **不適用 10 格**（source：`scripts/curate/inapplicable-matrix.json`）：behavior[2-6m,7-12m]、fine_motor[2-6m]、language[2-6m]、cognition[2-6m,7-12m]、language_comprehension[2-6m]、language_expression[2-6m,7-12m]、social_emotional[2-6m]。gross_motor 無。
 - **領域命名不一致（必須正規化）**：`recommendations`/`default.json` 用 `language_comp`、`language_expr`、`diet`；CDSA/schemas 用 `language_comprehension`、`language_expression`，且**無 `diet` 領域**。
   - 正規化決定：採 **CDSA 命名**為 canonical（`language_comprehension`/`language_expression`）。
@@ -60,7 +60,7 @@ relevance:
     cdsa: { domains: [language], ageGroups: [13-24m] }
   - ref: { type: article, slug: when-to-seek-help }
     cdsa: { domains: all, severities: [refer] }
-    clinical: ["cdsa.triage.refer.*", "cdss.heart_rate.critical.infant", "cdss.temperature.critical.*"]
+    clinical: ["cdsa.triage.refer.*", "cdss.heart_rate.critical.cfs-low", "cdss.temperature.critical.*"]
   - ref: { type: article, slug: diet-control }
     cdsa: { domains: [], severities: [monitor, refer] }   # diet 非發展領域 → 不進矩陣
     clinical: ["cdss.sugar_intake.critical.*"]

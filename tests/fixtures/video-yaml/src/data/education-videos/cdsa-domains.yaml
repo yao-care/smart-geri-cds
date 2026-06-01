@@ -1,6 +1,0 @@
-- trigger: cdsa.domain.fine_motor.anomaly.2-6m
-  category: domain
-  domain: fine_motor
-  ageGroup: 2-6m
-  inapplicable: true
-  videoIds: []

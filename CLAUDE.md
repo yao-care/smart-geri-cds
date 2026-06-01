@@ -16,7 +16,6 @@
 - **內容**: Astro Content Layer + Zod（`src/content.config.ts`）
 - **資料庫**: IndexedDB via Dexie 4（瀏覽器端）
 - **圖表**: D3 子模組（`d3-scale`、`d3-shape` 等）
-- **ML**: ONNX Runtime Web（WASM）in Web Worker
 - **FHIR**: 上傳兩路徑 — fhirclient.js（已連線醫院 SMART launch，頁內 POST）／原生 `fetch`+`crypto.subtle` PKCE（redirect 型收案機構如 GCM，不用 fhirclient 因需帶自訂 `login_hint`/`nickname`），共用 `/launch/` callback 雙路分流（憑 `sessionStorage['gcm.flow']`）
 - **搜尋**: Pagefind　**PDF**: jsPDF（動態 import）
 - **PWA**: 自建 service worker + manifest（`scripts/build-sw.mjs`、`build-manifest.mjs`）
@@ -62,25 +61,25 @@ pnpm test:e2e     # Playwright
 
 ### 架構
 
-- 重計算（規則引擎、基線、ML）放 Web Worker（`src/engine/workers/`）
+- 分流核心在 `src/engine/cdsa/`（triage / radar-scoring / assessment-analyzer）
 - 主執行緒僅處理 UI 與閉環狀態
 - 多分頁用 BroadcastChannel 協調（`src/engine/tab-coordinator.ts`）
 - 離線操作排入 sync queue（`src/lib/db/sync-queue.ts`）
 
 ### 內容
 
-- 衛教 `src/data/education/`、規則 `src/data/rules/`（YAML）、基線 `src/data/baselines/`（JSON）
+- 衛教 `src/data/education/`（含唯一關聯源 `content-relevance.yaml`）
 - 量表 `src/data/scales/`、自評題庫 `src/data/self-check/`、影片 `src/data/video-catalog/`
 
 ## 目錄結構重點
 
-- `src/engine/` — 引擎（`cdsa/` 分流、`workers/`、`tab-coordinator`、`fhir-writer`）
+- `src/engine/` — 引擎（`cdsa/` 分流、`tab-coordinator`）
 - `src/lib/` — 共用函式庫（`fhir`、`db`、`stores`、`scales`、`education`、`sw`）
 - `src/components/` — UI 元件（按功能分目錄：`assess`、`self-check`、`common`、`education`…）
 - `src/data/` — Content Layer 資料
 - `src/pages/` — 路由　`src/layouts/` — 佈局（`Base.astro`）
 - `src/styles/` — `tokens.css`、`global.css`、`typography.css`
-- `public/models/` — ONNX 模型　`public/sounds/` — 音效
+- `public/sounds/` — 音效　`public/data/` — 產生的 video-index
 
 ## 分級（Severity）與設計系統
 

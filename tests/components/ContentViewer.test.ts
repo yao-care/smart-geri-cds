@@ -16,13 +16,13 @@ describe('ContentViewer', () => {
     render(ContentViewer, {
       props: {
         slug: 'test-video',
-        title: '兒童睡眠衛教',
+        title: '高齡睡眠衛教',
         format: 'video',
         videoUrl: 'https://www.youtube.com/watch?v=abc12345678',
       },
     });
 
-    expect(screen.getByText('兒童睡眠衛教')).toBeInTheDocument();
+    expect(screen.getByText('高齡睡眠衛教')).toBeInTheDocument();
     expect(screen.getByText('影片')).toBeInTheDocument();
   });
 

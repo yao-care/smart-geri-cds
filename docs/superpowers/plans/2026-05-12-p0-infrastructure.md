@@ -65,11 +65,11 @@ Wave 4 (parallel): P0-8, P0-9
 
 Content Layer schemas must match spec section 4.4 exactly:
 
-**educationCollection:** glob loader, `**/*.md` from `./src/data/education`, schema with title, summary, category (enum: diet/sleep/respiratory/exercise/milestone/general), ageGroup (array of enum infant/toddler/preschool), format (enum: article/video/questionnaire), videoUrl optional, triggerIndicators optional array of strings, publishedAt date, updatedAt optional date, locale default zh-TW.
+**educationCollection:** glob loader, `**/*.md` from `./src/data/education`, schema with title, summary, category (enum: diet/sleep/respiratory/exercise/milestone/general), ageGroup (array of enum cfs-low/cfs-mid/cfs-high), format (enum: article/video/questionnaire), videoUrl optional, triggerIndicators optional array of strings, publishedAt date, updatedAt optional date, locale default zh-TW.
 
 **rulesCollection:** file loader from `./src/data/rules/geriatric-default.yaml`. Schema: version string, age_groups record of objects per indicator (heart_rate, spo2, respiratory_rate, temperature, sleep_quality, activity_level, sugar_intake) each with normal/advisory/warning as [number, number] tuples. Plus escalation, deduplication, missing_data, multi_indicator, trend config objects per spec.
 
-**baselinesCollection:** file loader from `./src/data/baselines/geriatric-baselines.json`. Schema per spec: 9 keys (infant, infant:male, infant:female, toddler, toddler:male, toddler:female, preschool, preschool:male, preschool:female), each with 7 indicators having mean, std, optional min/max/p25/p75.
+**baselinesCollection:** file loader from `./src/data/baselines/geriatric-baselines.json`. Schema per spec: 9 keys (cfs-low, cfs-low:male, cfs-low:female, cfs-mid, cfs-mid:male, cfs-mid:female, cfs-high, cfs-high:male, cfs-high:female), each with 7 indicators having mean, std, optional min/max/p25/p75.
 
 **Seed data:**
 - Rules YAML: realistic geriatric thresholds for 3 age groups x 7 indicators x 3 levels
@@ -117,7 +117,7 @@ Content Layer schemas must match spec section 4.4 exactly:
 - Type `IndicatorName` = union of 7 indicator names
 
 **date.ts:**
-- `ageGroup(birthDate: string | Date): 'infant' | 'toddler' | 'preschool'` — <1y infant, 1-3y toddler, 3-6y preschool
+- `ageGroup(birthDate: string | Date): 'cfs-low' | 'cfs-mid' | 'cfs-high'` — <1y cfs-low, 1-3y cfs-mid, 3-6y cfs-high
 - `formatDateTime(date: Date, locale?: string): string` — zh-TW locale format
 - `daysBetween(a: Date, b: Date): number`
 - `hoursAgo(hours: number): Date`

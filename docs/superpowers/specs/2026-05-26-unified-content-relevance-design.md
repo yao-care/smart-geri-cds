@@ -81,7 +81,7 @@ triggers:                     # 每個情境格列出該格內容
       - { slug: exercise-guide,         severities: [monitor, refer] }
 
   # 生理警示格：cdss.<指標>.<層級>.<年齡>
-  - trigger: cdss.sugar_intake.critical.infant
+  - trigger: cdss.sugar_intake.critical.cfs-low
     videoIds: [oRDPgoXP9Ik]
     articles:
       - { slug: diet-control }

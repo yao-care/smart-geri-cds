@@ -54,13 +54,13 @@ const triggers = {
   'cdsa.domain.language.anomaly.2-6m':   { videoIds: [],              inapplicable: true  },
   'cdsa.domain.gross_motor.anomaly.13-24m': { videoIds: [],           inapplicable: false },
   // cdss.* and cdsa.triage.* should be ignored
-  'cdss.sugar_intake.critical.toddler':  { videoIds: ['xyz'],          inapplicable: false },
+  'cdss.sugar_intake.critical.cfs-mid':  { videoIds: ['xyz'],          inapplicable: false },
   'cdsa.triage.refer.13-24m':            { videoIds: [],              inapplicable: false },
 };
 
 const slugToTriggers = {
   'language-stimulation': ['cdsa.domain.language.anomaly.13-24m'],
-  'diet-control': ['cdss.sugar_intake.critical.toddler'],  // cdss — must NOT appear in matrix
+  'diet-control': ['cdss.sugar_intake.critical.cfs-mid'],  // cdss — must NOT appear in matrix
 };
 
 describe('buildMatrixData', () => {

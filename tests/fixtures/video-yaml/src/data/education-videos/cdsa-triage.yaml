@@ -1,8 +1,0 @@
-- trigger: cdsa.triage.refer.13-24m
-  category: triage
-  triageCategory: refer
-  ageGroup: 13-24m
-  educationSlug: when-to-seek-help
-  videoIds:
-    - abc123XYZ45
-    - def456ABC78
