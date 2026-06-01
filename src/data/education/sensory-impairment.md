@@ -2,7 +2,6 @@
 title: "視聽功能障礙的因應"
 summary: "視力與聽力退化會影響安全、溝通與情緒，了解常見問題、輔具運用與環境調整，並鼓勵定期檢查。"
 category: "general"
-ageGroup: []
 format: "article"
 publishedAt: 2026-05-27
 locale: "zh-TW"

@@ -25,7 +25,7 @@ class AssessmentStore {
   isLoading = $state(false);
   error = $state<string | null>(null);
 
-  /** 分層軸：CFS 等級（入口 gate 判定，取代年齡帶 ageGroup）。 */
+  /** 分層軸：CFS 等級（入口 gate 判定）。 */
   cfsLevel = $state<CfsLevel | null>(null);
 
   /** SOP 真相：是否有熟悉受測者日常的家屬／照顧者可提供資訊。

@@ -1,12 +1,6 @@
 import type { TriageResult } from '../../engine/cdsa/triage';
 import type { CfsLevel } from '../utils/cfs-levels';
-import type { IndicatorResult } from '../../engine/workers/rule-engine.worker';
-import { CDSS_INDICATOR_NAMES } from './schemas';
 import { isValidDomain } from '../domain/domain-tree';
-
-type AgeGroupCDSS = 'infant' | 'toddler' | 'preschool';
-
-const KNOWN_INDICATORS = new Set<string>(CDSS_INDICATOR_NAMES);
 
 /**
  * 投影 CGA 分流結果為 trigger 字串集合（二層域 × CFS 軸）。
@@ -43,28 +37,5 @@ export function deriveCgaTriggers(
     triggers.push(`cga.domain.${top}.${sub}.anomaly.${cfsLevel}`);
   }
 
-  return triggers;
-}
-
-/**
- * CDSS 生理指標 trigger（兒科年齡軸，純問卷版停用，不被呼叫）。
- * 保留供 Phase 3 老年量測模組重新接入。
- */
-export function deriveCdssTriggers(
-  indicators: IndicatorResult[],
-  ageGroup: AgeGroupCDSS,
-): string[] {
-  const triggers: string[] = [];
-  for (const ir of indicators) {
-    if (ir.level === 'normal') continue;
-    if (!KNOWN_INDICATORS.has(ir.indicator)) {
-      if (import.meta.env.DEV) {
-        throw new Error(`Unknown CDSS indicator: ${ir.indicator}`);
-      }
-      console.warn(`[trigger-derivation] Unknown indicator: ${ir.indicator}, skipping`);
-      continue;
-    }
-    triggers.push(`cdss.${ir.indicator}.${ir.level}.${ageGroup}`);
-  }
   return triggers;
 }

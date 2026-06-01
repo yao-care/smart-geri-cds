@@ -2,7 +2,6 @@
 title: "長者跌倒預防"
 summary: "了解跌倒的常見原因與可行的預防策略，從居家環境、運動到用藥檢視多管齊下降低跌倒風險。"
 category: "general"
-ageGroup: []
 format: "article"
 publishedAt: 2026-05-27
 locale: "zh-TW"

@@ -2,7 +2,6 @@
 title: "末期長者的營養支持"
 summary: "末期（CFS 8-9 / 預期生命 < 6 個月）營養目標從「補足熱量」轉為「維持舒適」，理解食慾下降是疾病進展，不必強迫進食。"
 category: "general"
-ageGroup: []
 format: "article"
 publishedAt: 2026-05-28
 locale: "zh-TW"

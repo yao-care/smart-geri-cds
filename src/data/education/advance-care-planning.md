@@ -2,7 +2,6 @@
 title: "預立醫療照護諮商（ACP）"
 summary: "了解預立醫療照護諮商與預立醫療決定的意義，提早與家人、醫療團隊討論未來醫療照護的偏好。"
 category: "general"
-ageGroup: []
 format: "article"
 publishedAt: 2026-05-27
 locale: "zh-TW"

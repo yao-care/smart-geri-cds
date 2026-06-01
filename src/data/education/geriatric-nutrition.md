@@ -2,7 +2,6 @@
 title: "長者營養照護"
 summary: "認識長者營養不良與體重流失的風險因子，掌握均衡飲食、足夠蛋白質與水分，以及進食困難的因應。"
 category: "general"
-ageGroup: []
 format: "article"
 publishedAt: 2026-05-27
 locale: "zh-TW"

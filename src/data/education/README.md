@@ -11,17 +11,13 @@
 {
   title: string;
   summary: string;
-  category: 'diet' | 'sleep' | 'respiratory' | 'exercise' | 'milestone' | 'general';
-  ageGroup: ('infant' | 'toddler' | 'preschool')[];   // 高齡文章一律用 []
+  category: 'general';                                  // 高齡照護
   format: 'article';                                    // ← 僅允許 'article'
   publishedAt: Date;
   updatedAt?: Date;
   locale?: string;                                      // 預設 'zh-TW'
 }
 ```
-
-> 註：`category` / `ageGroup` enum 為早期兒科設計殘留；高齡文章統一以 `category: general` + `ageGroup: []` 撰寫。
-> enum 收斂為高齡語意（領域分類）屬 Phase 2-C 殘留清理範圍。
 
 ## 現有高齡衛教文章（slug → 對應 CGA 領域子項）
 

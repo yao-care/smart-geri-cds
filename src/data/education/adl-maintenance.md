@@ -2,7 +2,6 @@
 title: "日常生活功能的維持"
 summary: "認識基本與工具性日常生活活動能力（ADL/IADL），透過復能、輔具與環境調整協助長者維持獨立。"
 category: "general"
-ageGroup: []
 format: "article"
 publishedAt: 2026-05-27
 locale: "zh-TW"

@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import {
   videoCatalogItemSchema, triggerEntrySchema,
-  cgaTriageEntrySchema, cgaDomainEntrySchema, cdssVitalSignEntrySchema,
+  cgaTriageEntrySchema, cgaDomainEntrySchema,
   contentRelevanceSchema,
 } from '../../../src/lib/education/schemas';
 
@@ -138,30 +138,6 @@ describe('cgaTriageEntrySchema (cfs)', () => {
       triageCategory: 'monitor',
       cfsLevel: 'cfs5',
       videoIds: ['SHORT'],
-    })).toThrow();
-  });
-});
-
-describe('cdssVitalSignEntrySchema (kept, cfs-keyed; Phase 2 unused)', () => {
-  it('accepts a valid cga.vital entry', () => {
-    expect(triggerEntrySchema.parse({
-      trigger: 'cga.vital.spo2.critical.cfs5',
-      category: 'vital-sign',
-      indicator: 'spo2',
-      level: 'critical',
-      cfsLevel: 'cfs5',
-      videoIds: [],
-    })).toBeDefined();
-  });
-
-  it('rejects normal level (not in enum)', () => {
-    expect(() => cdssVitalSignEntrySchema.parse({
-      trigger: 'cga.vital.spo2.normal.cfs5',
-      category: 'vital-sign',
-      indicator: 'spo2',
-      level: 'normal',
-      cfsLevel: 'cfs5',
-      videoIds: [],
     })).toThrow();
   });
 });

@@ -2,7 +2,6 @@
 title: "譫妄的認識與處理"
 summary: "譫妄是一種急性、波動的意識與注意力混亂，常見於住院或生病的長者，及早辨識並處理誘因很重要。"
 category: "general"
-ageGroup: []
 format: "article"
 publishedAt: 2026-05-27
 locale: "zh-TW"

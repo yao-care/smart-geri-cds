@@ -2,7 +2,6 @@
 title: "治療意願與不施行心肺復甦（DNR）"
 summary: "認識維持生命治療的選擇與 DNR/安寧緩和意願，了解如何表達並記錄自己對末期醫療的偏好。"
 category: "general"
-ageGroup: []
 format: "article"
 publishedAt: 2026-05-27
 locale: "zh-TW"

@@ -2,7 +2,6 @@
 title: "居家安全與無障礙"
 summary: "從照明、地面、扶手到浴廁與動線，逐區檢視並改善居家環境，降低長者跌倒與意外風險。"
 category: "general"
-ageGroup: []
 format: "article"
 publishedAt: 2026-05-27
 locale: "zh-TW"

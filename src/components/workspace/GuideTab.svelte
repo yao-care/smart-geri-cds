@@ -67,7 +67,7 @@
   <section>
     <h3>跨裝置情境</h3>
     <p>
-      家長端評估完成後送 FHIR Observation + DiagnosticReport 到醫院 Server。
+      評估完成後送 FHIR Observation + DiagnosticReport 到醫院 Server。
       醫師在自己裝置開「評估」清單時，會從 FHIR 拉回；本機沒紀錄的評估第一次開會 fetch FHIR，之後 cache 在本機 IndexedDB（顯示「來自 FHIR Server」badge）。
     </p>
   </section>
@@ -84,7 +84,7 @@
     </details>
     <details>
       <summary>本機示範資料怎麼產生？</summary>
-      <p>用 <a href="/assess/">家長端評估流程</a> 跑一遍，完成後該筆紀錄會自動寫入這台裝置的 IndexedDB，未登入 FHIR 時的「評估」tab 就會列出來。</p>
+      <p>用 <a href="/assess/">評估流程</a> 跑一遍，完成後該筆紀錄會自動寫入這台裝置的 IndexedDB，未登入 FHIR 時的「評估」tab 就會列出來。</p>
     </details>
   </section>
 </article>

@@ -16,12 +16,13 @@
   });
 
   const categoryLabels: Record<string, string> = {
-    diet: '飲食',
-    sleep: '睡眠',
-    respiratory: '呼吸',
-    exercise: '運動',
-    milestone: '里程碑',
-    general: '高齡照護',
+    general: '一般照護',
+    cognition: '認知',
+    mood: '情緒',
+    mobility: '行動與跌倒',
+    nutrition: '營養',
+    medication: '用藥安全',
+    social: '社會支持',
   };
 </script>
 

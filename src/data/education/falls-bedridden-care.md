@@ -2,7 +2,6 @@
 title: "重度依賴長者的跌倒/墜床預防與壓瘡照護"
 summary: "對臥床或重度依賴（CFS 7-9）長者，跌倒風險改為「墜床」與「轉位閃失」；翻身、定位、防護墊與壓瘡預防同等重要。"
 category: "general"
-ageGroup: []
 format: "article"
 publishedAt: 2026-05-28
 locale: "zh-TW"

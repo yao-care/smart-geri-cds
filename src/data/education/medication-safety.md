@@ -2,7 +2,6 @@
 title: "多重用藥安全"
 summary: "了解多重用藥（polypharmacy）對長者的風險，學習整理藥單、與醫師藥師討論減藥的原則與用藥安全習慣。"
 category: "general"
-ageGroup: []
 format: "article"
 publishedAt: 2026-05-27
 locale: "zh-TW"

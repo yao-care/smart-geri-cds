@@ -16,18 +16,7 @@ const { entry } = Astro.props;
 const { Content } = await render(entry);
 
 const categoryLabels: Record<string, string> = {
-  diet: '飲食',
-  sleep: '睡眠',
-  respiratory: '呼吸',
-  exercise: '運動',
-  milestone: '里程碑',
   general: '高齡照護',
-};
-
-const ageGroupLabels: Record<string, string> = {
-  infant: '嬰兒',
-  toddler: '幼兒',
-  preschool: '學齡前',
 };
 
 const formatLabels: Record<string, string> = {
@@ -51,9 +40,6 @@ const breadcrumbs = [
   <div class="content-meta">
     <span class="meta-badge category-badge">{categoryLabels[entry.data.category] ?? entry.data.category}</span>
     <span class="meta-badge format-badge">{formatLabels[entry.data.format] ?? entry.data.format}</span>
-    {entry.data.ageGroup.map((age: string) => (
-      <span class="meta-badge age-badge">{ageGroupLabels[age] ?? age}</span>
-    ))}
   </div>
 
   {entry.data.format === 'article' && <Content />}

@@ -2,7 +2,6 @@
 title: "肌少症與運動"
 summary: "認識隨年齡流失的肌肉量與肌力（肌少症），並透過阻力運動與足夠蛋白質攝取維持行動能力。"
 category: "general"
-ageGroup: []
 format: "article"
 publishedAt: 2026-05-27
 locale: "zh-TW"

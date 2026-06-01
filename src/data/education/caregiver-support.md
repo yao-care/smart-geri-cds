@@ -2,7 +2,6 @@
 title: "照顧者壓力與支持"
 summary: "長期照顧容易累積身心壓力與負荷，認識照顧者倦怠的徵兆，學習自我照顧與善用喘息與支持資源。"
 category: "general"
-ageGroup: []
 format: "article"
 publishedAt: 2026-05-27
 locale: "zh-TW"

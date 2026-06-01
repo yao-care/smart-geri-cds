@@ -2,7 +2,6 @@
 title: "社會連結與孤立預防"
 summary: "社會孤立與孤獨會影響長者的身心健康，了解風險、維持人際連結的方法與可運用的社區資源。"
 category: "general"
-ageGroup: []
 format: "article"
 publishedAt: 2026-05-27
 locale: "zh-TW"

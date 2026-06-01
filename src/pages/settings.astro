@@ -1,10 +1,8 @@
 ---
 import App from '../layouts/App.astro';
 import ServerConfig from '../components/fhir/ServerConfig.svelte';
-import RuleEditor from '../components/settings/RuleEditor.svelte';
 import WebhookConfig from '../components/settings/WebhookConfig.svelte';
 import NotificationPrefs from '../components/settings/NotificationPrefs.svelte';
-import ModelManager from '../components/settings/ModelManager.svelte';
 import EducationManager from '../components/settings/EducationManager.svelte';
 import RecommendationsManager from '../components/settings/RecommendationsManager.svelte';
 import SystemGuide from '../components/settings/SystemGuide.svelte';
@@ -12,16 +10,14 @@ import SystemGuide from '../components/settings/SystemGuide.svelte';
 const tabs = [
   { id: 'guide', label: '系統說明' },
   { id: 'fhir', label: 'FHIR Server 設定' },
-  { id: 'rules', label: '規則管理' },
   { id: 'webhook', label: 'Webhook 設定' },
   { id: 'notification', label: '通知偏好' },
-  { id: 'model', label: '模型管理' },
   { id: 'education', label: '衛教管理' },
   { id: 'recommendations', label: '評估推薦' },
 ];
 ---
 
-<App title="系統設定" description="FHIR Server、規則、Webhook、通知偏好設定">
+<App title="系統設定" description="FHIR Server、Webhook、通知偏好與衛教設定">
   <a href="/workspace/" class="back-to-workspace">&larr; 返回工作台</a>
   <h1>系統設定</h1>
 
@@ -43,10 +39,6 @@ const tabs = [
       <h2>FHIR Server 設定</h2>
       <ServerConfig client:idle />
     </section>
-    <section id="panel-rules" class="tab-panel" aria-label="規則管理">
-      <h2>規則管理</h2>
-      <RuleEditor client:idle />
-    </section>
     <section id="panel-webhook" class="tab-panel" aria-label="Webhook 設定">
       <h2>Webhook 設定</h2>
       <WebhookConfig client:idle />
@@ -54,10 +46,6 @@ const tabs = [
     <section id="panel-notification" class="tab-panel" aria-label="通知偏好">
       <h2>通知偏好</h2>
       <NotificationPrefs client:idle />
-    </section>
-    <section id="panel-model" class="tab-panel" aria-label="模型管理">
-      <h2>模型管理</h2>
-      <ModelManager client:idle />
     </section>
     <section id="panel-education" class="tab-panel" aria-label="衛教管理">
       <h2>衛教管理</h2>

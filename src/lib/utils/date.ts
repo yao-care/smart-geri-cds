@@ -1,20 +1,3 @@
-export type AgeGroup = 'infant' | 'toddler' | 'preschool';
-
-/**
- * Determine age group from birth date.
- * infant: 0-1 year, toddler: 1-3 years, preschool: 3-6 years
- */
-export function ageGroup(birthDate: string | Date): AgeGroup {
-  const birth = typeof birthDate === 'string' ? new Date(birthDate) : birthDate;
-  const now = new Date();
-  const ageMs = now.getTime() - birth.getTime();
-  const ageYears = ageMs / (365.25 * 24 * 60 * 60 * 1000);
-
-  if (ageYears < 1) return 'infant';
-  if (ageYears < 3) return 'toddler';
-  return 'preschool';
-}
-
 /**
  * Format date/time in zh-TW locale.
  */

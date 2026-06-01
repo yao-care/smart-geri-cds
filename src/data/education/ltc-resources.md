@@ -2,7 +2,6 @@
 title: "經濟與長照資源"
 summary: "認識長者可運用的長期照顧與社會福利資源，了解申請流程的概念，減輕照顧與經濟負擔。"
 category: "general"
-ageGroup: []
 format: "article"
 publishedAt: 2026-05-27
 locale: "zh-TW"

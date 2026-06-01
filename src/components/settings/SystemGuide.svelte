@@ -19,7 +19,7 @@
       <strong>使用者瀏覽器的 IndexedDB</strong>，不會送到任何第三方。
     </p>
     <p>
-      跨裝置共享靠 <strong>SMART on FHIR</strong>：家長完成評估後可選擇將結果以
+      跨裝置共享靠 <strong>SMART on FHIR</strong>：受測者完成評估後可選擇將結果以
       <code>Observation + DiagnosticReport</code> 推送到醫院的 FHIR Server，
       醫師端工作台再從 Server 拉回展示。
     </p>
@@ -96,7 +96,7 @@
     <h3>PHI 與資料治理</h3>
     <ul>
       <li><strong>使用者端 IndexedDB</strong>：包含個案基本資料、評估事件、PII。屬於該裝置的本地資料，<strong>不會自動上傳任何位置</strong>。使用者清除瀏覽器資料即刪除。</li>
-      <li><strong>FHIR 上傳</strong>：只有家長明確按下「傳送結果至醫院」才會推送，且僅傳 Observation + DiagnosticReport（分數、結論），不傳原始事件 timeline。</li>
+      <li><strong>FHIR 上傳</strong>：只有使用者明確選擇收案機構並送出才會推送，且僅傳 Observation + DiagnosticReport（分數、結論），不傳原始事件 timeline。</li>
       <li><strong>URL 安全</strong>：所有 assessment id 都是隨機 UUID v4，不含 PII；結果頁加 <code>referrer no-referrer</code> 避免外洩。</li>
       <li><strong>共用設備</strong>：診所共用裝置請確保每次評估前清空本機，或使用獨立的使用者 profile。</li>
     </ul>
@@ -126,7 +126,7 @@
   <section class="footer-note">
     <p>
       原始碼：
-      <a href="https://github.com/yao-care/smart-pedi-cds" target="_blank" rel="noopener noreferrer">github.com/yao-care/smart-pedi-cds</a>。
+      <a href="https://github.com/yao-care/smart-geri-cds" target="_blank" rel="noopener noreferrer">github.com/yao-care/smart-geri-cds</a>。
       授權：MIT。
     </p>
   </section>

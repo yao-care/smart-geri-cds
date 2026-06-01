@@ -2,7 +2,6 @@
 title: "長者憂鬱與情緒支持"
 summary: "認識老年憂鬱的常見徵兆，了解它並非老化必然，並學習自我照顧、家人支持與適時求助的方式。"
 category: "general"
-ageGroup: []
 format: "article"
 publishedAt: 2026-05-27
 locale: "zh-TW"

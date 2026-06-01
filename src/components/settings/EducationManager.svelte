@@ -1,6 +1,7 @@
 <script lang="ts">
   import { authStore } from '../../lib/stores/auth.svelte';
   import { getTenantId, getTenantDisplayName } from '../../lib/utils/tenant';
+  import { CFS_LEVELS, CFS_LABELS } from '../../lib/utils/cfs-levels';
   import {
     getAllCustomEducation,
     createCustomEducation,
@@ -19,7 +20,7 @@
   let formTitle = $state('');
   let formSummary = $state('');
   let formCategory = $state('general');
-  let formAgeGroups = $state<string[]>(['infant', 'toddler', 'preschool']);
+  let formCfsLevels = $state<string[]>([]);
   let formFormat = $state<'article' | 'video'>('article');
   let formContent = $state('');
   let formVideoUrl = $state('');
@@ -30,19 +31,17 @@
   const isConnected = $derived(authStore.isAuthenticated);
 
   const categories = [
-    { value: 'diet', label: '飲食營養' },
-    { value: 'sleep', label: '睡眠' },
-    { value: 'respiratory', label: '呼吸照護' },
-    { value: 'exercise', label: '運動復健' },
-    { value: 'milestone', label: '里程碑' },
-    { value: 'general', label: '高齡照護' },
+    { value: 'general', label: '一般照護' },
+    { value: 'cognition', label: '認知' },
+    { value: 'mood', label: '情緒' },
+    { value: 'mobility', label: '行動與跌倒' },
+    { value: 'nutrition', label: '營養' },
+    { value: 'medication', label: '用藥安全' },
+    { value: 'social', label: '社會支持' },
   ];
 
-  const ageGroupOptions = [
-    { value: 'infant', label: '嬰兒 (0-1歲)' },
-    { value: 'toddler', label: '幼兒 (1-3歲)' },
-    { value: 'preschool', label: '學齡前 (3-6歲)' },
-  ];
+  // 適用分層改採 CFS 等級（取代年齡帶）。
+  const cfsOptions = CFS_LEVELS.map((value) => ({ value, label: `${value.replace('cfs', 'CFS ')}：${CFS_LABELS[value]}` }));
 
   $effect(() => {
     loadItems();
@@ -61,7 +60,7 @@
     formTitle = '';
     formSummary = '';
     formCategory = 'general';
-    formAgeGroups = ['infant', 'toddler', 'preschool'];
+    formCfsLevels = [];
     formFormat = 'article';
     formContent = '';
     formVideoUrl = '';
@@ -74,7 +73,7 @@
     formTitle = item.title;
     formSummary = item.summary;
     formCategory = item.category;
-    formAgeGroups = [...item.ageGroup];
+    formCfsLevels = [...item.ageGroup];
     formFormat = item.format;
     formContent = item.content;
     formVideoUrl = item.videoUrl ?? '';
@@ -88,7 +87,7 @@
       title: formTitle,
       summary: formSummary,
       category: formCategory,
-      ageGroup: formAgeGroups,
+      ageGroup: formCfsLevels,
       format: formFormat,
       content: formContent,
       videoUrl: formFormat === 'video' ? formVideoUrl : undefined,
@@ -119,11 +118,11 @@
     await loadItems();
   }
 
-  function toggleAgeGroup(value: string) {
-    if (formAgeGroups.includes(value)) {
-      formAgeGroups = formAgeGroups.filter((v) => v !== value);
+  function toggleCfs(value: string) {
+    if (formCfsLevels.includes(value)) {
+      formCfsLevels = formCfsLevels.filter((v) => v !== value);
     } else {
-      formAgeGroups = [...formAgeGroups, value];
+      formCfsLevels = [...formCfsLevels, value];
     }
   }
 </script>
@@ -169,14 +168,14 @@
       </div>
 
       <fieldset class="field">
-        <legend>適用年齡</legend>
+        <legend>適用 CFS 等級</legend>
         <div class="checkbox-group">
-          {#each ageGroupOptions as ag}
+          {#each cfsOptions as ag}
             <label class="checkbox-label">
               <input
                 type="checkbox"
-                checked={formAgeGroups.includes(ag.value)}
-                onchange={() => toggleAgeGroup(ag.value)}
+                checked={formCfsLevels.includes(ag.value)}
+                onchange={() => toggleCfs(ag.value)}
               />
               {ag.label}
             </label>
@@ -221,14 +220,14 @@
       </div>
 
       <div class="field">
-        <label for="edu-triggers">觸發指標（逗號分隔）</label>
+        <label for="edu-triggers">觸發領域（逗號分隔）</label>
         <input
           id="edu-triggers"
           type="text"
           bind:value={formTriggerIndicators}
-          placeholder="sugar_intake, sleep_quality"
+          placeholder="functional.falls, physical.nutrition"
         />
-        <small>可用指標：sugar_intake, sleep_quality, spo2, activity_level, heart_rate, temperature, respiratory_rate</small>
+        <small>填 CGA 二層領域鍵，如 functional.falls、physical.nutrition、psychological.cognition、social.caregiver。</small>
       </div>
 
       <div class="form-actions">
@@ -254,7 +253,7 @@
               <div class="item-tags">
                 <span class="tag">{categories.find((c) => c.value === item.category)?.label ?? item.category}</span>
                 {#each item.ageGroup as ag}
-                  <span class="tag">{ageGroupOptions.find((o) => o.value === ag)?.label ?? ag}</span>
+                  <span class="tag">{cfsOptions.find((o) => o.value === ag)?.label ?? ag}</span>
                 {/each}
                 {#if !item.isActive}
                   <span class="tag inactive-tag">已停用</span>

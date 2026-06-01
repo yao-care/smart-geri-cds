@@ -2,7 +2,6 @@
 title: "共病管理"
 summary: "多重慢性病在長者常見，了解整合照護、優先順序與個人化目標的概念，並做好自我管理與就醫溝通。"
 category: "general"
-ageGroup: []
 format: "article"
 publishedAt: 2026-05-27
 locale: "zh-TW"

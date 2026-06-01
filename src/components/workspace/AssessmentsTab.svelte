@@ -108,7 +108,7 @@
   {:else if rows.length === 0}
     <div class="empty">
       {#if demoMode}
-        <p>本機尚無評估紀錄。完成一次家長端評估後會出現在這裡。</p>
+        <p>本機尚無評估紀錄。完成一次評估後會出現在這裡。</p>
         <a href="/assess/" class="empty-cta">前往評估流程 →</a>
       {:else}
         <p>FHIR Server 上目前沒有 CDSA 評估報告。</p>

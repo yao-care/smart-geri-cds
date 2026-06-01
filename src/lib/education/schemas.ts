@@ -5,12 +5,6 @@ import { DOMAIN_TREE, DOMAIN_TOPS, DOMAIN_SUBS, isValidDomain } from '../domain/
 // 領域樹單一源於 domain-tree；此處 re-export 供消費端沿用既有匯入路徑。
 export { DOMAIN_TREE };
 
-// --- 可重用列舉常數（單一源）---
-// CDSS 生理指標（Phase 2 不啟用，schema 保留供 Phase 3）。
-export const CDSS_INDICATOR_NAMES = [
-  'heart_rate', 'spo2', 'respiratory_rate', 'temperature',
-  'sleep_quality', 'activity_level', 'sugar_intake',
-] as const;
 
 // --- 影片元資料 ---
 export const videoCatalogItemSchema = z.object({
@@ -36,8 +30,6 @@ export const videoCatalogItemSchema = z.object({
 const DOMAIN_TOP_ENUM = z.enum(DOMAIN_TOPS as [string, ...string[]]);
 const DOMAIN_SUB_ENUM = z.enum(DOMAIN_SUBS as [string, ...string[]]);
 const CFS_ENUM = z.enum(CFS_LEVELS);
-const CDSS_INDICATOR_ENUM = z.enum(CDSS_INDICATOR_NAMES);
-const CDSS_LEVEL_ENUM = z.enum(['advisory', 'warning', 'critical']);
 const videoIdsField = z.array(z.string().regex(/^[A-Za-z0-9_-]{11}$/)).default([]);
 
 export const cgaTriageEntrySchema = z.object({
@@ -72,24 +64,9 @@ export const cgaDomainEntrySchema = z.object({
     { message: 'trigger 字串與 top + sub + cfsLevel 不一致', path: ['trigger'] },
   );
 
-export const cdssVitalSignEntrySchema = z.object({
-  trigger: z.string(),
-  category: z.literal('vital-sign'),
-  indicator: CDSS_INDICATOR_ENUM,
-  level: CDSS_LEVEL_ENUM,
-  cfsLevel: CFS_ENUM,
-  educationSlug: z.string().optional(),
-  inapplicable: z.literal(true).optional(),
-  videoIds: videoIdsField,
-}).refine(
-  d => d.trigger === `cga.vital.${d.indicator}.${d.level}.${d.cfsLevel}`,
-  { message: 'trigger 字串與 indicator + level + cfsLevel 不一致', path: ['trigger'] },
-);
-
 export const triggerEntrySchema = z.discriminatedUnion('category', [
   cgaTriageEntrySchema,
   cgaDomainEntrySchema,
-  cdssVitalSignEntrySchema,
 ]);
 
 // --- Runtime slim shape（reproducible JSON）---

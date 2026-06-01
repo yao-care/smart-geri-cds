@@ -2,7 +2,6 @@
 title: "尿失禁照護"
 summary: "尿失禁在長者常見但並非無法改善，了解類型、生活調整與骨盆底訓練，並鼓勵就醫評估找出可治療的原因。"
 category: "general"
-ageGroup: []
 format: "article"
 publishedAt: 2026-05-27
 locale: "zh-TW"

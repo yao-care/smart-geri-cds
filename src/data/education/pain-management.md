@@ -2,7 +2,6 @@
 title: "長者疼痛評估與管理"
 summary: "疼痛在高齡常被低估與忽視；用簡單的 NRS（0–10）或 PAINAD（無法表達者）評估，從非藥物優先、藥物審慎並用，並注意紅旗症狀。"
 category: "general"
-ageGroup: []
 format: "article"
 publishedAt: 2026-05-28
 locale: "zh-TW"

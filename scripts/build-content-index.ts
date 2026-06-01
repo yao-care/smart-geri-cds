@@ -294,11 +294,11 @@ export async function buildContentIndex(opts: BuildOptions = {}): Promise<Runtim
 
   // ── 7. clinicalEducation ──────────────────────────────────────────────────
   //
-  // Key: indicator (e.g. "sugar_intake")
-  // Value: slug[] from clinicalAlertEducation section (the authoritative closed-loop map)
+  // Key: clinical-alert key (e.g. a CGA domain key)
+  // Value: slug[] from clinicalAlertEducation section (the authoritative map)
   //
-  // Previously derived from cdss cell articles — now read directly from the
-  // clinicalAlertEducation section so that indicator→slug mapping has a single source.
+  // Read directly from the clinicalAlertEducation section so that the
+  // key→slug mapping has a single source.
 
   const clinicalEducation: Record<string, string[]> = Object.fromEntries(
     Object.entries(contentRelevance.clinicalAlertEducation ?? {}),

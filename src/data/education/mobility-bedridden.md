@@ -2,7 +2,6 @@
 title: "臥床長者的活動維持與合併症預防"
 summary: "重度依賴或臥床（CFS 7-9）長者的「活動」目標不是行走，而是被動關節活動、姿勢變換、坐椅時間，預防攣縮、肺炎與循環不良。"
 category: "general"
-ageGroup: []
 format: "article"
 publishedAt: 2026-05-28
 locale: "zh-TW"

@@ -2,7 +2,6 @@
 title: "重度照顧者的燒盡與支持"
 summary: "照顧 CFS 7-9 重度依賴長者的主要家屬，照顧壓力、憂鬱、睡眠剝奪比例高；自我覺察、喘息與外部支持是維持長期照護的關鍵。"
 category: "general"
-ageGroup: []
 format: "article"
 publishedAt: 2026-05-28
 locale: "zh-TW"

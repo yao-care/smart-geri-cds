@@ -1,6 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import {
-  ageGroup,
   formatDate,
   formatDateTime,
   daysBetween,
@@ -15,24 +14,6 @@ describe('date utils', () => {
 
   afterEach(() => {
     vi.useRealTimers();
-  });
-
-  describe('ageGroup', () => {
-    it('returns infant for <1 year', () => {
-      expect(ageGroup(new Date('2025-12-01'))).toBe('infant');
-    });
-
-    it('returns toddler for 1-3 years', () => {
-      expect(ageGroup(new Date('2024-05-01'))).toBe('toddler');
-    });
-
-    it('returns preschool for >=3 years', () => {
-      expect(ageGroup(new Date('2022-05-01'))).toBe('preschool');
-    });
-
-    it('accepts string input', () => {
-      expect(ageGroup('2024-05-14')).toBe('toddler');
-    });
   });
 
   describe('formatDate', () => {

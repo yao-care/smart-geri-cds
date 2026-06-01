@@ -2,7 +2,6 @@
 title: "失智症晚期照護要點"
 summary: "失智晚期（CDR 3 / CFS 8-9）長者已無法言語、需協助所有日常活動；照護重點轉為舒適、安全、症狀觀察與家屬支持。"
 category: "general"
-ageGroup: []
 format: "article"
 publishedAt: 2026-05-28
 locale: "zh-TW"

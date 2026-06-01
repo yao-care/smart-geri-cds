@@ -4,56 +4,6 @@ import type { CfsLevel } from '../utils/cfs-levels';
 import type { ScaleResult } from '../scales/scale';
 
 export type { RiskLevel };
-export type AlertStatus = 'open' | 'acknowledged' | 'false_positive' | 'resolved';
-
-export interface Patient {
-  id: string;              // FHIR Patient ID
-  name?: string;
-  birthDate: string;
-  gender: 'male' | 'female';
-  ageGroup: 'infant' | 'toddler' | 'preschool';
-  currentRiskLevel: RiskLevel;
-  lastSyncedAt: Date;
-}
-
-export interface Observation {
-  id: string;              // FHIR Observation ID
-  patientId: string;
-  indicator: string;       // LOINC code
-  value: number;
-  unit: string;
-  effectiveDateTime: Date;
-  syncedAt: Date;
-}
-
-export interface Alert {
-  id: string;              // local UUID
-  patientId: string;
-  riskLevel: RiskLevel;
-  status: AlertStatus;
-  indicators: string[];    // triggered indicators
-  rationale: string;
-  ruleVersion: string;
-  modelVersion?: string;
-  inputSnapshot: object;   // complete decision trace
-  fhirRiskAssessmentId?: string;
-  educationRecommended?: string[];
-  educationTriggeredAt?: Date;
-  acknowledgedBy?: string;
-  notes?: string;
-  parentAlertId?: string;
-  createdAt: Date;
-  closedAt?: Date;
-}
-
-export interface Baseline {
-  patientId: string;
-  indicator: string;
-  mean: number;
-  std: number;
-  sampleCount: number;
-  updatedAt: Date;
-}
 
 export interface SyncQueueItem {
   id: string;
@@ -126,7 +76,7 @@ export interface PartialAnalysis {
 export interface Assessment {
   id: string;
   childId: string;
-  /** 分層軸：入口 gate 判定的 CFS 等級（取代兒科 ageGroup）。 */
+  /** 分層軸：入口 gate 判定的 CFS 等級。 */
   cfsLevel: CfsLevel;
   /** 是否有熟悉受測者日常的家屬／照顧者可提供資訊。SOP 真相：gate ask-informant 量表
    *  （無→incomplete），並決定認知用 AD8（有）或 Mini-Cog（無）。
@@ -216,7 +166,7 @@ export interface CustomEducation {
   title: string;
   summary: string;
   category: string;
-  ageGroup: string[];       // ['infant', 'toddler', 'preschool']
+  ageGroup: string[];       // 適用 CFS 等級，如 ['cfs5', 'cfs6']；空陣列＝全部適用
   format: 'article' | 'video';
   content: string;          // Markdown content for articles
   videoUrl?: string;        // YouTube URL for videos
@@ -270,10 +220,6 @@ export interface RecommendationOverlay {
 }
 
 export class CdssDatabase extends Dexie {
-  patients!: Table<Patient>;
-  observations!: Table<Observation>;
-  alerts!: Table<Alert>;
-  baselines!: Table<Baseline>;
   syncQueue!: Table<SyncQueueItem>;
   serverConfigs!: Table<ServerConfig>;
   educationInteractions!: Table<EducationInteraction>;
@@ -289,14 +235,10 @@ export class CdssDatabase extends Dexie {
   mobilityRecordings!: Table<MobilityRecording>;
 
   constructor() {
-    // smart-geri-cds 為全新 DB 名（刻意不遷兒科資料），版本鏈重置為乾淨 v1。
+    // smart-geri-cds 為全新 DB 名，版本鏈為乾淨 v1。
     // 移除 normThresholds 表/index；assessments 沿用既有 index（cfsLevel 非索引欄）。
     super('smart-geri-cds');
     this.version(1).stores({
-      patients: 'id, ageGroup, currentRiskLevel, lastSyncedAt',
-      observations: 'id, patientId, indicator, effectiveDateTime, [patientId+indicator]',
-      alerts: 'id, patientId, riskLevel, status, createdAt, [patientId+status]',
-      baselines: '[patientId+indicator], patientId, updatedAt',
       syncQueue: 'id, createdAt',
       serverConfigs: 'id, lastUsedAt',
       educationInteractions: 'id, contentSlug, createdAt',

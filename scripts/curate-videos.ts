@@ -112,7 +112,7 @@ async function processTrigger(
 
   const reportCandidates: ReportCandidate[] = [];
   for (const c of scored) {
-    // 字幕為「加分項」非必要條件：YouTube 中文兒科衛教多無字幕（hard-coded
+    // 字幕為「加分項」非必要條件：YouTube 中文高齡衛教多無字幕（hard-coded
     // 進影片）。無字幕時仍進 report，由 Claude Code 從 title + description
     // 判讀；subtitleType='none' 已在 heuristics 計入 0 加分。
     let text = '';

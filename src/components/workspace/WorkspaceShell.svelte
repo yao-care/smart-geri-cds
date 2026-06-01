@@ -2,11 +2,9 @@
   import AssessmentsTab from './AssessmentsTab.svelte';
   import GuideTab from './GuideTab.svelte';
 
-  // Phase 2 (CDSS deferred): the CDSS surface — patient roster, alerts, and the
-  // overview feed (PatientList / PatientView / RiskSummary / AlertFeed /
-  // AlertManager) — is hidden because it still carries the pediatric age axis
-  // and physiological-indicator model. It returns in Phase 3 once geriatric-ised.
-  // The workspace now exposes only the CGA assessment surface + the guide.
+  // The workspace exposes the CGA assessment surface + the guide. The earlier
+  // roster/alert overview feed has been removed; a geriatric monitoring surface
+  // can be reintroduced here when its model is defined.
   let activeTab = $state<'assessments' | 'guide'>('assessments');
 </script>
 

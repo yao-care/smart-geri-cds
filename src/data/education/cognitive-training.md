@@ -2,7 +2,6 @@
 title: "認知促進與失智因應"
 summary: "了解正常老化與失智症的差異，學習促進認知活力的生活方式，以及面對記憶力下降時的因應與資源。"
 category: "general"
-ageGroup: []
 format: "article"
 publishedAt: 2026-05-27
 locale: "zh-TW"

@@ -1,8 +1,7 @@
 import { describe, it, expect, vi } from 'vitest';
-import { deriveCgaTriggers, deriveCdssTriggers } from '../../../src/lib/education/trigger-derivation';
+import { deriveCgaTriggers } from '../../../src/lib/education/trigger-derivation';
 import type { TriageResult } from '../../../src/engine/cdsa/triage';
 import type { ScaleResult, Severity } from '../../../src/lib/scales/scale';
-import type { IndicatorResult } from '../../../src/engine/workers/rule-engine.worker';
 
 function mkResult(
   top: string,
@@ -87,29 +86,6 @@ describe('deriveCgaTriggers', () => {
     expect(triggers).toContain('cga.domain.functional.falls.anomaly.cfs5');
     expect(warn).toHaveBeenCalledWith(expect.stringContaining('Unknown domain'));
     warn.mockRestore();
-    vi.unstubAllEnvs();
-  });
-});
-
-describe('deriveCdssTriggers (kept, unused in questionnaire-only build)', () => {
-  const mk = (indicator: string, level: IndicatorResult['level']): IndicatorResult => ({
-    indicator, value: 0, level, range: [0, 0],
-    rationale: 'test',
-  });
-
-  it('skips normal-level indicators', () => {
-    expect(deriveCdssTriggers([mk('spo2', 'normal')], 'infant')).toEqual([]);
-  });
-
-  it('emits trigger for critical', () => {
-    expect(deriveCdssTriggers([mk('spo2', 'critical')], 'infant')).toEqual([
-      'cdss.spo2.critical.infant',
-    ]);
-  });
-
-  it('throws on unknown indicator in DEV', () => {
-    vi.stubEnv('DEV', true);
-    expect(() => deriveCdssTriggers([mk('unknown', 'warning')], 'infant')).toThrow(/Unknown CDSS indicator/);
     vi.unstubAllEnvs();
   });
 });
