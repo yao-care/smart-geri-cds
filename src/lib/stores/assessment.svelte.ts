@@ -152,7 +152,23 @@ class AssessmentStore {
     }
   }
 
+  /** 將分流結果寫入 Assessment 並標記完成。問卷答完即由 summary 呼叫（即使使用者
+   *  未前進到結果頁），結果頁進入時亦會再呼叫一次（idempotent 覆寫同一結果），確保
+   *  「問卷答完＝有結果且 status=completed」恆成立，避免答完卻卡在 started/未完成。 */
+  async finalize(result: TriageResult): Promise<void> {
+    if (!this.assessment) return;
+    await assessmentDao.setTriageResult(this.assessment.id, {
+      category: result.category,
+      summary: result.summary,
+      details: result.details,
+    });
+    await this.complete();
+  }
+
   async pause(): Promise<void> {
+    // 已完成的評估不可被「暫停」降級回 paused（否則答完問卷後在 summary 按暫停會
+    // 讓歷史又顯示未完成）。
+    if (this.assessment && this.assessment.status === 'completed') return;
     if (this.assessment) {
       // 暫停時再寫一次作答進度快照（防 addAnalysis 的非阻塞寫入尚未落地）。
       // $state.snapshot 去除 proxy，確保可通過 structured clone 寫入 IndexedDB。

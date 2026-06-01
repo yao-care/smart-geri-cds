@@ -1,10 +1,9 @@
 <script lang="ts">
   import { assessmentStore } from '../../lib/stores/assessment.svelte';
-  import { setTriageResult } from '../../lib/db/assessments';
-  import { computeTriage, type TriageResult } from '../../engine/cdsa/triage';
+  import { type TriageResult } from '../../engine/cdsa/triage';
   import { computeDomainScores } from '../../engine/cdsa/radar-scoring';
-  import { scoreScale, type ScaleDef, type ScaleResult } from '../../lib/scales/scale';
-  import { dedupeTriageResults, type TieredResult } from '../../lib/domain/dedupe-triage-results';
+  import { type ScaleDef } from '../../lib/scales/scale';
+  import { buildTriageResult } from '../../lib/assess/build-triage-result';
   import DomainBarChart from './DomainBarChart.svelte';
   import EducationMatch from './EducationMatch.svelte';
   import AssessmentPdfReport from './AssessmentPdfReport.svelte';
@@ -42,47 +41,15 @@
     incomplete: 'var(--surface)',
   };
 
-  /** Build ScaleResult[] for the scales that actually ran in the tiered flow.
-   *  A scale "ran" if it has a precomputed result (operator-gated option scales
-   *  + timed tasks + 「無法取得」 incompletes) or a raw questionnaire score.
-   *  Full scales whose screen did NOT flag are intentionally absent (not run)
-   *  and must NOT appear as spurious 'incomplete' spokes. */
-  function buildScaleResults(): ScaleResult[] {
-    const raw = assessmentStore.partialAnalysis.questionnaireScores ?? {};
-    // $state.snapshot 去除 runes proxy：precomputed 的 ScaleResult 物件會原樣流入
-    // triageResult.details，再經 setTriageResult 寫入 IndexedDB；runes proxy 無法通過
-    // structured clone（DataCloneError）。與 assessment store 的 partialAnalysis 同樣處理。
-    const precomputed = $state.snapshot(assessmentStore.partialAnalysis.scaleResults ?? {}) as Record<string, ScaleResult>;
-    const cfsLevel = assessmentStore.cfsLevel;
-    if (!cfsLevel) return [];
-    const applicable = scales.filter(s => s.applicableCfs.includes(cfsLevel));
-    const collected: TieredResult[] = [];
-    for (const def of applicable) {
-      // Timed tasks (and their self-report fallback) emit a fully-scored
-      // ScaleResult that cannot be reconstructed by re-scoring a single raw
-      // value against this scale's bands (fallback uses a different scale's
-      // bands; "cannot complete" forces refer with null raw). The questionnaire
-      // module also pre-gates option scales (operator validity / 無法取得) —
-      // always prefer the precomputed result when present.
-      let res: ScaleResult | undefined;
-      if (def.id in precomputed) {
-        res = precomputed[def.id];
-      } else if (def.id in raw) {
-        // Re-score raw value (legacy / non-gated path). Scales that never ran
-        // (a non-flagged screen's full scale) have no raw score → skipped.
-        res = scoreScale(def, raw[def.id]);
-      }
-      if (res) collected.push({ result: res, tier: def.tier });
-    }
-    return dedupeTriageResults(collected);
-  }
-
-  // 進入結果頁時，從 partialAnalysis 即時計算分流（<1 秒）
+  // 進入結果頁時，從 partialAnalysis 即時計算分流（<1 秒）。計算/去重邏輯與問卷
+  // summary 共用 buildTriageResult（單一真相源）。$state.snapshot 去除 runes proxy，
+  // 否則 precomputed ScaleResult 無法通過 structured clone 寫入 IndexedDB。
   $effect(() => {
     const cfsLevel = assessmentStore.cfsLevel;
     if (!cfsLevel) return;
-    const scaleResults = buildScaleResults();
-    const result = computeTriage({ cfsLevel, scaleResults });
+    const partial = $state.snapshot(assessmentStore.partialAnalysis);
+    const result = buildTriageResult(scales, partial, cfsLevel);
+    if (!result) return;
     triageResult = result;
     isComputing = false;
     void saveResult(result);
@@ -110,13 +77,9 @@
   );
 
   async function saveResult(result: TriageResult) {
-    if (!assessmentStore.assessment) return;
-    await setTriageResult(assessmentStore.assessment.id, {
-      category: result.category,
-      summary: result.summary,
-      details: result.details,
-    });
-    await assessmentStore.complete();
+    // store.finalize 寫入 triageResult + status=completed（問卷 summary 可能已先寫過一次，
+    // 此處 idempotent 覆寫同一結果）。
+    await assessmentStore.finalize(result);
   }
 
 </script>

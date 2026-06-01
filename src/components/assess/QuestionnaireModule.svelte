@@ -8,6 +8,7 @@
     expandedFullScales, resolveCognitionScreen, applyAvailabilityGate,
   } from '../../lib/scales/tiering';
   import { tick } from 'svelte';
+  import { buildTriageResult } from '../../lib/assess/build-triage-result';
   import { resolveModeFrame } from '../../lib/scales/mode-frame';
   import MobilityTaskModule from './MobilityTaskModule.svelte';
   import { MOBILITY_FALLBACK_SCALE } from '../../data/mobility-fallback';
@@ -120,6 +121,9 @@
   let phase = $state<'loading' | 'timed' | 'asking' | 'summary'>('loading');
   let timedIndex = $state(0);
   let phaseInitialised = $state(false);
+  // Guards the summary finalisation so it persists the triage result exactly once
+  // (phase can settle to 'summary' from several call sites + resume).
+  let summaryFinalised = $state(false);
   let isSaving = $state(false);
   // Set on teardown so the answer-feedback setTimeout continuation doesn't touch
   // reactive $derived (scaleSummary) after the component's effect root is gone.
@@ -136,6 +140,28 @@
     phaseInitialised = true;
     void initPhase();
   });
+
+  // Finalise the moment the questionnaire is fully answered (phase 'summary'),
+  // BEFORE the user advances to the result page. This computes & persists the
+  // triage result and marks status=completed, so an answered-but-not-viewed
+  // assessment never lingers as 'started/未完成' in history/workspace. The result
+  // page re-runs the same finalise idempotently when (if) the user clicks through.
+  $effect(() => {
+    if (phase !== 'summary' || summaryFinalised) return;
+    summaryFinalised = true;
+    void finaliseSummary();
+  });
+
+  /** Compute the triage result from the now-complete answers and persist it. */
+  async function finaliseSummary(): Promise<void> {
+    const cfs = assessmentStore.cfsLevel;
+    if (!cfs) return;
+    // $state.snapshot de-proxies precomputed ScaleResults so they survive the
+    // structured clone into IndexedDB (same handling as ResultView).
+    const partial = $state.snapshot(assessmentStore.partialAnalysis);
+    const result = buildTriageResult(scales, partial, cfs);
+    if (result) await assessmentStore.finalize(result);
+  }
 
   /** Resolve entry phase, restoring prior progress when resuming. */
   async function initPhase(): Promise<void> {
