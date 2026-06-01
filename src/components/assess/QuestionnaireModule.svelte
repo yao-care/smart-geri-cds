@@ -118,12 +118,12 @@
   // first; then 'asking' for option questions; then 'summary'. Starting in
   // 'loading' prevents answering before `initPhase` finishes restoring prior
   // progress (which would otherwise clobber/race the restore).
-  let phase = $state<'loading' | 'timed' | 'asking' | 'summary'>('loading');
+  let phase = $state<'loading' | 'timed' | 'asking' | 'finishing'>('loading');
   let timedIndex = $state(0);
   let phaseInitialised = $state(false);
-  // Guards the summary finalisation so it persists the triage result exactly once
-  // (phase can settle to 'summary' from several call sites + resume).
-  let summaryFinalised = $state(false);
+  // Guards finishQuestionnaire so the finalise + step-advance runs exactly once
+  // (the "all answered" state is reached from several call sites + resume).
+  let finishing = $state(false);
   let isSaving = $state(false);
   // Set on teardown so the answer-feedback setTimeout continuation doesn't touch
   // reactive $derived (scaleSummary) after the component's effect root is gone.
@@ -141,26 +141,25 @@
     void initPhase();
   });
 
-  // Finalise the moment the questionnaire is fully answered (phase 'summary'),
-  // BEFORE the user advances to the result page. This computes & persists the
-  // triage result and marks status=completed, so an answered-but-not-viewed
-  // assessment never lingers as 'started/未完成' in history/workspace. The result
-  // page re-runs the same finalise idempotently when (if) the user clicks through.
-  $effect(() => {
-    if (phase !== 'summary' || summaryFinalised) return;
-    summaryFinalised = true;
-    void finaliseSummary();
-  });
-
-  /** Compute the triage result from the now-complete answers and persist it. */
-  async function finaliseSummary(): Promise<void> {
+  /** Questionnaire fully answered → finalise and go straight to the result step
+   *  (no intermediate「問卷完成！」summary screen). Finalising BEFORE advancing
+   *  means an answered assessment is persisted as completed even if the result
+   *  page mount is interrupted; ResultView re-runs the same finalise idempotently.
+   *  Guarded so the several "all answered" call sites + resume run it once. */
+  async function finishQuestionnaire(): Promise<void> {
+    if (finishing) return;
+    finishing = true;
+    phase = 'finishing';
+    persistScoresToStore();
     const cfs = assessmentStore.cfsLevel;
-    if (!cfs) return;
-    // $state.snapshot de-proxies precomputed ScaleResults so they survive the
-    // structured clone into IndexedDB (same handling as ResultView).
-    const partial = $state.snapshot(assessmentStore.partialAnalysis);
-    const result = buildTriageResult(scales, partial, cfs);
-    if (result) await assessmentStore.finalize(result);
+    if (cfs) {
+      // $state.snapshot de-proxies precomputed ScaleResults so they survive the
+      // structured clone into IndexedDB (same handling as ResultView).
+      const partial = $state.snapshot(assessmentStore.partialAnalysis);
+      const result = buildTriageResult(scales, partial, cfs);
+      if (result) await assessmentStore.finalize(result);
+    }
+    await assessmentStore.nextStep();
   }
 
   /** Resolve entry phase, restoring prior progress when resuming. */
@@ -209,9 +208,8 @@
     if (timedRemaining) {
       phase = 'timed';
     } else if (questions.length === 0 || allAnswered) {
-      // No option questions, or every one already answered → go straight to summary.
-      persistScoresToStore();
-      phase = 'summary';
+      // No option questions, or every one already answered → finalise + go to results.
+      void finishQuestionnaire();
     } else {
       phase = 'asking';
     }
@@ -284,8 +282,7 @@
     if (tier === 'screen') {
       maybeAdvanceTier();
     } else {
-      persistScoresToStore();
-      phase = 'summary';
+      void finishQuestionnaire();
     }
   }
 
@@ -445,8 +442,7 @@
     } else if (tier === 'screen') {
       maybeAdvanceTier();
     } else {
-      persistScoresToStore();
-      phase = 'summary';
+      void finishQuestionnaire();
     }
   }
 
@@ -517,8 +513,7 @@
       currentIndex = firstFull;
       phase = 'asking';
     } else {
-      persistScoresToStore();
-      phase = 'summary';
+      void finishQuestionnaire();
     }
   }
 
@@ -601,10 +596,6 @@
     }
   }
 
-  async function handleFinish() {
-    persistScoresToStore();
-    await assessmentStore.nextStep();
-  }
 </script>
 
 <div class="questionnaire">
@@ -705,50 +696,16 @@
       </button>
     {/if}
 
-  {:else if phase === 'summary'}
-    <!-- Summary screen -->
-    <div class="summary">
-      <div class="summary-icon" aria-hidden="true">
-        <svg width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="28" cy="28" r="28" style="fill: color-mix(in srgb, var(--accent) 12%, var(--bg));"/>
-          <path d="M16 28.5l8 8 16-16" style="stroke: var(--accent);" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </div>
-      <h2 class="summary-title">問卷完成！</h2>
-      <p class="summary-desc">以下是各評估面向的作答摘要（短篩亮燈的領域已展開深評）</p>
-
-      <div class="domain-bars">
-        {#each scaleSummary as d (d.scaleId)}
-          <div class="domain-row">
-            <span class="domain-name">{d.label}</span>
-            <div class="bar-track">
-              <div
-                class="bar-fill"
-                class:bar-high={d.pct >= 67}
-                class:bar-mid={d.pct >= 34 && d.pct < 67}
-                class:bar-low={d.pct < 34}
-                style="width: {d.pct}%"
-              ></div>
-            </div>
-            <span class="domain-score">{d.unavailable ? '無法取得' : `${d.score}/${d.max}`}</span>
-          </div>
-        {/each}
-      </div>
-
-      <div class="recommendation">
-        <h3>下一步</h3>
-        <p>送出後將依各量表的驗證切分點計分（含知情者／受測者可參與性檢核），彙整為周全性評估結果與衛教建議。</p>
-        <div class="actions">
-          <button class="btn-finish" onclick={handleFinish}>查看評估結果</button>
-        </div>
-      </div>
-    </div>
+  {:else if phase === 'finishing'}
+    <!-- Transient: questionnaire answered, computing the triage result before the
+         result step takes over. No intermediate「問卷完成！」summary page. -->
+    <p class="loading-note" role="status">評估完成，正在產生結果…</p>
 
   {:else}
     <!-- No applicable scales for this CFS level -->
     <div class="empty-state">
       <p>目前此衰弱等級沒有可施測的量表。</p>
-      <button class="btn-finish" onclick={handleFinish}>繼續下一步</button>
+      <button class="btn-finish" onclick={() => finishQuestionnaire()}>繼續下一步</button>
     </div>
   {/if}
 
@@ -995,80 +952,6 @@
     color: var(--warn);
   }
 
-  /* ---- Summary ---- */
-  .summary {
-    text-align: center;
-  }
-
-  .summary-icon {
-    margin-bottom: var(--space-4);
-  }
-
-  .summary-title {
-    font-size: var(--text-2xl);
-    margin-bottom: var(--space-2);
-  }
-
-  .summary-desc {
-    color: color-mix(in srgb, var(--text), var(--bg) 30%);
-    font-size: var(--text-sm);
-    margin-bottom: var(--space-7);
-  }
-
-  /* ---- Domain bar chart ---- */
-  .domain-bars {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-4);
-    margin-bottom: var(--space-8);
-    text-align: left;
-  }
-
-  .domain-row {
-    display: grid;
-    grid-template-columns: 80px 1fr 56px;
-    align-items: center;
-    gap: var(--space-3);
-  }
-
-  .domain-name {
-    font-size: var(--text-xs);
-    color: color-mix(in srgb, var(--text), var(--bg) 30%);
-    white-space: nowrap;
-  }
-
-  .bar-track {
-    height: 16px;
-    background: color-mix(in srgb, var(--bg), var(--text) 5%);
-    border-radius: var(--radius-full);
-    overflow: hidden;
-  }
-
-  .bar-fill {
-    height: 100%;
-    border-radius: var(--radius-full);
-    transition: width 0.6s ease;
-  }
-
-  .bar-fill.bar-high {
-    background: var(--accent);
-  }
-
-  .bar-fill.bar-mid {
-    background: var(--warn);
-  }
-
-  .bar-fill.bar-low {
-    background: var(--danger);
-  }
-
-  .domain-score {
-    font-size: var(--text-xs);
-    color: color-mix(in srgb, var(--text), var(--bg) 30%);
-    text-align: right;
-    white-space: nowrap;
-  }
-
   /* ---- Finish button ---- */
   .btn-finish {
     width: 100%;
@@ -1110,10 +993,4 @@
     margin-left: var(--space-2);
     vertical-align: middle;
   }
-
-  /* ---- Recommendation section ---- */
-  .recommendation { margin-top: var(--space-4); }
-  .recommendation h3 { font-size: var(--text-base); font-weight: var(--font-medium); margin-bottom: var(--space-3); }
-  .recommendation p { font-size: var(--text-base); line-height: var(--lh-base); color: color-mix(in srgb, var(--text), var(--bg) 25%); }
-  .recommendation .actions { display: flex; gap: var(--space-3); margin-top: var(--space-4); }
 </style>

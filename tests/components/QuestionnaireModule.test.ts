@@ -153,19 +153,6 @@ const caregiverScreen: ScaleDef = {
   clinicallyReviewed: false,
 };
 
-/** Click the first option button on the current question and wait the feedback delay.
- *  Waits for an option button to appear first (the module starts in a 'loading'
- *  phase while it restores prior progress). */
-async function clickFirstOption(): Promise<void> {
-  let btn: HTMLElement | undefined;
-  await waitFor(() => {
-    btn = screen.queryAllByRole('button').find(b => b.classList.contains('option-btn'));
-    expect(btn).toBeTruthy();
-  });
-  await fireEvent.click(btn!);
-  await new Promise(r => setTimeout(r, 600));
-}
-
 /** Click the option button whose label matches (waits for it to appear). */
 async function clickOption(label: string): Promise<void> {
   let btn: HTMLElement | undefined;
@@ -257,7 +244,9 @@ describe('QuestionnaireModule (tiered)', () => {
     await clickOption('完全沒有');       // screen item 1 normal
     await clickOption('完全沒有');       // screen item 2 normal → screen normal → no full expand
 
-    await waitFor(() => expect(screen.getByText('問卷完成！')).toBeInTheDocument(), { timeout: 3000 });
+    // 答完→自動 finalise 並前進結果步驟（不再停留在「問卷完成！」摘要頁）。
+    await waitFor(() => expect(assessmentStore.assessment?.status).toBe('completed'), { timeout: 3000 });
+    expect(screen.queryByText('問卷完成！')).toBeNull();
     // No GDS full question was ever rendered.
     expect(screen.queryByText('GDS 深評題一')).toBeNull();
   });
@@ -279,7 +268,7 @@ describe('QuestionnaireModule (tiered)', () => {
     await waitFor(() => expect(screen.getByText('GDS 深評題一')).toBeInTheDocument(), { timeout: 3000 });
     await clickOption('否');
     await clickOption('否');
-    await waitFor(() => expect(screen.getByText('問卷完成！')).toBeInTheDocument(), { timeout: 3000 });
+    await waitFor(() => expect(assessmentStore.assessment?.status).toBe('completed'), { timeout: 3000 });
   });
 
   it('shows the self-harm safety notice when a redFlag item gets a concerning answer (non-blocking)', async () => {
@@ -532,10 +521,13 @@ describe('QuestionnaireModule (tiered)', () => {
     // Now answer remaining items (screen + possible full) with first option.
     const MAX = 20;
     for (let i = 0; i < MAX; i++) {
-      if (screen.queryByText('問卷完成！')) break;
-      await clickFirstOption();
+      if (assessmentStore.assessment?.status === 'completed') break;
+      const btn = screen.queryAllByRole('button').find(b => b.classList.contains('option-btn'));
+      if (!btn) break; // no more questions (finishing / advanced to result)
+      await fireEvent.click(btn);
+      await new Promise(r => setTimeout(r, 600));
     }
-    await waitFor(() => expect(screen.getByText('問卷完成！')).toBeInTheDocument(), { timeout: 3000 });
+    await waitFor(() => expect(assessmentStore.assessment?.status).toBe('completed'), { timeout: 3000 });
 
     const scores = assessmentStore.partialAnalysis.questionnaireScores;
     const maxScores = assessmentStore.partialAnalysis.questionnaireMaxScores;
