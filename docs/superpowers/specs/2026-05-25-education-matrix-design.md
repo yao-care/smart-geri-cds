@@ -10,7 +10,7 @@
 
 現有 `/education/` 頁面以混合 card grid 呈現文章和影片，存在以下問題：
 
-1. 文章只顯示「幼兒、學齡前」等粗略年齡標籤，不知對應哪個評估情境
+1. 文章只顯示「長者、高齡」等粗略年齡標籤，不知對應哪個評估情境
 2. 影片雖有觸發情境清單，但清單式呈現不易快速瀏覽全貌
 3. 無法從頁面直接新增衛教資源，需手動編輯 YAML/MD 再送 PR
 4. 年齡層 × 領域的完整覆蓋狀態無法一眼掌握
@@ -91,9 +91,9 @@
 │    • 語言發展促進技巧  →（/education/language-stimulation/）│
 │                                         │
 │  🎬 影片（3 支）                          │
-│    • [縮圖] 親子共讀技巧  CH: 台灣兒科   │
+│    • [縮圖] 照護共讀技巧  CH: 台灣老年醫學   │
 │    • [縮圖] 語言刺激活動  CH: OT 頻道    │
-│    • [縮圖] 幼兒說話發展  CH: 醫師說     │
+│    • [縮圖] 長者說話發展  CH: 醫師說     │
 │                                         │
 │           ＋ 新增資源至此情境            │
 └─────────────────────────────────────────┘
@@ -142,14 +142,14 @@
 ### 資源資訊
 
 - YouTube URL: https://www.youtube.com/watch?v=xxxxxxx
-- 標題: 親子共讀技巧
-- 頻道: 台灣兒科醫學會
+- 標題: 照護共讀技巧
+- 頻道: 台灣老年醫學醫學會
 
 ### 補充說明
 
 > （提交者填寫的說明）
 
-**提交者**: Dr. Chen，台大兒科  
+**提交者**: Dr. Chen，台大老年醫學  
 **提交時間**: 2026-05-25T10:30:00Z
 
 ---
@@ -224,7 +224,7 @@ Worker 啟動
   → 用 GITHUB_APP_PRIVATE_KEY 簽 JWT（10 分鐘有效）
   → GET /app/installations/{GITHUB_INSTALLATION_ID}/access_tokens
   → 得到 installation token（1 小時有效）
-  → POST /repos/yao-care/smart-pedi-cds/issues
+  → POST /repos/yao-care/smart-geri-cds/issues
 ```
 
 ---

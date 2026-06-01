@@ -545,7 +545,7 @@ feat(B4): add assessment store with step navigation and state management
       return;
     }
     if (!eligible) {
-      validationError = '本系統適用於 72 個月（6 歲）以下幼兒';
+      validationError = '本系統適用於 72 個月（6 歲）以下長者';
       return;
     }
 
@@ -558,7 +558,7 @@ feat(B4): add assessment store with step navigation and state management
 </script>
 
 <form class="child-profile" onsubmit|preventDefault={handleSubmit}>
-  <h2>兒童基本資料</h2>
+  <h2>長者基本資料</h2>
   <p class="form-description">請填寫以下資料，系統將依據年齡自動調整評估內容。</p>
 
   <div class="form-group">

@@ -2,7 +2,7 @@
 
 > **For agentic workers:** Subagent-driven. 內容為主（YAML/Markdown 資料 + 少量 wiring）。全程保持 `pnpm check/lint/test/build` 綠。
 
-**Goal:** 把 Phase-1 骨架填成可實際操作的純問卷版 CGA：完整量表、適用矩陣、高齡衛教、內容關聯，刪除兒科內容，影片清理/重 curate，殘留兒科字串清乾淨。
+**Goal:** 把 Phase-1 骨架填成可實際操作的純問卷版 CGA：完整量表、適用矩陣、高齡衛教、內容關聯，刪除老年醫學內容，影片清理/重 curate，殘留老年醫學字串清乾淨。
 
 **重要原則：** 採用**公開可自由使用的標準量表**，忠實轉錄其題目/計分/切分點（非杜撰臨床數值）；全部 `clinicallyReviewed: false`，待臨床最終簽核（題目中譯、適用 CFS、切分點）。`maxScore` 必須等於各題 option 最高分之和。`applicableCfs` 要讓 **cfs1–cfs9 每一級都至少有 1 個可施測量表**（否則結果頁空白）。
 
@@ -40,7 +40,7 @@
 
 ## P2-B：適用矩陣 + 衛教 + 內容關聯
 
-1. **刪兒科文章**：`git rm` 全部 `src/data/education/*.md`（behavior-guidance, *-motor-*, language-*, milestones/, nutrition-grow-tall/calcium-tofu/garlic/okra/vitamin-d, social-emotional-guide, when-to-seek-help, cognitive-play, diet-control, exercise-guide, respiratory-care, sleep-hygiene...）。保留 README.md（改寫為高齡）。
+1. **刪老年醫學文章**：`git rm` 全部 `src/data/education/*.md`（behavior-guidance, *-motor-*, language-*, milestones/, nutrition-grow-tall/calcium-tofu/garlic/okra/vitamin-d, social-emotional-guide, when-to-seek-help, cognitive-play, diet-control, exercise-guide, respiratory-care, sleep-hygiene...）。保留 README.md（改寫為高齡）。
 2. **寫高齡衛教** `src/data/education/*.md`（frontmatter: title/summary/domain 對應）：跌倒預防、肌少症與運動、認知促進、憂鬱與情緒支持、譫妄認識、多重用藥安全、長者營養(MNA)、尿失禁照護、視聽障礙因應、預立醫療照護諮商(ACP)、照顧者支持、居家安全改造、社會參與。每篇對應 1+ 領域子項。
 3. **適用矩陣** `content-relevance.yaml` `inapplicable:`：依 spec 草案（future_wishes/delirium 偏 cfs5–9；adl/iadl cfs4–9；mobility/falls cfs3–7；cfs1–2 多數子項標不評，僅留篩檢層）。**與 scales 的 applicableCfs 邏輯一致**。
 4. **content-relevance `triggers:`**：把衛教文章掛到 `cga.domain.<top>.<sub>.anomaly.<cfs>` 格（articles 標 severities=[monitor,refer] 等），讓結果頁/矩陣有內容。videoIds 可先空。
@@ -48,9 +48,9 @@
 
 ## P2-C：影片 + curate 種子 + 殘留清理
 
-1. **清兒科影片**：清空/重置 `src/data/video-catalog/pro-kol.yaml`（789 行兒科）、official-tw/international；保留結構。
-2. **curate 種子改高齡**：`scripts/curate/channel-seeds.json`（高齡/老年醫學/長照頻道，如國健署、各醫院老年醫學科、長照相關；移除兒科黃瑽寧）、`scripts/curate/keywords.json`（跌倒預防、肌少症、失智、長者營養、用藥安全…）。**嘗試** `pnpm curate:videos`；若沙箱無法抓 YouTube，留空 catalog（影片為選用，parity 允許空格）並註記需 Phase 4 operator 跑 curate。
-3. **殘留兒科字串**：`src/pages/education/[...slug].astro`（「發展里程碑」分類標籤→CGA 領域）、`src/pages/admin/card-review.astro`（「兒童」）、`site-faqs`/README 等掃一遍。
+1. **清老年醫學影片**：清空/重置 `src/data/video-catalog/pro-kol.yaml`（789 行老年醫學）、official-tw/international；保留結構。
+2. **curate 種子改高齡**：`scripts/curate/channel-seeds.json`（高齡/老年醫學/長照頻道，如國健署、各醫院老年醫學科、長照相關；移除老年醫學黃瑽寧）、`scripts/curate/keywords.json`（跌倒預防、肌少症、失智、長者營養、用藥安全…）。**嘗試** `pnpm curate:videos`；若沙箱無法抓 YouTube，留空 catalog（影片為選用，parity 允許空格）並註記需 Phase 4 operator 跑 curate。
+3. **殘留老年醫學字串**：`src/pages/education/[...slug].astro`（「發展評估指標」分類標籤→CGA 領域）、`src/pages/admin/card-review.astro`（「長者」）、`site-faqs`/README 等掃一遍。
 
 ## 收尾
 - `pnpm check && pnpm lint --max-warnings 10 && pnpm vitest run && pnpm build` 全綠。

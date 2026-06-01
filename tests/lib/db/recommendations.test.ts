@@ -91,7 +91,7 @@ describe('recommendations DAO + merge (CGA two-level × cfs)', () => {
       expect(DOMAINS).toContain('psychological.cognition');
       expect(DOMAINS).toContain('physical.pain');
       expect(DOMAINS).toContain('future_wishes.advance_care_planning');
-      // No old pediatric domain names.
+      // Only CGA domain names; no legacy motor-development domains.
       expect(DOMAINS).not.toContain('gross_motor');
       expect(DOMAINS).not.toContain('language_comprehension');
       // Every entry is a `top.sub` key.

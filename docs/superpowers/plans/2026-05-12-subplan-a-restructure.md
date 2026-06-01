@@ -22,7 +22,7 @@
 - `src/components/blocks/Header.astro` — Replace with role-aware AppBar
 
 ### Create
-- `src/pages/index.astro` — Role selector (家長 / 醫師)
+- `src/pages/index.astro` — Role selector (照顧者 / 醫師)
 - `src/pages/assess/index.astro` — CDSA assessment shell
 - `src/pages/workspace/index.astro` — CDSS workspace shell
 - `src/pages/workspace/report.astro` — PDF report (from workspace)
@@ -47,7 +47,7 @@
 **Files:**
 - Modify: `src/pages/index.astro`
 
-Replace the marketing hero page with a clean role selector. Two large cards — one for parents (家長/照顧者), one for clinicians (醫護人員).
+Replace the marketing hero page with a clean role selector. Two large cards — one for parents (照顧者/照顧者), one for clinicians (醫護人員).
 
 - [ ] **Step 1: Rewrite index.astro**
 
@@ -56,20 +56,20 @@ Replace the marketing hero page with a clean role selector. Two large cards — 
 import Base from '../layouts/Base.astro';
 ---
 
-<Base title="CDSA 兒童發展智慧評估" description="兒童發展遲緩智慧分流評估系統">
+<Base title="CDSA 長者發展智慧評估" description="長者衰弱失能智慧分流評估系統">
   <main id="main-content" class="role-selector">
     <div class="selector-container">
-      <h1>兒童發展智慧評估系統</h1>
+      <h1>長者發展智慧評估系統</h1>
       <p class="subtitle">請選擇您的身份</p>
 
       <div class="role-cards">
-        <a href="/smart-pedi-cds/assess/" class="role-card role-parent">
+        <a href="/smart-geri-cds/assess/" class="role-card role-parent">
           <div class="role-icon" aria-hidden="true">👶</div>
-          <h2>家長 / 照顧者</h2>
+          <h2>照顧者 / 照顧者</h2>
           <p>為您的孩子進行發展評估，了解成長狀態並獲得衛教建議</p>
         </a>
 
-        <a href="/smart-pedi-cds/workspace/" class="role-card role-doctor">
+        <a href="/smart-geri-cds/workspace/" class="role-card role-doctor">
           <div class="role-icon" aria-hidden="true">🩺</div>
           <h2>醫護人員</h2>
           <p>查看病患評估結果、監測健康指標、管理預警與追蹤</p>
@@ -77,7 +77,7 @@ import Base from '../layouts/Base.astro';
       </div>
 
       <footer class="selector-footer">
-        <a href="/smart-pedi-cds/about/">關於本系統</a>
+        <a href="/smart-geri-cds/about/">關於本系統</a>
         <span>SMART on FHIR</span>
       </footer>
     </div>
@@ -126,14 +126,14 @@ interface Props {
   description?: string;
 }
 
-const { title, description = '兒童發展智慧評估' } = Astro.props;
+const { title, description = '長者發展智慧評估' } = Astro.props;
 ---
 
 <Base title={title} description={description}>
   <div class="assess-layout">
     <header class="assess-header">
-      <a href="/smart-pedi-cds/" class="back-link" aria-label="返回首頁">← 返回</a>
-      <span class="assess-title">兒童發展評估</span>
+      <a href="/smart-geri-cds/" class="back-link" aria-label="返回首頁">← 返回</a>
+      <span class="assess-title">長者發展評估</span>
     </header>
     <main id="main-content" class="assess-main">
       <slot />
@@ -211,7 +211,7 @@ import AssessmentShell from '../../components/assess/AssessmentShell.svelte';
     {#if currentStep === 0}
       <div class="placeholder-step">
         <h2>基本資料</h2>
-        <p>請輸入兒童的基本資料以開始評估。</p>
+        <p>請輸入長者的基本資料以開始評估。</p>
         <button class="btn-primary" onclick={() => currentStep++}>下一步</button>
       </div>
     {:else}
@@ -267,11 +267,11 @@ const { title, description = 'CDSS 臨床監測工作台' } = Astro.props;
 <Base title={title} description={description}>
   <div class="workspace-layout">
     <header class="workspace-header">
-      <a href="/smart-pedi-cds/" class="back-link" aria-label="返回首頁">← 返回</a>
+      <a href="/smart-geri-cds/" class="back-link" aria-label="返回首頁">← 返回</a>
       <span class="workspace-title">臨床監測工作台</span>
       <div class="header-actions">
         <ConnectionStatus client:load isConnected={false} isSyncing={false} lastSyncTime={null} />
-        <a href="/smart-pedi-cds/settings/" class="icon-link" aria-label="設定">⚙</a>
+        <a href="/smart-geri-cds/settings/" class="icon-link" aria-label="設定">⚙</a>
       </div>
     </header>
     <div class="workspace-body">
@@ -380,7 +380,7 @@ Remove `dashboard.astro`, `patient.astro`, `alerts.astro`, `launch.astro`.
 
 - [ ] **Step 2: Update Header.astro**
 
-Simplify nav links to: 首頁(/smart-pedi-cds/), 衛教(/smart-pedi-cds/education/), 關於(/smart-pedi-cds/about/). Remove dashboard/alerts/settings links (these are now within workspace).
+Simplify nav links to: 首頁(/smart-geri-cds/), 衛教(/smart-geri-cds/education/), 關於(/smart-geri-cds/about/). Remove dashboard/alerts/settings links (these are now within workspace).
 
 - [ ] **Step 3: Update App.astro**
 
@@ -388,7 +388,7 @@ Remove ConnectionStatus import and `.connection-bar`. The workspace has its own 
 
 - [ ] **Step 4: Update settings.astro**
 
-Add a back link to workspace: `<a href="/smart-pedi-cds/workspace/">← 返回工作台</a>`.
+Add a back link to workspace: `<a href="/smart-geri-cds/workspace/">← 返回工作台</a>`.
 
 - [ ] **Step 5: Update about.astro**
 

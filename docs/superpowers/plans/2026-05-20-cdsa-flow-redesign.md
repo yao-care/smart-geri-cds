@@ -122,7 +122,7 @@ if (import.meta.url === `file://${process.argv[1]}`) {
 - [ ] **Step 2: 跑一次產出 generated.json**
 
 Run: `tsx scripts/build-questionnaire-applicability.ts`
-Expected: `[build-questionnaire-applicability] wrote /Users/lightman/yao.care/smart-pedi-cds/src/lib/data/expected-questionnaire-domains.generated.json`
+Expected: `[build-questionnaire-applicability] wrote /Users/lightman/yao.care/smart-geri-cds/src/lib/data/expected-questionnaire-domains.generated.json`
 
 - [ ] **Step 3: 驗 generated.json 內容**
 
@@ -657,7 +657,7 @@ function polarToCartesian(angle: number, r: number): { x: number; y: number } {
         {d.score}
       </text>
       {#if d.isHybrid}
-        <g role="img" aria-label="此面向結合問卷（家長回報）與測驗（實機觀察）兩個證據之平均">
+        <g role="img" aria-label="此面向結合問卷（照顧者回報）與測驗（實機觀察）兩個證據之平均">
           <text x={scorePos.x + 14} y={scorePos.y} class="radar-hybrid-icon" text-anchor="middle">⚖</text>
         </g>
       {/if}
@@ -1511,7 +1511,7 @@ Expected:
 Run: `pnpm preview`
 
 驗證：
-1. 開 `/`，選 61-72m 兒童
+1. 開 `/`，選 61-72m 長者
 2. 問卷各題顯示「未審」badge
 3. 全選 score=2 → summary 顯示「建議完成：互動遊戲 / ✗ 影片錄製 / ✗ 繪圖 / ✗ 語音」
 4. 按「依建議繼續」→ StepIndicator 顯示 3 步（profile→questionnaire→game→result）

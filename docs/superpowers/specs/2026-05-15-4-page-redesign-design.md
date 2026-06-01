@@ -6,13 +6,13 @@
 - v2（commit 821237e）：補 FHIR-vs-IndexedDB 雙來源 resolver
 - v3（commit 0dddb50）：第 1 輪審查後修 3 B + 6 M + 7 m
 - v4（commit dbc5ec4）：第 2 輪審查後修 3 新 B + 7 新 M + 6 新 m
-- v5（本版）：第 3 輪審查後修 3 新 B + 7 新 M + 6 新 m。**核心改動：fhirClient API 對齊既有 client.ts 模組；雷達圖 z 方向處理（reactionLatency/interactionRhythm 反向）；source 進 schema 區分 IDB vs FHIR cache；markFhirSubmitted 簽名加 reportId；effectivePeriod 對未完成評估降級為 effectiveDateTime；家長頁加 referrer policy；childId 命名空間衝突處理**
+- v5（本版）：第 3 輪審查後修 3 新 B + 7 新 M + 6 新 m。**核心改動：fhirClient API 對齊既有 client.ts 模組；雷達圖 z 方向處理（reactionLatency/interactionRhythm 反向）；source 進 schema 區分 IDB vs FHIR cache；markFhirSubmitted 簽名加 reportId；effectivePeriod 對未完成評估降級為 effectiveDateTime；照顧者頁加 referrer policy；childId 命名空間衝突處理**
 
 ## Context
 
 E2E 測試後（2026-05-14）發現 4 個頁面在資訊架構與基本實作上有問題：
 
-1. **評估結果頁** — 暴露 raw metric 給家長；雷達圖無多邊形；長頁面缺 hero 區。
+1. **評估結果頁** — 暴露 raw metric 給照顧者；雷達圖無多邊形；長頁面缺 hero 區。
 2. **衛教列表** — 16 張卡平鋪、無分類篩選、format 視覺差異弱。
 3. **圖卡審核** — 60 張縮圖全部空白（**根因確認**：webp 檔名含中文「-亮 / -透」，GitHub Pages 對 CJK URL encoding 處理不穩）；無 status / domain filter；標題用技術 ID。
 4. **評估歷史** — 一行紀錄 + 大片空白，缺空狀態、PDF 重下、比較。
@@ -21,7 +21,7 @@ E2E 測試後（2026-05-14）發現 4 個頁面在資訊架構與基本實作上
 
 ## 受眾分流原則
 
-- **家長**（未登入 FHIR）：簡視 + 行動導向
+- **照顧者**（未登入 FHIR）：簡視 + 行動導向
 - **醫師**（已登入 FHIR）：完整 metric + FHIR 操作
 
 ---
@@ -38,11 +38,11 @@ E2E 測試後（2026-05-14）發現 4 個頁面在資訊架構與基本實作上
 
 ```ts
 // src/lib/fhir/cdsa-resources.ts
-const CODE_SYSTEM = 'https://smart-pedi-cds.yao.care/code';
-const ID_SYSTEM = 'https://smart-pedi-cds.yao.care/assessment';
+const CODE_SYSTEM = 'https://smart-geri-cds.yao.care/code';
+const ID_SYSTEM = 'https://smart-geri-cds.yao.care/assessment';
 
 // DiagnosticReport.code 用單一獨立 code
-const REPORT_CODE = { system: CODE_SYSTEM, code: 'cdsa-assessment', display: 'CDSA 兒童發展智慧評估' };
+const REPORT_CODE = { system: CODE_SYSTEM, code: 'cdsa-assessment', display: 'CDSA 長者發展智慧評估' };
 
 // Observation.code 用 domain::metric 細粒度 code，與 report code 完全分離
 function observationCode(domain: string, metric: string) {
@@ -87,7 +87,7 @@ function parseObservationCode(text: string): { domain: string; metric: string } 
 
 新增的 extension URL：
 ```ts
-const CONFIDENCE_EXT_URL = 'https://smart-pedi-cds.yao.care/extension/triage-confidence';
+const CONFIDENCE_EXT_URL = 'https://smart-geri-cds.yao.care/extension/triage-confidence';
 ```
 
 DiagnosticReport.effective 從 `effectiveDateTime` 改為 `effectivePeriod`，相容性：FHIR R4 允許二者擇一，現有資料用 `effectiveDateTime` 的退路是反序列化時兩者都試。
@@ -223,7 +223,7 @@ export function buildTriageDiagnosticReport(
 
 ---
 
-## 頁面 1A：家長簡視 — `/result/?id={uuid}`
+## 頁面 1A：照顧者簡視 — `/result/?id={uuid}`
 
 ### 路由（**Blocker B2/B3 + NEW-M-C 隱私修正**）
 
@@ -238,13 +238,13 @@ export function buildTriageDiagnosticReport(
 ### 資料來源
 
 - 純 IndexedDB：`db.assessments.get(id)` + `db.assessmentEvents.where('assessmentId').equals(id).toArray()`
-- 家長端只看自己裝置產的評估，無跨裝置情境
+- 照顧者端只看自己裝置產的評估，無跨裝置情境
 
 ### 資訊架構
 
 1. **Hero 分流結果區**
    - 大字分流類別 + 對應顏色 + emoji
-   - 一句解讀（例：「7 個面向需要關注，建議和兒科醫師談談」）
+   - 一句解讀（例：「7 個面向需要關注，建議和老年醫學醫師談談」）
    - 信心度小字
 2. **雷達圖**（**NEW-B-B 修正：解決 z 方向不一致**）
    - 8 個 domain，分數 0-100，**越大越好**
@@ -399,9 +399,9 @@ export async function resolveAssessment(id: string): Promise<
 ### `src/lib/fhir/assessment-fetch.ts`（新）
 
 ```ts
-const CODE_SYSTEM = 'https://smart-pedi-cds.yao.care/code';
-const ID_SYSTEM = 'https://smart-pedi-cds.yao.care/assessment';
-const CONFIDENCE_EXT_URL = 'https://smart-pedi-cds.yao.care/extension/triage-confidence';
+const CODE_SYSTEM = 'https://smart-geri-cds.yao.care/code';
+const ID_SYSTEM = 'https://smart-geri-cds.yao.care/assessment';
+const CONFIDENCE_EXT_URL = 'https://smart-geri-cds.yao.care/extension/triage-confidence';
 
 // 反查 DiagnosticReport by identifier（B1 修正，code 改用自有 system — NEW-B1）
 export async function fetchAssessmentFromFhir(id: string, client): Promise<Assessment | null> {
@@ -490,7 +490,7 @@ UI relaunch link 不直接到 `/launch/`（需 `iss` + `clientId` query），改
 
 ### 資訊架構
 
-1. **頂部摘要 bar**：兒童 ID（abbreviate） + 評估日期 + 月齡 + 分流類別
+1. **頂部摘要 bar**：長者 ID（abbreviate） + 評估日期 + 月齡 + 分流類別
 2. **資料來源 badge**：「本地紀錄」or「來自 FHIR Server」
 3. **完整 metric 表**：domain 分組，每行 `metric / value / z-score / 異常 flag`，z-score 色帶
 4. **時序事件 timeline**：assessment events
@@ -549,7 +549,7 @@ UI relaunch link 不直接到 `/launch/`（需 `iss` + `clientId` query），改
 ```
 [Header]
 [Filter Bar：
-  分類 chip filter（單選；含「全部」）：全部 飲食 睡眠 呼吸 運動 里程碑 一般
+  分類 chip filter（單選；含「全部」）：全部 飲食 睡眠 呼吸 運動 評估指標 一般
   格式 toggle：全部 / 📄 文章 / 🎬 影片]
 [Card grid auto-fill minmax(280px, 1fr)]
   └ 卡片：
@@ -612,10 +612,10 @@ UI relaunch link 不直接到 `/launch/`（需 `iss` + `clientId` query），改
 | 已登入 FHIR | `listAssessmentsFromFhir(patientFhirId)` | 點開時呼叫 `resolveAssessment(id)` |
 
 **childId 來源**（消除 NEW-m2 歧義，並修 NEW-B-A：fhirClient 取得路徑）：
-- 未登入：從 `assessmentStore.child?.id`（家長端 store 唯一活躍 child）或 URL query `?child={uuid}`
+- 未登入：從 `assessmentStore.child?.id`（照顧者端 store 唯一活躍 child）或 URL query `?child={uuid}`
 - 已登入：從 fhirclient context — `getClient().patient.id`（從 `src/lib/fhir/client.ts`）
 
-**NEW-B-C 命名空間衝突處理**：家長端 `childId` 是 IDB 內隨機 UUID v4；FHIR 端 `Patient.id` 是醫院字串（任意格式）。兩者不會撞號（UUID v4 與醫院字串格式不重疊），但同一個小朋友在「家長裝置 IDB」與「FHIR server」會有不同 id，**list 結果不去重也不嘗試合併**——醫師端登入後一律走 FHIR list（看醫院視角），家長端不看 FHIR。Badge 顯示資料來源即可，不混合。
+**NEW-B-C 命名空間衝突處理**：照顧者端 `childId` 是 IDB 內隨機 UUID v4；FHIR 端 `Patient.id` 是醫院字串（任意格式）。兩者不會撞號（UUID v4 與醫院字串格式不重疊），但同一個小朋友在「照顧者裝置 IDB」與「FHIR server」會有不同 id，**list 結果不去重也不嘗試合併**——醫師端登入後一律走 FHIR list（看醫院視角），照顧者端不看 FHIR。Badge 顯示資料來源即可，不混合。
 
 來源顯示在頁面頂端 badge：「本地紀錄」/「醫院 FHIR Server」。
 
@@ -654,7 +654,7 @@ UI relaunch link 不直接到 `/launch/`（需 `iss` + `clientId` query），改
 | Empty state | 趨勢線圖 |
 | 重下 PDF | CSV export |
 | 分流 badge | 細項展開 |
-| 比較功能 | 多兒童切換 |
+| 比較功能 | 多長者切換 |
 | 看詳細 | 統計 export |
 
 ---
@@ -740,7 +740,7 @@ Observation code.text 涉及的 metric 名稱（由 `triage.ts` 與 PartialAnaly
 | Triage | `src/engine/cdsa/triage.ts`：`details[]` 加 `directionalZ: number \| null`（null 處理見下） |
 | FHIR submit | `src/lib/db/assessments.ts:58` `markFhirSubmitted` 加 `fhirDiagnosticReportId` 參數；`src/lib/fhir/cdsa-submit.ts:69` call site 同步 |
 | 圖卡 ASCII 化 | `scripts/generate-placeholder-cards.mjs` 改 + `pnpm generate:cards` 重產 + `src/data/cards/index.json` |
-| 1A 家長簡視 | `src/pages/result/index.astro`（新）+ `src/components/assess/ResultView.svelte` 大改 + `RadarChart.svelte` 修綁定 |
+| 1A 照顧者簡視 | `src/pages/result/index.astro`（新）+ `src/components/assess/ResultView.svelte` 大改 + `RadarChart.svelte` 修綁定 |
 | 1B 醫師詳視 | `src/pages/workspace/result/index.astro`（新）+ `src/components/patient/ResultDetail.svelte`（新） |
 | 評估流程結尾改 redirect | `src/components/assess/AssessmentShell.svelte`（complete 時 redirect） |
 | 2 衛教 | `src/pages/education/index.astro` + `src/components/education/EducationFilter.svelte`（新） |

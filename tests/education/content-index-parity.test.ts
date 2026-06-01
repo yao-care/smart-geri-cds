@@ -1,9 +1,9 @@
 /**
  * Content-index format test (CGA axis, Phase 1 minimal content).
  *
- * The pediatric "before" fixture and per-cell content locks no longer apply —
- * the migrated content-relevance.yaml ships EMPTY inapplicable/triggers/
- * clinicalAlertEducation (real CGA content is Plan 2). This test therefore
+ * Fixed per-cell content locks no longer apply —
+ * the content-relevance.yaml may ship EMPTY inapplicable/triggers/
+ * clinicalAlertEducation. This test therefore
  * asserts STRUCTURAL + FORMAT correctness of whatever the build compiler emits:
  *   - recommendations keys (if any) match  <severity>::<top>.<sub>::cfs<1-9>
  *   - triggers keys (if any) match the cga.domain / cga.triage grammar

@@ -48,7 +48,7 @@ Token sweep is split into single-line mechanical renames (sed-safe) and multi-li
 
 Run:
 ```bash
-cd /Users/lightman/yao.care/smart-pedi-cds
+cd /Users/lightman/yao.care/smart-geri-cds
 pnpm add -D postcss
 ```
 
@@ -694,7 +694,7 @@ git commit -m "feat(design-system): global.css to new tokens + patterns #10/#12/
 
 Run:
 ```bash
-grep -E "^\s*--text-(caption|xs|sm|base|lg|xl|2xl|3xl|display):" /Users/lightman/yao.care/smart-pedi-cds/src/styles/typography.css
+grep -E "^\s*--text-(caption|xs|sm|base|lg|xl|2xl|3xl|display):" /Users/lightman/yao.care/smart-geri-cds/src/styles/typography.css
 ```
 
 Expected output (in any order, but all 9 must appear):
@@ -716,7 +716,7 @@ If any is missing, add it. If anything else is present, the file is already curr
 
 Run:
 ```bash
-grep -E "^\s*--font-(normal|medium|bold):" /Users/lightman/yao.care/smart-pedi-cds/src/styles/typography.css
+grep -E "^\s*--font-(normal|medium|bold):" /Users/lightman/yao.care/smart-geri-cds/src/styles/typography.css
 ```
 
 Expected: 3 lines, weights 400 / 500 / 700.
@@ -735,7 +735,7 @@ This task replaces tokens that have a 1:1 mapping with no judgment required (the
 Run from project root:
 
 ```bash
-cd /Users/lightman/yao.care/smart-pedi-cds
+cd /Users/lightman/yao.care/smart-geri-cds
 
 # Renames where new value is a single `var(--token)` reference
 find src -type f \( -name "*.svelte" -o -name "*.astro" \) -exec sed -i '' \
@@ -1030,7 +1030,7 @@ git commit -m "refactor(design-system): replace --state-* tokens with color-mix"
 
 Run:
 ```bash
-grep -nA5 "\.option-btn\.selected" /Users/lightman/yao.care/smart-pedi-cds/src/components/assess/QuestionnaireModule.svelte
+grep -nA5 "\.option-btn\.selected" /Users/lightman/yao.care/smart-geri-cds/src/components/assess/QuestionnaireModule.svelte
 ```
 
 Find the rule (around line 328 per spec). After Task 11/12, the `var(--color-risk-advisory-bg)` should have been swept to `color-mix(--warn 12%, --bg)` — but this is semantically wrong (selection state, not warn).
@@ -1080,7 +1080,7 @@ git commit -m "fix(design-system): QuestionnaireModule .option-btn.selected → 
 - [ ] **Step 1: Find the rule**
 
 ```bash
-grep -nA3 "tr\.custom\b" /Users/lightman/yao.care/smart-pedi-cds/src/components/settings/NormsManager.svelte
+grep -nA3 "tr\.custom\b" /Users/lightman/yao.care/smart-geri-cds/src/components/settings/NormsManager.svelte
 ```
 
 - [ ] **Step 2: Apply Pattern #4**
@@ -1112,7 +1112,7 @@ git commit -m "fix(design-system): NormsManager tr.custom → Pattern #4 (select
 - [ ] **Step 1: Find both rules**
 
 ```bash
-grep -nA4 "\.model-card\.current\|\.version-item\.is-current" /Users/lightman/yao.care/smart-pedi-cds/src/components/settings/ModelManager.svelte
+grep -nA4 "\.model-card\.current\|\.version-item\.is-current" /Users/lightman/yao.care/smart-geri-cds/src/components/settings/ModelManager.svelte
 ```
 
 - [ ] **Step 2: Apply Pattern #4 to both**
@@ -1217,7 +1217,7 @@ git commit -m "fix(design-system): 4 badge sites → Pattern #6 normal (--accent
 - [ ] **Step 1: Find the literals**
 
 ```bash
-grep -nE "#ef4444" /Users/lightman/yao.care/smart-pedi-cds/src/components/assess/VideoModule.svelte
+grep -nE "#ef4444" /Users/lightman/yao.care/smart-geri-cds/src/components/assess/VideoModule.svelte
 ```
 
 Expected: 5 lines (per spec, lines 288, 321, 325, 336, 344).
@@ -1225,13 +1225,13 @@ Expected: 5 lines (per spec, lines 288, 321, 325, 336, 344).
 - [ ] **Step 2: Replace all 5**
 
 ```bash
-sed -i '' 's|#ef4444|var(--danger)|g' /Users/lightman/yao.care/smart-pedi-cds/src/components/assess/VideoModule.svelte
+sed -i '' 's|#ef4444|var(--danger)|g' /Users/lightman/yao.care/smart-geri-cds/src/components/assess/VideoModule.svelte
 ```
 
 - [ ] **Step 3: Verify**
 
 ```bash
-grep -nE "#ef4444" /Users/lightman/yao.care/smart-pedi-cds/src/components/assess/VideoModule.svelte
+grep -nE "#ef4444" /Users/lightman/yao.care/smart-geri-cds/src/components/assess/VideoModule.svelte
 ```
 
 Expected: no output.
@@ -1371,7 +1371,7 @@ git commit -m "refactor(design-system): drop hex fallbacks from SVG inline var()
 - [ ] **Step 1: Find the hardcoded font-size**
 
 ```bash
-grep -nE "font-size:\s*[0-9]" /Users/lightman/yao.care/smart-pedi-cds/src/components/ui/Toast.svelte
+grep -nE "font-size:\s*[0-9]" /Users/lightman/yao.care/smart-geri-cds/src/components/ui/Toast.svelte
 ```
 
 Expected: at least line ~95 with `font-size: 0.875rem;` (or similar).

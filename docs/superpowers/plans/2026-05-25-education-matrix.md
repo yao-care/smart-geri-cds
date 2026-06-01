@@ -109,7 +109,7 @@ describe('buildMatrixData', () => {
 - [ ] **Step 1.2 — Run to confirm failure**
 
 ```bash
-cd /Users/lightman/yao.care/smart-pedi-cds
+cd /Users/lightman/yao.care/smart-geri-cds
 pnpm test tests/education/matrix-data.test.ts
 ```
 
@@ -527,7 +527,7 @@ function cellVideos(cell: MatrixCellData): VideoInfo[] {
 }
 ---
 
-<App title="衛教資源" description="兒科健康衛教資源（年齡 × 發展領域矩陣）">
+<App title="衛教資源" description="老年醫學健康衛教資源（年齡 × 發展領域矩陣）">
   <h1>衛教資源</h1>
 
   <div class="matrix-scroll">
@@ -950,9 +950,9 @@ describe('formatIssueBody', () => {
   it('includes submitter when provided', () => {
     const body = formatIssueBody({
       type: 'article', domain: 'cognition', ageGroup: '25-36m',
-      title: '文章', submitter: 'Dr. Chen，台大兒科',
+      title: '文章', submitter: 'Dr. Chen，台大老年醫學',
     });
-    expect(body).toContain('Dr. Chen，台大兒科');
+    expect(body).toContain('Dr. Chen，台大老年醫學');
   });
 });
 ```
@@ -1152,7 +1152,7 @@ export async function getInstallationToken(
         Authorization: `Bearer ${jwt}`,
         Accept: 'application/vnd.github+json',
         'X-GitHub-Api-Version': '2022-11-28',
-        'User-Agent': 'yao-care-smart-pedi-cds/1.0',
+        'User-Agent': 'yao-care-smart-geri-cds/1.0',
       },
     },
   );
@@ -1258,7 +1258,7 @@ export default {
       );
 
       const issueRes = await fetch(
-        'https://api.github.com/repos/yao-care/smart-pedi-cds/issues',
+        'https://api.github.com/repos/yao-care/smart-geri-cds/issues',
         {
           method: 'POST',
           headers: {
@@ -1266,7 +1266,7 @@ export default {
             Accept: 'application/vnd.github+json',
             'Content-Type': 'application/json',
             'X-GitHub-Api-Version': '2022-11-28',
-            'User-Agent': 'yao-care-smart-pedi-cds/1.0',
+            'User-Agent': 'yao-care-smart-geri-cds/1.0',
           },
           body: JSON.stringify({
             title: formatIssueTitle(payload),
@@ -1315,7 +1315,7 @@ compatibility_date = "2025-01-01"
 compatibility_flags = ["nodejs_compat"]
 
 [vars]
-ALLOWED_ORIGIN = "https://smart-pedi-cds.yao.care"
+ALLOWED_ORIGIN = "https://smart-geri-cds.yao.care"
 ```
 
 > Worker secrets (GITHUB_APP_ID, GITHUB_APP_PRIVATE_KEY, GITHUB_INSTALLATION_ID) are set via `wrangler secret put`, not in this file.
@@ -1383,7 +1383,7 @@ curl -X POST https://education-contribution.yao-care.workers.dev/education-contr
   -d '{"type":"youtube","domain":"language","ageGroup":"13-24m","url":"https://youtu.be/yzRi9GlSptM","title":"測試","notes":"smoke test","submitter":"dev"}'
 ```
 
-Expected: `{"issueUrl":"https://github.com/yao-care/smart-pedi-cds/issues/..."}` and a new issue appears in the repo.
+Expected: `{"issueUrl":"https://github.com/yao-care/smart-geri-cds/issues/..."}` and a new issue appears in the repo.
 
 - [ ] **Step 7.6 — Configure the Astro env var**
 
@@ -1398,7 +1398,7 @@ Update `astro.config.mjs` to expose it — Astro automatically exposes `PUBLIC_*
 - [ ] **Step 7.7 — End-to-end test in dev**
 
 ```bash
-cd /Users/lightman/yao.care/smart-pedi-cds
+cd /Users/lightman/yao.care/smart-geri-cds
 pnpm dev
 ```
 
@@ -1410,7 +1410,7 @@ Open `http://localhost:4321/education/`, click a cell, click `＋ 新增資源`,
 - [ ] **Step 7.8 — Commit remaining files**
 
 ```bash
-cd /Users/lightman/yao.care/smart-pedi-cds
+cd /Users/lightman/yao.care/smart-geri-cds
 git add workers/education-contribution/wrangler.toml
 git commit -m "feat(worker): wrangler config + deployment instructions"
 ```

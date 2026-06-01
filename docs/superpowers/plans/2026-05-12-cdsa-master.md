@@ -4,11 +4,11 @@
 
 ```
 ┌─────────────────────────────────────────────────────┐
-│                   smart-pedi-cds                     │
+│                   smart-geri-cds                     │
 │                   (Astro 5 SSG)                      │
 │                                                      │
 │  ┌─────────────────┐    ┌─────────────────────────┐ │
-│  │   家長端 (CDSA)  │    │    醫師端 (CDSS)         │ │
+│  │   照顧者端 (CDSA)  │    │    醫師端 (CDSS)         │ │
 │  │                  │    │                          │ │
 │  │ 1. 問卷          │    │ 病患列表                  │ │
 │  │ 2. 互動遊戲      │    │ ├─ 指標趨勢圖 (D3)       │ │
@@ -32,7 +32,7 @@
 
 ### A: App Restructure + Dual Entry (Foundation)
 - Remove website-style nav, replace with role-based entry
-- `/` → Role selector (家長 / 醫師)
+- `/` → Role selector (照顧者 / 醫師)
 - `/assess/` → CDSA assessment flow (step-by-step)
 - `/workspace/` → CDSS monitoring workspace (single-page)
 - Shared FHIR connection layer

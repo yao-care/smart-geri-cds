@@ -49,8 +49,8 @@ Wave 4 (parallel): P0-8, P0-9
 
 **Files:**
 - Create: `src/content.config.ts`
-- Create: `src/data/rules/pediatric-default.yaml`
-- Create: `src/data/baselines/pediatric-baselines.json`
+- Create: `src/data/rules/geriatric-default.yaml`
+- Create: `src/data/baselines/geriatric-baselines.json`
 - Create: `src/data/education/diet-control.md`
 - Create: `src/data/education/sleep-hygiene.md`
 - Create: `src/data/education/respiratory-care.md`
@@ -67,14 +67,14 @@ Content Layer schemas must match spec section 4.4 exactly:
 
 **educationCollection:** glob loader, `**/*.md` from `./src/data/education`, schema with title, summary, category (enum: diet/sleep/respiratory/exercise/milestone/general), ageGroup (array of enum infant/toddler/preschool), format (enum: article/video/questionnaire), videoUrl optional, triggerIndicators optional array of strings, publishedAt date, updatedAt optional date, locale default zh-TW.
 
-**rulesCollection:** file loader from `./src/data/rules/pediatric-default.yaml`. Schema: version string, age_groups record of objects per indicator (heart_rate, spo2, respiratory_rate, temperature, sleep_quality, activity_level, sugar_intake) each with normal/advisory/warning as [number, number] tuples. Plus escalation, deduplication, missing_data, multi_indicator, trend config objects per spec.
+**rulesCollection:** file loader from `./src/data/rules/geriatric-default.yaml`. Schema: version string, age_groups record of objects per indicator (heart_rate, spo2, respiratory_rate, temperature, sleep_quality, activity_level, sugar_intake) each with normal/advisory/warning as [number, number] tuples. Plus escalation, deduplication, missing_data, multi_indicator, trend config objects per spec.
 
-**baselinesCollection:** file loader from `./src/data/baselines/pediatric-baselines.json`. Schema per spec: 9 keys (infant, infant:male, infant:female, toddler, toddler:male, toddler:female, preschool, preschool:male, preschool:female), each with 7 indicators having mean, std, optional min/max/p25/p75.
+**baselinesCollection:** file loader from `./src/data/baselines/geriatric-baselines.json`. Schema per spec: 9 keys (infant, infant:male, infant:female, toddler, toddler:male, toddler:female, preschool, preschool:male, preschool:female), each with 7 indicators having mean, std, optional min/max/p25/p75.
 
 **Seed data:**
-- Rules YAML: realistic pediatric thresholds for 3 age groups x 7 indicators x 3 levels
-- Baselines JSON: realistic pediatric baselines for 9 groups x 7 indicators
-- Education MD: each with proper frontmatter matching schema, Chinese content (real pediatric health education)
+- Rules YAML: realistic geriatric thresholds for 3 age groups x 7 indicators x 3 levels
+- Baselines JSON: realistic geriatric baselines for 9 groups x 7 indicators
+- Education MD: each with proper frontmatter matching schema, Chinese content (real geriatric health education)
 
 ---
 
@@ -143,7 +143,7 @@ Content Layer schemas must match spec section 4.4 exactly:
 
 **Education.astro:** Extend Base.astro. Include Header, sidebar navigation slot, main content area, Footer. Breadcrumb.
 
-**Header.astro:** Site title "CDSS 兒科臨床決策輔助系統", nav links (首頁, 儀表板, 預警, 衛教, 設定, 關於), responsive nav (hamburger on mobile). Zero JS — pure CSS responsive nav.
+**Header.astro:** Site title "CDSS 老年醫學臨床決策輔助系統", nav links (首頁, 儀表板, 預警, 衛教, 設定, 關於), responsive nav (hamburger on mobile). Zero JS — pure CSS responsive nav.
 
 **Footer.astro:** Copyright, version, link to GitHub repo, "Powered by SMART on FHIR" badge.
 

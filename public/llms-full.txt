@@ -1,115 +1,91 @@
-# CDSS Pediatric Clinical Decision Support System — Full Description
+# Comprehensive Geriatric Assessment CDS (smart-geri-cds) — Full Description
 
 ## Overview
-An open-source pediatric clinical decision support system (CDSS) that runs entirely in the browser.
-It integrates with electronic health record systems via the SMART on FHIR standard and requires
-zero backend infrastructure. Deployed as a static site on GitHub Pages.
+An open-source Comprehensive Geriatric Assessment (CGA) clinical decision support tool that runs
+entirely in the browser via the SMART on FHIR standard, with zero backend infrastructure.
+Deployed as a static site (PWA, offline-capable) on GitHub Pages.
 
-Target users: pediatric nurses, physicians, and caregivers managing children aged 0–6 years.
-Target age groups: infant (0–12 months), toddler (1–3 years), preschool (3–6 years).
+Target users: clinicians, care staff, and the general public assessing older adults' frailty and
+functional status. Stratification axis: Clinical Frailty Scale (CFS) levels 1–9 (replacing any age band).
 
 ## URL
-https://yao.care/smart-pedi-cds/
+https://smart-geri-cds.yao.care/
 
 ## Source
-https://github.com/yaocare/smart-pedi-cds
+https://github.com/yao-care/smart-geri-cds
 
 ---
 
 ## Functional Areas
 
-### 1. SMART on FHIR Connectivity
-- Supports both EHR Launch (embedded in EHR iframe) and Standalone Launch flows
-- Uses fhirclient.js v2 for OAuth2 PKCE authentication and FHIR R4 resource access
-- Reads Patient, Observation, and Encounter resources from the FHIR server
-- Observation resources are filtered by LOINC code to extract pediatric vital signs
+### 1. Two assessment paths
+- Public self-check (`/self-check/`): plain-language questionnaires, zh-TW text-to-speech, an
+  in-memory (non-persisted) flow, and a green/amber/red summary with self-harm red-flag safety prompts.
+- Professional assessment (`/assess/` → `/result/` → clinical workspace `/workspace/`): an entry gate
+  sets the CFS level, then a three-tier pyramid asks a triage screen first and only expands to fuller
+  scales for flagged domains.
 
-### 2. AI-Powered Risk Alerting
-- Dual-layer alert engine: deterministic rule engine + ONNX Runtime Web ML model
-- Rule engine reads threshold tables keyed by age group and indicator
-- Risk levels: normal, advisory, warning, critical (4 levels)
-- ML inference runs in a Web Worker to avoid blocking the main thread
-- ONNX model file loaded at runtime; fallback to rule engine if model unavailable
-- Multi-indicator logic: 2+ concurrent advisory readings escalate to warning automatically
-- Trend detection: consecutive-day deterioration triggers escalation
+### 2. CGA scoring and triage
+- One YAML file per scale (`src/data/scales/`), scored against validated per-scale cut-offs.
+- Severity model: normal / monitor / refer / incomplete (overall = worst across domains).
+- Domains follow a two-level BGS Comprehensive Geriatric Assessment structure (physical,
+  psychological, functional, social, environmental, future wishes).
+- Results render a per-domain bar chart plus matched education and recommended videos.
 
-### 3. Closed-Loop Decision Workflow
-- Alert generated → clinician reviews → accepts/modifies/rejects recommendation
-- All workflow state stored in IndexedDB (Dexie.js) for offline persistence
-- Deduplication window (configurable, default 30 minutes) prevents alert storms
-- Escalation timers: advisory → warning after N hours, warning → critical after M hours
-- Missing-data alerts: fires if no new readings received within configured threshold
+### 3. SMART on FHIR upload (two routes)
+- Connected hospital (fhirclient.js, in-page POST) — Standalone or EHR launch, OAuth2 PKCE.
+- Redirect-type intake institutions such as GCM (`src/lib/fhir/intake-institutions.ts`): native
+  fetch + Web Crypto PKCE with dynamic client registration; results upload as a FHIR transaction
+  Bundle of Observation + DiagnosticReport (+ optional QuestionnaireResponse).
+- Both share a single `/launch/` OAuth callback page.
 
-### 4. Clinical Dashboard
-- D3.js trend charts for all 7 monitored indicators over selectable time windows
-- Color-coded risk bands overlaid on charts (normal / advisory / warning / critical)
-- Sparkline summary cards for quick at-a-glance status
-- Responsive layout built with Svelte 5 island components inside Astro 5 SSG pages
-- Print-ready PDF report generation via jsPDF
+### 4. Education content system
+- Markdown article collection via Astro Content Collections (`src/data/education/`).
+- A single source of truth, `content-relevance.yaml`, maps articles/videos to domain × CFS ×
+  severity cells and drives three views: the `/education/` matrix, post-assessment recommendations,
+  and trigger-based video lists.
+- Video metadata lives in `src/data/video-catalog/*.yaml`. Pagefind full-text search (zh-TW).
+- RSS feed at /rss.xml.
 
-### 5. Patient Education Content System
-- Markdown-based content collection managed via Astro Content Collections
-- Content schema enforces: title, summary, category, ageGroup, format, publishedAt, locale
-- Categories: diet, sleep, respiratory, exercise, milestone, general
-- Formats: article, video, questionnaire
-- Content is statically rendered at build time; no runtime CMS dependency
-- RSS feed available at /smart-pedi-cds/rss.xml for feed readers and LLM crawlers
-- Pagefind-indexed for full-text client-side search (zh-TW language)
-
-### 6. PDF Report Generation
-- One-click export of current patient dashboard state to PDF
-- Includes: patient demographics, risk summary, indicator trend charts, active alerts
-- Generated entirely client-side using jsPDF; no server upload required
-- Output formatted for A4 printing with Chinese font support
+### 5. PDF report generation
+- One-click client-side export via jsPDF (dynamic import) with Chinese font support.
+- Reports reference the FHIR Patient ID only; no PII beyond what the report needs.
 
 ---
 
 ## Data Model
 
-### Monitored Indicators (7 total)
-| Indicator          | LOINC Code  | Unit    |
-|--------------------|-------------|---------|
-| Heart rate         | 8867-4      | bpm     |
-| SpO2               | 59408-5     | %       |
-| Respiratory rate   | 9279-1      | /min    |
-| Body temperature   | 8310-5      | °C      |
-| Sleep quality      | (custom)    | score   |
-| Activity level     | (custom)    | score   |
-| Sugar intake       | (custom)    | g/day   |
+### Stratification — Clinical Frailty Scale (CFS 1–9)
+The entry gate records a CFS level; scales declare which CFS levels they apply to.
 
-### Age Groups (3 total)
-- infant: 0–12 months
-- toddler: 13–36 months
-- preschool: 37–72 months
-
-### Risk Levels (4 total)
-- normal: within expected physiological range
-- advisory: mild deviation; monitor closely
-- warning: significant deviation; clinical review recommended
-- critical: immediate intervention required
+### Severity (4 values)
+- normal: within expected range
+- monitor: follow up / observe
+- refer: abnormal; further professional assessment or referral suggested
+- incomplete: not enough completed to triage
 
 ---
 
 ## Architecture
 
 - Build tool: Astro 5 (SSG, static output)
-- UI components: Svelte 5 (islands hydration)
-- Charting: D3.js v7 (d3-selection, d3-scale, d3-shape, d3-axis, d3-time)
+- UI components: Svelte 5 (runes, islands hydration)
+- Charting: D3 submodules (d3-scale, d3-shape, …)
 - Client storage: Dexie.js 4 (IndexedDB wrapper)
-- ML runtime: ONNX Runtime Web 1.x (WebAssembly + WebGL backends)
-- FHIR client: fhirclient 2.x
-- Search: Pagefind 1.x (WASM, runs in browser, zero server)
-- PDF: jsPDF 4.x
-- Deployment: GitHub Actions → GitHub Pages (zero-cost hosting)
-- CI: pnpm + astro check + eslint + lychee link checker
+- FHIR client: fhirclient 2.x + native PKCE for redirect-type intake servers
+- Search: Pagefind (WASM, in-browser)
+- PDF: jsPDF (dynamic import)
+- PWA: self-built service worker + manifest
+- Deployment: GitHub Actions → GitHub Pages
+- CI: pnpm + astro check + eslint + vitest + Lighthouse
 
 ## Content Structure
 
-src/data/education/        — Markdown education articles
-src/data/rules/            — YAML threshold rule tables (per age group, per indicator)
-src/data/baselines/        — JSON population baseline statistics (mean, std, percentiles)
-src/pages/education/       — Astro pages rendered from education collection
-src/pages/rss.xml.ts       — RSS feed endpoint for education content
+src/data/education/        — Markdown education articles + content-relevance.yaml (the single relevance source)
+src/data/scales/           — CGA assessment scales (YAML, one per scale)
+src/data/self-check/        — Public self-check question banks (YAML)
+src/data/video-catalog/    — Education video metadata (YAML)
+src/pages/                  — Routes (/assess /result /self-check /workspace /education /launch …)
 public/llms.txt            — Brief LLM discovery file
 public/llms-full.txt       — This file; comprehensive system description
 pagefind.yml               — Pagefind search index configuration

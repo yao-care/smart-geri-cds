@@ -2,7 +2,7 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** 把兒科 CDS 的「年齡帶」核心軸整個換成 CFS 1-9 + 二層 BGS 領域 + per-scale 計分，移除感測模組，修正全部消費端與測試，得到 `pnpm check/lint/test/build` 全綠、可部署為 `smart-geri-cds` 的骨架。
+**Goal:** 把老年醫學 CDS 的「年齡帶」核心軸整個換成 CFS 1-9 + 二層 BGS 領域 + per-scale 計分，移除感測模組，修正全部消費端與測試，得到 `pnpm check/lint/test/build` 全綠、可部署為 `smart-geri-cds` 的骨架。
 
 **Architecture:** 雙軸模型（CFS 等級 × 二層領域 `top.sub`）。CFS 進入評估時由臨床判定（gate 型），持久化於 `Assessment.cfsLevel`。計分改為 data-driven 量表 cutoff（`scoreScale`），整體分流「取最嚴重領域」。trigger 文法 `cga.domain.<top>.<sub>.anomaly.<cfs>`。詳見 spec `docs/superpowers/specs/2026-05-26-geri-cga-axis-redesign-design.md`（含全消費端清單、各層去留、測試守門）。
 
@@ -32,31 +32,31 @@
 
 ### Task 0.1: package.json
 **Files:** Modify `package.json:2,5`
-- [ ] 將 `"name": "cdss-pediatric"` → `"name": "smart-geri-cds"`；`"description"` 改為「開源高齡周全性評估決策系統 — SMART on FHIR 瀏覽器端 CDS」。
+- [ ] 將 `"name": "cdss-geriatric"` → `"name": "smart-geri-cds"`；`"description"` 改為「開源高齡周全性評估決策系統 — SMART on FHIR 瀏覽器端 CDS」。
 - [ ] Run `pnpm install --frozen-lockfile`（確認 lockfile 不因 name 變動而壞）。Expected: OK。
 - [ ] Commit: `git add package.json && git commit -m "chore(geri): package name → smart-geri-cds"`
 
 ### Task 0.2: 網域與自訂網域
 **Files:** Modify `astro.config.mjs:11`, `public/CNAME`
-- [ ] `astro.config.mjs:11` `site: 'https://smart-pedi-cds.yao.care'` → `'https://smart-geri-cds.yao.care'`
-- [ ] `public/CNAME` 內容 `smart-pedi-cds.yao.care` → `smart-geri-cds.yao.care`
+- [ ] `astro.config.mjs:11` `site: 'https://smart-geri-cds.yao.care'` → `'https://smart-geri-cds.yao.care'`
+- [ ] `public/CNAME` 內容 `smart-geri-cds.yao.care` → `smart-geri-cds.yao.care`
 - [ ] Commit: `git commit -am "chore(geri): site + CNAME → smart-geri-cds.yao.care"`
 
 ### Task 0.3: deploy.yml lychee --base
 **Files:** Modify `.github/workflows/deploy.yml:34`
-- [ ] 將 `--base https://smart-pedi-cds.yao.care/` → `--base https://smart-geri-cds.yao.care/`（注意：這是 lychee link-check 參數，非 Pagefind）。
+- [ ] 將 `--base https://smart-geri-cds.yao.care/` → `--base https://smart-geri-cds.yao.care/`（注意：這是 lychee link-check 參數，非 Pagefind）。
 - [ ] Commit: `git commit -am "ci(geri): lychee base url → geri"`
 
 ### Task 0.4: PWA manifest + 站名/文案（最小 rebrand）
 **Files:** Modify `scripts/templates/manifest.template.json`、`src/layouts/Base.astro`、`src/layouts/Assess.astro`、`src/components/blocks/Header.astro`
 - [ ] manifest `name`/`short_name` → 「高齡周全性評估」。
-- [ ] Base.astro 站名後綴、Assess.astro description+標題、Header.astro 導覽站名：將「兒童發展智慧評估/兒童發展評估」→「高齡周全性評估」。
+- [ ] Base.astro 站名後綴、Assess.astro description+標題、Header.astro 導覽站名：將「長者發展智慧評估/長者發展評估」→「高齡周全性評估」。
 - [ ] Run `pnpm build`（確認 manifest/SW 生成不壞）。Expected: build 成功。
 - [ ] Commit: `git commit -am "feat(geri): rebrand 站名/PWA → 高齡周全性評估"`
 
 ### Task 0.5: IndexedDB DB 名
-**Files:** Modify `src/lib/db/schema.ts`（Dexie `new Dexie('cdss-pediatric')` 字串）
-- [ ] 找到 DB 名字串 `cdss-pediatric` → `smart-geri-cds`。（全新 DB，無遷移；既有 version 鏈在新 DB 名下視為新建。）
+**Files:** Modify `src/lib/db/schema.ts`（Dexie `new Dexie('cdss-geriatric')` 字串）
+- [ ] 找到 DB 名字串 `cdss-geriatric` → `smart-geri-cds`。（全新 DB，無遷移；既有 version 鏈在新 DB 名下視為新建。）
 - [ ] Run `pnpm check`。Expected: 無新錯誤。
 - [ ] Commit: `git commit -am "feat(geri): IndexedDB DB 名 → smart-geri-cds"`
 

@@ -3,7 +3,7 @@
 - **日期**: 2026-05-20
 - **作者**: Light + Claude Code
 - **狀態**: v5（第 4 輪揪出 v5 .stores 與真實 v4 schema 多處不一致 blocker，本版修正）
-- **範圍**: 修正 CDSA 評估流程的四個議題：(A) 問卷題目分布不均、(B) 問卷與測驗 module 在概念上重複、(C) 雷達圖 z-score 50-base 公式對家長太抽象、(D) social_emotional 漏 emit 的 bug 防護
+- **範圍**: 修正 CDSA 評估流程的四個議題：(A) 問卷題目分布不均、(B) 問卷與測驗 module 在概念上重複、(C) 雷達圖 z-score 50-base 公式對照顧者太抽象、(D) social_emotional 漏 emit 的 bug 防護
 
 ---
 
@@ -11,7 +11,7 @@
 
 2026-05-20 用戶實機操作 production 發現的 UX 問題：
 
-1. **問卷分數分布看起來怪**：61-72m 跑問卷各 domain 題數 1~2 不均（gross_motor 4/4 vs social_emotional 2/2），家長感到困惑「為什麼某些 domain 出 4 題、其他只 1 題」
+1. **問卷分數分布看起來怪**：61-72m 跑問卷各 domain 題數 1~2 不均（gross_motor 4/4 vs social_emotional 2/2），照顧者感到困惑「為什麼某些 domain 出 4 題、其他只 1 題」
 2. **問卷後測驗 module 重複問同樣 domain**：問卷涵蓋 gross_motor / fine_motor / language，後面影片 / 繪圖 / 語音 module 量同樣 domain，流程冗長
 3. **全選最高分仍看不到滿分**：雷達圖公式 `score = 50 + 10 × avgZ` 中 50 是「同齡平均」，問卷 raw score 沒進公式（hard-coded `directionalZ: null`），導致純問卷 domain 永遠卡在 50
 4. **social_emotional domain 從結果頁雷達圖漏失**：問卷 summary 顯示 social_emotional 2/2，但到結果頁雷達圖沒列出（root cause 未 reproduce）
@@ -26,7 +26,7 @@
 
 | 子議題 | 決策 |
 |--------|------|
-| **A 補題平衡** | 每 applicable ageGroup × domain ≥ 2 題；藍本（Denver II / ASQ / M-CHAT 公開里程碑）+ user 互動 review；schema 加 `clinicallyReviewed` 欄位、UI 顯示未審查 badge |
+| **A 補題平衡** | 每 applicable ageGroup × domain ≥ 2 題；藍本（Denver II / ASQ / M-CHAT 公開評估指標）+ user 互動 review；schema 加 `clinicallyReviewed` 欄位、UI 顯示未審查 badge |
 | **B 動態 skip** | 問卷 domain 滿分（normalized = 1.0）→ skip 對應測驗 module；behavior 永遠跑；step indicator 動態縮減；「跑完整評估」按鈕可 override |
 | **C 雷達 UX** | 全改 0-100 percentile（問卷 normalized × 100、測驗 z → norm.cdf × 100）；標題加副標 |
 | **D bug 守護** | 加 dev-mode warn + 整合測試守 emission；不主動 reproduce（被動防護） |
@@ -96,7 +96,7 @@
 
 ### 3.3 互動補題流程
 
-1. 補題 sub-step 1：Claude Code 依 Denver II / ASQ / M-CHAT 公開可知的「年齡里程碑」藍本，為這 13 題寫 draft（題幹 + 3 個 options + score）
+1. 補題 sub-step 1：Claude Code 依 Denver II / ASQ / M-CHAT 公開可知的「年齡評估指標」藍本，為這 13 題寫 draft（題幹 + 3 個 options + score）
 2. 分 4 batches（每 batch 4-5 題）給用戶 review
 3. 用戶逐題核可或修改題幹/選項
 4. 寫進 `questions.json` 標 `clinicallyReviewed: false`
@@ -432,8 +432,8 @@ const domainScores = $derived.by(() => {
       // 場景：用戶 forceFullAssessment=true 即使問卷滿分仍跑 drawing。
       //
       // 用 average 而非 max 的理由：
-      // 1. 問卷是「家長回憶」(主觀)、測驗是「實機觀察」(客觀)，兩者互補
-      // 2. 若 max() 則家長給滿分覆蓋掉測驗訊號，失去客觀驗證價值
+      // 1. 問卷是「照顧者回憶」(主觀)、測驗是「實機觀察」(客觀)，兩者互補
+      // 2. 若 max() 則照顧者給滿分覆蓋掉測驗訊號，失去客觀驗證價值
       // 3. average 對「問卷說好但測驗失準」場景能顯示中等分數警示
       //
       // UX 副作用：user forceFull + 問卷滿分 + 測驗平均 → 雷達 ~75 而非 100。
@@ -463,7 +463,7 @@ const domainScores = $derived.by(() => {
   {d.score}
 </text>
 {#if d.isHybrid}
-  <g role="img" aria-label="此面向結合問卷（家長回報）與測驗（實機觀察）兩個證據之平均">
+  <g role="img" aria-label="此面向結合問卷（照顧者回報）與測驗（實機觀察）兩個證據之平均">
     <text x={scorePos.x + 14} y={scorePos.y} class="radar-hybrid-icon" text-anchor="middle">⚖</text>
   </g>
 {/if}
@@ -858,7 +858,7 @@ docs/superpowers/specs/2026-05-20-cdsa-flow-redesign.md  本 spec
 
 | 風險 | 影響 | 緩解 |
 |------|------|------|
-| 補題藍本未經臨床審查 | 醫療正確性 | `clinicallyReviewed: false` + UI badge；建議實際 production 前找兒科醫師逐筆審查 |
+| 補題藍本未經臨床審查 | 醫療正確性 | `clinicallyReviewed: false` + UI badge；建議實際 production 前找老年醫學醫師逐筆審查 |
 | 滿分 skip 漏掉真實異常 | 醫療安全 | 嚴格「滿分」threshold（非 80%）；互動遊戲永遠跑作為 safety net |
 | Resume 舊 assessment 流程不一致 | 資料污染 | `forceFullAssessment` 持久化（DB v5 migration，§4.4）；`partialAnalysis` 從 events 重建；`skippedModules` 為 derived，會自動以重建結果與持久化的 force flag 計算 |
 | zToPercentile 近似誤差 | 精度 | Abramowitz-Stegun 公式誤差 ~7.5e-8，遠小於 UI 精度需求 |

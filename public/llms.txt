@@ -1,24 +1,23 @@
-# CDSS Pediatric Clinical Decision Support System
+# Comprehensive Geriatric Assessment CDS (smart-geri-cds)
 
 ## Overview
-Open-source pediatric clinical decision support system running entirely in the browser via SMART on FHIR standard. Deployed on GitHub Pages with zero backend.
+Open-source Comprehensive Geriatric Assessment (CGA) clinical decision support tool running entirely in the browser via the SMART on FHIR standard. Deployed on GitHub Pages with zero backend; PWA offline-capable. Stratified by the Clinical Frailty Scale (CFS 1–9).
 
 ## Features
-- SMART on FHIR connectivity (EHR Launch + Standalone)
-- AI-powered risk alerting (rule engine + ONNX ML)
-- Closed-loop decision workflow
-- Clinical dashboard with D3 trend charts
-- Patient education content system
-- PDF report generation
+- Two paths: public self-check (/self-check/) and professional assessment (/assess/ → /result/ → /workspace/)
+- CFS-stratified, three-tier CGA scoring; severity = normal / monitor / refer / incomplete
+- SMART on FHIR upload: connected hospital (fhirclient) + redirect-type intake institutions (e.g. GCM), shared /launch/ callback
+- Education content system (article + video) with full-text search
+- Client-side PDF report generation
 
 ## Technical
-- Astro 5 SSG + Svelte 5 islands
+- Astro 5 SSG + Svelte 5 islands (runes)
 - IndexedDB (Dexie.js) for client-side storage
-- ONNX Runtime Web for ML inference
-- Web Workers for computation offloading
+- fhirclient.js + native Web Crypto PKCE
+- Pagefind in-browser search; jsPDF reports
 
 ## URL
-https://yao.care/smart-pedi-cds/
+https://smart-geri-cds.yao.care/
 
 ## Source
-https://github.com/yaocare/smart-pedi-cds
+https://github.com/yao-care/smart-geri-cds

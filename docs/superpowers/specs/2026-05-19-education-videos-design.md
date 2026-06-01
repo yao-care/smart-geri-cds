@@ -4,8 +4,8 @@
 - **作者**: Light + Claude Code
 - **狀態**: v13（**設計策略變更：link-out 取代 in-site embed**，依 2026-05-20 用戶反饋）
 
-**v13 設計變更摘要**：原本 §5.3 採「縮圖點擊 → 在站內嵌入 youtube-nocookie iframe」。實作後考量：(1) 兒童面孔展示 PII 風險（spec §4.11 #8）；(2) YouTube ToS embed 灰色地帶；(3) 字幕字串落地 i18n / a11y 複雜度。**改為 link-out**：縮圖點擊 → 開新分頁跳轉 YouTube 原站（`<a target="_blank" rel="noopener noreferrer">`）。我們只負責推薦該影片並顯示縮圖，所有播放、字幕、合規由 YouTube 自行處理。`youtube-nocookie embed` 相關段落（§5.3 iframe、§5.4 cc_load_policy、§6 iframe 測試）作廢；§8 風險表中「ToS embed 灰色」「字幕版權」「PII embed」全條移除。
-- **範圍**: 為 CDSA 兒童發展評估 + CDSS 生理警示兩條結果線，建立 trigger → YouTube 衛教影片的映射，包含自動 curate 腳本與前端整合
+**v13 設計變更摘要**：原本 §5.3 採「縮圖點擊 → 在站內嵌入 youtube-nocookie iframe」。實作後考量：(1) 長者面孔展示 PII 風險（spec §4.11 #8）；(2) YouTube ToS embed 灰色地帶；(3) 字幕字串落地 i18n / a11y 複雜度。**改為 link-out**：縮圖點擊 → 開新分頁跳轉 YouTube 原站（`<a target="_blank" rel="noopener noreferrer">`）。我們只負責推薦該影片並顯示縮圖，所有播放、字幕、合規由 YouTube 自行處理。`youtube-nocookie embed` 相關段落（§5.3 iframe、§5.4 cc_load_policy、§6 iframe 測試）作廢；§8 風險表中「ToS embed 灰色」「字幕版權」「PII embed」全條移除。
+- **範圍**: 為 CDSA 長者發展評估 + CDSS 生理警示兩條結果線，建立 trigger → YouTube 衛教影片的映射，包含自動 curate 腳本與前端整合
 
 ---
 
@@ -14,7 +14,7 @@
 目前系統已具備：
 
 - **CDSA 評估結果**：`src/engine/cdsa/triage.ts` 產生 `normal / monitor / refer` 分類 + domain 異常標記
-- **CDSS 警示**：`src/engine/risk-analyzer.ts` + `pediatric-default.yaml` 規則引擎，產生 7 項生理指標 × 4 級警示
+- **CDSS 警示**：`src/engine/risk-analyzer.ts` + `geriatric-default.yaml` 規則引擎，產生 7 項生理指標 × 4 級警示
 - `src/data/education/*.md` 已有 15 篇衛教文
 
 缺失：(1) 沒有評估結果 → 衛教影片的多對多映射 (2) 沒有自動 curate + 人工複審工作流 (3) 沒有保護隱私的 embed 策略。
@@ -380,7 +380,7 @@ scripts/
 **`src/data/video-catalog/official-tw.yaml`**（array 頂層）：
 ```yaml
 - videoId: "abc123XYZ45"
-  title: "幼兒發展遲緩何時該就醫"
+  title: "長者衰弱失能何時該就醫"
   channel: "台大兒醫"
   channelId: "UCxxxxxxxxx"
   duration: 245
@@ -393,7 +393,7 @@ scripts/
   verifiedBy: "claude-code"
   verificationStatus: "verified"
   score: 0.92
-  notes: "明確指出何時轉介、家長語氣親切"
+  notes: "明確指出何時轉介、照顧者語氣親切"
 ```
 
 **`src/data/education-videos/cdsa-triage.yaml`**：
@@ -673,7 +673,7 @@ const CDSA_TRIGGER_REGEX = new RegExp(
 let indexPromise: Promise<RuntimeIndex> | null = null;
 
 /** Astro 保證 BASE_URL 結尾為 '/'，故相對片段不可以 '/' 開頭。
- *  已驗 BASE_PATH='' (→ BASE_URL='/') 與 BASE_PATH='/smart-pedi-cds' 兩種情境。 */
+ *  已驗 BASE_PATH='' (→ BASE_URL='/') 與 BASE_PATH='/smart-geri-cds' 兩種情境。 */
 function loadIndex(): Promise<RuntimeIndex> {
   if (!indexPromise) {
     indexPromise = fetch(`${import.meta.env.BASE_URL}data/video-index.json`)
@@ -857,7 +857,7 @@ pnpm curate:clean                               # 清 TTL 過期 cache
 # 階段 1
 yt-dlp --flat-playlist --print-json \
   --sleep-requests 1.5 --retries 3 --no-warnings \
-  "ytsearch30:嬰兒 血氧 過低 衛教"
+  "ytsearch30:長者 血氧 過低 衛教"
 
 # 階段 2
 yt-dlp --skip-download --print-json --no-warnings \
@@ -893,7 +893,7 @@ if (/HTTP Error 429|Too Many Requests|Sign in to confirm/i.test(stderr)) {
     { "tag": "@TWPedSoc",            "channelId": null }
   ],
   "international": [
-    { "tag": "@AmericanAcademyofPediatrics", "channelId": null },
+    { "tag": "@AmericanAcademyofGeriatrics", "channelId": null },
     { "tag": "@CDC",                          "channelId": null }
   ],
   "pro-kol": []
@@ -949,7 +949,7 @@ score =
 ```json
 {
   "cdss.spo2.critical.infant": {
-    "primary":   ["嬰兒 血氧 過低", "新生兒 缺氧 緊急"],
+    "primary":   ["長者 血氧 過低", "新生兒 缺氧 緊急"],
     "secondary": ["infant low SpO2 emergency"],
     "educationSlug": "respiratory-care",
     "minDuration": 60,
@@ -962,17 +962,17 @@ score =
 **Keywords 設計準則**：
 
 1. **視角分層**：每組 keywords 必須涵蓋兩種讀者
-   - 家長視角：「寶寶嘴唇發紫怎麼辦」「嬰兒呼吸急促」
-   - 醫療衛教視角：「兒童 SpO2 監測」「新生兒缺氧處置」
-   - 避免純醫師教學影片（衛教應對象為家長）
+   - 照顧者視角：「寶寶嘴唇發紫怎麼辦」「長者呼吸急促」
+   - 醫療衛教視角：「長者 SpO2 監測」「新生兒缺氧處置」
+   - 避免純醫師教學影片（衛教應對象為照顧者）
 
 2. **中英並用**：`primary` 至少含 2 組繁中關鍵字，`secondary` 含 1 組英文（補強冷門 trigger），但繁中優先排序
 
 3. **語意涵蓋**：對症狀型 trigger（如 critical SpO2）必含「症狀詞 + 處置詞」，不能只放診斷詞
-   - ✅ `嬰兒 嘴唇發紫 急救`、`新生兒 缺氧 送醫`
-   - ❌ `嬰兒 hypoxemia`（術語太硬，家長不會搜）
+   - ✅ `長者 嘴唇發紫 急救`、`新生兒 缺氧 送醫`
+   - ❌ `長者 hypoxemia`（術語太硬，照顧者不會搜）
 
-4. **年齡限定詞**：嬰幼兒專屬 trigger 必含年齡關鍵字（嬰兒 / 新生兒 / 幼兒 / 學齡前），避免命中成人衛教
+4. **年齡限定詞**：長者專屬 trigger 必含年齡關鍵字（長者 / 新生兒 / 長者 / 高齡），避免命中成人衛教
 
 5. **禁用關鍵字**（永遠不能出現在任何 keywords entry）：「偏方」「神奇」「秘方」「保健品」「代購」「中醫」「DIY 治療」— 即使是為了排除也不要寫進來，否則 yt-dlp 仍會搜到並進入篩選池
 
@@ -1061,14 +1061,14 @@ jobs:
 
 | # | 檢核項 | 通過條件 |
 |---|--------|---------|
-| 1 | **臨床正確性** | 字幕陳述符合台灣兒科醫學會 / WHO / CDC 主流共識；無單一研究結論誇大、無已撤回指引 |
+| 1 | **臨床正確性** | 字幕陳述符合台灣老年醫學醫學會 / WHO / CDC 主流共識；無單一研究結論誇大、無已撤回指引 |
 | 2 | **年齡適配** | 影片內 demonstrated 年齡與 trigger 的 ageGroup 一致或鄰近一格；不適配（如示範學齡兒卻歸 infant trigger）→ fail |
 | 3 | **症狀 vs 診斷區隔** | 不把症狀直接稱為診斷（例如「咳嗽 = 肺炎」）；該轉介就醫的場景明確提示「請就醫」而非自行處置 |
 | 4 | **無商業推銷** | 不推銷特定品牌奶粉/益生菌/維他命/智慧穿戴；不出現「使用優惠碼」「下方連結購買」 |
 | 5 | **無偽科學** | 不提偏方、不提中醫無 RCT 證據療法、不提食補替代醫療、不提抗疫苗論述 |
-| 6 | **家長語氣** | 對家長說話的口吻友善、無 victim-blaming（「你怎麼沒注意到」），重點明確（家長 30 秒內知道要做什麼） |
+| 6 | **照顧者語氣** | 對照顧者說話的口吻友善、無 victim-blaming（「你怎麼沒注意到」），重點明確（照顧者 30 秒內知道要做什麼） |
 | 7 | **資訊密度** | 主訊息能在 60–600 秒講完（與 keywords minDuration/maxDuration 一致）；不過度冗長、不過度跳重點 |
-| 8 | **無 PII 暴露** | 不展示真實病人面孔、姓名、病歷號（即使家屬同意也標 reject — 兒童特別敏感） |
+| 8 | **無 PII 暴露** | 不展示真實病人面孔、姓名、病歷號（即使家屬同意也標 reject — 長者特別敏感） |
 | 9 | **頻道身分驗證** | 頻道描述含可驗證的醫療專業身分（醫師執照字號、醫院/協會官方標記）或為 §4.5 白名單 |
 | 10 | **時效性**（僅 timeSensitive: true） | 影片發布日距今 < 5 年；若提及具體年份的指引版本，該版本仍為現行 |
 
@@ -1165,13 +1165,13 @@ src/components/education/
 | 情境 | 顯示策略 |
 |------|---------|
 | trigger 拿到 1 支 | 直接顯示，VideoCard with-thumbnail |
-| trigger 拿到 2–3 支 | 全顯示為 VideoGrid（橫向排列）；按 score 降冪。每支顯示 sourceTier badge（official-tw / international / pro-kol）幫家長分辨來源 |
+| trigger 拿到 2–3 支 | 全顯示為 VideoGrid（橫向排列）；按 score 降冪。每支顯示 sourceTier badge（official-tw / international / pro-kol）幫照顧者分辨來源 |
 | trigger 拿到 > 3 支 | 預設只顯示 top 3（`maxResults: 3`，§3.8 已預設），「展開更多」按鈕顯示其餘 |
-| 多 trigger 在同頁 | 各 trigger 自己一個 VideoGrid，**跨 trigger 不去重**（家長可能對同支影片在不同情境下重複看到 — 這是 feature 不是 bug） |
+| 多 trigger 在同頁 | 各 trigger 自己一個 VideoGrid，**跨 trigger 不去重**（照顧者可能對同支影片在不同情境下重複看到 — 這是 feature 不是 bug） |
 
-**sourceTier 並列規則**：score 排序中若分數接近（差 ≤ 0.05），優先把 sourceTier=`official-tw` 提前。理由：台灣家長對國健署 / 台大兒醫等官方頻道信任度高於同等級的國際頻道。
+**sourceTier 並列規則**：score 排序中若分數接近（差 ≤ 0.05），優先把 sourceTier=`official-tw` 提前。理由：台灣照顧者對國健署 / 台大兒醫等官方頻道信任度高於同等級的國際頻道。
 
-**隨機輪播避免**：不採「每次重新整理顯示不同影片」策略（會讓家長困惑「上次看到的影片去哪了」）。同一 trigger 在同一 patient session 顯示 stable 順序。
+**隨機輪播避免**：不採「每次重新整理顯示不同影片」策略（會讓照顧者困惑「上次看到的影片去哪了」）。同一 trigger 在同一 patient session 顯示 stable 順序。
 
 **長度限制**：VideoCard 標題以 CSS `line-clamp: 2` 限制 2 行；超過用 `...` 截斷，hover 顯示完整標題（aria-label 同步完整字串供螢幕閱讀器）。
 
