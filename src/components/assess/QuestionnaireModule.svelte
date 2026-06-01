@@ -651,12 +651,6 @@
     <!-- Question / prompt -->
     <h2 class="question-text">
       {currentQuestion.item.prompt ?? currentQuestion.item.text ?? ''}
-      {#if currentQuestion.clinicallyReviewed !== true}
-        <span
-          class="badge-unreviewed"
-          aria-label="本量表尚未經臨床顧問審查"
-        >未審</span>
-      {/if}
     </h2>
 
     <!-- Sub-questions (e.g. AMT4 four orientation items) -->
@@ -979,18 +973,5 @@
 
   .empty-state p {
     margin-bottom: var(--space-6);
-  }
-
-  /* clinicallyReviewed badge — text-sm 為 20px (≥ 18px 最小字級門檻)，
-     對比度 ≥ 4.5:1 (warn oklch(0.48 0.14 65) vs bg oklch(0.985 0.006 85)，WCAG AA pass) */
-  .badge-unreviewed {
-    display: inline-block;
-    background: var(--warn);
-    color: var(--bg);
-    font-size: var(--text-sm);
-    padding: var(--space-1) var(--space-2);
-    border-radius: var(--radius-sm);
-    margin-left: var(--space-2);
-    vertical-align: middle;
   }
 </style>
