@@ -1,8 +1,13 @@
-import { describe, it, expect, afterEach } from 'vitest';
-import { render, screen, cleanup } from '@testing-library/svelte';
+import { describe, it, expect, afterEach, vi } from 'vitest';
+import { render, screen, cleanup, fireEvent } from '@testing-library/svelte';
 import ContributionForm from '../../src/components/education/ContributionForm.svelte';
 
 afterEach(() => cleanup());
+afterEach(() => {
+  vi.unstubAllEnvs?.();
+  vi.unstubAllGlobals?.();
+  vi.restoreAllMocks();
+});
 
 const base = { top: 'physical', sub: 'nutrition', cfsLevel: 'cfs5', onback: () => {} };
 
@@ -32,5 +37,49 @@ describe('ContributionForm', () => {
   it('delete-video mode shows the video title', () => {
     render(ContributionForm, { ...base, action: 'delete-video', prefill: { videoId: 'v', videoTitle: '用藥安全' } });
     expect(screen.getByText('用藥安全')).toBeTruthy();
+  });
+
+  it('on success shows the GitHub issue link', async () => {
+    vi.stubEnv('PUBLIC_CONTRIBUTION_WORKER_URL', 'https://worker.example/contribute');
+    const fetchMock = vi.fn(async () => new Response(
+      JSON.stringify({ issueUrl: 'https://github.com/org/repo/issues/42' }),
+      { status: 200, headers: { 'Content-Type': 'application/json' } },
+    ));
+    vi.stubGlobal('fetch', fetchMock);
+
+    render(ContributionForm, { ...base, action: 'delete-video', prefill: { videoId: 'v', videoTitle: '用藥安全' } });
+    await fireEvent.input(screen.getByPlaceholderText(/請說明為何需要刪除此影片/), { target: { value: '連結失效' } });
+    await fireEvent.submit(screen.getByRole('button', { name: /送出建議/ }).closest('form')!);
+
+    expect(fetchMock).toHaveBeenCalledOnce();
+    const issueLink = await screen.findByText('在 GitHub 查看 Issue →');
+    expect(issueLink.getAttribute('href')).toBe('https://github.com/org/repo/issues/42');
+    expect(screen.getByText('已成功送出！')).toBeTruthy();
+  });
+
+  it('on worker error shows the error message', async () => {
+    vi.stubEnv('PUBLIC_CONTRIBUTION_WORKER_URL', 'https://worker.example/contribute');
+    vi.stubGlobal('fetch', vi.fn(async () => new Response(
+      JSON.stringify({ error: '伺服器忙線' }), { status: 500, headers: { 'Content-Type': 'application/json' } },
+    )));
+
+    render(ContributionForm, { ...base, action: 'delete-video', prefill: { videoId: 'v', videoTitle: '用藥安全' } });
+    await fireEvent.input(screen.getByPlaceholderText(/請說明為何需要刪除此影片/), { target: { value: '連結失效' } });
+    await fireEvent.submit(screen.getByRole('button', { name: /送出建議/ }).closest('form')!);
+
+    expect(await screen.findByText('伺服器忙線')).toBeTruthy();
+  });
+
+  it('without a configured worker URL shows a config error and does not fetch', async () => {
+    vi.stubEnv('PUBLIC_CONTRIBUTION_WORKER_URL', '');
+    const fetchMock = vi.fn();
+    vi.stubGlobal('fetch', fetchMock);
+
+    render(ContributionForm, { ...base, action: 'delete-video', prefill: { videoId: 'v', videoTitle: '用藥安全' } });
+    await fireEvent.input(screen.getByPlaceholderText(/請說明為何需要刪除此影片/), { target: { value: '連結失效' } });
+    await fireEvent.submit(screen.getByRole('button', { name: /送出建議/ }).closest('form')!);
+
+    expect(await screen.findByText(/Worker URL 未設定/)).toBeTruthy();
+    expect(fetchMock).not.toHaveBeenCalled();
   });
 });
