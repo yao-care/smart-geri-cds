@@ -1,4 +1,8 @@
 <script lang="ts">
+  import { decideSwUpdateAction } from '../../lib/sw/update-policy';
+
+  const RELOADED_KEY = 'sw.autoReloaded';
+
   let online = $state(true);
   let mounted = $state(false);
   let updateAvailable = $state(false);
@@ -9,7 +13,25 @@
 
     function onOnline() { online = true; }
     function onOffline() { online = false; }
-    function onSwUpdate() { updateAvailable = true; }
+
+    // 偵測到新版 SW 啟用 → 自動重載一次套用；同版本只載一次、且不打斷正在輸入的使用者。
+    function onSwUpdate(e: Event) {
+      const version = (e as CustomEvent<{ version?: string }>).detail?.version || 'unknown';
+
+      let alreadyReloadedVersion: string | null = null;
+      try { alreadyReloadedVersion = sessionStorage.getItem(RELOADED_KEY); } catch { /* 私密模式 */ }
+
+      const active = document.activeElement as HTMLElement | null;
+      const isEditing = !!active &&
+        (active.tagName === 'INPUT' || active.tagName === 'TEXTAREA' || active.isContentEditable);
+
+      if (decideSwUpdateAction({ version, alreadyReloadedVersion, isEditing }) === 'reload') {
+        try { sessionStorage.setItem(RELOADED_KEY, version); } catch { /* 私密模式 */ }
+        location.reload();
+      } else {
+        updateAvailable = true;
+      }
+    }
 
     window.addEventListener('online', onOnline);
     window.addEventListener('offline', onOffline);
