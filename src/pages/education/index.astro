@@ -1,450 +1,53 @@
 ---
 import App from '../../layouts/App.astro';
 import { getCollection } from 'astro:content';
-import ContributionModal from '../../components/education/ContributionModal.svelte';
+import EducationMatrix from '../../components/education/EducationMatrix.svelte';
 import CustomEducationList from '../../components/education/CustomEducationList.svelte';
-import { buildMatrixData, type MatrixCellData } from '../../lib/education/matrix-data';
-import { CFS_LEVELS, CFS_LABELS } from '../../lib/utils/cfs-levels';
-import { DOMAIN_TREE, DOMAIN_TOPS, DOMAIN_TOP_LABELS, domainLabel } from '../../lib/domain/domain-tree';
+import { buildMatrixData } from '../../lib/education/matrix-data';
+import { buildCellViews } from '../../lib/education/matrix-view';
 import videoIndex from '../../../public/data/video-index.json';
 
 const allEducation = await getCollection('education');
 
-// Article lookup: slug → title
-const articleTitles = new Map(allEducation.map(e => [e.id, e.data.title]));
+// slug → title（給格子文章標題）
+const articleTitles = Object.fromEntries(allEducation.map(e => [e.id, e.data.title]));
 
-// Article content map for edit pre-fill (slug → { title, summary, content })
+// slug → { title, summary, content }（給「修改文章」表單預填）
 const articleContent = Object.fromEntries(
-  allEducation.map(e => [e.id, { title: e.data.title, summary: e.data.summary ?? '', content: e.body ?? '' }])
+  allEducation.map(e => [e.id, { title: e.data.title, summary: e.data.summary ?? '', content: e.body ?? '' }]),
 );
 
-// Catalog lookup: videoId → { title, channel, duration, videoId }
+// videoId → catalog（給格子影片資訊）
 type CatalogEntry = { title: string; channel: string; duration: number; videoId: string };
-const catalog = new Map<string, CatalogEntry>(
-  Object.entries(
-    videoIndex.catalog as Record<string, CatalogEntry>
-  ).map(([id, v]) => [id, { ...v, videoId: id }])
+const catalog = Object.fromEntries(
+  Object.entries(videoIndex.catalog as Record<string, CatalogEntry>).map(([id, v]) => [id, { ...v, videoId: id }]),
 );
 
-const matrixData = buildMatrixData(
+const matrix = buildMatrixData(
   videoIndex.triggers as Record<string, { videoIds: string[]; inapplicable: boolean; educationSlug?: string }>,
 );
 
-// 矩陣列＝二層子項（top.sub），依 6 頂層域分組；欄＝CFS 1–9。
-// CFS 短標籤：欄頭顯示「等級 + 中文」。
-const CFS_COL_LABEL: Record<string, string> = Object.fromEntries(
-  CFS_LEVELS.map(l => [l, `${l.replace('cfs', '')} ${CFS_LABELS[l]}`]),
-);
-
-function fmtDuration(sec: number): string {
-  const m = Math.floor(sec / 60);
-  const s = String(sec % 60).padStart(2, '0');
-  return `${m}:${s}`;
-}
-
-type VideoInfo = CatalogEntry;
-
-function cellVideos(cell: MatrixCellData): VideoInfo[] {
-  return cell.videoIds.flatMap(id => {
-    const v = catalog.get(id);
-    return v ? [v] : [];
-  });
-}
+// build 期打平成可序列化的 CellViews，傳入 island
+const cells = buildCellViews(matrix, articleTitles, catalog);
 ---
 
 <App title="衛教資源" description="高齡周全性評估衛教資源（領域 × 臨床衰弱量表 CFS 矩陣）">
   <h1>衛教資源</h1>
-  <p class="matrix-intro">列＝CGA 二層評估領域（依六大頂層域分組），欄＝臨床衰弱量表 CFS 1–9。</p>
+  <p class="matrix-intro">
+    左側為「CGA 二層評估領域 × 臨床衰弱量表 CFS 1–9」熱圖：數字＝該情境資源數、`·`＝待補、`–`＝不適用。
+    點任一格子，右側即顯示該情境的衛教資源並可提交貢獻。
+  </p>
 
-  <div class="matrix-scroll">
-    <table class="education-matrix">
-      <thead>
-        <tr>
-          <th class="domain-col">領域</th>
-          {CFS_LEVELS.map(cfs => (
-            <th class="age-col">{CFS_COL_LABEL[cfs]}</th>
-          ))}
-        </tr>
-      </thead>
-      <tbody>
-        {DOMAIN_TOPS.map(top => (
-          <>
-            <tr class="group-row">
-              <th class="group-header" colspan={CFS_LEVELS.length + 1}>{DOMAIN_TOP_LABELS[top]}</th>
-            </tr>
-            {DOMAIN_TREE[top].map(sub => {
-              const domain = `${top}.${sub}`;
-              return (
-                <tr>
-                  <th class="domain-header">{domainLabel(top, sub)}</th>
-                  {CFS_LEVELS.map(cfs => {
-                    const cell = matrixData[`${domain}:${cfs}`];
-                    if (!cell || cell.inapplicable) {
-                      return <td class="cell cell-na">不適用</td>;
-                    }
+  <EducationMatrix client:load cells={cells} articleContent={articleContent} />
 
-                    const articles = cell.articleSlugs.map(slug => ({
-                      slug,
-                      title: articleTitles.get(slug) ?? slug,
-                    }));
-                    const videos = cellVideos(cell);
-                    const isEmpty = articles.length === 0 && videos.length === 0;
-
-                    return (
-                      <td class="cell">
-                        <details>
-                          <summary class="cell-summary">
-                            {articles.length > 0 && (
-                              <span class="badge badge-article">📄 {articles.length}</span>
-                            )}
-                            {videos.length > 0 && (
-                              <span class="badge badge-video">🎬 {videos.length}</span>
-                            )}
-                            {isEmpty && (
-                              <span class="badge badge-empty">＋</span>
-                            )}
-                          </summary>
-
-                          <div class="cell-detail">
-                            {articles.length > 0 && (
-                              <div class="detail-section">
-                                <p class="detail-label">文章</p>
-                                <ul class="resource-list">
-                                  {articles.map(a => (
-                                    <li class="resource-item">
-                                      <a href={`/education/${a.slug}/`} class="article-link">
-                                        {a.title}
-                                      </a>
-                                      <button class="item-action" data-action="edit-article" data-slug={a.slug} data-domain={domain} data-cfs={cfs} type="button" aria-label="修改文章">✏️</button>
-                                      <button class="item-action" data-action="delete-article" data-slug={a.slug} data-domain={domain} data-cfs={cfs} type="button" aria-label="刪除文章">🗑️</button>
-                                    </li>
-                                  ))}
-                                </ul>
-                              </div>
-                            )}
-
-                            {videos.length > 0 && (
-                              <div class="detail-section">
-                                <p class="detail-label">影片</p>
-                                <ul class="resource-list video-list">
-                                  {videos.map(v => (
-                                    <li class="resource-item">
-                                      <a
-                                        href={`https://www.youtube.com/watch?v=${v.videoId}`}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        class="video-item"
-                                      >
-                                        <img
-                                          src={`https://i.ytimg.com/vi/${v.videoId}/mqdefault.jpg`}
-                                          alt={v.title}
-                                          loading="lazy"
-                                          referrerpolicy="no-referrer"
-                                          class="video-thumb"
-                                        />
-                                        <span class="video-info">
-                                          <span class="video-title">{v.title}</span>
-                                          <span class="video-meta">{v.channel} · {fmtDuration(v.duration)}</span>
-                                        </span>
-                                      </a>
-                                      <button class="item-action" data-action="delete-video" data-videoid={v.videoId} data-title={v.title} data-domain={domain} data-cfs={cfs} type="button" aria-label="刪除影片">🗑️</button>
-                                    </li>
-                                  ))}
-                                </ul>
-                              </div>
-                            )}
-
-                            <button
-                              class="contribute-btn"
-                              data-action="add"
-                              data-domain={domain}
-                              data-cfs={cfs}
-                              type="button"
-                            >
-                              ＋ 新增資源至此情境
-                            </button>
-                          </div>
-                        </details>
-                      </td>
-                    );
-                  })}
-                </tr>
-              );
-            })}
-          </>
-        ))}
-      </tbody>
-    </table>
-  </div>
-
-  <ContributionModal client:load />
   <CustomEducationList client:idle />
-
-  <script type="application/json" id="article-content" set:html={JSON.stringify(articleContent)}></script>
 </App>
-
-<script>
-  document.addEventListener('click', function(e) {
-    var target = e.target as Element | null;
-    var btn = target && target.closest('[data-action]');
-    if (!btn) return;
-    var action = btn.getAttribute('data-action') || 'add';
-    var domain = btn.getAttribute('data-domain') || '';
-    var cfs = btn.getAttribute('data-cfs') || '';
-    if (!domain || !cfs) return;
-
-    // domain is `top.sub`; split for the contribution payload.
-    var parts = domain.split('.');
-    var detail: Record<string, string> = {
-      action: action,
-      domain: domain,
-      top: parts[0] || '',
-      sub: parts[1] || '',
-      cfsLevel: cfs,
-    };
-
-    if (action === 'edit-article') {
-      var slug = btn.getAttribute('data-slug') || '';
-      var contentEl = document.getElementById('article-content');
-      var contentMap = contentEl ? JSON.parse(contentEl.textContent || '{}') : {};
-      var articleData = contentMap[slug] || {};
-      detail.slug = slug;
-      detail.title = articleData.title || '';
-      detail.summary = articleData.summary || '';
-      detail.content = articleData.content || '';
-    } else if (action === 'delete-article') {
-      var slug = btn.getAttribute('data-slug') || '';
-      detail.slug = slug;
-    } else if (action === 'delete-video') {
-      var videoId = btn.getAttribute('data-videoid') || '';
-      var videoTitle = btn.getAttribute('data-title') || '';
-      detail.videoId = videoId;
-      detail.videoTitle = videoTitle;
-    }
-
-    document.dispatchEvent(new CustomEvent('open-contribution', { detail: detail }));
-  });
-</script>
 
 <style>
   h1 { margin-bottom: var(--space-2); }
-
   .matrix-intro {
     font-size: var(--text-sm);
     color: color-mix(in srgb, var(--text), var(--bg) 30%);
     margin-bottom: var(--space-6);
-  }
-
-  .group-row .group-header {
-    text-align: left;
-    font-size: var(--text-sm);
-    font-weight: var(--font-bold);
-    padding: var(--space-2) var(--space-3);
-    background: color-mix(in srgb, var(--accent) 8%, var(--bg));
-    color: var(--accent);
-  }
-
-  .matrix-scroll {
-    width: 100%;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  .education-matrix {
-    border-collapse: collapse;
-    min-width: 700px;
-    width: 100%;
-  }
-
-  .education-matrix th,
-  .education-matrix td {
-    border: 1px solid var(--line);
-    padding: 0;
-    vertical-align: top;
-  }
-
-  .domain-col {
-    width: 7rem;
-    white-space: nowrap;
-    font-size: var(--text-sm);
-    background: color-mix(in srgb, var(--bg), var(--text) 3%);
-  }
-
-  .age-col {
-    font-size: var(--text-xs);
-    text-align: center;
-    padding: var(--space-2) var(--space-1);
-    background: color-mix(in srgb, var(--bg), var(--text) 3%);
-    white-space: nowrap;
-  }
-
-  .domain-header {
-    font-size: var(--text-sm);
-    font-weight: var(--font-medium);
-    padding: var(--space-3);
-    text-align: left;
-    white-space: nowrap;
-    background: color-mix(in srgb, var(--bg), var(--text) 2%);
-  }
-
-  .cell { min-width: var(--space-11); }
-
-  .cell-na {
-    color: color-mix(in srgb, var(--text), var(--bg) 60%);
-    text-align: center;
-    font-size: var(--text-sm);
-    padding: var(--space-3);
-  }
-
-  .cell-summary {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-1);
-    padding: var(--space-2);
-    cursor: pointer;
-    list-style: none;
-    min-height: 44px;
-    align-items: center;
-  }
-  .cell-summary::-webkit-details-marker { display: none; }
-
-  .badge {
-    display: inline-block;
-    font-size: var(--text-xs);
-    border-radius: var(--radius-full);
-    padding: 2px var(--space-2);
-    white-space: nowrap;
-  }
-  .badge-article {
-    background: color-mix(in srgb, var(--accent) 12%, var(--bg));
-    color: var(--accent);
-  }
-  .badge-video {
-    background: color-mix(in srgb, var(--warn) 15%, var(--bg));
-    color: color-mix(in srgb, var(--warn), var(--text) 30%);
-  }
-  .badge-empty {
-    background: color-mix(in srgb, var(--bg), var(--text) 5%);
-    color: color-mix(in srgb, var(--text), var(--bg) 40%);
-  }
-
-  .cell-detail {
-    padding: var(--space-3);
-    border-top: 1px solid var(--line);
-    background: var(--surface);
-  }
-
-  .detail-section { margin-bottom: var(--space-3); }
-  .detail-label {
-    font-size: var(--text-xs);
-    font-weight: var(--font-medium);
-    color: color-mix(in srgb, var(--text), var(--bg) 30%);
-    margin: 0 0 var(--space-2);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
-
-  .resource-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-1);
-  }
-
-  .article-link {
-    font-size: var(--text-sm);
-    color: var(--accent);
-    text-decoration: none;
-    display: block;
-    padding: var(--space-1) 0;
-  }
-  .article-link:hover { text-decoration: underline; }
-
-  .video-item {
-    display: flex;
-    gap: var(--space-2);
-    align-items: flex-start;
-    text-decoration: none;
-    color: inherit;
-  }
-  .video-thumb {
-    width: var(--space-11);
-    aspect-ratio: 16/9;
-    object-fit: cover;
-    border-radius: var(--radius-sm);
-    flex-shrink: 0;
-  }
-  .video-info {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-1);
-  }
-  .video-title {
-    font-size: var(--text-xs);
-    font-weight: var(--font-medium);
-    color: var(--text);
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-  .video-meta {
-    font-size: var(--text-xs);
-    color: color-mix(in srgb, var(--text), var(--bg) 40%);
-  }
-
-  .contribute-btn {
-    display: block;
-    width: 100%;
-    margin-top: var(--space-3);
-    padding: var(--space-2) var(--space-3);
-    background: color-mix(in srgb, var(--accent) 8%, var(--bg));
-    color: var(--accent);
-    border: 1px dashed var(--accent);
-    border-radius: var(--radius-sm);
-    font-size: var(--text-xs);
-    cursor: pointer;
-    min-height: 44px;
-    text-align: center;
-  }
-  .contribute-btn:hover {
-    background: color-mix(in srgb, var(--accent) 15%, var(--bg));
-  }
-
-  .resource-item {
-    display: flex;
-    align-items: flex-start;
-    gap: var(--space-1);
-  }
-  .resource-item .article-link {
-    flex: 1;
-    min-width: 0;
-  }
-  .resource-item .video-item {
-    flex: 1;
-    min-width: 0;
-  }
-
-  .item-action {
-    flex-shrink: 0;
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: var(--text-xs);
-    color: color-mix(in srgb, var(--text), var(--bg) 50%);
-    padding: var(--space-1);
-    min-height: 44px;
-    min-width: 44px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: var(--radius-sm);
-    line-height: 1;
-  }
-  .item-action:hover {
-    background: color-mix(in srgb, var(--text) 8%, var(--bg));
-    color: var(--text);
   }
 </style>
