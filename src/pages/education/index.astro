@@ -9,12 +9,14 @@ import videoIndex from '../../../public/data/video-index.json';
 
 const allEducation = await getCollection('education');
 
-// slug → title（給格子文章標題）
-const articleTitles = Object.fromEntries(allEducation.map(e => [e.id, e.data.title]));
-
 // slug → { title, summary, content }（給「修改文章」表單預填）
 const articleContent = Object.fromEntries(
   allEducation.map(e => [e.id, { title: e.data.title, summary: e.data.summary ?? '', content: e.body ?? '' }]),
+);
+
+// slug → title（給格子文章標題）；由 articleContent 衍生，避免重複迭代
+const articleTitles = Object.fromEntries(
+  Object.entries(articleContent).map(([slug, c]) => [slug, c.title]),
 );
 
 // videoId → catalog（給格子影片資訊）
@@ -34,7 +36,7 @@ const cells = buildCellViews(matrix, articleTitles, catalog);
 <App title="衛教資源" description="高齡周全性評估衛教資源（領域 × 臨床衰弱量表 CFS 矩陣）">
   <h1>衛教資源</h1>
   <p class="matrix-intro">
-    左側為「CGA 二層評估領域 × 臨床衰弱量表 CFS 1–9」熱圖：數字＝該情境資源數、`·`＝待補、`–`＝不適用。
+    左側為「CGA 二層評估領域 × 臨床衰弱量表 CFS 1–9」熱圖：數字＝該情境資源數、「·」＝待補、「–」＝不適用。
     點任一格子，右側即顯示該情境的衛教資源並可提交貢獻。
   </p>
 
