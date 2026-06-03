@@ -18,10 +18,14 @@
 
   let form = $state<{ action: FormAction; prefill: Prefill } | null>(null);
 
-  // 切換選格時收掉開著的表單
+  // 切換選格時收掉開著的表單。用 lastKey 比較以明確讀取 selectedKey
+  // （建立反應式相依、且不會被 lint 當死碼移除）。
+  let lastKey = $state<string | null>(null);
   $effect(() => {
-    selectedKey; // track
-    form = null;
+    if (selectedKey !== lastKey) {
+      lastKey = selectedKey;
+      form = null;
+    }
   });
 
   let parts = $derived.by(() => {

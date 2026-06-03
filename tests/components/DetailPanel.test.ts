@@ -39,4 +39,21 @@ describe('DetailPanel', () => {
     await fireEvent.click(screen.getByText('← 返回'));
     expect(screen.getByText('＋ 貢獻資源')).toBeTruthy();
   });
+
+  it('clicking ✏️ opens the edit-article form prefilled from articleContent', async () => {
+    render(DetailPanel, {
+      selectedKey: 'psychological.mood:cfs5', cell,
+      articleContent: { 'mood-care': { title: '情緒照護', summary: '摘要', content: '內文' } },
+      coverage,
+    });
+    await fireEvent.click(screen.getByLabelText('修改文章'));
+    expect(screen.getByText('修改文章（建議）')).toBeTruthy();
+    expect((screen.getByDisplayValue('情緒照護') as HTMLInputElement).value).toBe('情緒照護');
+  });
+
+  it('clicking 🗑️ on a video opens the delete-video form', async () => {
+    render(DetailPanel, { selectedKey: 'psychological.mood:cfs5', cell, articleContent: {}, coverage });
+    await fireEvent.click(screen.getByLabelText('刪除影片'));
+    expect(screen.getByText('刪除影片（建議）')).toBeTruthy();
+  });
 });
