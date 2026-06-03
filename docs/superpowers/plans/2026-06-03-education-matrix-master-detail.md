@@ -116,11 +116,11 @@ describe('matrixCoverage', () => {
   it('counts applicable-with-resources, empty, inapplicable, total', () => {
     const cells = buildCellViews(buildMatrixData(triggers), articleTitles, catalog);
     const cov = matrixCoverage(cells);
-    // 19 二層域 × 9 CFS = 171 格
-    expect(cov.total).toBe(171);
+    // 20 二層域 × 9 CFS = 180 格
+    expect(cov.total).toBe(180);
     expect(cov.inapplicable).toBe(1);          // functional.adl:cfs1
     expect(cov.withResources).toBe(2);         // adl:cfs5, mood:cfs5
-    expect(cov.empty).toBe(171 - 1 - 2);
+    expect(cov.empty).toBe(180 - 1 - 2);
   });
 });
 ```
@@ -563,7 +563,7 @@ import type { CellView } from '$lib/education/matrix-view';
 
 afterEach(() => cleanup());
 
-const coverage = { withResources: 2, empty: 168, inapplicable: 1, total: 171 };
+const coverage = { withResources: 2, empty: 177, inapplicable: 1, total: 180 };
 const cell: CellView = {
   inapplicable: false,
   articles: [{ slug: 'mood-care', title: '情緒照護' }],
@@ -574,7 +574,7 @@ describe('DetailPanel', () => {
   it('shows the empty state with coverage when nothing is selected', () => {
     render(DetailPanel, { selectedKey: null, cell: null, articleContent: {}, coverage });
     expect(screen.getByText(/點左側任一格子/)).toBeTruthy();
-    expect(screen.getByText(/168/)).toBeTruthy(); // 待補格數
+    expect(screen.getByText(/177/)).toBeTruthy(); // 待補格數
   });
 
   it('reads the selected cell: domain/cfs heading, article and video', () => {

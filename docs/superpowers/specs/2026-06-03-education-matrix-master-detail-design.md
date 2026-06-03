@@ -95,7 +95,7 @@
 
 ### 維度（現況）
 
-- **列**：19 個二層域，依 6 個頂層域分組（physical / psychological / functional / social / environmental / future_wishes），來源 `src/lib/domain/domain-tree.ts`。
+- **列**：20 個二層域，依 6 個頂層域分組（physical / psychological / functional / social / environmental / future_wishes），來源 `src/lib/domain/domain-tree.ts`。
 - **欄**：CFS 1–9，欄頭沿用現有 `CFS_COL_LABEL`（「等級數字 + 中文標籤」）。
 
 ### 格子視覺語彙
