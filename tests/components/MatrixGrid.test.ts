@@ -25,7 +25,7 @@ describe('MatrixGrid', () => {
   it('shows the resource count (3) for a populated cell', () => {
     render(MatrixGrid, { cells, selectedKey: null, onselect: () => {} });
     // comorbidity:cfs5 = 1 article + 2 videos = 3
-    expect(screen.getByRole('button', { name: /多重共病.*CFS 5.*3/ })).toBeTruthy();
+    expect(screen.getByRole('button', { name: '多重共病，CFS 5（輕度衰弱），3 項資源' })).toBeTruthy();
   });
 
   it('renders an inapplicable cell as non-button "–"', () => {
@@ -64,5 +64,36 @@ describe('MatrixGrid', () => {
     await fireEvent.keyDown(a, { key: 'ArrowDown' });
     // physical 的第二個 sub 是「多重用藥」(polypharmacy)
     expect(document.activeElement).toBe(screen.getByRole('button', { name: /多重用藥.*CFS 1/ }));
+  });
+
+  it('marks the selected cell with aria-current', () => {
+    render(MatrixGrid, { cells, selectedKey: 'physical.comorbidity:cfs5', onselect: () => {} });
+    expect(screen.getByRole('button', { name: /多重共病.*CFS 5/ }).getAttribute('aria-current')).toBe('true');
+  });
+
+  it('flips aria-expanded when the group toggles', async () => {
+    render(MatrixGrid, { cells, selectedKey: null, onselect: () => {} });
+    const toggle = screen.getByRole('button', { name: /生理\/醫療/ });
+    expect(toggle.getAttribute('aria-expanded')).toBe('true');
+    await fireEvent.click(toggle);
+    expect(toggle.getAttribute('aria-expanded')).toBe('false');
+  });
+
+  it('ArrowUp moves focus to the previous sub-domain row', async () => {
+    const all = buildCellViews(buildMatrixData({}), {}, {});
+    render(MatrixGrid, { cells: all, selectedKey: null, onselect: () => {} });
+    const b = screen.getByRole('button', { name: /多重用藥.*CFS 1/ });
+    b.focus();
+    await fireEvent.keyDown(b, { key: 'ArrowUp' });
+    expect(document.activeElement).toBe(screen.getByRole('button', { name: /多重共病.*CFS 1/ }));
+  });
+
+  it('ArrowLeft at the first column keeps focus (boundary, no crash)', async () => {
+    const all = buildCellViews(buildMatrixData({}), {}, {});
+    render(MatrixGrid, { cells: all, selectedKey: null, onselect: () => {} });
+    const first = screen.getByRole('button', { name: /多重共病.*CFS 1/ });
+    first.focus();
+    await fireEvent.keyDown(first, { key: 'ArrowLeft' });
+    expect(document.activeElement).toBe(first);
   });
 });

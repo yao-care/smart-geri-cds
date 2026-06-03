@@ -1,6 +1,6 @@
 <script lang="ts">
   import { DOMAIN_TOPS, DOMAIN_TREE, DOMAIN_TOP_LABELS, domainLabel } from '../../lib/domain/domain-tree';
-  import { CFS_LEVELS, CFS_LABELS } from '../../lib/utils/cfs-levels';
+  import { CFS_LEVELS, CFS_LABELS, type CfsLevel } from '../../lib/utils/cfs-levels';
   import { cellResourceCount, heatBucket, type CellViews } from '$lib/education/matrix-view';
 
   interface Props {
@@ -13,12 +13,12 @@
   let collapsed = $state<Record<string, boolean>>({});
   function toggle(top: string) { collapsed = { ...collapsed, [top]: !collapsed[top] }; }
 
-  const CFS_COL_LABEL: Record<string, string> = Object.fromEntries(
-    CFS_LEVELS.map(l => [l, `${l.replace('cfs', '')} ${(CFS_LABELS as Record<string, string>)[l]}`]),
+  const CFS_COL_LABEL = Object.fromEntries(
+    CFS_LEVELS.map(l => [l, `${l.replace('cfs', '')} ${CFS_LABELS[l]}`]),
   );
 
-  function cellAria(top: string, sub: string, cfs: string, count: number): string {
-    return `${domainLabel(top, sub)}，CFS ${cfs.replace('cfs', '')}，${count > 0 ? `${count} 項資源` : '待補'}`;
+  function cellAria(top: string, sub: string, cfs: CfsLevel, count: number): string {
+    return `${domainLabel(top, sub)}，CFS ${cfs.replace('cfs', '')}（${CFS_LABELS[cfs]}），${count > 0 ? `${count} 項資源` : '待補'}`;
   }
 
   // 方向鍵在格按鈕間移動 focus（roving）。以 DOM 相鄰列查找，天然跳過群組標題列與不適用格。
@@ -78,13 +78,12 @@
                     <span class="na" aria-hidden="true">–</span>
                   {:else}
                     {@const count = cellResourceCount(cell)}
-                    <!-- svelte-ignore a11y_role_supports_aria_props_implicit -->
                     <button
                       class="cell-btn"
                       type="button"
                       data-heat={heatBucket(count)}
                       data-c={ci}
-                      aria-selected={key === selectedKey}
+                      aria-current={key === selectedKey ? 'true' : undefined}
                       aria-label={cellAria(top, sub, cfs, count)}
                       onclick={() => onselect(key)}
                     >{count > 0 ? count : '·'}</button>
@@ -136,7 +135,7 @@
   .cell-btn[data-heat="1"] { background: color-mix(in srgb, var(--accent) 12%, var(--bg)); }
   .cell-btn[data-heat="2"] { background: color-mix(in srgb, var(--accent) 24%, var(--bg)); }
   .cell-btn[data-heat="3"] { background: color-mix(in srgb, var(--accent) 38%, var(--bg)); }
-  .cell-btn[data-heat="4"] { background: color-mix(in srgb, var(--accent) 55%, var(--bg)); color: var(--bg); }
+  .cell-btn[data-heat="4"] { background: color-mix(in srgb, var(--accent) 55%, var(--bg)); color: var(--text); }
   .cell-btn:hover { outline: 2px solid color-mix(in srgb, var(--accent) 50%, var(--bg)); outline-offset: -2px; }
-  .cell-btn[aria-selected="true"] { outline: 3px solid var(--accent); outline-offset: -3px; font-weight: var(--font-bold); }
+  .cell-btn[aria-current="true"] { outline: 3px solid var(--accent); outline-offset: -3px; font-weight: var(--font-bold); }
 </style>
