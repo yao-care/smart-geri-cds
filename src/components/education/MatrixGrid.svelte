@@ -21,19 +21,30 @@
     return `${domainLabel(top, sub)}，CFS ${cfs.replace('cfs', '')}，${count > 0 ? `${count} 項資源` : '待補'}`;
   }
 
-  // 方向鍵在格按鈕間移動 focus（roving）
+  // 方向鍵在格按鈕間移動 focus（roving）。以 DOM 相鄰列查找，天然跳過群組標題列與不適用格。
   function onGridKeydown(e: KeyboardEvent) {
     const target = e.target as HTMLElement;
-    if (target.tagName !== 'BUTTON' || !target.dataset.r) return;
-    const dr = e.key === 'ArrowDown' ? 1 : e.key === 'ArrowUp' ? -1 : 0;
-    const dc = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
-    if (dr === 0 && dc === 0) return;
-    e.preventDefault();
-    const r = Number(target.dataset.r), c = Number(target.dataset.c);
-    const next = e.currentTarget instanceof HTMLElement
-      ? e.currentTarget.querySelector<HTMLButtonElement>(`button[data-r="${r + dr}"][data-c="${c + dc}"]`)
-      : null;
-    next?.focus();
+    if (target.tagName !== 'BUTTON' || target.dataset.c === undefined) return;
+    const c = Number(target.dataset.c);
+    let next: HTMLButtonElement | null = null;
+
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+      const dc = e.key === 'ArrowRight' ? 1 : -1;
+      const row = target.closest('tr');
+      next = row?.querySelector<HTMLButtonElement>(`button[data-c="${c + dc}"]`) ?? null;
+    } else if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+      const dir = e.key === 'ArrowDown' ? 'nextElementSibling' : 'previousElementSibling';
+      let row = target.closest('tr')?.[dir] as HTMLElement | null;
+      // 跳過沒有對應欄按鈕的列（群組標題列、或該欄不適用的列）
+      while (row && !row.querySelector(`button[data-c="${c}"]`)) {
+        row = row[dir] as HTMLElement | null;
+      }
+      next = row?.querySelector<HTMLButtonElement>(`button[data-c="${c}"]`) ?? null;
+    } else {
+      return;
+    }
+
+    if (next) { e.preventDefault(); next.focus(); }
   }
 </script>
 
@@ -47,7 +58,7 @@
       </tr>
     </thead>
     <tbody>
-      {#each DOMAIN_TOPS as top, ti}
+      {#each DOMAIN_TOPS as top}
         <tr class="group-row">
           <th class="group-header" colspan={CFS_LEVELS.length + 1}>
             <button class="group-toggle" type="button" onclick={() => toggle(top)} aria-expanded={!collapsed[top]}>
@@ -56,7 +67,7 @@
           </th>
         </tr>
         {#if !collapsed[top]}
-          {#each DOMAIN_TREE[top] as sub, si}
+          {#each DOMAIN_TREE[top] as sub}
             <tr>
               <th class="domain-header">{domainLabel(top, sub)}</th>
               {#each CFS_LEVELS as cfs, ci}
@@ -72,7 +83,6 @@
                       class="cell-btn"
                       type="button"
                       data-heat={heatBucket(count)}
-                      data-r={`${ti}-${si}`}
                       data-c={ci}
                       aria-selected={key === selectedKey}
                       aria-label={cellAria(top, sub, cfs, count)}

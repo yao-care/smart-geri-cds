@@ -1,6 +1,6 @@
 import { describe, it, expect, afterEach, vi } from 'vitest';
 import { render, screen, fireEvent, cleanup } from '@testing-library/svelte';
-import MatrixGrid from '../../../src/components/education/MatrixGrid.svelte';
+import MatrixGrid from '../../src/components/education/MatrixGrid.svelte';
 import { buildCellViews } from '$lib/education/matrix-view';
 import { buildMatrixData } from '$lib/education/matrix-data';
 
@@ -45,5 +45,24 @@ describe('MatrixGrid', () => {
     expect(screen.getByText('多重共病')).toBeTruthy();
     await fireEvent.click(screen.getByRole('button', { name: /生理\/醫療/ }));
     expect(screen.queryByText('多重共病')).toBeNull();
+  });
+
+  it('ArrowRight moves focus to the next cell in the same row', async () => {
+    const all = buildCellViews(buildMatrixData({}), {}, {});
+    render(MatrixGrid, { cells: all, selectedKey: null, onselect: () => {} });
+    const first = screen.getByRole('button', { name: /多重共病.*CFS 1/ });
+    first.focus();
+    await fireEvent.keyDown(first, { key: 'ArrowRight' });
+    expect(document.activeElement).toBe(screen.getByRole('button', { name: /多重共病.*CFS 2/ }));
+  });
+
+  it('ArrowDown moves focus to the same column in the next sub-domain row', async () => {
+    const all = buildCellViews(buildMatrixData({}), {}, {});
+    render(MatrixGrid, { cells: all, selectedKey: null, onselect: () => {} });
+    const a = screen.getByRole('button', { name: /多重共病.*CFS 1/ });
+    a.focus();
+    await fireEvent.keyDown(a, { key: 'ArrowDown' });
+    // physical 的第二個 sub 是「多重用藥」(polypharmacy)
+    expect(document.activeElement).toBe(screen.getByRole('button', { name: /多重用藥.*CFS 1/ }));
   });
 });
