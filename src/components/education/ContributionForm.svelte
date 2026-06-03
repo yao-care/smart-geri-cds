@@ -25,14 +25,21 @@
   // add-mode fields
   let type      = $state<'youtube' | 'article' | 'external-link'>('youtube');
   let url       = $state('');
+  // prefill 為掛載時的一次性初值；切換情境時由父層 remount 重置，故下列讀取 prefill 屬刻意非反應式
+  // svelte-ignore state_referenced_locally
   let title     = $state(prefill.title ?? '');
+  // svelte-ignore state_referenced_locally
   let summary   = $state(prefill.summary ?? '');
+  // svelte-ignore state_referenced_locally
   let content   = $state(prefill.content ?? '');
   let notes     = $state('');
   let submitter = $state('');
   // edit/delete targets
+  // svelte-ignore state_referenced_locally
   const targetSlug    = prefill.slug ?? '';
+  // svelte-ignore state_referenced_locally
   const targetVideoId = prefill.videoId ?? '';
+  // svelte-ignore state_referenced_locally
   const videoTitle    = prefill.videoTitle ?? '';
 
   let submitting = $state(false);
@@ -96,7 +103,8 @@
       });
       const data = await res.json() as { issueUrl?: string; error?: string };
       if (!res.ok || data.error) throw new Error(data.error ?? `HTTP ${res.status}`);
-      issueUrl = data.issueUrl!;
+      if (!data.issueUrl) throw new Error('Worker 未回傳 issueUrl');
+      issueUrl = data.issueUrl;
     } catch (err) {
       errorMsg = err instanceof Error ? err.message : '送出失敗，請稍後再試';
     } finally {
