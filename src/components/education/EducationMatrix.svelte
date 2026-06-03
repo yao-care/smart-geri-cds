@@ -2,6 +2,8 @@
   import MatrixGrid from './MatrixGrid.svelte';
   import DetailPanel from './DetailPanel.svelte';
   import { matrixCoverage, type CellViews } from '$lib/education/matrix-view';
+  import { domainLabel } from '../../lib/domain/domain-tree';
+  import { CFS_LABELS } from '../../lib/utils/cfs-levels';
 
   interface ArticleContent { title: string; summary: string; content: string; }
   interface Props {
@@ -13,6 +15,13 @@
   let selectedKey = $state<string | null>(null);
   let selectedCell = $derived(selectedKey ? cells[selectedKey] ?? null : null);
   let coverage = $derived(matrixCoverage(cells));
+  let liveMsg = $derived.by(() => {
+    if (!selectedKey) return '';
+    const [domain, cfs] = selectedKey.split(':');
+    const [top, sub] = domain.split('.');
+    const label = (CFS_LABELS as Record<string, string>)[cfs] ?? '';
+    return `已選取 ${domainLabel(top, sub)}，CFS ${cfs.replace('cfs', '')}（${label}）`;
+  });
 
   function select(key: string) { selectedKey = key; }
   function close() { selectedKey = null; }
@@ -25,16 +34,17 @@
 </script>
 
 <div class="layout" class:has-selection={selectedKey != null}>
+  <p class="sr-only" aria-live="polite">{liveMsg}</p>
   <div class="grid-col">
     <MatrixGrid {cells} {selectedKey} onselect={select} />
   </div>
 
   <!-- 遮罩：僅手機 sheet 開啟時可見 -->
-  <!-- svelte-ignore a11y_consider_explicit_label -->
   <button class="scrim" type="button" aria-label="關閉" onclick={close}></button>
 
-  <aside class="detail-col" aria-live="polite">
-    <button class="sheet-close" type="button" aria-label="關閉" onclick={close}>✕</button>
+  <!-- TODO(a11y): 手機 sheet 開啟時尚未做 focus-trap / inert / role=dialog；列為後續 a11y pass -->
+  <aside class="detail-col">
+    <button class="sheet-close" type="button" aria-label="關閉面板" onclick={close}>✕</button>
     <DetailPanel {selectedKey} cell={selectedCell} {articleContent} {coverage} />
   </aside>
 </div>

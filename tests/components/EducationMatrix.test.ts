@@ -29,4 +29,10 @@ describe('EducationMatrix', () => {
     await fireEvent.keyDown(window, { key: 'Escape' });
     expect(screen.getByText(/點左側任一格子/)).toBeTruthy();
   });
+
+  it('announces the selected context in a concise live region', async () => {
+    render(EducationMatrix, { cells, articleContent: {} });
+    await fireEvent.click(screen.getByRole('button', { name: /多重共病.*CFS 5/ }));
+    expect(screen.getByText(/已選取 多重共病/)).toBeTruthy();
+  });
 });
