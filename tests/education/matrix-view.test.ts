@@ -40,6 +40,18 @@ describe('buildCellViews', () => {
     const cells = buildCellViews(buildMatrixData(triggers), articleTitles, catalog);
     expect(cells['functional.adl:cfs1']).toEqual({ inapplicable: true, articles: [], videos: [] });
   });
+
+  it('preserves every article slug when a cell carries multiple', () => {
+    // construct MatrixData directly to exercise multi-slug mapping
+    const matrix = {
+      'functional.adl:cfs5': { inapplicable: false, articleSlugs: ['a-one', 'a-two'], videoIds: [] },
+    } as unknown as import('$lib/education/matrix-data').MatrixData;
+    const cells = buildCellViews(matrix, { 'a-one': '第一篇', 'a-two': '第二篇' }, {});
+    expect(cells['functional.adl:cfs5'].articles).toEqual([
+      { slug: 'a-one', title: '第一篇' },
+      { slug: 'a-two', title: '第二篇' },
+    ]);
+  });
 });
 
 describe('cellResourceCount', () => {
@@ -63,6 +75,11 @@ describe('heatBucket', () => {
     expect(heatBucket(5)).toBe(3);
     expect(heatBucket(6)).toBe(4);
     expect(heatBucket(99)).toBe(4);
+  });
+
+  it('treats negative counts as empty (bucket 0)', () => {
+    expect(heatBucket(-1)).toBe(0);
+    expect(heatBucket(-99)).toBe(0);
   });
 });
 
