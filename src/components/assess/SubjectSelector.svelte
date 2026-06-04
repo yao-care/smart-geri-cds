@@ -23,7 +23,7 @@
     if (next === 'new') onSelect(null);
   }
   function fmtDate(d: Date | null): string {
-    return d ? new Date(d).toLocaleDateString('zh-TW', { month: '2-digit', day: '2-digit' }) : '—';
+    return d ? new Date(d).toLocaleDateString('zh-TW', { year: 'numeric', month: '2-digit', day: '2-digit' }) : '—';
   }
   function ageYears(birthDate: string): number | null {
     if (!birthDate) return null;
@@ -34,7 +34,7 @@
 
 <fieldset class="subject-selector">
   <legend>受測者</legend>
-  <div class="mode-pills" role="radiogroup" aria-label="受測者來源">
+  <div class="mode-pills">
     <label class="pill" class:selected={mode === 'new'}>
       <input type="radio" name="subjectMode" value="new" checked={mode === 'new'} onchange={() => setMode('new')} />
       新增
@@ -77,6 +77,7 @@
     cursor: pointer; font-size: var(--text-xs); min-height: 44px;
   }
   .pill.selected { background: var(--accent); color: white; border-color: var(--accent); }
+  .pill:has(input:disabled) { opacity: 0.45; cursor: not-allowed; }
   .pill input[type="radio"] { position: absolute; opacity: 0; width: 0; height: 0; }
   .subject-list { list-style: none; margin: var(--space-2) 0 0; padding: 0; display: flex; flex-direction: column; gap: var(--space-1); }
   .subject-row {
