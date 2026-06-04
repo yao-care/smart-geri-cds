@@ -107,6 +107,31 @@ class AssessmentStore {
     }
   }
 
+  /** 沿用既有受測者：保留其 id 與 createdAt，只回寫可變欄位，不新建 child。 */
+  async startForExisting(
+    child: Child,
+    cfsLevel: CfsLevel,
+    availability: { informantAvailable: boolean; patientAble: boolean },
+  ): Promise<void> {
+    this.isLoading = true;
+    this.error = null;
+    try {
+      const existing = await assessmentDao.getChild(child.id);
+      if (!existing) throw new Error('該受測者已不存在，請重新選擇');
+      await assessmentDao.updateChild(child);
+      this.child = child;
+      this.cfsLevel = cfsLevel;
+      this.informantAvailable = availability.informantAvailable;
+      this.patientAble = availability.patientAble;
+      this.assessment = await assessmentDao.createAssessment(child.id, cfsLevel, availability);
+      this.currentStepIndex = 1;
+    } catch (e) {
+      this.error = e instanceof Error ? e.message : 'Failed to start assessment';
+    } finally {
+      this.isLoading = false;
+    }
+  }
+
   async resume(assessmentId: string): Promise<void> {
     this.isLoading = true;
     this.error = null;
