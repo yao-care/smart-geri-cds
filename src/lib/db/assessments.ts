@@ -36,6 +36,33 @@ export async function mergeChildren(primaryId: string, mergedIds: string[]): Pro
   });
 }
 
+export interface SubjectWithStats {
+  child: Child;
+  assessmentCount: number;
+  lastAssessedAt: Date | null;
+}
+
+/** 受測者清單 + 統計，依 lastAssessedAt 倒序（無評估者殿後）。供選取清單與歷史頁共用。 */
+export async function loadSubjectsWithStats(): Promise<SubjectWithStats[]> {
+  const children = await getAllChildren();
+  const rows = await Promise.all(
+    children.map(async (child) => {
+      const assessments = await getAssessmentsForChild(child.id);
+      let lastAssessedAt: Date | null = null;
+      for (const a of assessments) {
+        const t = new Date(a.completedAt ?? a.startedAt);
+        if (lastAssessedAt === null || t > lastAssessedAt) lastAssessedAt = t;
+      }
+      return { child, assessmentCount: assessments.length, lastAssessedAt };
+    }),
+  );
+  return rows.sort((x, y) => {
+    const tx = x.lastAssessedAt ? x.lastAssessedAt.getTime() : -Infinity;
+    const ty = y.lastAssessedAt ? y.lastAssessedAt.getTime() : -Infinity;
+    return ty - tx;
+  });
+}
+
 // ---- Assessment DAO ----
 export async function createAssessment(
   childId: string,

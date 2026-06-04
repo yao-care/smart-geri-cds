@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from 'vitest';
-import { updateChild, mergeChildren, createAssessment } from '../../src/lib/db/assessments';
+import { updateChild, mergeChildren, createAssessment, loadSubjectsWithStats } from '../../src/lib/db/assessments';
 import { db, type Child } from '../../src/lib/db/schema';
 
 function makeChild(id: string, over: Partial<Child> = {}): Child {
@@ -59,5 +59,35 @@ describe('mergeChildren', () => {
     await db.children.put(makeChild('primary'));
     await mergeChildren('primary', ['primary']);
     expect(await db.children.get('primary')).toBeTruthy();
+  });
+});
+
+describe('loadSubjectsWithStats', () => {
+  beforeEach(async () => {
+    await db.assessments.clear();
+    await db.children.clear();
+  });
+
+  it('computes count and lastAssessedAt, sorted most-recent first', async () => {
+    await db.children.bulkPut([makeChild('a'), makeChild('b'), makeChild('c')]);
+    const avail = { informantAvailable: true, patientAble: true };
+
+    const a1 = await createAssessment('a', 'cfs3', avail);
+    await db.assessments.update(a1.id, { completedAt: new Date('2026-02-01') });
+    const a2 = await createAssessment('a', 'cfs3', avail);
+    await db.assessments.update(a2.id, { completedAt: new Date('2026-03-10') });
+    const b1 = await createAssessment('b', 'cfs4', avail);
+    await db.assessments.update(b1.id, { completedAt: new Date('2026-05-20') });
+    // c: 0 次
+
+    const list = await loadSubjectsWithStats();
+    const byId = Object.fromEntries(list.map((s) => [s.child.id, s]));
+
+    expect(byId['a'].assessmentCount).toBe(2);
+    expect(byId['a'].lastAssessedAt).toEqual(new Date('2026-03-10'));
+    expect(byId['b'].assessmentCount).toBe(1);
+    expect(byId['c'].assessmentCount).toBe(0);
+    expect(byId['c'].lastAssessedAt).toBeNull();
+    expect(list.map((s) => s.child.id)).toEqual(['b', 'a', 'c']);
   });
 });
