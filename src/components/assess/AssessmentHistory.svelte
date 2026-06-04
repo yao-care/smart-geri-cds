@@ -44,19 +44,6 @@
     return id.length > 8 ? id.slice(0, 8) + '…' : id;
   }
 
-  /** Age in months at assessment time. Returns null when DOB is absent (DOB is
-   *  optional for CGA) so the UI can hide the badge instead of showing NaN. */
-  function computeAgeAtAssessment(child: Child, assessment: Assessment): number | null {
-    if (!child.birthDate) return null;
-    const birth = new Date(child.birthDate);
-    if (isNaN(birth.getTime())) return null;
-    const assessDate = assessment.completedAt ?? assessment.startedAt;
-    const d = typeof assessDate === 'string' ? new Date(assessDate) : assessDate;
-    const months = (d.getFullYear() - birth.getFullYear()) * 12 + (d.getMonth() - birth.getMonth());
-    const dayAdjust = d.getDate() < birth.getDate() ? -1 : 0;
-    return Math.max(0, months + dayAdjust);
-  }
-
   function detailLink(id: string): string {
     return physicianMode ? `/workspace/result/?id=${id}` : `/result/?id=${id}`;
   }
@@ -302,12 +289,10 @@
         <ol class="timeline">
           {#each assessments as assessment}
             {@const isCompleted = assessment.status === 'completed'}
-            {@const ageAtAssess = computeAgeAtAssessment(child, assessment)}
             {@const selected = compareIds.has(assessment.id)}
             <li class="timeline-row" class:selected>
               <div class="timeline-main">
                 <span class="row-date">{formatDate(assessment.completedAt ?? assessment.startedAt)}</span>
-                {#if ageAtAssess !== null}<span class="row-age">{ageAtAssess} 個月</span>{/if}
                 {#if isCompleted && assessment.triageResult}
                   <span class="badge {categoryClasses[assessment.triageResult.category] ?? ''}">
                     {categoryLabels[assessment.triageResult.category] ?? assessment.triageResult.category}
@@ -360,9 +345,6 @@
           <li class="meta-chip" style="--series-color: {SERIES_COLORS[i % SERIES_COLORS.length]}">
             <span class="meta-swatch" aria-hidden="true"></span>
             <span class="meta-date">{formatDate(row.assessment.completedAt ?? row.assessment.startedAt)}</span>
-            {#if computeAgeAtAssessment(row.child, row.assessment) !== null}
-              <span class="meta-age">{computeAgeAtAssessment(row.child, row.assessment)} 個月</span>
-            {/if}
             {#if cat}
               <span class="badge {categoryClasses[cat] ?? ''}">{categoryLabels[cat]}</span>
             {/if}
@@ -694,7 +676,6 @@
   }
 
   .row-date { font-weight: var(--font-medium); min-width: 100px; }
-  .row-age { color: color-mix(in srgb, var(--text), var(--bg) 30%); font-size: var(--text-xs); }
 
   .timeline-actions {
     display: flex;
@@ -827,10 +808,6 @@
 
   .meta-date {
     font-weight: var(--font-medium);
-  }
-
-  .meta-age {
-    color: color-mix(in srgb, var(--text), var(--bg) 30%);
   }
 
   .meta-link {
