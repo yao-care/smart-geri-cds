@@ -20,6 +20,22 @@ export async function updateChild(child: Child): Promise<void> {
   await db.children.put(child);
 }
 
+/**
+ * 把 mergedIds 的所有 assessment 轉移到 primaryId，並刪除 mergedIds 的 children。
+ * 單一 transaction 確保原子性：任一步失敗則全部回滾，不留孤兒 assessment。
+ */
+export async function mergeChildren(primaryId: string, mergedIds: string[]): Promise<void> {
+  const targets = mergedIds.filter((id) => id !== primaryId);
+  if (targets.length === 0) return;
+  await db.transaction('rw', db.children, db.assessments, async () => {
+    const orphaned = await db.assessments.where('childId').anyOf(targets).toArray();
+    await Promise.all(
+      orphaned.map((a) => db.assessments.update(a.id, { childId: primaryId, updatedAt: new Date() })),
+    );
+    await db.children.bulkDelete(targets);
+  });
+}
+
 // ---- Assessment DAO ----
 export async function createAssessment(
   childId: string,
