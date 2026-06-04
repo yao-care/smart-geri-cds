@@ -17,6 +17,13 @@
   let incompleteAssessments = $state<Assessment[]>([]);
   let showResume = $state(true);
 
+  const subjectParam = typeof window !== 'undefined'
+    ? new URLSearchParams(window.location.search).get('subject')
+    : null;
+
+  // 有深連結受測者時，跳過 resume 提示直接進 profile 帶入。
+  if (subjectParam) showResume = false;
+
   $effect(() => {
     getIncompleteAssessments().then(list => {
       incompleteAssessments = list;
@@ -58,8 +65,8 @@
         <a href="/history/" class="history-link">查看過去的評估紀錄</a>
       </div>
 
-    {:else if assessmentStore.currentStep === 'profile'}
-      <SubjectProfile />
+    {:else if assessmentStore.currentStep === 'profile' || (subjectParam && !assessmentStore.assessment)}
+      <SubjectProfile preselectedChildId={subjectParam ?? undefined} />
 
     {:else if assessmentStore.currentStep === 'questionnaire'}
       <QuestionnaireModule {scales} />
