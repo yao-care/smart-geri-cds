@@ -1,5 +1,6 @@
 <script lang="ts">
-  import { getAllChildren, getAssessmentsForChild } from '../../lib/db/assessments';
+  import { getAllChildren, getAssessmentsForChild, loadSubjectsWithStats, mergeChildren, type SubjectWithStats } from '../../lib/db/assessments';
+  import SubjectMergeDialog from './SubjectMergeDialog.svelte';
   import { ageInMonths } from '../../lib/utils/cfs-levels';
   import { domainLabel as domainSubLabel } from '../../lib/domain/domain-tree';
   import { isAuthorized } from '../../lib/fhir/client';
@@ -14,6 +15,32 @@
   let childrenData = $state<ChildWithAssessments[]>([]);
   let compareIds = $state<Set<string>>(new Set());
   let showCompare = $state(false);
+
+  let mergeMode = $state(false);
+  let mergeIds = $state<Set<string>>(new Set());
+  let showMergeDialog = $state(false);
+  let subjectStats = $state<SubjectWithStats[]>([]);
+
+  function toggleMergePick(id: string) {
+    const next = new Set(mergeIds);
+    if (next.has(id)) next.delete(id);
+    else next.add(id);
+    mergeIds = next;
+  }
+  const mergeSelection = $derived(subjectStats.filter((s) => mergeIds.has(s.child.id)));
+
+  async function refreshStats() {
+    subjectStats = await loadSubjectsWithStats();
+  }
+  async function handleMergeConfirm(primaryId: string) {
+    const others = [...mergeIds].filter((id) => id !== primaryId);
+    await mergeChildren(primaryId, others);
+    showMergeDialog = false;
+    mergeMode = false;
+    mergeIds = new Set();
+    await loadData();
+    await refreshStats();
+  }
 
   const physicianMode = $derived(isAuthorized());
 
@@ -57,6 +84,7 @@
 
   $effect(() => {
     loadData();
+    void refreshStats();
   });
 
   async function loadData() {
@@ -257,6 +285,12 @@
       <a href="/assess/" class="btn-start">開始評估</a>
     </div>
   {:else}
+    <div class="history-tools">
+      <button type="button" class="btn-merge-mode" onclick={() => { mergeMode = !mergeMode; mergeIds = new Set(); }}>
+        {mergeMode ? '結束合併' : '合併受測者'}
+      </button>
+    </div>
+
     <section class="stats-row" aria-label="評估統計">
       <div class="stat-card">
         <span class="stat-label">總評估次數</span>
@@ -274,9 +308,22 @@
       </div>
     </section>
 
+    {#if mergeMode && mergeIds.size >= 2}
+      <div class="merge-actionbar">
+        <span>已選 {mergeIds.size} 位</span>
+        <button type="button" class="btn-do-merge" onclick={() => (showMergeDialog = true)}>合併 {mergeIds.size} 位</button>
+      </div>
+    {/if}
+
     {#each childrenData as { child, assessments }}
       <section class="child-section">
         <h2 class="child-header">
+          {#if mergeMode}
+            <label class="merge-pick">
+              <input type="checkbox" aria-label={`選取受測者 ${child.nickName ?? abbreviateId(child.id)}`}
+                checked={mergeIds.has(child.id)} onchange={() => toggleMergePick(child.id)} />
+            </label>
+          {/if}
           {#if child.nickName?.trim()}
             <span class="child-nick">{child.nickName}</span>
           {/if}
@@ -286,7 +333,8 @@
           {/if}
         </h2>
 
-        <a class="reassess-link" href={`/assess?subject=${child.id}`}>再次評估 →</a>
+        <a class="reassess-link" href={`/assess?subject=${child.id}`}
+          aria-label={`再次評估 ${child.nickName ?? abbreviateId(child.id)}`}>再次評估<span aria-hidden="true"> →</span></a>
 
         <ol class="timeline">
           {#each assessments as assessment}
@@ -321,6 +369,10 @@
         </ol>
       </section>
     {/each}
+
+    {#if showMergeDialog}
+      <SubjectMergeDialog subjects={mergeSelection} onConfirm={handleMergeConfirm} onCancel={() => (showMergeDialog = false)} />
+    {/if}
   {/if}
 
   {#if compareIds.size >= 2}
@@ -965,4 +1017,52 @@
   }
 
   .btn-back:hover { border-color: var(--accent); }
+
+  .history-tools {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: var(--space-3);
+  }
+
+  .btn-merge-mode,
+  .btn-do-merge {
+    min-height: 44px;
+    padding: var(--space-2) var(--space-4);
+    border-radius: var(--radius-md);
+    font-size: var(--text-xs);
+    cursor: pointer;
+    border: 1px solid var(--line);
+    background: var(--bg);
+    color: var(--text);
+  }
+
+  .btn-do-merge {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: white;
+    font-weight: var(--font-medium);
+  }
+
+  .merge-pick {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  .merge-pick input {
+    width: 24px;
+    height: 24px;
+  }
+
+  .merge-actionbar {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    justify-content: flex-end;
+    padding: var(--space-2) 0;
+    font-size: var(--text-xs);
+    color: var(--text);
+    margin-bottom: var(--space-2);
+  }
 </style>
