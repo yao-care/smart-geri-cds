@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { onMount } from 'svelte';
   import type { SubjectWithStats } from '../../lib/db/assessments';
 
   interface Props {
@@ -20,33 +21,36 @@
     subjects.filter((s) => s.child.id !== primaryId).reduce((n, s) => n + s.assessmentCount, 0),
   );
 
-  function name(s: SubjectWithStats): string {
+  function subjectLabel(s: SubjectWithStats): string {
     return s.child.nickName?.trim() || `ID: ${s.child.id.slice(0, 8)}…`;
   }
+
+  let boxEl = $state<HTMLDivElement | null>(null);
+  onMount(() => boxEl?.querySelector<HTMLElement>('input,button')?.focus());
 </script>
 
+<svelte:window onkeydown={(e) => { if (e.key === 'Escape') onCancel(); }} />
+
 <div class="merge-overlay" role="dialog" aria-modal="true" aria-label="合併受測者">
-  <div class="merge-box">
+  <div class="merge-box" bind:this={boxEl}>
     <h2>合併受測者</h2>
     <p class="merge-hint">選擇要保留的主檔，其餘將併入：</p>
 
-    <ul class="merge-list" role="radiogroup" aria-label="選擇主檔">
+    <div class="merge-list" role="radiogroup" aria-label="選擇主檔">
       {#each subjects as s (s.child.id)}
-        <li>
-          <label class="merge-row" class:selected={primaryId === s.child.id}>
-            <input
-              type="radio"
-              name="primary"
-              value={s.child.id}
-              checked={primaryId === s.child.id}
-              onchange={() => (primaryId = s.child.id)}
-            />
-            <span class="mrow-name">{name(s)}</span>
-            <span class="mrow-meta">{s.assessmentCount} 次</span>
-          </label>
-        </li>
+        <label class="merge-row" class:selected={primaryId === s.child.id}>
+          <input
+            type="radio"
+            name="primary"
+            value={s.child.id}
+            checked={primaryId === s.child.id}
+            onchange={() => (primaryId = s.child.id)}
+          />
+          <span class="mrow-name">{subjectLabel(s)}</span>
+          <span class="mrow-meta">{s.assessmentCount} 次</span>
+        </label>
       {/each}
-    </ul>
+    </div>
 
     <p class="merge-warn">
       將把其餘 {mergedCount} 位的 {transferCount} 筆評估轉移到主檔，並刪除那 {mergedCount}
@@ -55,7 +59,7 @@
 
     <div class="merge-actions">
       <button type="button" class="btn-cancel" onclick={onCancel}>取消</button>
-      <button type="button" class="btn-confirm" onclick={() => onConfirm(primaryId)}>確認合併</button>
+      <button type="button" class="btn-confirm" disabled={!primaryId} onclick={() => onConfirm(primaryId)}>確認合併</button>
     </div>
   </div>
 </div>
@@ -90,7 +94,6 @@
     margin-bottom: var(--space-3);
   }
   .merge-list {
-    list-style: none;
     margin: 0 0 var(--space-3);
     padding: 0;
     display: flex;
@@ -149,5 +152,9 @@
     border: 1px solid var(--danger);
     color: white;
     font-weight: var(--font-bold);
+  }
+  .btn-confirm:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
   }
 </style>

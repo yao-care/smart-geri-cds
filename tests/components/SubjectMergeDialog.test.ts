@@ -38,4 +38,12 @@ describe('SubjectMergeDialog', () => {
     await fireEvent.click(screen.getByRole('button', { name: /取消/ }));
     expect(onCancel).toHaveBeenCalled();
   });
+
+  it('shows correct merged/transfer counts across 3 subjects', () => {
+    render(SubjectMergeDialog, {
+      props: { subjects: [subj('a', '甲', 1), subj('b', '乙', 3), subj('c', '丙', 2)], onConfirm: vi.fn(), onCancel: vi.fn() },
+    });
+    // 預設主檔 b(3 次)，其餘 2 位、轉移 1+2=3 筆
+    expect(screen.getByText(/其餘 2 位的 3 筆評估/)).toBeInTheDocument();
+  });
 });
