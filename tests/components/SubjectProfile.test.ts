@@ -1,11 +1,22 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/svelte';
 import SubjectProfile from '../../src/components/assess/SubjectProfile.svelte';
+import { db, type Child } from '../../src/lib/db/schema';
+import { assessmentStore } from '../../src/lib/stores/assessment.svelte';
 
 describe('SubjectProfile', () => {
   beforeEach(() => {
     vi.useFakeTimers();
     vi.setSystemTime(new Date('2026-05-14T12:00:00Z'));
+  });
+
+  afterEach(async () => {
+    // Drain any pending fake-indexeddb setImmediate callbacks (from $effect →
+    // loadSubjectsWithStats) before cleanup, to prevent IDB transaction deadlock
+    // between tests. Only runs when fake timers are still active.
+    if (vi.isFakeTimers()) {
+      await vi.runAllTimersAsync();
+    }
   });
 
   it('renders the form heading and the CFS selector', () => {
@@ -93,5 +104,40 @@ describe('SubjectProfile', () => {
   it('does not show an age badge when DOB is empty', () => {
     render(SubjectProfile);
     expect(screen.queryByText(/約 .* 歲/)).not.toBeInTheDocument();
+  });
+
+  it('preselects an existing subject (preselectedChildId) and prefills its data', async () => {
+    vi.useRealTimers();
+    const child: Child = { id: 'pre1', nickName: '阿公', gender: 'male', birthDate: '1948-02-03', createdAt: new Date('2026-01-01') };
+    await db.children.clear();
+    await db.children.put(child);
+
+    render(SubjectProfile, { props: { preselectedChildId: 'pre1' } });
+
+    const nick = await screen.findByDisplayValue('阿公');
+    expect(nick).toBeInTheDocument();
+  });
+
+  it('existing-mode submit calls startForExisting, not startNew', async () => {
+    vi.useRealTimers();
+    const child: Child = { id: 'pre2', nickName: '阿婆', gender: 'female', birthDate: '1950-05-05', createdAt: new Date('2026-01-01') };
+    await db.children.clear();
+    await db.children.put(child);
+    const spy = vi.spyOn(assessmentStore, 'startForExisting').mockResolvedValue();
+
+    render(SubjectProfile, { props: { preselectedChildId: 'pre2' } });
+    await screen.findByDisplayValue('阿婆');
+
+    await fireEvent.click(screen.getByDisplayValue('cfs4'));
+    const informant = screen.getByRole('radiogroup', { name: /是否有可提供資訊的家屬或照顧者/ });
+    await fireEvent.click(informant.querySelector('input[value="yes"]') as HTMLInputElement);
+    await fireEvent.click(screen.getByRole('button', { name: /開始評估/ }));
+
+    expect(spy).toHaveBeenCalledWith(
+      expect.objectContaining({ id: 'pre2' }),
+      'cfs4',
+      expect.objectContaining({ informantAvailable: true }),
+    );
+    spy.mockRestore();
   });
 });

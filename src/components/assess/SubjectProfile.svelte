@@ -7,6 +7,39 @@
     CFS_DESCRIPTIONS,
     type CfsLevel,
   } from '../../lib/utils/cfs-levels';
+  import SubjectSelector from './SubjectSelector.svelte';
+  import { loadSubjectsWithStats, type SubjectWithStats } from '../../lib/db/assessments';
+  import type { Child } from '../../lib/db/schema';
+
+  interface Props { preselectedChildId?: string }
+  let { preselectedChildId }: Props = $props();
+
+  let subjects = $state<SubjectWithStats[]>([]);
+  let selectedChild = $state<Child | null>(null);
+  const mode = $derived(selectedChild ? 'existing' : 'new');
+
+  $effect(() => {
+    loadSubjectsWithStats().then((list) => {
+      subjects = list;
+      if (preselectedChildId) {
+        const hit = list.find((s) => s.child.id === preselectedChildId);
+        if (hit) handleSelect(hit.child);
+      }
+    });
+  });
+
+  function handleSelect(child: Child | null) {
+    selectedChild = child;
+    if (child) {
+      birthDate = child.birthDate ?? '';
+      gender = child.gender;
+      nickName = child.nickName ?? '';
+    } else {
+      birthDate = '';
+      gender = 'male';
+      nickName = '';
+    }
+  }
 
   let birthDate = $state('');
   let gender = $state<'male' | 'female' | 'other'>('male');
@@ -41,11 +74,19 @@
       return;
     }
 
-    await assessmentStore.startNew(
-      { birthDate, gender, nickName: nickName || undefined },
-      cfsLevel,
-      { informantAvailable, patientAble },
-    );
+    if (mode === 'existing' && selectedChild) {
+      await assessmentStore.startForExisting(
+        { ...selectedChild, birthDate, gender, nickName: nickName || undefined },
+        cfsLevel,
+        { informantAvailable, patientAble },
+      );
+    } else {
+      await assessmentStore.startNew(
+        { birthDate, gender, nickName: nickName || undefined },
+        cfsLevel,
+        { informantAvailable, patientAble },
+      );
+    }
   }
 </script>
 
@@ -54,6 +95,8 @@
     <h2>受測者評估設定</h2>
     <p class="form-desc">請先判定臨床衰弱量表（CFS）；基本資料選填、僅供紀錄。</p>
   </header>
+
+  <SubjectSelector {subjects} selectedId={selectedChild?.id ?? null} onSelect={handleSelect} />
 
   <div class="sp-grid">
     <!-- LEFT: CFS — the lead clinical judgment -->
@@ -135,7 +178,7 @@
         </div>
       </fieldset>
 
-      <details class="optional-details">
+      <details class="optional-details" open={mode === 'existing'}>
         <summary>基本資料（選填，僅供紀錄）</summary>
         <div class="optional-body">
           <div class="field">
