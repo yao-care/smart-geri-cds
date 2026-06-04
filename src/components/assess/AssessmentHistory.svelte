@@ -286,7 +286,7 @@
     </div>
   {:else}
     <div class="history-tools">
-      <button type="button" class="btn-merge-mode" onclick={() => { mergeMode = !mergeMode; mergeIds = new Set(); }}>
+      <button type="button" class="btn-merge-mode" aria-pressed={mergeMode} onclick={() => { mergeMode = !mergeMode; mergeIds = new Set(); }}>
         {mergeMode ? '結束合併' : '合併受測者'}
       </button>
     </div>
@@ -379,7 +379,7 @@
     <div class="compare-bar" role="region" aria-label="比較選取">
       <span>已選 {compareIds.size} 筆</span>
       <button type="button" class="btn-compare" onclick={() => (showCompare = true)}>
-        比較 →
+        比較<span aria-hidden="true"> →</span>
       </button>
       <button type="button" class="btn-clear" onclick={() => (compareIds = new Set())}>清空</button>
     </div>

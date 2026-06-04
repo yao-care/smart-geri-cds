@@ -27,9 +27,24 @@
 
   let boxEl = $state<HTMLDivElement | null>(null);
   onMount(() => boxEl?.querySelector<HTMLElement>('input,button')?.focus());
+
+  function trapTab(e: KeyboardEvent) {
+    if (e.key !== 'Tab' || !boxEl) return;
+    const focusable = boxEl.querySelectorAll<HTMLElement>('input,button');
+    if (focusable.length === 0) return;
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    if (e.shiftKey && document.activeElement === first) {
+      e.preventDefault();
+      last.focus();
+    } else if (!e.shiftKey && document.activeElement === last) {
+      e.preventDefault();
+      first.focus();
+    }
+  }
 </script>
 
-<svelte:window onkeydown={(e) => { if (e.key === 'Escape') onCancel(); }} />
+<svelte:window onkeydown={(e) => { if (e.key === 'Escape') onCancel(); else trapTab(e); }} />
 
 <div class="merge-overlay" role="dialog" aria-modal="true" aria-label="合併受測者">
   <div class="merge-box" bind:this={boxEl}>
