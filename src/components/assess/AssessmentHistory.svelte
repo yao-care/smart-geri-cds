@@ -286,6 +286,8 @@
           {/if}
         </h2>
 
+        <a class="reassess-link" href={`/assess?subject=${child.id}`}>再次評估 →</a>
+
         <ol class="timeline">
           {#each assessments as assessment}
             {@const isCompleted = assessment.status === 'completed'}
@@ -604,6 +606,18 @@
   }
 
   .child-section { margin-bottom: var(--space-8); }
+
+  .reassess-link {
+    display: inline-block;
+    margin: var(--space-1) 0 var(--space-2);
+    min-height: 44px;
+    line-height: 44px;
+    color: var(--accent);
+    text-decoration: none;
+    font-size: var(--text-xs);
+    font-weight: var(--font-medium);
+  }
+  .reassess-link:hover { text-decoration: underline; }
 
   .child-header {
     display: flex;
