@@ -118,6 +118,13 @@ describe('SubjectProfile', () => {
     expect(nick).toBeInTheDocument();
   });
 
+  it('falls back to new mode with a notice when preselectedChildId is invalid', async () => {
+    vi.useRealTimers();
+    await db.children.clear();
+    render(SubjectProfile, { props: { preselectedChildId: 'ghost-id' } });
+    expect(await screen.findByText(/找不到該受測者/)).toBeInTheDocument();
+  });
+
   it('existing-mode submit calls startForExisting, not startNew', async () => {
     vi.useRealTimers();
     const child: Child = { id: 'pre2', nickName: '阿婆', gender: 'female', birthDate: '1950-05-05', createdAt: new Date('2026-01-01') };

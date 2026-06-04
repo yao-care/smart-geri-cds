@@ -17,6 +17,7 @@
   let subjects = $state<SubjectWithStats[]>([]);
   let selectedChild = $state<Child | null>(null);
   const mode = $derived(selectedChild ? 'existing' : 'new');
+  let preselectMissed = $state(false);
 
   $effect(() => {
     loadSubjectsWithStats().then((list) => {
@@ -24,6 +25,7 @@
       if (preselectedChildId) {
         const hit = list.find((s) => s.child.id === preselectedChildId);
         if (hit) handleSelect(hit.child);
+        else preselectMissed = true;
       }
     });
   });
@@ -97,6 +99,10 @@
   </header>
 
   <SubjectSelector {subjects} selectedId={selectedChild?.id ?? null} onSelect={handleSelect} />
+
+  {#if preselectMissed}
+    <p class="preselect-missed" role="status">找不到該受測者，已切換為新增。</p>
+  {/if}
 
   <div class="sp-grid">
     <!-- LEFT: CFS — the lead clinical judgment -->
@@ -537,6 +543,12 @@
     flex-direction: column;
     gap: var(--space-3);
     margin-top: var(--space-3);
+  }
+
+  .preselect-missed {
+    margin: 0 0 var(--space-3);
+    color: var(--warn);
+    font-size: var(--text-caption);
   }
 
   .error {

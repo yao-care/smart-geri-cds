@@ -333,7 +333,7 @@
           {/if}
         </h2>
 
-        <a class="reassess-link" href={`/assess?subject=${child.id}`}
+        <a class="reassess-link" href={`/assess/?subject=${child.id}`}
           aria-label={`再次評估 ${child.nickName ?? abbreviateId(child.id)}`}>再次評估<span aria-hidden="true"> →</span></a>
 
         <ol class="timeline">

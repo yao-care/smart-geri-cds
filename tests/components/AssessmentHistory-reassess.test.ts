@@ -18,6 +18,6 @@ describe('AssessmentHistory 再次評估', () => {
     render(AssessmentHistory);
 
     const link = await screen.findByRole('link', { name: /再次評估/ });
-    expect(link.getAttribute('href')).toBe('/assess?subject=h1');
+    expect(link.getAttribute('href')).toBe('/assess/?subject=h1');
   });
 });
