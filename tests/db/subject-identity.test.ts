@@ -46,6 +46,8 @@ describe('mergeChildren', () => {
     expect(await db.children.get('dup1')).toBeUndefined();
     expect(await db.children.get('dup2')).toBeUndefined();
     expect(await db.children.get('primary')).toBeTruthy();
+    const moved = await db.assessments.where('childId').equals('primary').toArray();
+    expect(moved.every((a) => a.updatedAt instanceof Date)).toBe(true);
   });
 
   it('never deletes the primary even if it appears in mergedIds', async () => {

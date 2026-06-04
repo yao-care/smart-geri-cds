@@ -15,7 +15,12 @@ export async function getAllChildren(): Promise<Child[]> {
   return db.children.orderBy('createdAt').reverse().toArray();
 }
 
-/** 更新既有受測者（沿用同 id）。呼叫端須帶原 id 與原 createdAt。 */
+/**
+ * 更新既有受測者（沿用同 id）。
+ * 注意：`db.children.put` 為「整筆覆寫」(full replace)——呼叫端必須帶上原 `id`
+ * 與原 `createdAt`，否則會覆蓋建立時間。沿用流程（startForExisting）以
+ * `{ ...selectedChild, …編輯欄位 }` 傳入，確保原值保留。
+ */
 export async function updateChild(child: Child): Promise<void> {
   await db.children.put(child);
 }
