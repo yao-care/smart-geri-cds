@@ -15,6 +15,11 @@ export async function getAllChildren(): Promise<Child[]> {
   return db.children.orderBy('createdAt').reverse().toArray();
 }
 
+/** 更新既有受測者（沿用同 id）。呼叫端須帶原 id 與原 createdAt。 */
+export async function updateChild(child: Child): Promise<void> {
+  await db.children.put(child);
+}
+
 // ---- Assessment DAO ----
 export async function createAssessment(
   childId: string,
