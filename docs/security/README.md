@@ -11,17 +11,22 @@
 
 | ISO 27001 控制項 | 文件 | 狀態 |
 |---|---|---|
-| A.5.24 事件回應規劃與演練 | [incident-response-plan.md](incident-response-plan.md) | ✅ 已記錄 1 次實戰演練（2026-06-10）；下次演練日期待排 |
-| A.5.26 事件回應聯絡窗口 | [incident-response-contacts.md](incident-response-contacts.md) | 🟡 角色已定（單人維運）；備援、私有明細指向待補 |
-| A.5.29 備份還原測試 | [backup-restore-test.md](backup-restore-test.md) | ✅ 已完成 1 次還原測試（2026-06-10，RTO 達標） |
+| A.5.24 事件回應規劃與演練 | [incident-response-plan.md](incident-response-plan.md) | ✅ 已記錄 1 次實戰演練（2026-06-10）；下次演練 2027-06-10（每年一次） |
+| A.5.26 事件回應聯絡窗口 | [incident-response-contacts.md](incident-response-contacts.md) | ✅ 角色（單人維運）／角色信箱 service@yao.care／註冊商 GoDaddy／收案機構 GCM 等皆已填；🟡 僅待指定人類備援 |
+| A.5.29 備份還原測試 | [backup-restore-test.md](backup-restore-test.md) | ✅ 已完成 1 次還原測試（2026-06-10，RTO 達標）；下次 2027-06-10 |
 
-### 仍待補（只有維運者本人能填，建議放私有 ISMS 或本檔指向）
+### 已確認的關鍵事實（2026-06-10）
 
-- 私有 ISMS 明細的**保管位置**（密碼保管庫／私有筆記頁）→ 填入各檔「見私有 ISMS」的實際指向。
-- **網域註冊商**名稱（DNS 託管已知為 Linode）。
-- **收案機構**（FHIR 接收方）的通報窗口。
-- **備援聯絡人**（緩解單人維運單點風險）。
-- 下次 IR 演練的**排程日期**。
+- 角色信箱：`service@yao.care`（受監控通報入口）。
+- 網域 `yao.care`：註冊商 **GoDaddy.com, LLC**（到期 2027-04-16）、DNS 託管 **Linode**。
+- 收案機構：**GCM 協會**與其他合作醫院；上傳為**選用**，客戶可不收案。
+- 私有 ISMS：維運者私有 QC 目錄 `agent.system-integration-quality-control`（本機，路徑不公開）。
+- 常態週期：IR 演練 + 還原測試**每年一次**；建議另加**每季**相依掃描。
+
+### 仍建議補強（非阻斷）
+
+- **人類備援聯絡人**：目前僅單人維運 + 角色信箱，無第二名人類備援。建議至少指定一名，
+  在主維運者失聯時能觸發回滾/通知，明細納入私有 ISMS。
 
 ## 本系統的資安特性（撰寫程序時的前提）
 
