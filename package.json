@@ -84,12 +84,17 @@
   },
   "pnpm": {
     "overrides": {
-      "shell-quote": "^1.8.4",
       "devalue": "^5.8.1",
       "protobufjs": "^7.5.8",
       "uuid": "^11.1.1",
       "ws": "^8.20.1",
       "postcss": "^8.5.15"
-    }
+    },
+    "ignoredOptionalDependencies": [
+      "expo-random",
+      "react-native-securerandom",
+      "@unimodules/core",
+      "@unimodules/react-native-adapter"
+    ]
   }
 }
