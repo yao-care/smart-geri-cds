@@ -14,6 +14,14 @@ jobs:
         with: { node-version: 22, cache: 'pnpm' }
       - run: pnpm install --frozen-lockfile
 
+      - name: Reject bidirectional Unicode control chars (Trojan Source / CWE-94)
+        run: |
+          if grep -rlnP '[\x{202A}-\x{202E}\x{2066}-\x{2069}\x{200E}\x{200F}\x{061C}]' src public/data; then
+            echo "::error::Bidirectional Unicode control characters found above (Trojan Source risk). Strip them — e.g. perl -CSD -i -pe 's/[\x{202A}-\x{202E}\x{2066}-\x{2069}\x{200E}\x{200F}\x{061C}]//g' <file>."
+            exit 1
+          fi
+          echo "No bidirectional Unicode control characters found."
+
       - name: Regenerate generated indexes
         run: |
           pnpm exec tsx scripts/build-content-index.ts
