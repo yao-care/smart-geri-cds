@@ -11,9 +11,17 @@
 
 | ISO 27001 控制項 | 文件 | 狀態 |
 |---|---|---|
-| A.5.24 事件回應規劃與演練 | [incident-response-plan.md](incident-response-plan.md) | 範本待執行演練 |
-| A.5.26 事件回應聯絡窗口 | [incident-response-contacts.md](incident-response-contacts.md) | 範本待填聯絡人 |
-| A.5.29 備份還原測試 | [backup-restore-test.md](backup-restore-test.md) | 範本待執行還原測試 |
+| A.5.24 事件回應規劃與演練 | [incident-response-plan.md](incident-response-plan.md) | ✅ 已記錄 1 次實戰演練（2026-06-10）；下次演練日期待排 |
+| A.5.26 事件回應聯絡窗口 | [incident-response-contacts.md](incident-response-contacts.md) | 🟡 角色已定（單人維運）；備援、私有明細指向待補 |
+| A.5.29 備份還原測試 | [backup-restore-test.md](backup-restore-test.md) | ✅ 已完成 1 次還原測試（2026-06-10，RTO 達標） |
+
+### 仍待補（只有維運者本人能填，建議放私有 ISMS 或本檔指向）
+
+- 私有 ISMS 明細的**保管位置**（密碼保管庫／私有筆記頁）→ 填入各檔「見私有 ISMS」的實際指向。
+- **網域註冊商**名稱（DNS 託管已知為 Linode）。
+- **收案機構**（FHIR 接收方）的通報窗口。
+- **備援聯絡人**（緩解單人維運單點風險）。
+- 下次 IR 演練的**排程日期**。
 
 ## 本系統的資安特性（撰寫程序時的前提）
 

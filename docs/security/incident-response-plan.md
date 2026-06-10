@@ -48,11 +48,20 @@ flowchart LR
 
 ## 5. 演練記錄
 
-> 每次演練後**新增一列**並填入真實資訊。範本列僅供格式參考，請勿留作記錄。
+> 每次演練後**新增一列**並填入真實資訊。
 
-| 演練日期 | 形式（桌面/實機） | 情境 | 參與人員 | 發現問題 | 改善事項 | 下次演練排程 |
+| 演練日期 | 形式 | 情境 | 參與人員（角色） | 發現問題 | 改善事項 | 下次演練排程 |
 |---|---|---|---|---|---|---|
-| （填寫 YYYY-MM-DD） | （填寫） | （如：供應鏈 Critical CVE） | （填寫姓名/角色） | （填寫） | （填寫） | （填寫） |
+| 2026-06-10 | 實機（實戰） | 供應鏈 Critical CVE：shell-quote 1.8.3 命令注入（CVE-2026-9277），另 7 High | 技術負責 + 部署/基礎設施 | ① 公開 repo 經 fhirclient→isomorphic-webcrypto 的 RN-only optionalDeps 默默引入整套 expo/react-native 死碼（335 套件），擴大供應鏈攻擊面；② 無 CI 防線阻擋 Bidi/Trojan-Source 字元 | ① 以 `pnpm.ignoredOptionalDependencies` 連根移除 RN 子樹；② 其餘 CVE 以 `pnpm.overrides`/升版修補；③ 新增 CI Bidi lint gate；④ 建立本 ISMS 文件。後續可評估導入 `pnpm audit` / Dependabot 例行掃描 | （填寫 YYYY-MM-DD） |
+
+### 本次（2026-06-10）實戰時序摘要
+
+- **偵測**：收到資安掃描報告（ID `20260610-044817-b638`），1 Critical + 7 High。
+- **分級**：P1（Critical 命令注入於相依層）。
+- **遏制／復原**：定位根因為死碼子樹 → 針對性移除；其餘相依升版。**全程於同一工作階段內完成並部署上線，遠低於 P1 ≤1 小時的遏制目標。**
+- **驗證**：505 tests 全綠、`--frozen-lockfile` CI 通過、`pnpm build` 完整、正式站 HTTP 200。
+- **資料影響評估**：純相依／SAST 層，未觸及已上傳之 FHIR 資料，**無需依 A.5.26 通知收案機構**。
+- **commit**：`50837b5`、`a8ed791`、`26bf0d4`、`60af051`（main）。
 
 ### 演練情境建議（可輪流採用）
 

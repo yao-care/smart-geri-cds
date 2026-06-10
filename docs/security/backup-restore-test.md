@@ -5,12 +5,12 @@
 
 ## 1. 備份標的與策略
 
-| 資產 | 儲存位置 | 備份方式 | 還原方式 | RPO | RTO |
+| 資產 | 儲存位置 | 備份方式 | 還原方式 | RPO | RTO（目標） |
 |---|---|---|---|---|---|
-| 原始碼 + 產生檔 | GitHub repo（`main`） | Git 分散式歷史；建議鏡像至第二遠端 | clone/重建 | 即時（每次 commit） | （填寫） |
-| GitHub Pages 部署 | GitHub Pages | 由 `deploy.yml` 從 `main` 重建 | 重新觸發 workflow | n/a（可重建） | （填寫，如 ≤30 分） |
-| 網域 / DNS 設定 | 網域註冊商 / DNS 商 | 匯出 DNS zone 設定留存 | 依留存設定還原 | （填寫） | （填寫） |
-| CI/部署密鑰 | GitHub Actions secrets | 來源憑證留存於密鑰保管 | 重新產生並寫回 | n/a | （填寫） |
+| 原始碼 + 產生檔 | GitHub repo（`main`） | Git 分散式歷史；建議鏡像至第二遠端 | clone/重建 | 即時（每次 commit） | ≤30 分（實測乾淨重建 45s，見下方測試） |
+| GitHub Pages 部署 | GitHub Pages（CNAME `yao-care.github.io`） | 由 `deploy.yml` 從 `main` 重建 | 重新觸發 workflow | n/a（可重建） | ≤30 分（實測 push→上線 1m9s） |
+| 網域 / DNS 設定 | DNS 託管：**Linode**（ns1-5.linode.com）；網域註冊商：（填寫） | 匯出 DNS zone 設定留存 | 依留存設定於 Linode 還原 | 依 zone 留存頻率（填寫，如每次異動後） | （填寫，如 ≤4 小時，受註冊商/傳播時間影響） |
+| CI/部署密鑰 | GitHub Actions secrets | 來源憑證留存於密鑰保管（位置：填寫） | 重新產生並寫回 secrets | n/a | （填寫，如 ≤1 小時） |
 | 使用者評估資料 | 用戶瀏覽器 IndexedDB | **本系統不集中持有**；屬用戶端 | 由系統匯出/PDF 功能 | n/a | n/a |
 | 已上傳 FHIR 資料 | **收案機構 FHIR 伺服器** | 由收案機構依其 ISMS 負責 | 同左 | 依機構 | 依機構 |
 
@@ -23,7 +23,7 @@
 
 | 測試日期 | 測試標的 | 方法 | 結果（成功/問題） | 實測 RTO | 達標? | 負責人 |
 |---|---|---|---|---|---|---|
-| （填寫 YYYY-MM-DD） | （如：從 main 全新重建並部署） | （填寫） | （填寫） | （填寫） | （是/否） | （填寫） |
+| 2026-06-10 | 從 `main` 全新重建並驗證可部署 | 乾淨環境 `git clone --depth 1` → `pnpm install --frozen-lockfile` → `pnpm build`，確認產出 `dist/index.html` | 成功，產出可部署靜態檔；同日 CI `deploy.yml` 實際部署上線、正式站 HTTP 200 | clone 9s + install 11s + build 25s = **45s**（本地重建）；push→上線 **1m9s**（CI 部署） | 是（≤30 分） | 部署/基礎設施 |
 
 ### 建議測試項目
 
