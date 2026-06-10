@@ -12,7 +12,7 @@
 | ISO 27001 控制項 | 文件 | 狀態 |
 |---|---|---|
 | A.5.24 事件回應規劃與演練 | [incident-response-plan.md](incident-response-plan.md) | ✅ 已記錄 1 次實戰演練（2026-06-10）；下次演練 2027-06-10（每年一次） |
-| A.5.26 事件回應聯絡窗口 | [incident-response-contacts.md](incident-response-contacts.md) | ✅ 角色（單人維運）／角色信箱 service@yao.care／註冊商 GoDaddy／收案機構 GCM 等皆已填；🟡 僅待指定人類備援 |
+| A.5.26 事件回應聯絡窗口 | [incident-response-contacts.md](incident-response-contacts.md) | ✅ 角色／角色信箱 service@yao.care（兼備援管道）／註冊商 GoDaddy／收案機構 GCM 等皆已填 |
 | A.5.29 備份還原測試 | [backup-restore-test.md](backup-restore-test.md) | ✅ 已完成 1 次還原測試（2026-06-10，RTO 達標）；下次 2027-06-10 |
 
 ### 已確認的關鍵事實（2026-06-10）
@@ -25,8 +25,9 @@
 
 ### 仍建議補強（非阻斷）
 
-- **人類備援聯絡人**：目前僅單人維運 + 角色信箱，無第二名人類備援。建議至少指定一名，
-  在主維運者失聯時能觸發回滾/通知，明細納入私有 ISMS。
+- **第二位監看者**：備援管道已定為 `service@yao.care`，但其韌性取決於是否有**第二人
+  也監看**此信箱。若目前僅單人監看，「主維運者失聯」情境仍未真正緩解——建議安排一名
+  獨立的人共同監看並具回滾權限。
 
 ## 本系統的資安特性（撰寫程序時的前提）
 
