@@ -8,6 +8,13 @@ async function fetchFontBase64(filename: string, exportName: string): Promise<st
   const res = await fetch(url);
   if (!res.ok) throw new Error(`Failed to fetch ${url}: ${res.status}`);
   const text = await res.text();
+  // `exportName` is always an internal, build-time-fixed constant (the two
+  // call sites below), never user input. Validate it as a plain JS identifier
+  // anyway so no regex metacharacter can ever reach the dynamic RegExp —
+  // this rules out ReDoS (CWE-1333) by construction and clears the SAST gate.
+  if (!/^[A-Za-z_$][A-Za-z0-9_$]*$/.test(exportName)) {
+    throw new Error(`Invalid font export identifier: ${exportName}`);
+  }
   const match = text.match(new RegExp(`export const ${exportName} = '([^']+)'`));
   if (!match) throw new Error(`Cannot parse font module: ${filename}`);
   return match[1];

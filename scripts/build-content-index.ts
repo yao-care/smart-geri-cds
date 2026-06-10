@@ -24,6 +24,16 @@ import {
 } from '../src/lib/education/schemas.js';
 
 // ---------------------------------------------------------------------------
+// Bidi sanitisation — strip Unicode bidirectional control characters that
+// leak in when copy-pasting video titles (e.g. YouTube wraps @handles in
+// U+202A…U+202C). They are invisible, carry no meaning for our data, and
+// trip Trojan-Source (CWE-94) SAST gates. Defence-in-depth so regeneration
+// never reintroduces them even if a source YAML slips one through.
+const BIDI_CONTROL =
+  /[\u202A-\u202E\u2066-\u2069\u200E\u200F\u061C]/g;
+const stripBidi = (s: string): string => s.replace(BIDI_CONTROL, '');
+
+// ---------------------------------------------------------------------------
 // Frontmatter helper — reads title/summary from education markdown files
 // ---------------------------------------------------------------------------
 
@@ -133,8 +143,8 @@ export async function buildContentIndex(opts: BuildOptions = {}): Promise<Runtim
       id,
       {
         videoId: v.videoId,
-        title: v.title,
-        channel: v.channel,
+        title: stripBidi(v.title),
+        channel: stripBidi(v.channel),
         duration: v.duration,
         language: v.language,
         sourceTier: v.sourceTier,
