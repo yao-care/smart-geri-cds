@@ -10,7 +10,7 @@
  *
  * 為何保留 'unsafe-inline'：Astro 會內嵌關鍵 CSS 與島嶼水合腳本，且本層加入內嵌
  * frame-busting 腳本，移除後頁面會壞。因此 ZAP 10055 仍會就 unsafe-inline 提出
- * WARN——屬已知且接受的殘餘風險，其餘指令皆已收斂（見 .zap/rules.tsv）。
+ * WARN——屬已知且接受的殘餘風險，其餘指令皆已收斂（見 docs/.zap/rules.tsv）。
  *
  * connect-src 為何用 `https:`：SMART on FHIR 的醫院端 launch 會以醫院動態帶入的
  * `iss`（任意 FHIR server origin）發出頁內請求，無法事先列舉白名單；以 `https:`
