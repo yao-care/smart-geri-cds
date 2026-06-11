@@ -1,0 +1,35 @@
+# ZAP baseline 規則設定 — smart-geri-cds
+# 用法：zap-baseline.py -t https://smart-geri-cds.yao.care/ -c .zap/rules.tsv
+#
+# 格式（zap-baseline）：<rule_id><TAB><WARN|IGNORE|FAIL>[<TAB>url_regex]
+#   - 每行第三欄（若有）是「URL 正則」，不是說明文字；說明一律寫在 # 註解行。
+#   - 動作：FAIL 擋 CI、WARN 僅警示、IGNORE 完全略過。
+#
+# 部署環境：GitHub Pages 靜態托管（server: GitHub.com，未經 Cloudflare proxy），
+# 無法設定自訂 HTTP 回應標頭。下列標頭類告警對「純靜態、無登入、無 PII、
+# GET 無狀態變更」的 CDS 工具頁屬可接受殘餘風險，降為 WARN（不擋 CI）。
+# 全站實際資安基線見 docs 內 IR/資安文件。
+
+# 10055 CSP：已於 Base.astro 以 meta 投遞完整 policy（default-src/object-src 'none'/
+#   base-uri/connect-src 等已收斂）。殘留 WARN 來自 'unsafe-inline'——Astro 內嵌
+#   關鍵 CSS 與島嶼水合腳本必需，GitHub Pages 無法改用 nonce/hash。屬已知殘餘風險。
+10055	WARN
+
+# 10020 Anti-Clickjacking：GitHub Pages 無法送 X-Frame-Options，且 frame-ancestors
+#   於 meta 會被忽略。改以 JS frame-busting 緩解（Base.astro：被非同源嵌入即隱藏並跳出）。
+10020	WARN
+
+# 10098 Cross-Domain Misconfiguration：GitHub CDN 對靜態公開資產一律回 ACAO:*，
+#   無法變更。資產皆公開唯讀、無憑證/Cookie，CORS 寬鬆不構成實質風險。
+10098	WARN
+
+# 90004 COOP/COEP Site Isolation：純 HTTP 標頭，GitHub Pages 無法設定。
+#   本站未使用 SharedArrayBuffer / 跨來源隔離，缺此標頭無功能性風險。
+90004	WARN
+
+# 10063 Permissions-Policy：純 HTTP 標頭，meta 不支援，GitHub Pages 無法設定。
+10063	WARN
+
+# 10021 X-Content-Type-Options (nosniff)：純 HTTP 標頭，meta 不支援，
+#   GitHub Pages 無法設定。靜態資產 MIME 由 CDN 正確標示，sniffing 風險低。
+10021	WARN

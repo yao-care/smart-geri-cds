@@ -1,6 +1,7 @@
 ---
 import OfflineBanner from '../components/common/OfflineBanner.svelte';
 import { BASE_PATH } from '../../scripts/base.mjs';
+import { CONTENT_SECURITY_POLICY } from '../lib/security/csp';
 
 interface Props {
   title: string;
@@ -23,7 +24,23 @@ import '../styles/global.css';
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta http-equiv="Content-Security-Policy" content="frame-src https://www.youtube-nocookie.com;" />
+    {/* CSP 僅於正式建置投遞：dev 端會擋掉 Vite HMR 的 ws 連線。
+        meta 不支援 frame-ancestors，點擊劫持改由下方 frame-busting 緩解。 */}
+    {import.meta.env.PROD && (
+      <meta http-equiv="Content-Security-Policy" content={CONTENT_SECURITY_POLICY} />
+    )}
+    {/* 點擊劫持緩解（10020）：GitHub Pages 無法送 X-Frame-Options。被非同源
+        嵌入時隱藏內容並嘗試跳出框架；未被嵌入則完全不影響（含 no-JS 使用者）。 */}
+    <script is:inline>
+      if (window.self !== window.top) {
+        document.documentElement.style.visibility = 'hidden';
+        try {
+          window.top.location = window.self.location;
+        } catch (e) {
+          /* 跨來源無法存取 top.location：頁面維持隱藏 */
+        }
+      }
+    </script>
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalURL.href} />
