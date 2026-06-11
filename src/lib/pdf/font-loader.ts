@@ -15,6 +15,7 @@ async function fetchFontBase64(filename: string, exportName: string): Promise<st
   if (!/^[A-Za-z_$][A-Za-z0-9_$]*$/.test(exportName)) {
     throw new Error(`Invalid font export identifier: ${exportName}`);
   }
+  // nosemgrep: javascript.lang.security.audit.detect-non-literal-regexp.detect-non-literal-regexp — 經資安負責人 2026-06-11 簽核判定為誤報：正則輸入非使用者外部可控，無 ReDoS 實際風險，風險接受
   const match = text.match(new RegExp(`export const ${exportName} = '([^']+)'`));
   if (!match) throw new Error(`Cannot parse font module: ${filename}`);
   return match[1];
