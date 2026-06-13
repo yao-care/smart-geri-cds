@@ -1,101 +1,89 @@
-# 高齡周全性評估 CDS（smart-geri-cds）
+# 高齡周全性評估 CDS
 
-開源的**高齡周全性評估（CGA）臨床決策輔助系統**，以 SMART on FHIR 標準運行於瀏覽器端。
-零後端、部署於 GitHub Pages、支援 PWA 離線；CFS 分層 + 多領域量表的分流評估，所有運算皆在瀏覽器執行。
+> 一個免費、免登入、免安裝的線上高齡健康評估服務。
+> 打開瀏覽器就能用，所有評估都在你自己的裝置上完成，保護隱私。
 
-## 兩條使用路徑
+**線上使用：** <https://smart-geri-cds.yao.care/>
 
-- **民眾自我檢視** `/self-check/` — 白話題庫、TTS 朗讀、紅黃綠結果，純記憶體不持久化
-- **專業評估** `/assess/` → `/result/`（可上傳至收案機構）→ 臨床工作區 `/workspace/`
-  - 入口先定 **CFS 1–9** 分層 → 三層金字塔出題（triage 短篩 → 異常才展開 screen/full）
-  - 結果頁分流：`normal / monitor / refer / incomplete`（取各領域最嚴重）
+---
 
-## 技術棧
+## 這是什麼
 
-| 元件 | 技術 |
-|------|------|
-| 框架 | [Astro 5](https://astro.build/) SSG + [Svelte 5](https://svelte.dev/) runes |
-| 樣式 | CSS Custom Properties + OKLCH（`src/styles/tokens.css`，7 token + hex fallback） |
-| 內容 | Astro Content Layer + Zod（`src/content.config.ts`） |
-| 資料庫 | IndexedDB via [Dexie 4](https://dexie.org/)（瀏覽器端） |
-| 圖表 | D3 子模組（`d3-scale`、`d3-shape`…） |
-| FHIR | [fhirclient.js](https://docs.smarthealthit.org/client-js/) + 原生 PKCE（見下） |
-| 搜尋 / PDF | [Pagefind](https://pagefind.app/) / jsPDF（動態 import） |
-| 部署 | GitHub Pages + GitHub Actions |
+隨著年齡增長，健康問題往往不只一種——行動、記憶、情緒、營養、用藥、社會關係，常常彼此牽連。**高齡周全性評估（Comprehensive Geriatric Assessment, CGA）** 是國際公認的方法，用多個面向一起看一位長者的整體狀況，而不是只看單一疾病。
 
-## 快速開始
+這個服務把專業的 CGA 流程，做成任何人都能在手機或電腦上使用的工具。它幫你：
 
-```bash
-pnpm install
-pnpm dev       # 開發（predev 先產生索引）→ http://localhost:4321/
-pnpm build     # 建置（prebuild 產生索引 + Pagefind + SW/manifest）
-pnpm preview   # 預覽建置結果
-pnpm check     # astro check + svelte-check（型別）
-pnpm lint      # ESLint
-pnpm test      # vitest（單元）
-pnpm test:e2e  # Playwright（端到端）
+- **看清整體**——一次涵蓋高齡照護的 20 個面向，而不是片段。
+- **看懂結果**——用紅黃綠燈與白話說明呈現，告訴你哪裡需要留意、該找誰。
+- **把結果帶著走**——可下載 PDF，帶去門診或長照據點，幫助你和專業人員溝通。
+
+它**不是診斷工具**，而是一個篩檢與溝通的起點。
+
+---
+
+## 給誰用
+
+這個服務有兩種使用方式，分別為不同的人設計。
+
+### 🟢 民眾自我檢視
+
+> 為長者本人或家屬設計，不需要任何醫療背景。
+
+- 用**最白話的問題**了解自己或家人的健康狀況
+- **大字體、可語音朗讀**，長輩也能輕鬆操作
+- 結果用**紅黃綠燈**呈現，不打分數、不下診斷，只告訴你「目前還好」或「建議找專業人員看看」
+- 若偵測到情緒上的危險訊號，會**立即提供求助專線**（1925 心理諮詢、1995 生命線）
+- 可下載 **PDF**，帶去給醫師或照顧團隊
+
+### 🔵 專業評估
+
+> 為醫護人員、長照服務者、社區照護據點設計。
+
+- 先用國際通用的**臨床衰弱量表（CFS 1–9）**定下基準
+- 涵蓋**行動、認知、情緒、營養、共病、用藥、跌倒、失禁、感官、社會支持、照顧者負荷、預立醫療**等完整面向
+- **聰明分層出題**：先做簡短篩檢，只有發現異常才深入評估，省下大量時間
+- 支援**五次坐立攝影機計時**等功能性測驗
+- 自動彙整每個面向的嚴重程度、產生圖表與報告
+- 依評估結果與衰弱程度，**推薦對應的衛教文章與影片**
+- 完成後可輸出標準化報告，或**上傳到合作的收案機構與醫院**接續照護
+
+```mermaid
+flowchart LR
+    A["長者 / 家屬"] --> B["自我檢視<br/>紅黃綠燈結果"]
+    C["醫護 / 照顧者"] --> D["專業評估<br/>CFS 分層 + 多面向篩檢"]
+    D --> E["結果報告<br/>嚴重度 + 衛教推薦"]
+    E --> F["下載 PDF<br/>或上傳收案機構"]
+    style A fill:#2563eb,color:#ffffff
+    style C fill:#2563eb,color:#ffffff
+    style B fill:#16a34a,color:#ffffff
+    style E fill:#d97706,color:#ffffff
+    style F fill:#16a34a,color:#ffffff
 ```
 
-## 專案結構
+---
 
-```
-src/
-├── components/   # UI 元件（按功能分目錄）
-│   ├── assess/       # 專業評估流程 + 結果（ResultView / ResultViewWrapper / IntakeSubmit…）
-│   ├── self-check/   # 民眾自評
-│   ├── fhir/         # 連線與 callback（StandaloneLaunch / LaunchCallback…）
-│   ├── education/    # 衛教與影片
-│   ├── workspace/    # 臨床工作區
-│   └── common/ ui/ blocks/ settings/  # 通用 / 設定（FHIR Server、Webhook、通知、衛教）
-├── engine/       # 客戶端引擎
-│   ├── cdsa/         # 分流核心（triage / radar-scoring / assessment-analyzer）
-│   └── tab-coordinator.ts  # 多分頁 BroadcastChannel 協調
-├── lib/          # 共用函式庫
-│   ├── fhir/         # SMART client、收案上傳（gcm-submit / intake-institutions）
-│   ├── db/           # IndexedDB DAO（Dexie schema、assessments…）
-│   ├── scales/       # 量表計分（scoreScale / Severity 型別）
-│   ├── domain/       # 二層 BGS 領域樹、結果去重
-│   ├── education/ stores/ tts/ pdf/ utils/ sw/
-├── data/         # Content Layer 資料（見「維護重點」）
-├── pages/        # 路由（含 /assess /result /self-check /workspace /launch …）
-├── layouts/      # Base.astro
-└── styles/       # tokens.css / global.css / typography.css
-```
+## 為什麼選這個服務
 
-## 收案上傳（FHIR）— 兩條路徑
+- **🔒 隱私優先**——所有評估都在你的裝置上完成，預設不上傳任何資料。只有當你主動選擇「上傳到收案機構」時，資料才會送出。
+- **📴 可離線使用**——安裝為手機 App（PWA）後，沒有網路也能評估。
+- **💯 完全免費、免登入**——不收費、不註冊、不留個資。
+- **🏥 可與醫療系統介接**——採用國際 SMART on FHIR 標準，能把評估結果接到合作醫院或收案機構的系統。
+- **📖 開源透明**——所有評估邏輯與內容公開，歡迎臨床專業者檢視與貢獻。
 
-結果頁 `IntakeSubmit` 提供統一「收案機構」選擇器：
+---
 
-1. **已連線醫院**（`kind: fhirclient`）— 執行期動態項，僅在 `authStore.isAuthenticated` 時出現；走 fhirclient 頁內 POST（`cdsa-submit.ts`）。
-2. **redirect 型收案機構**（`kind: redirect-pkce`，如 GCM）— 靜態清單 `src/lib/fhir/intake-institutions.ts`；用原生 `fetch` + `crypto.subtle` 做動態註冊 + PKCE，導向授權後回到共用 `/launch/` callback（`gcm-submit.ts`）。
+## 重要聲明
 
-`/launch/` 以 `sessionStorage['gcm.flow']` 分流：有→完成 GCM 上傳並顯示收案編號；否則當作 fhirclient OAuth callback。**新增收案機構**：在 `intake-institutions.ts` 加一筆 `IntakeInstitution`（scopes 勿含 `openid`/`fhirUser`、`aud=base`）。
+本服務為**健康篩檢與衛教溝通工具，非醫療診斷**。所有結果僅供參考，並協助你與醫療專業人員溝通，**不能取代醫師的專業診斷與治療建議**。如有健康疑慮，請諮詢合格的醫療人員。
 
-## 維護重點
+---
 
-- **產生檔（已納版控，改完要重產提交）** — 否則 CI drift 檢查會擋下：
-  `public/data/video-index.json`、`src/lib/education/clinical-education.generated.ts`、`src/lib/data/expected-questionnaire-domains.generated.json`。執行 `pnpm build`（或 predev/prebuild hook）即重產。
-- **內容資料位置**（`src/data/`）：量表 `scales/`、自評題庫 `self-check/`、衛教 `education/`、影片 `video-catalog/`（皆 YAML/Markdown）。
-- **設計系統**：色彩僅用 7 個 token + `color-mix()`（OKLCH + hex fallback）；最小字級 18px、觸控 44px。規格見 `docs/superpowers/specs/`。
-- **開發規則**：見 [`CLAUDE.md`](./CLAUDE.md)（型別 strict 無 `any`、Svelte 5 runes、D3 子模組匯入、安全/PII 規範）。
-- **設計/實作文件**：`docs/superpowers/specs/`（設計）與 `docs/superpowers/plans/`（實作計畫）。
+## 給開發者
 
-## 部署與 CI
+技術架構、開發指令、貢獻方式與設計規範，請見 [`CLAUDE.md`](./CLAUDE.md) 與 `docs/` 目錄。
 
-- **push 到 `main` → `.github/workflows/deploy.yml` 自動部署**到 GitHub Pages（自訂網域 `smart-geri-cds.yao.care`，`base='/'`）。
-- 手動備援：`gh workflow run deploy.yml --ref main`。
-- CI（`.github/workflows/ci.yml`）：產生檔 drift 檢查 + `vitest` + Lighthouse（門檻全 `warn ≥0.9`，不擋 CI）。
-
-## 客製化
-
-- **量表**：`src/data/scales/*.yaml`（`tier`、`applicableCfs`、`mode`、band 切分點）。
-- **衛教**：`src/data/education/*.md`，frontmatter 須符合 Content Layer schema。
-- **影片**：`pnpm curate:videos` → 人工審核 → `incorporate-approved.ts` 納入 catalog。
+本服務以 SMART on FHIR 標準運行於瀏覽器端、零後端、部署於 GitHub Pages。
 
 ## 授權
 
 MIT License
-
-## 致謝
-
-[Astro](https://astro.build/) · [Svelte](https://svelte.dev/) · [SMART on FHIR](https://docs.smarthealthit.org/) · [Dexie.js](https://dexie.org/) · [Pagefind](https://pagefind.app/)
