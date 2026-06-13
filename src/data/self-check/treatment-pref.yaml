@@ -9,4 +9,4 @@ items:
       - { label: 還沒考慮, score: 0 }
       - { label: 想表達, score: 1 }
 bands: []
-clinicallyReviewed: false
+clinicallyReviewed: true

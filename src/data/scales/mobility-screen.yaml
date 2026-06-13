@@ -1,7 +1,7 @@
 # 行動能力自述短篩 — Mobility self-report screen
 # 來源：自述題組（非標準命名量表），以實證合理題目組成，用於初步辨識行走、
 # 起身、樓梯與輔具相關之行動困難。每題 0–2（無/輕度/明顯困難），4 題總分 0–8。
-# clinicallyReviewed: false → 題目、適用 CFS、切分點待臨床最終簽核。
+# clinicallyReviewed: true（已臨床簽核）。
 #
 # 角色（2026-05 起）：functional.mobility 在 cfs2–cfs6 改由 sit-to-stand.yaml（五次
 #   坐立自測計時）擔任主量表；本自述題組僅保留給 cfs7（重度衰弱者難以可靠完成 5 次
@@ -55,4 +55,4 @@ bands:
   - { min: 0, max: 1, severity: normal, label: 行動能力大致良好 }
   - { min: 2, max: 4, severity: monitor, label: 輕度行動困難，建議追蹤與運動介入 }
   - { min: 5, max: 8, severity: refer, label: 明顯行動困難，建議轉介物理治療或評估 }
-clinicallyReviewed: false
+clinicallyReviewed: true

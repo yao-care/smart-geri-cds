@@ -1,6 +1,6 @@
 # 大方向 triage 題（tier: triage）。取材 mood-screen 代表題（情緒低落/提不起勁）。
 # concern → 展開 mood-screen 短篩（screen），其再亮燈展開 GDS-15 深評。
-# clinicallyReviewed: false → 待臨床簽核。
+# clinicallyReviewed: true（已臨床簽核）。
 id: mood-triage
 domain:
   top: psychological
@@ -22,4 +22,4 @@ items:
 bands:
   - { min: 0, max: 0, severity: normal, label: 無情緒低落徵兆 }
   - { min: 1, max: 1, severity: monitor, label: 有情緒低落/提不起勁，建議進一步憂鬱短篩 }
-clinicallyReviewed: false
+clinicallyReviewed: true

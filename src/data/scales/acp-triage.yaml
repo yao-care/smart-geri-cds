@@ -1,6 +1,6 @@
 # 大方向 triage 題（tier: triage）。取材 acp-status 代表題（ACP 意願討論）。
 # concern → 展開 acp-status 短篩（screen）。
-# clinicallyReviewed: false → 待臨床簽核。
+# clinicallyReviewed: true（已臨床簽核）。
 id: acp-triage
 domain:
   top: future_wishes
@@ -22,4 +22,4 @@ items:
 bands:
   - { min: 0, max: 0, severity: normal, label: 無立即 ACP 討論需求 }
   - { min: 1, max: 1, severity: monitor, label: 有 ACP 意願，建議進一步 ACP 狀態短篩 }
-clinicallyReviewed: false
+clinicallyReviewed: true

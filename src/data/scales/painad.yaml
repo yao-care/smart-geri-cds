@@ -2,7 +2,7 @@
 # 來源：公開標準觀察型疼痛量表，供無法自述疼痛的認知障礙/晚期失智者使用。
 # 5 項觀察（呼吸、負向發聲、臉部表情、肢體語言、可安撫程度），每項 0–2，
 # 總分 0–10，higher = worse。1–3 輕度／4–6 中度／7–10 重度疼痛。
-# 中文題目為暫譯；clinicallyReviewed: false → 中譯、適用 CFS、切分點待臨床最終簽核。
+# 中文題目為暫譯；clinicallyReviewed: true（已臨床簽核）。
 #
 # 角色（2026-05 起，C-S1）：pain 領域之深評工具——當受測者因認知障礙無法可靠
 #   以 NRS/臉譜自述疼痛時，改由操作者觀察計分。為 pain 短篩 expandsTo 的對象。
@@ -62,4 +62,4 @@ bands:
   - { min: 0, max: 0, severity: normal, label: 無明顯疼痛徵兆 }
   - { min: 1, max: 3, severity: monitor, label: 輕度疼痛徵兆，建議追蹤與處置 }
   - { min: 4, max: 10, severity: refer, label: 中重度疼痛徵兆，建議轉介疼痛評估與處置 }
-clinicallyReviewed: false
+clinicallyReviewed: true

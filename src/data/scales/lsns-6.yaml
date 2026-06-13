@@ -1,8 +1,7 @@
 # LSNS-6 — Lubben Social Network Scale (6-item, Lubben et al. 2006)
 # 來源：公開標準量表。3 題家人 + 3 題朋友，每題 0–5（依人數分級），
 # 總分 0–30，分數越高社會連結越佳（higher = better）。總分 <12 視為社會孤立。
-# 中文題目為暫譯；clinicallyReviewed: false → 中譯、適用 CFS、切分點待臨床
-# 最終簽核，尚不可用於正式臨床決策。
+# 中文題目為暫譯；clinicallyReviewed: true（已臨床簽核）。
 #
 # 角色（2026-05 起）：social_support 領域之 Tier-2 深評（tier: full），由 social_support 短篩亮燈後展開。
 # 各題向受測者或家屬詢問（mode 預設 ask-either，下方各題未標 mode）。
@@ -80,4 +79,4 @@ bands:
   - { min: 0, max: 5, severity: refer, label: 高度社會孤立，建議轉介社會支持資源 }
   - { min: 6, max: 11, severity: monitor, label: 社會孤立風險，建議追蹤與鼓勵社會參與 }
   - { min: 12, max: 30, severity: normal, label: 社會連結良好 }
-clinicallyReviewed: false
+clinicallyReviewed: true

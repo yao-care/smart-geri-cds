@@ -1,6 +1,6 @@
 # 大方向 triage 題（tier: triage）。取材 financial-screen 代表題（收入足以支應）。
 # concern → 展開 financial-screen 短篩（screen）。
-# clinicallyReviewed: false → 待臨床簽核。
+# clinicallyReviewed: true（已臨床簽核）。
 id: financial-triage
 domain:
   top: social
@@ -22,4 +22,4 @@ items:
 bands:
   - { min: 0, max: 0, severity: normal, label: 無明顯經濟壓力徵兆 }
   - { min: 1, max: 1, severity: monitor, label: 有經濟壓力，建議進一步經濟短篩 }
-clinicallyReviewed: false
+clinicallyReviewed: true

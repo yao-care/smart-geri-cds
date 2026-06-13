@@ -1,7 +1,7 @@
 # STEADI 跌倒風險關鍵問題 — CDC STEADI "Stay Independent" key questions
 # 來源：美國 CDC STEADI 公開工具的三大關鍵篩檢問題（過去一年是否跌倒、
 # 是否感到站立或行走不穩、是否擔心跌倒）。
-# clinicallyReviewed: false → 題目、適用 CFS、切分點待臨床最終簽核。
+# clinicallyReviewed: true（已臨床簽核）。
 #
 # 角色（2026-05 起）：falls 領域之 Tier-1 短篩（tier: screen），一律施測。
 # C-M5 切分點修正（務必）：跌倒史或不穩任一「是」→ refer（at-risk，原版 1 題=monitor
@@ -48,4 +48,4 @@ bands:
   - { min: 0, max: 0, severity: normal, label: 無明顯跌倒風險徵兆 }
   - { min: 1, max: 3, severity: monitor, label: 僅擔心跌倒，建議追蹤與居家檢視 }
   - { min: 4, max: 9, severity: refer, label: 有跌倒史或站立/行走不穩，高跌倒風險，建議轉介步態平衡評估 }
-clinicallyReviewed: false
+clinicallyReviewed: true

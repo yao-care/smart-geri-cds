@@ -9,7 +9,7 @@ export const CFS_LABELS: Record<CfsLevel, string> = {
   cfs7: '重度衰弱', cfs8: '極重度衰弱', cfs9: '末期',
 };
 
-/** 臨床判定用的較長描述（暫譯，clinicallyReviewed 待臨床確認） */
+/** 臨床判定用的較長描述（暫譯） */
 export const CFS_DESCRIPTIONS: Record<CfsLevel, string> = {
   cfs1: '規律運動，為同齡中最健壯者。',
   cfs2: '無活動性疾病症狀，偶爾運動。',

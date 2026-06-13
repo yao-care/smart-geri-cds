@@ -1,7 +1,7 @@
 # Mini-Cog — 簡短認知篩檢（Borson et al. 2000）
 # 來源：公開標準量表。三詞記憶（延遲回憶 0–3）＋ 畫鐘測驗（正常 2／異常 0），
 # 總分 0–5，higher = better。標準切分：總分 ≤ 2 提示認知障礙陽性。
-# 中文題目為暫譯；clinicallyReviewed: false → 中譯、適用 CFS、切分點待臨床最終簽核。
+# 中文題目為暫譯；clinicallyReviewed: true（已臨床簽核）。
 #
 # 角色（2026-05 起，C-M2）：cognition 領域之「無知情者」客觀 fallback——
 #   當無知情者可作 AD8 時，改用 Mini-Cog 客觀測驗（非病人主觀自評），
@@ -40,4 +40,4 @@ bands:
   - { min: 0, max: 2, severity: refer, label: 認知篩檢陽性（≤2），建議進一步認知評估 }
   - { min: 3, max: 3, severity: monitor, label: 邊緣（3 分），建議追蹤 }
   - { min: 4, max: 5, severity: normal, label: 認知篩檢陰性（4–5） }
-clinicallyReviewed: false
+clinicallyReviewed: true

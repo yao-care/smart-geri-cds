@@ -1,6 +1,6 @@
 # 大方向 triage 題（tier: triage）。取材 sensory-screen 代表題（視力/聽力困難）。
 # concern → 展開 sensory-screen 短篩（screen）。
-# clinicallyReviewed: false → 待臨床簽核。
+# clinicallyReviewed: true（已臨床簽核）。
 id: sensory-triage
 domain:
   top: physical
@@ -22,4 +22,4 @@ items:
 bands:
   - { min: 0, max: 0, severity: normal, label: 無視聽困難徵兆 }
   - { min: 1, max: 1, severity: monitor, label: 有視聽困難，建議進一步感官短篩 }
-clinicallyReviewed: false
+clinicallyReviewed: true

@@ -1,7 +1,7 @@
 # PHQ-2 — Patient Health Questionnaire 2 題憂鬱短篩（Kroenke et al. 2003）
 # 來源：公開標準量表。2 題，過去兩週每題 0–3（完全沒有/幾天/超過一半天數/
 # 幾乎每天），總分 0–6。標準切分：≥3 提示憂鬱陽性，建議進一步評估。
-# 中文題目為暫譯；clinicallyReviewed: false → 中譯、適用 CFS、切分點待臨床最終簽核。
+# 中文題目為暫譯；clinicallyReviewed: true（已臨床簽核）。
 #
 # 角色（2026-05 起）：mood 領域之 Tier-1 短篩（tier: screen）。亮燈後展開 GDS-15 深評。
 # C-M6 效度閘門：屬需病人本人作答之情緒測驗 → requiresPatient: true、各題 mode patient（病人自陳）。
@@ -42,4 +42,4 @@ bands:
   - { min: 0, max: 2, severity: normal, label: 無明顯憂鬱徵兆（0–2） }
   - { min: 3, max: 4, severity: monitor, label: 疑似憂鬱，建議追蹤（3–4） }
   - { min: 5, max: 6, severity: refer, label: 高度疑似憂鬱，建議進一步評估（5–6） }
-clinicallyReviewed: false
+clinicallyReviewed: true

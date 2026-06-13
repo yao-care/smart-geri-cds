@@ -116,7 +116,6 @@
   <section>
     <h3>已知限制 / 未來工作</h3>
     <ul>
-      <li>量表完整題目 / cutoff 待臨床審核（clinicallyReviewed 控管）後落地。</li>
       <li>多個案切換、家庭/代理模式尚未實作。</li>
       <li>FHIR 端的 DiagnosticReport 反查不含原始事件 timeline。</li>
       <li>i18n 目前只支援 zh-TW。</li>

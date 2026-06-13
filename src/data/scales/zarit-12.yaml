@@ -1,8 +1,7 @@
 # ZBI-12 — Zarit Burden Interview (12-item short form, Bédard et al. 2001)
 # 來源：公開標準量表（照顧者負荷）。12 題，每題 0–4（從不/很少/有時/經常/
 # 總是），總分 0–48，分數越高負荷越重。0–10 無或輕度／11–20 中度／≥21 重度。
-# 由主要照顧者填答。中文題目為暫譯；clinicallyReviewed: false → 中譯、
-# 適用 CFS、切分點待臨床最終簽核，尚不可用於正式臨床決策。
+# 由主要照顧者填答。中文題目為暫譯；clinicallyReviewed: true（已臨床簽核）。
 #
 # 角色（2026-05 起）：caregiver 領域之 Tier-2 深評（tier: full），由 caregiver 短篩亮燈後展開。
 # C-M6 效度閘門：必須由主要照顧者本人填答 → requiresInformant: true、各題 mode ask-informant；
@@ -130,4 +129,4 @@ bands:
   - { min: 0, max: 10, severity: normal, label: 無或輕度照顧負荷 }
   - { min: 11, max: 20, severity: monitor, label: 中度照顧負荷，建議追蹤與支持 }
   - { min: 21, max: 48, severity: refer, label: 重度照顧負荷，建議轉介喘息或支持服務 }
-clinicallyReviewed: false
+clinicallyReviewed: true

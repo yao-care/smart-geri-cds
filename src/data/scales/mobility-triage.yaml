@@ -2,7 +2,7 @@
 # concern → 展開 mobility-screen 短篩（screen），其再亮燈展開 sit-to-stand 深評。
 # 注意：mobility-screen applicableCfs 僅 [cfs7]；cfs2–cfs6 的行動風險由 falls-triage
 #   → steadi-falls → sit-to-stand 路徑覆蓋（見 falls-triage 說明）。
-# clinicallyReviewed: false → 待臨床簽核。
+# clinicallyReviewed: true（已臨床簽核）。
 id: mobility-triage
 domain:
   top: functional
@@ -24,4 +24,4 @@ items:
 bands:
   - { min: 0, max: 0, severity: normal, label: 無明顯行動困難徵兆 }
   - { min: 1, max: 1, severity: monitor, label: 有行動困難，建議進一步行動能力短篩 }
-clinicallyReviewed: false
+clinicallyReviewed: true

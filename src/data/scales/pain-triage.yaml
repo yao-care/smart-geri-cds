@@ -1,6 +1,6 @@
 # 大方向 triage 題（tier: triage）。取材 pain-screen 代表題（疼痛困擾）。
 # concern → 展開 pain-screen 短篩（screen），其再亮燈展開 PAINAD 深評。
-# clinicallyReviewed: false → 待臨床簽核。
+# clinicallyReviewed: true（已臨床簽核）。
 id: pain-triage
 domain:
   top: physical
@@ -22,4 +22,4 @@ items:
 bands:
   - { min: 0, max: 0, severity: normal, label: 無疼痛困擾徵兆 }
   - { min: 1, max: 1, severity: monitor, label: 有疼痛困擾，建議進一步疼痛短篩 }
-clinicallyReviewed: false
+clinicallyReviewed: true

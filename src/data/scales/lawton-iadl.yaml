@@ -1,8 +1,7 @@
 # Lawton-Brody IADL — 工具性日常生活活動量表（Lawton & Brody 1969，8 項）
 # 來源：公開標準量表。採二分計分摘要法：每項依能力計 1（獨立）或 0（依賴），
 # 總分 0–8，分數越高越獨立（higher = better）。8 分獨立／6–7 部分依賴／
-# ≤5 高度依賴。中文題目為暫譯；clinicallyReviewed: false → 中譯、適用 CFS、
-# 切分點待臨床最終簽核，尚不可用於正式臨床決策。
+# ≤5 高度依賴。中文題目為暫譯；clinicallyReviewed: true（已臨床簽核）。
 #
 # 角色（2026-05 起）：iadl 領域之 Tier-2 深評（tier: full），由 iadl 短篩亮燈後展開。
 # C-S4 per-item mode：工具性活動以向受測者或家屬詢問為主（各題 mode ask-either）。
@@ -77,4 +76,4 @@ bands:
   - { min: 0, max: 5, severity: refer, label: 高度依賴，建議轉介評估 }
   - { min: 6, max: 7, severity: monitor, label: 部分依賴，建議追蹤 }
   - { min: 8, max: 8, severity: normal, label: 工具性日常活動獨立 }
-clinicallyReviewed: false
+clinicallyReviewed: true

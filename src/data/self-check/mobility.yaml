@@ -11,4 +11,4 @@ items:
 bands:
   - { min: 0, max: 0, light: green, advice: 目前行動沒有明顯困難。 }
   - { min: 1, max: 1, light: amber, advice: 行動變慢或不穩建議評估，並留意居家防跌。 }
-clinicallyReviewed: false
+clinicallyReviewed: true

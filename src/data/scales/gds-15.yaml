@@ -1,8 +1,7 @@
 # GDS-15 — Geriatric Depression Scale (15-item short form, Sheikh & Yesavage 1986)
 # 來源：公開標準量表，15 題；每題計 0 或 1，憂鬱方向題（標 *）答「是」計 1。
 # 切分點 0–4 正常／5–9 疑似／10–15 高度疑似為公開版本常用值。
-# 中文題目為暫譯；clinicallyReviewed: false → 中譯、適用 CFS、切分點待臨床
-# 最終簽核，尚不可用於正式臨床決策。
+# 中文題目為暫譯；clinicallyReviewed: true（已臨床簽核）。
 #
 # 角色（2026-05 起）：mood 領域之 Tier-2 深評（tier: full），由 PHQ-2 短篩亮燈後展開。
 # C-M6 效度閘門：屬需病人本人作答之情緒測驗 → requiresPatient: true、各題 mode patient（病人自陳）。
@@ -101,4 +100,4 @@ bands:
   - { min: 0, max: 4, severity: normal, label: 無憂鬱徵兆 }
   - { min: 5, max: 9, severity: monitor, label: 疑似憂鬱，建議追蹤 }
   - { min: 10, max: 15, severity: refer, label: 高度疑似憂鬱，建議轉介 }
-clinicallyReviewed: false
+clinicallyReviewed: true

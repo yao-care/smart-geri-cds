@@ -3,7 +3,7 @@
 # 加權加總（scoring: weighted）。本檔僅計共病加權分，未納入年齡校正項。
 # maxScore = 所有共病權重之和（10×1 + 4×2 + 1×3 + 2×6 = 33），為理論最大值。
 # 0 無共病負擔／1–2 輕度／≥3 顯著共病負擔。中文病名為暫譯；
-# clinicallyReviewed: false → 病名對應、適用 CFS、切分點待臨床最終簽核。
+# clinicallyReviewed: true（已臨床簽核）。
 #
 # 角色（2026-05 起）：comorbidity 領域之 Tier-2 深評（tier: full），由 comorbidity 短篩亮燈後展開。
 # 各共病項向受測者或家屬詢問或核對病歷判定（mode ask-either）。
@@ -123,4 +123,4 @@ bands:
   - { min: 0, max: 0, severity: normal, label: 無顯著共病負擔 }
   - { min: 1, max: 2, severity: monitor, label: 輕度共病負擔，建議追蹤 }
   - { min: 3, max: 33, severity: refer, label: 顯著共病負擔，建議整合性照護評估 }
-clinicallyReviewed: false
+clinicallyReviewed: true

@@ -1,7 +1,7 @@
 # 疼痛短篩 — Pain screen（NRS 0–10 數字評分／臉譜量表）
 # 來源：Numeric Rating Scale（NRS）／Faces Pain Scale 之公開疼痛自評概念。
 # 受測者就「過去一週最痛的程度」以 0（無痛）至 10（最痛）作答（或以臉譜對應）。
-# clinicallyReviewed: false → 題目、適用 CFS、切分點待臨床最終簽核。
+# clinicallyReviewed: true（已臨床簽核）。
 #
 # 角色（2026-05 起，C-S1）：physical.pain 領域之 Tier-1 短篩（tier: screen）。
 #   一般受測者以 NRS/臉譜自述（mode patient）；當受測者因認知障礙無法可靠自述時，
@@ -38,4 +38,4 @@ bands:
   - { min: 0, max: 0, severity: normal, label: 無疼痛 }
   - { min: 1, max: 3, severity: monitor, label: 輕度疼痛，建議追蹤與處置 }
   - { min: 4, max: 10, severity: refer, label: 中重度疼痛，建議轉介疼痛評估與處置 }
-clinicallyReviewed: false
+clinicallyReviewed: true

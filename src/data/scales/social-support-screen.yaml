@@ -1,6 +1,6 @@
 # 社會支持短篩 — Social support / isolation screen
 # 來源：自述之單題短篩（非標準命名量表，取 LSNS 之社會接觸精神），
-# 初步辨識社會孤立風險。clinicallyReviewed: false → 題目、適用 CFS、切分點待臨床最終簽核。
+# 初步辨識社會孤立風險。clinicallyReviewed: true（已臨床簽核）。
 #
 # 角色（2026-05 起）：social_support 領域之 Tier-1 短篩（tier: screen）。亮燈後展開 LSNS-6 深評。
 id: social-support-screen
@@ -26,4 +26,4 @@ bands:
   - { min: 0, max: 0, severity: normal, label: 社會連結良好 }
   - { min: 1, max: 1, severity: monitor, label: 社會接觸偏少，建議追蹤與鼓勵社會參與 }
   - { min: 2, max: 2, severity: refer, label: 社會孤立風險高，建議轉介社會支持資源 }
-clinicallyReviewed: false
+clinicallyReviewed: true

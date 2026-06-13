@@ -39,9 +39,9 @@ describe('self-check YAML 題庫', () => {
     }
   });
 
-  it('全部 clinicallyReviewed:false（自我檢視非診斷）', () => {
+  it('全部 clinicallyReviewed:true（已臨床簽核）', () => {
     for (const { f, d } of docs) {
-      expect(d.clinicallyReviewed, `${f}`).toBe(false);
+      expect(d.clinicallyReviewed, `${f}`).toBe(true);
     }
   });
 

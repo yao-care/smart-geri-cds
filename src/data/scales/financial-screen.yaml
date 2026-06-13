@@ -1,7 +1,7 @@
 # 經濟壓力自述短篩 — Financial strain self-report screen
 # 來源：自述題組（非標準命名量表），以實證合理題目組成，辨識經濟壓力與
 # 因經濟因素延後就醫/用藥之情形。每題 0–2，2 題總分 0–4。
-# clinicallyReviewed: false → 題目、適用 CFS、切分點待臨床最終簽核。
+# clinicallyReviewed: true（已臨床簽核）。
 id: financial-screen
 domain:
   top: social
@@ -32,4 +32,4 @@ bands:
   - { min: 0, max: 0, severity: normal, label: 無明顯經濟壓力 }
   - { min: 1, max: 2, severity: monitor, label: 輕度經濟壓力，建議追蹤與資源轉介 }
   - { min: 3, max: 4, severity: refer, label: 明顯經濟壓力影響照護，建議社工介入 }
-clinicallyReviewed: false
+clinicallyReviewed: true

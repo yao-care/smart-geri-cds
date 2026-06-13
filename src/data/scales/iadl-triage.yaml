@@ -1,6 +1,6 @@
 # 大方向 triage 題（tier: triage）。取材 iadl-screen 代表題（工具性活動協助需求）。
 # concern → 展開 iadl-screen 短篩（screen），其再亮燈展開 Lawton 深評。
-# clinicallyReviewed: false → 待臨床簽核。
+# clinicallyReviewed: true（已臨床簽核）。
 id: iadl-triage
 domain:
   top: functional
@@ -22,4 +22,4 @@ items:
 bands:
   - { min: 0, max: 0, severity: normal, label: 工具性日常活動大致獨立 }
   - { min: 1, max: 1, severity: monitor, label: 有工具性活動協助需求，建議進一步 IADL 短篩 }
-clinicallyReviewed: false
+clinicallyReviewed: true

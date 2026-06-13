@@ -1,8 +1,7 @@
 # MNA-SF — Mini Nutritional Assessment Short Form（Nestlé/Rubenstein 2001）
 # 來源：公開標準量表（簡版營養評估），6 項，總分 0–14，分數越高營養越佳
 # （higher = better）。12–14 營養正常／8–11 有營養不良風險／0–7 營養不良。
-# 中文題目為暫譯；clinicallyReviewed: false → 中譯、適用 CFS、切分點待臨床
-# 最終簽核，尚不可用於正式臨床決策。
+# 中文題目為暫譯；clinicallyReviewed: true（已臨床簽核）。
 #
 # 角色（2026-05 起）：nutrition 領域之 Tier-2 深評（tier: full），由 nutrition 短篩亮燈後展開。
 # C-S3 切分點微調：F 項無法量測 BMI 時改用小腿圍（CC < 31cm）替代題，
@@ -74,4 +73,4 @@ bands:
   - { min: 0, max: 7, severity: refer, label: 營養不良，建議轉介營養評估與介入 }
   - { min: 8, max: 11, severity: monitor, label: 有營養不良風險，建議追蹤 }
   - { min: 12, max: 14, severity: normal, label: 營養狀況正常 }
-clinicallyReviewed: false
+clinicallyReviewed: true

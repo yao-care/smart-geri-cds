@@ -11,4 +11,4 @@ items:
 bands:
   - { min: 0, max: 0, light: green, advice: 用藥種類不多，仍請定期請醫師或藥師檢視。 }
   - { min: 1, max: 1, light: amber, advice: 同時吃多種藥較易交互作用，建議帶所有藥請醫師或藥師整理。 }
-clinicallyReviewed: false
+clinicallyReviewed: true

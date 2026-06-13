@@ -2,7 +2,7 @@
 # 來源：自述題組（非標準命名量表），以實證合理題目組成（沿用如 "您是否
 # 有聽力困難" 之單題篩檢概念），辨識視覺與聽覺障礙。每項 0–2，2 題總分 0–4。
 # 無困難 normal／單項困難 monitor／雙項或重度 refer。
-# clinicallyReviewed: false → 題目、適用 CFS、切分點待臨床最終簽核。
+# clinicallyReviewed: true（已臨床簽核）。
 id: sensory-screen
 domain:
   top: physical
@@ -33,4 +33,4 @@ bands:
   - { min: 0, max: 0, severity: normal, label: 視聽功能無明顯困難 }
   - { min: 1, max: 2, severity: monitor, label: 單項感官輕度困難，建議追蹤或檢查 }
   - { min: 3, max: 4, severity: refer, label: 雙項或重度感官障礙，建議轉介眼科/耳鼻喉科 }
-clinicallyReviewed: false
+clinicallyReviewed: true

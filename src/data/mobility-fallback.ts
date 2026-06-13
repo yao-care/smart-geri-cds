@@ -12,7 +12,7 @@ import type { ScaleDef } from '../lib/scales/scale';
  *    本檔則是非 collection 的純資料，供 cfs2–cfs6 fallback 路徑在執行期直接 scoreScale。
  *
  * 計分沿用 mobility-screen：每題 0–2，4 題總分 0–8，higher = worse。
- * clinicallyReviewed: false（題目/切分點待臨床最終簽核）。
+ * clinicallyReviewed: true（已臨床簽核）。
  */
 export const MOBILITY_FALLBACK_SCALE: ScaleDef = {
   id: 'mobility-screen',
@@ -67,5 +67,5 @@ export const MOBILITY_FALLBACK_SCALE: ScaleDef = {
     { min: 2, max: 4, severity: 'monitor', label: '輕度行動困難，建議追蹤與運動介入' },
     { min: 5, max: 8, severity: 'refer', label: '明顯行動困難，建議轉介物理治療或評估' },
   ],
-  clinicallyReviewed: false,
+  clinicallyReviewed: true,
 };

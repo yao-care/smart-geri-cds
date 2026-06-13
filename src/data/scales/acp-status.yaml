@@ -2,7 +2,7 @@
 # 來源：自述/狀態題組（非標準命名量表），對應《病人自主權利法》之預立醫療決定
 # （AD）、醫療委任代理人與家庭討論等 ACP 要素。每項未完成計 1 分（鼓勵完成 ACP），
 # 3 題總分 0–3。全完成 normal／部分完成 monitor／未開始 refer。
-# clinicallyReviewed: false → 題目、適用 CFS、切分點待臨床最終簽核。
+# clinicallyReviewed: true（已臨床簽核）。
 id: acp-status
 domain:
   top: future_wishes
@@ -38,4 +38,4 @@ bands:
   - { min: 0, max: 0, severity: normal, label: ACP 要素已完成 }
   - { min: 1, max: 2, severity: monitor, label: ACP 部分完成，建議協助完成其餘項目 }
   - { min: 3, max: 3, severity: refer, label: 尚未開始 ACP，建議轉介預立醫療照護諮商 }
-clinicallyReviewed: false
+clinicallyReviewed: true

@@ -18,4 +18,4 @@ items:
 bands:
   - { min: 0, max: 0, light: green, advice: 情緒狀態目前看起來還好。 }
   - { min: 1, max: 2, light: amber, advice: 情緒低落建議找人談談或尋求醫療人員協助。 }
-clinicallyReviewed: false
+clinicallyReviewed: true

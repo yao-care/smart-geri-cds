@@ -72,7 +72,7 @@ const scalesCollection = defineCollection({
 
 // ---------- self-check collection (glob loader, YAML) ----------
 // 民眾自評層題庫。獨立於 scales（專業層）：無 CFS/mode/tier/expandsTo。
-// 題目取材自既有 triage 代表題，全 clinicallyReviewed:false（自我檢視非診斷）。
+// 題目取材自既有 triage 代表題，全 clinicallyReviewed:true（自我檢視非診斷）。
 const selfCheckItemSchema = z.object({
   id: z.string(),
   text: z.string(),

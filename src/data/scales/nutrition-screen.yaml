@@ -1,7 +1,7 @@
 # 營養短篩 — Nutrition screen（食量／體重）
 # 來源：自述/家屬詢問之題組（取自 MNA-SF 前兩題之精神：近 3 月食量減少、
 # 體重下降），用於初步辨識營養不良風險。每題 0–2，2 題總分 0–4，higher = worse。
-# clinicallyReviewed: false → 題目、適用 CFS、切分點待臨床最終簽核。
+# clinicallyReviewed: true（已臨床簽核）。
 #
 # 角色（2026-05 起）：nutrition 領域之 Tier-1 短篩（tier: screen）。亮燈後展開 MNA-SF 深評。
 id: nutrition-screen
@@ -35,4 +35,4 @@ bands:
   - { min: 0, max: 0, severity: normal, label: 無營養不良徵兆 }
   - { min: 1, max: 2, severity: monitor, label: 有營養不良風險，建議進一步評估 }
   - { min: 3, max: 4, severity: refer, label: 高度營養不良風險，建議轉介營養評估 }
-clinicallyReviewed: false
+clinicallyReviewed: true

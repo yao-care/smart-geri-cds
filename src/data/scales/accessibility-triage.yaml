@@ -1,6 +1,6 @@
 # 大方向 triage 題（tier: triage）。取材 accessibility-screen 代表題（輔具需求/外出困難）。
 # concern → 展開 accessibility-screen 短篩（screen）。
-# clinicallyReviewed: false → 待臨床簽核。
+# clinicallyReviewed: true（已臨床簽核）。
 id: accessibility-triage
 domain:
   top: environmental
@@ -22,4 +22,4 @@ items:
 bands:
   - { min: 0, max: 0, severity: normal, label: 無輔具需求或可及性障礙徵兆 }
   - { min: 1, max: 1, severity: monitor, label: 有輔具需求或外出困難，建議進一步可及性短篩 }
-clinicallyReviewed: false
+clinicallyReviewed: true

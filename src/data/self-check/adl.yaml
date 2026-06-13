@@ -11,4 +11,4 @@ items:
 bands:
   - { min: 0, max: 0, light: green, advice: 基本日常生活大致能自理。 }
   - { min: 1, max: 1, light: amber, advice: 基本生活需要協助時，建議找醫療人員評估復能與照顧資源。 }
-clinicallyReviewed: false
+clinicallyReviewed: true

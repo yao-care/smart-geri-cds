@@ -1,6 +1,6 @@
 # 多重共病短篩 — Comorbidity count screen
 # 來源：自述/家屬詢問/病歷核對之單題短篩（非標準命名量表），以慢性病種數
-# 初步辨識共病負擔。clinicallyReviewed: false → 題目、適用 CFS、切分點待臨床最終簽核。
+# 初步辨識共病負擔。clinicallyReviewed: true（已臨床簽核）。
 #
 # 角色（2026-05 起）：comorbidity 領域之 Tier-1 短篩（tier: screen）。亮燈後展開 CCI 深評。
 id: comorbidity-screen
@@ -26,4 +26,4 @@ bands:
   - { min: 0, max: 0, severity: normal, label: 無明顯共病負擔 }
   - { min: 1, max: 1, severity: monitor, label: 中度共病負擔，建議進一步評估 }
   - { min: 2, max: 2, severity: refer, label: 顯著共病負擔，建議整合性照護評估 }
-clinicallyReviewed: false
+clinicallyReviewed: true

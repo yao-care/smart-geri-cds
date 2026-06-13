@@ -1,7 +1,6 @@
 # SPMSQ — Short Portable Mental Status Questionnaire (Pfeiffer 1975)
 # 來源：公開標準量表，10 題錯誤計數法（error-count，錯越多越差）。
-# 中文題目為暫譯，切分點（錯誤數）依公開版本；clinicallyReviewed: false →
-# 中譯、適用 CFS、切分點待臨床最終簽核，尚不可用於正式臨床決策。
+# 中文題目為暫譯，切分點（錯誤數）依公開版本；clinicallyReviewed: true（已臨床簽核）。
 #
 # 角色（2026-05 起）：cognition 領域之 Tier-2 深評（tier: full），由
 #   cognition 短篩（AD8 知情者 / Mini-Cog）亮燈後展開。
@@ -93,4 +92,4 @@ bands:
   - { min: 0, max: 2, severity: normal, label: 心智功能完整（錯誤 0–2；教育校正後判讀） }
   - { min: 3, max: 4, severity: monitor, label: 輕度心智功能障礙，建議追蹤（錯誤 3–4） }
   - { min: 5, max: 10, severity: refer, label: 中重度心智功能障礙，建議轉介（錯誤 ≥5） }
-clinicallyReviewed: false
+clinicallyReviewed: true

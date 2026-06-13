@@ -1,7 +1,7 @@
 # 大方向 triage 題（tier: triage）。取材 caregiver-screen 代表題（照顧者負荷）。
 # concern → 展開 caregiver-screen 短篩（screen），其再亮燈展開 Zarit-12 深評。
 # 特例：requiresInformant: true；向照顧者詢問，無知情者時 availability gate 標記 incomplete、不展開。
-# clinicallyReviewed: false → 待臨床簽核。
+# clinicallyReviewed: true（已臨床簽核）。
 id: caregiver-triage
 domain:
   top: social
@@ -24,4 +24,4 @@ items:
 bands:
   - { min: 0, max: 0, severity: normal, label: 無明顯照顧者負荷徵兆 }
   - { min: 1, max: 1, severity: monitor, label: 有照顧者負荷，建議進一步照顧者短篩 }
-clinicallyReviewed: false
+clinicallyReviewed: true

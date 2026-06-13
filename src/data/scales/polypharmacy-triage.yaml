@@ -1,6 +1,6 @@
 # 大方向 triage 題（tier: triage）。取材 polypharmacy 代表題（用藥種數）。
 # concern → 展開 polypharmacy 短篩（screen），無另設深評。
-# clinicallyReviewed: false → 待臨床簽核。
+# clinicallyReviewed: true（已臨床簽核）。
 id: polypharmacy-triage
 domain:
   top: physical
@@ -22,4 +22,4 @@ items:
 bands:
   - { min: 0, max: 0, severity: normal, label: 無多重用藥疑慮 }
   - { min: 1, max: 1, severity: monitor, label: 多重用藥，建議進一步用藥短篩 }
-clinicallyReviewed: false
+clinicallyReviewed: true

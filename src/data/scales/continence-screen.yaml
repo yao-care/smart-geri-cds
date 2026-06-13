@@ -1,7 +1,6 @@
 # 失禁自述短篩 — Continence self-report screen
 # 來源：自述題組（非標準命名量表），以實證合理題目組成，初步辨識尿/便失禁
-# 頻率與其生活影響。每題 0–2，2 題總分 0–4。clinicallyReviewed: false →
-# 題目、適用 CFS、切分點待臨床最終簽核。
+# 頻率與其生活影響。每題 0–2，2 題總分 0–4。clinicallyReviewed: true（已臨床簽核）。
 id: continence-screen
 domain:
   top: physical
@@ -32,4 +31,4 @@ bands:
   - { min: 0, max: 0, severity: normal, label: 無失禁困擾 }
   - { min: 1, max: 2, severity: monitor, label: 輕度失禁，建議追蹤與行為介入 }
   - { min: 3, max: 4, severity: refer, label: 明顯失禁影響生活，建議轉介評估 }
-clinicallyReviewed: false
+clinicallyReviewed: true

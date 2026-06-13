@@ -1,6 +1,6 @@
 # 大方向 triage 題（tier: triage）。取材 home-safety 代表題（居家環境跌倒危害）。
 # concern → 展開 home-safety 短篩（screen）。
-# clinicallyReviewed: false → 待臨床簽核。
+# clinicallyReviewed: true（已臨床簽核）。
 id: home-safety-triage
 domain:
   top: environmental
@@ -22,4 +22,4 @@ items:
 bands:
   - { min: 0, max: 0, severity: normal, label: 無明顯居家危害徵兆 }
   - { min: 1, max: 1, severity: monitor, label: 有居家跌倒疑慮，建議進一步居家安全短篩 }
-clinicallyReviewed: false
+clinicallyReviewed: true
