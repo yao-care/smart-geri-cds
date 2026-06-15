@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+# OAuth/SMART launch callback — no indexable content
+Disallow: /launch/
+
+Sitemap: https://smart-geri-cds.yao.care/sitemap-index.xml
