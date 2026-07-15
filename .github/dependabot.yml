@@ -8,6 +8,10 @@ version: 2
 updates:
   # ── GitHub Actions ──
   # Dependabot 認得 `uses: owner/repo@<sha> # vX.Y.Z`，會同步更新 SHA 與註解。
+  #
+  # 與下方 npm 不同，此處**刻意不排除 major**：action 的 Node runtime 棄用是
+  # 透過 major 送達的（v4/v5 曾因此觸發 Node 20 deprecation 警告），把 major
+  # 藏起來只會重演版本腐化。Dependabot 開 PR ≠ 自動合併，PR 本身即人工評估點。
   - package-ecosystem: github-actions
     directory: /
     schedule:
