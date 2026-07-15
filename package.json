@@ -30,7 +30,7 @@
     "@astrojs/sitemap": "^3.7.2",
     "@astrojs/svelte": "^8.1.0",
     "@mediapipe/tasks-vision": "^0.10.35",
-    "astro": "^6.3.1",
+    "astro": "^6.4.8",
     "d3-array": "^3.2.4",
     "d3-axis": "^3.0.0",
     "d3-format": "^3.1.2",
@@ -41,7 +41,7 @@
     "d3-time-format": "^4.1.0",
     "dexie": "^4.4.2",
     "fhirclient": "^2.6.3",
-    "js-yaml": "^4.1.1",
+    "js-yaml": "^4.2.0",
     "jspdf": "^4.2.1",
     "meyda": "^5.6.3",
     "onnxruntime-web": "^1.26.0",
@@ -88,7 +88,11 @@
       "protobufjs": "^7.5.8",
       "uuid": "^11.1.1",
       "ws": "^8.20.1",
-      "postcss": "^8.5.15"
+      "postcss": "^8.5.15",
+      "vite": "^7.3.6",
+      "dompurify": "^3.4.12",
+      "js-yaml@3": "^3.15.0",
+      "esbuild@0.28": "^0.28.1"
     },
     "ignoredOptionalDependencies": [
       "expo-random",

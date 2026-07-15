@@ -1,0 +1,61 @@
+# Dependabot 設定（ISO 27001 A.8.8 技術弱點管理）
+#
+# 目的：workflow 的 action 已全數 pin 至 40 字元 commit SHA（防供應鏈竄改），
+# 但 pin 會讓版本凍結。本設定讓 Dependabot 自動更新 SHA 與其後的版本註解，
+# 使「pin」不等於「不再修補」。npm 週更則讓 CVE 修補在季掃描之前就開 PR。
+
+version: 2
+updates:
+  # ── GitHub Actions ──
+  # Dependabot 認得 `uses: owner/repo@<sha> # vX.Y.Z`，會同步更新 SHA 與註解。
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: '04:00'
+      timezone: Asia/Taipei
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: 'chore(actions)'
+    groups:
+      # 官方 actions 版本節奏一致，合併為單一 PR 降低噪音。
+      actions-official:
+        patterns:
+          - 'actions/*'
+      actions-third-party:
+        patterns:
+          - '*'
+        exclude-patterns:
+          - 'actions/*'
+
+  # ── npm（pnpm lockfile）──
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: '04:00'
+      timezone: Asia/Taipei
+    open-pull-requests-limit: 10
+    commit-message:
+      prefix: 'chore(deps)'
+      prefix-development: 'chore(deps-dev)'
+    groups:
+      # 安全性更新單獨成一個 PR，便於優先審查合併。
+      security-updates:
+        applies-to: security-updates
+        patterns:
+          - '*'
+      # 一般 minor/patch 合併，避免每週十幾個 PR。
+      minor-and-patch:
+        applies-to: version-updates
+        update-types:
+          - minor
+          - patch
+    ignore:
+      # major 升級一律人工評估（astro 7、vite 8 等含破壞性變更），
+      # 不由 Dependabot 自動開 PR。
+      - dependency-name: '*'
+        update-types:
+          - version-update:semver-major

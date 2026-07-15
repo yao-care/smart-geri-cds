@@ -13,23 +13,23 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.3.0
         with: { python-version: '3.11' }
       - run: pip install 'yt-dlp>=2026.03.17,<2027'
-      - uses: pnpm/action-setup@v3
-      - uses: actions/setup-node@v4
+      - uses: pnpm/action-setup@0ebf47130e4866e96fce0953f49152a61190b271 # v6.0.9
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6.5.0
         with: { node-version: 22, cache: 'pnpm' }
       - run: pnpm install --frozen-lockfile
       - name: Validate (batch 50, rotated by lastValidatedAt asc)
         run: pnpm curate:videos --validate-only --batch 50
       - name: Rebuild index
-        run: pnpm build:video-index
+        run: pnpm exec tsx scripts/build-content-index.ts
       - name: Diff scope sanity check
         run: |
           git diff --stat
           git diff --exit-code -- ':!src/data/video-catalog' ':!public/data/video-index.json'
-      - uses: peter-evans/create-pull-request@v6
+      - uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
         with:
           title: "chore(videos): mark unavailable videos"
           body: |

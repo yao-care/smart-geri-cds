@@ -11,7 +11,7 @@
 
 ## 技術棧
 
-- **框架**: Astro 5 SSG + Svelte 5（runes）
+- **框架**: Astro 6 SSG + Svelte 5（runes）
 - **樣式**: CSS Custom Properties + OKLCH（`src/styles/tokens.css`，7 個 source-of-truth token + hex fallback）
 - **內容**: Astro Content Layer + Zod（`src/content.config.ts`）
 - **資料庫**: IndexedDB via Dexie 4（瀏覽器端）
@@ -58,6 +58,9 @@ pnpm test:e2e     # Playwright
 - console 禁止輸出 PII（姓名、身分證）
 - PDF 報告僅使用 FHIR Patient ID
 - 不使用大陸廠牌 AI 服務
+- GitHub Actions 一律 pin 至 40 字元 commit SHA 並附 `# vX.Y.Z` 註解，禁止 mutable tag（`@v6`）；
+  版本由 Dependabot（`.github/dependabot.yml`）維護，勿手動改回 tag
+- 相依弱點若評估後決定不修，須記入 `docs/security/dependency-risk-acceptance.md`（附不適用理由與再評估條件）
 
 ### 架構
 

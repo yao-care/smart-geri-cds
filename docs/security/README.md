@@ -1,7 +1,11 @@
 # 資安治理文件（ISMS 記錄）
 
-本目錄存放 smart-geri-cds 的資訊安全管理（ISMS）程序與記錄，對應資安掃描
-報告（掃描 ID `20260610-044817-b638`）指出的三項 ISO/IEC 27001 治理缺口。
+本目錄存放 smart-geri-cds 的資訊安全管理（ISMS）程序與記錄，對應歷次資安掃描
+報告指出的 ISO/IEC 27001 治理缺口：
+
+- `20260610-044817-b638`：三項治理缺口（A.5.24 / A.5.26 / A.5.29）。
+- `20260714-231411-b638`：A.8.8 技術弱點管理與 A.8.28 安全程式碼開發
+  （相依 CVE 與 GitHub Actions 供應鏈 pin）。
 
 > ⚠️ **這些是範本框架，不是已完成的記錄。** 標示「（填寫）」的欄位必須由
 > 負責人於**實際執行**演練／測試後填入真實日期、參與人員與結果。請勿以假
@@ -14,6 +18,7 @@
 | A.5.24 事件回應規劃與演練 | [incident-response-plan.md](incident-response-plan.md) | ✅ 已記錄 1 次實戰演練（2026-06-10）；下次演練 2027-06-10（每年一次） |
 | A.5.26 事件回應聯絡窗口 | [incident-response-contacts.md](incident-response-contacts.md) | ✅ 角色／角色信箱 service@yao.care（兼備援管道）／註冊商 GoDaddy／收案機構 GCM 等皆已填 |
 | A.5.29 備份還原測試 | [backup-restore-test.md](backup-restore-test.md) | ✅ 已完成 1 次還原測試（2026-06-10，RTO 達標）；下次 2027-06-10 |
+| A.8.8 技術弱點管理 | [dependency-risk-acceptance.md](dependency-risk-acceptance.md) | ✅ 掃描 `20260714-231411-b638` 已處置（High 20→0）；2 筆 Low 經評估接受（附不適用理由與再評估條件） |
 
 ### 已確認的關鍵事實（2026-06-10）
 
