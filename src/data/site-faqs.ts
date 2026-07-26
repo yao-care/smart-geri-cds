@@ -25,13 +25,3 @@ export const siteFaqs: Faq[] = [
     answer: 'CFS 1–9 分由臨床人員依據整體臨床觀察評定（體能活動、功能依賴、疾病狀況等）。本工具以 CFS 分層作為評估起點，建議由具備臨床評估能力的醫護人員操作。',
   },
 ];
-
-export const faqJsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'FAQPage',
-  mainEntity: siteFaqs.map((faq) => ({
-    '@type': 'Question',
-    name: faq.question,
-    acceptedAnswer: { '@type': 'Answer', text: faq.answer },
-  })),
-};

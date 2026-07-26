@@ -1,17 +1,23 @@
 ---
+import { SITE } from '../../lib/seo/site';
 const year = 2026;
 const version = 'v0.1.0';
 ---
 
 <footer class="site-footer">
   <div class="footer-inner container">
-    <p class="copyright">&copy; {year} 高齡周全性評估（CGA）智慧系統</p>
+    <p class="copyright">&copy; {year} {SITE.organization.legalName}</p>
+    <p class="attribution">
+      本系統由{SITE.organization.legalName}（<a href={SITE.organization.url} class="footer-link">{SITE.organization.name}</a>，
+      統一編號 {SITE.organization.taxID}，地址：{SITE.organization.address.addressLocality}{SITE.organization.address.streetAddress}）開發與維運。
+      產品說明見 <a href={SITE.organization.productPage} class="footer-link">{SITE.organization.productPage}</a>
+    </p>
     <p class="meta">
-      <span>{version}</span>
+      <span>{SITE.shortName} {version}</span>
       <span class="separator" aria-hidden="true">|</span>
       <span>Powered by SMART on FHIR</span>
       <span class="separator" aria-hidden="true">|</span>
-      <a href="#" class="footer-link">GitHub</a>
+      <a href={SITE.repo} class="footer-link" target="_blank" rel="noopener noreferrer">GitHub</a>
     </p>
   </div>
 </footer>
@@ -30,6 +36,15 @@ const version = 'v0.1.0';
     font-size: var(--text-xs);
     color: color-mix(in srgb, var(--text), var(--bg) 30%);
     line-height: var(--lh-xs);
+  }
+
+  .attribution {
+    font-size: var(--text-xs);
+    color: color-mix(in srgb, var(--text), var(--bg) 30%);
+    line-height: var(--lh-xs);
+    margin-top: var(--space-2);
+    max-width: 60ch;
+    margin-inline: auto;
   }
 
   .meta {

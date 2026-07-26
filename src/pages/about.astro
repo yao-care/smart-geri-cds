@@ -1,6 +1,9 @@
 ---
 import App from '../layouts/App.astro';
-import { siteFaqs, faqJsonLd } from '../data/site-faqs';
+import { siteFaqs } from '../data/site-faqs';
+import { SITE } from '../lib/seo/site';
+import JsonLd from '../components/seo/JsonLd.astro';
+import { faqPageSchema } from '../lib/seo/schema';
 
 const introHighlights = [
   'CFS 衰弱分層：CFS 1–9 作為評估起點',
@@ -50,7 +53,7 @@ const outcomes = [
 ---
 
 <App title="關於" description="高齡周全性評估決策輔助系統（CGA CDSS）說明：CFS 衰弱分層、十一大 CGA 領域篩檢、三級分流邏輯、SMART on FHIR 瀏覽器端架構與開源資訊。">
-  <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
+  <JsonLd data={faqPageSchema(siteFaqs)} />
 
   <h1>關於高齡周全性評估決策輔助系統</h1>
 
@@ -129,6 +132,16 @@ const outcomes = [
         </details>
       ))}
     </div>
+  </section>
+
+  <section class="about-section" aria-label="開發與維運">
+    <h2>開發與維運</h2>
+    <p>
+      本系統由{SITE.organization.legalName}（{SITE.organization.name}，統一編號 {SITE.organization.taxID}，
+      地址：{SITE.organization.address.addressLocality}{SITE.organization.address.streetAddress}）開發與維運。
+      產品說明見 <a href={SITE.organization.productPage}>{SITE.organization.productPage}</a>，
+      原始碼公開於 <a href={SITE.repo} rel="noopener noreferrer">{SITE.repo}</a>。
+    </p>
   </section>
 
   <section class="about-cta" aria-label="開始評估">

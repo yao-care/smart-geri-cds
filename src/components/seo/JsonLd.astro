@@ -1,0 +1,19 @@
+---
+interface Props { data: object | object[]; }
+const { data } = Astro.props;
+
+// 多節點時輸出 @graph 而非頂層陣列：兩者對 schema.org 都合法，但頂層陣列會讓
+// 只預期單一物件的解析器（如部分 SEO 掃描器）判為語法錯誤。
+const CONTEXT = 'https://schema.org';
+
+function stripContext(node: object): object {
+  const rest: Record<string, unknown> = { ...node };
+  delete rest['@context'];
+  return rest;
+}
+
+const payload: object = Array.isArray(data)
+  ? { '@context': CONTEXT, '@graph': data.map(stripContext) }
+  : data;
+---
+<script is:inline type="application/ld+json" set:html={JSON.stringify(payload)} />

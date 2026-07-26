@@ -2,6 +2,9 @@
 import OfflineBanner from '../components/common/OfflineBanner.svelte';
 import { BASE_PATH } from '../../scripts/base.mjs';
 import { CONTENT_SECURITY_POLICY } from '../lib/security/csp';
+import { SITE } from '../lib/seo/site';
+import JsonLd from '../components/seo/JsonLd.astro';
+import { organizationSchema } from '../lib/seo/schema';
 
 interface Props {
   title: string;
@@ -49,6 +52,7 @@ import '../styles/global.css';
     <link rel="icon" type="image/png" sizes="16x16" href={base + '/icons/favicon-16.png'} />
     <link rel="apple-touch-icon" sizes="180x180" href={base + '/icons/apple-touch-icon.png'} />
     <meta name="theme-color" content="#3d6b54" />
+    <meta name="author" content={SITE.organization.legalName} />
 
     <!-- Open Graph -->
     <meta property="og:title" content={fullTitle} />
@@ -63,6 +67,11 @@ import '../styles/global.css';
     <meta name="twitter:image" content={new URL(base + '/icons/icon-512.png', Astro.site).href} />
     <meta name="twitter:title" content={fullTitle} />
     <meta name="twitter:description" content={description} />
+
+    {/* 公司節點必須出現在「每一頁」，頁面自己的節點才有 @id 可以參照；
+        只放首頁會讓所有內頁的 publisher 參照懸空。此處是全站唯一的定義處，
+        頁面層請用 publisher: { '@id': … } 參照，不要重複定義。 */}
+    <JsonLd data={organizationSchema()} />
 
     <slot name="head" />
   </head>

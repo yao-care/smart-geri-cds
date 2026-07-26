@@ -1,6 +1,10 @@
 ---
 import App from '../layouts/App.astro';
-import { siteFaqs, faqJsonLd } from '../data/site-faqs';
+import { siteFaqs } from '../data/site-faqs';
+import JsonLd from '../components/seo/JsonLd.astro';
+import { webSiteSchema, softwareApplicationSchema, faqPageSchema } from '../lib/seo/schema';
+
+const site = Astro.site!;
 
 const steps = [
   { n: '1', title: '選擇衰弱等級（CFS）', desc: '由臨床人員依整體觀察評定 CFS 1–9 分，作為後續評估的分層基準。' },
@@ -23,7 +27,8 @@ const trust = [
 ---
 
 <App title="高齡周全性評估決策輔助" description="高齡周全性評估（CGA）臨床決策輔助工具：以 CFS 衰弱分層為起點，涵蓋認知、功能、情緒、營養等多領域篩檢，提供分級建議與衛教。資料僅在瀏覽器端運算，免登入、保護隱私。">
-  <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
+  {/* 公司節點由 Base.astro 統一輸出（全站每頁），此處只放本頁自己的節點。 */}
+  <JsonLd data={[webSiteSchema(site), softwareApplicationSchema(site), faqPageSchema(siteFaqs)]} />
 
   <!-- 1. Hero -->
   <section class="hero" aria-label="主要訴求">
