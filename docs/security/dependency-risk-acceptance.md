@@ -53,6 +53,30 @@ GitHub Actions 供應鏈：17 處 mutable tag 已全數 pin 至 40 字元 commit
   → **待辦**：確認 jspdf 是否確實走 `IN_PLACE`；若專案未使用 `jspdf.html()`，
   可評估移除此 optional 相依以徹底消除暴露面。
 
+## 複查 2026-09-17（`pnpm audit`）
+
+距上次處置兩個月，上游新增告警，其中 **1 筆 critical** 需要判定。
+
+#### 3. astro 6.4.8 — Astro: Remote code execution through AVIF image optimization（Critical）
+
+- **弱點**：透過 AVIF 影像最佳化路徑可達成遠端程式碼執行。
+- **影響版本／修補版**：`<7.2.8` → `>=7.2.8`。**6.x 分支無修補版**，修補僅存在於 Astro 7。
+- **不適用理由（已核實）**：本專案**未使用 Astro 影像最佳化**——`src/` 內無
+  `astro:assets` 匯入、無 `<Image>` / `<Picture>` 元件，`astro.config.mjs` 未設定
+  `image`。圖片皆為 `public/` 靜態檔，不經最佳化管線。**觸發條件在本專案不成立。**
+  另本站為 SSG，執行期無 Node 伺服器可被觸及，即使觸發也僅限建置期、輸入為 repo 內自有檔案。
+- **上游阻因**：需升級 Astro 7（major），牽動 Content Layer 與產生檔管線，屬獨立工作。
+- **再評估條件**（任一成立即須立即處置）：
+  1. 開始使用 `astro:assets` / `<Image>` / `<Picture>` 或設定影像最佳化
+     → **升級必須先於該功能上線**；
+  2. 出現針對建置期的實際利用手法，或 CI 開始處理外部來源影像；
+  3. Astro 7 升級評估完成。
+- **相同狀況的 repo**：`smart-func-cds`、`smart-pedi-cds` 亦為 astro 6.4.8，
+  同一判定成立；升級應三者同步評估（註：升 Astro 7 亦可一併消解本檔第 1 項的
+  esbuild 0.27.7 接受風險）。
+
+> 注意：`pnpm audit` 不是正式掃描報告的替代品，此節僅為兩次正式掃描之間的例行複查。
+
 ## 維護方式
 
 - **自動**：`.github/dependabot.yml` — github-actions 與 npm 每週一 04:00 (Asia/Taipei)
