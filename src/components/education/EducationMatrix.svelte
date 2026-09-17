@@ -23,11 +23,65 @@
     return `已選取 ${domainLabel(top, sub)}，CFS ${cfs.replace('cfs', '')}（${label}）`;
   });
 
-  function select(key: string) { selectedKey = key; }
-  function close() { selectedKey = null; }
+  // 桌機是並排面板（無 modal 語意）；手機是覆蓋畫面的 bottom sheet，才需要 dialog + 焦點管理。
+  let isMobile = $state(false);
+  $effect(() => {
+    if (typeof window.matchMedia !== 'function') return;
+    const mq = window.matchMedia('(max-width: 1023px)');
+    isMobile = mq.matches;
+    const onChange = (e: MediaQueryListEvent) => (isMobile = e.matches);
+    mq.addEventListener('change', onChange);
+    return () => mq.removeEventListener('change', onChange);
+  });
+  let sheetOpen = $derived(isMobile && selectedKey != null);
+
+  let sheetEl = $state<HTMLElement | null>(null);
+  let closeBtnEl = $state<HTMLButtonElement | null>(null);
+  let lastTrigger: HTMLElement | null = null;
+
+  function select(key: string) {
+    lastTrigger = document.activeElement as HTMLElement | null;
+    selectedKey = key;
+  }
+  function close() {
+    selectedKey = null;
+    // 關閉後把焦點還給觸發的格子，否則鍵盤使用者會被丟回文件開頭。
+    lastTrigger?.focus();
+    lastTrigger = null;
+  }
+
+  const FOCUSABLE = 'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
+  function sheetFocusables(): HTMLElement[] {
+    return sheetEl ? [...sheetEl.querySelectorAll<HTMLElement>(FOCUSABLE)] : [];
+  }
+
+  // sheet 開啟時把焦點移入面板（只在開啟的那一刻做，不干擾使用者後續移動焦點）。
+  let wasOpen = false;
+  $effect(() => {
+    const open = sheetOpen;
+    if (open && !wasOpen) closeBtnEl?.focus();
+    wasOpen = open;
+  });
 
   $effect(() => {
-    function onKey(e: KeyboardEvent) { if (e.key === 'Escape') close(); }
+    function onKey(e: KeyboardEvent) {
+      if (e.key === 'Escape') { close(); return; }
+      if (e.key !== 'Tab' || !sheetOpen) return;
+      // focus-trap：inert 已擋掉矩陣，但 sheet 外仍有頁首等可聚焦元素，故自行循環。
+      const items = sheetFocusables();
+      if (items.length === 0) return;
+      const first = items[0];
+      const last = items[items.length - 1];
+      const active = document.activeElement as HTMLElement | null;
+      const inside = !!active && !!sheetEl?.contains(active);
+      if (e.shiftKey && (!inside || active === first)) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && (!inside || active === last)) {
+        e.preventDefault();
+        first.focus();
+      }
+    }
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
   });
@@ -35,16 +89,21 @@
 
 <div class="layout" class:has-selection={selectedKey != null}>
   <p class="sr-only" aria-live="polite">{liveMsg}</p>
-  <div class="grid-col">
+  <div class="grid-col" inert={sheetOpen}>
     <MatrixGrid {cells} {selectedKey} onselect={select} />
   </div>
 
-  <!-- 遮罩：僅手機 sheet 開啟時可見 -->
-  <button class="scrim" type="button" aria-label="關閉" onclick={close}></button>
+  <!-- 遮罩：僅手機 sheet 開啟時可見；tabindex=-1 讓它留在焦點循環之外（✕ 與 Escape 已可關閉） -->
+  <button class="scrim" type="button" tabindex="-1" aria-hidden="true" onclick={close}></button>
 
-  <!-- TODO(a11y): 手機 sheet 開啟時尚未做 focus-trap / inert / role=dialog；列為後續 a11y pass -->
-  <aside class="detail-col">
-    <button class="sheet-close" type="button" aria-label="關閉面板" onclick={close}>✕</button>
+  <aside
+    class="detail-col"
+    bind:this={sheetEl}
+    role={sheetOpen ? 'dialog' : undefined}
+    aria-modal={sheetOpen ? 'true' : undefined}
+    aria-label={sheetOpen ? (liveMsg || '格子詳情') : undefined}
+  >
+    <button class="sheet-close" type="button" aria-label="關閉面板" bind:this={closeBtnEl} onclick={close}>✕</button>
     <DetailPanel {selectedKey} cell={selectedCell} {articleContent} {coverage} />
   </aside>
 </div>
