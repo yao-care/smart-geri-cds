@@ -26,7 +26,7 @@ GitHub Actions 供應鏈：17 處 mutable tag 已全數 pin 至 40 字元 commit
 
 ### 接受風險（暫不修補）
 
-#### 1. esbuild 0.27.7 — GHSA-g7r4-m6w7-qqqr（Low）
+#### 1. esbuild 0.27.7 — GHSA-g7r4-m6w7-qqqr（Low）｜**已於 2026-09-17 隨 Astro 7 升級消解**（見下方第 3 項）
 
 - **弱點**：在 **Windows** 上執行 esbuild 開發伺服器時可任意讀取檔案。
 - **不適用理由**：本專案為 SSG，產出靜態檔部署至 GitHub Pages；esbuild 僅
@@ -52,6 +52,40 @@ GitHub Actions 供應鏈：17 處 mutable tag 已全數 pin 至 40 字元 commit
 - **再評估條件**：dompurify 釋出修補版後即升級（Dependabot 會自動開 PR）。
   → **待辦**：確認 jspdf 是否確實走 `IN_PLACE`；若專案未使用 `jspdf.html()`，
   可評估移除此 optional 相依以徹底消除暴露面。
+
+## 複查 2026-09-17（`pnpm audit`）
+
+距上次處置兩個月，上游新增告警，其中 **1 筆 critical** 需要判定。
+
+#### 3. astro 6.4.8 → 7.3.3 — AVIF image optimization RCE（Critical）｜**已修補**
+
+- **處置（2026-09-17）**：升級 `astro@^7.3.3` + `@astrojs/svelte@^9.0.1`
+  （peer 要求 astro ^7）＋ sitemap／rss 同步升版。升級後 `pnpm audit` critical 歸零。
+  **連帶消解本檔第 1 項的 esbuild 0.27.7 接受風險**——astro 7 宣告 `esbuild: ^0.28.0`，
+  lockfile 內已無 0.27.x。
+  - 升級時踩到一個坑：本 repo 的 override 是無範圍的 `"vite": "^7.3.6"`，
+    會把 astro 7 需要的 vite ^8 鎖死在 7，build 報
+    `rollupOptions.input should not be an html file when building for SSR`。
+    已改為範圍限定 `"vite@>=7.0.0 <7.3.6": "^7.3.6"`。
+- **驗證**：`pnpm check` 0 error、519 測試全綠、`pnpm build` 完成、產生檔無 drift。
+- **以下為升級前的判定記錄（保留供稽核）**
+- **弱點**：透過 AVIF 影像最佳化路徑可達成遠端程式碼執行。
+- **影響版本／修補版**：`<7.2.8` → `>=7.2.8`。**6.x 分支無修補版**，修補僅存在於 Astro 7。
+- **不適用理由（已核實）**：本專案**未使用 Astro 影像最佳化**——`src/` 內無
+  `astro:assets` 匯入、無 `<Image>` / `<Picture>` 元件，`astro.config.mjs` 未設定
+  `image`。圖片皆為 `public/` 靜態檔，不經最佳化管線。**觸發條件在本專案不成立。**
+  另本站為 SSG，執行期無 Node 伺服器可被觸及，即使觸發也僅限建置期、輸入為 repo 內自有檔案。
+- **上游阻因**：需升級 Astro 7（major），牽動 Content Layer 與產生檔管線，屬獨立工作。
+- **再評估條件**（任一成立即須立即處置）：
+  1. 開始使用 `astro:assets` / `<Image>` / `<Picture>` 或設定影像最佳化
+     → **升級必須先於該功能上線**；
+  2. 出現針對建置期的實際利用手法，或 CI 開始處理外部來源影像；
+  3. Astro 7 升級評估完成。
+- **相同狀況的 repo**：`smart-func-cds`、`smart-pedi-cds` 亦為 astro 6.4.8，
+  同一判定成立；升級應三者同步評估（註：升 Astro 7 亦可一併消解本檔第 1 項的
+  esbuild 0.27.7 接受風險）。
+
+> 注意：`pnpm audit` 不是正式掃描報告的替代品，此節僅為兩次正式掃描之間的例行複查。
 
 ## 維護方式
 
