@@ -26,7 +26,7 @@ GitHub Actions 供應鏈：17 處 mutable tag 已全數 pin 至 40 字元 commit
 
 ### 接受風險（暫不修補）
 
-#### 1. esbuild 0.27.7 — GHSA-g7r4-m6w7-qqqr（Low）
+#### 1. esbuild 0.27.7 — GHSA-g7r4-m6w7-qqqr（Low）｜**已於 2026-09-17 隨 Astro 7 升級消解**（見下方第 3 項）
 
 - **弱點**：在 **Windows** 上執行 esbuild 開發伺服器時可任意讀取檔案。
 - **不適用理由**：本專案為 SSG，產出靜態檔部署至 GitHub Pages；esbuild 僅
@@ -57,8 +57,18 @@ GitHub Actions 供應鏈：17 處 mutable tag 已全數 pin 至 40 字元 commit
 
 距上次處置兩個月，上游新增告警，其中 **1 筆 critical** 需要判定。
 
-#### 3. astro 6.4.8 — Astro: Remote code execution through AVIF image optimization（Critical）
+#### 3. astro 6.4.8 → 7.3.3 — AVIF image optimization RCE（Critical）｜**已修補**
 
+- **處置（2026-09-17）**：升級 `astro@^7.3.3` + `@astrojs/svelte@^9.0.1`
+  （peer 要求 astro ^7）＋ sitemap／rss 同步升版。升級後 `pnpm audit` critical 歸零。
+  **連帶消解本檔第 1 項的 esbuild 0.27.7 接受風險**——astro 7 宣告 `esbuild: ^0.28.0`，
+  lockfile 內已無 0.27.x。
+  - 升級時踩到一個坑：本 repo 的 override 是無範圍的 `"vite": "^7.3.6"`，
+    會把 astro 7 需要的 vite ^8 鎖死在 7，build 報
+    `rollupOptions.input should not be an html file when building for SSR`。
+    已改為範圍限定 `"vite@>=7.0.0 <7.3.6": "^7.3.6"`。
+- **驗證**：`pnpm check` 0 error、519 測試全綠、`pnpm build` 完成、產生檔無 drift。
+- **以下為升級前的判定記錄（保留供稽核）**
 - **弱點**：透過 AVIF 影像最佳化路徑可達成遠端程式碼執行。
 - **影響版本／修補版**：`<7.2.8` → `>=7.2.8`。**6.x 分支無修補版**，修補僅存在於 Astro 7。
 - **不適用理由（已核實）**：本專案**未使用 Astro 影像最佳化**——`src/` 內無
